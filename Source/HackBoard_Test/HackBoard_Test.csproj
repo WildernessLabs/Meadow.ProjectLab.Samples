@@ -1,0 +1,22 @@
+<Project Sdk="Meadow.Sdk/1.1.0">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>App</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Meadow.Foundation" Version="0.*" />
+    <PackageReference Include="Meadow.F7" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Displays.TftSpi" Version="0.7.50" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Light.Bh1750" Version="0.1.44" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme680" Version="0.0.38" />
+    <PackageReference Include="Meadow.Foundation.Leds.Apa102" Version="0.1.41" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Meadow.Foundation.Displays.TftSpi" />
+    <None Remove="Meadow.Foundation.Sensors.Light.Bh1750" />
+    <None Remove="Meadow.Foundation.Sensors.Atmospheric.Bme680" />
+    <None Remove="Meadow.Foundation.Leds.Apa102" />
+  </ItemGroup>
+</Project>
