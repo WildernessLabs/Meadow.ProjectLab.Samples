@@ -10,9 +10,9 @@ namespace HackBoard_Test
         MicroGraphics canvas;
         bool buttonClicked = false;
         MeadowApp.Buttons whichButton;
-        
 
-        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? BmeConditions {
+        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? BmeConditions 
+        {
             get => bmeConditions;
             set {
                 bmeConditions = value;
@@ -21,7 +21,8 @@ namespace HackBoard_Test
         }
         (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? bmeConditions;
 
-        public Illuminance? LightConditions {
+        public Illuminance? LightConditions 
+        {
             get => light;
             set {
                 light = value;

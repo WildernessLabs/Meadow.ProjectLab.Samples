@@ -13,10 +13,4 @@
     <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme680" Version="0.0.38" />
     <PackageReference Include="Meadow.Foundation.Leds.Apa102" Version="0.1.41" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Meadow.Foundation.Displays.TftSpi" />
-    <None Remove="Meadow.Foundation.Sensors.Light.Bh1750" />
-    <None Remove="Meadow.Foundation.Sensors.Atmospheric.Bme680" />
-    <None Remove="Meadow.Foundation.Leds.Apa102" />
-  </ItemGroup>
 </Project>

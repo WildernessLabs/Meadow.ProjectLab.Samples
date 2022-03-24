@@ -1,19 +1,18 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Meadow;
+﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Light;
-using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Leds;
 using Meadow.Hardware;
 using Meadow.Units;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HackBoard_Test
 {
@@ -38,7 +37,7 @@ namespace HackBoard_Test
 
         public MeadowApp()
         {
-            Initialize();
+            Initialize().Wait();
             SetInitialRgbLedColors();
             ReadLightSensor().Wait();
             displayController.Render();
@@ -57,17 +56,13 @@ namespace HackBoard_Test
                 3.3f, 3.3f, 3.3f,
                 Meadow.Peripherals.Leds.IRgbLed.CommonType.CommonAnode);
 
-            // buzzer
             noize = new PiezoSpeaker(Device, Device.Pins.D11);
 
-            // i2c
             i2c = Device.CreateI2cBus();
 
-            // spi
             var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode3);
             var spiBus = Device.CreateSpiBus(Device.Pins.SCK, Device.Pins.MOSI, Device.Pins.MISO, config);
 
-            // display
             display = new St7789(
                 device: Device,
                 spiBus: spiBus,
@@ -78,27 +73,28 @@ namespace HackBoard_Test
             {
                 IgnoreOutOfBoundsPixels = true
             };
-
-            // display controller
             displayController = new DisplayController(display);
 
             // HD107S RGB LEDs
             rgbLedStrip = new Apa102(spi, numberOfLeds, Apa102.PixelOrder.BGR);
 
             // Bh1750
-            try {
-                bh1750 = new Bh1750(i2c,
+            try 
+            {
+                bh1750 = new Bh1750(
+                    i2cBus: i2c,
                     measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
                     lightTransmittance: 1, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
                     address: (byte)Bh1750.Addresses.Address1
-                    );
-               
-
-            } catch (Exception e) {
+                );
+            }
+            catch (Exception e) 
+            {
                 Console.WriteLine($"Could not bring up Bh1750: {e.Message}");
             }
 
-            try {
+            try 
+            {
                 Console.WriteLine("instantiating the BME");
                 bme = new Bme680(i2c, (byte)Bme680.Addresses.Address1);
                 Console.WriteLine("Bme up");
@@ -112,7 +108,9 @@ namespace HackBoard_Test
                 displayController.BmeConditions = conditions;
 
                 Bme680.CreateObserver(result => { displayController.BmeConditions = result.New; }, null);
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 Console.WriteLine($"Could not bring up Bme680: {e.Message}");
             }
 
@@ -125,7 +123,6 @@ namespace HackBoard_Test
             buttonDown.Clicked += (s, e) => ButtonClicked(Buttons.Down);
             buttonLeft = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
             buttonLeft.Clicked += (s, e) => ButtonClicked(Buttons.Left);
-
         }
 
         public enum Buttons
