@@ -85,7 +85,7 @@ namespace HackBoard_Test
                     i2cBus: i2c,
                     measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
                     lightTransmittance: 1, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
-                    address: (byte)Bh1750.Addresses.Address1
+                    address: (byte)Bh1750.Addresses.Default
                 );
             }
             catch (Exception e) 
@@ -96,7 +96,7 @@ namespace HackBoard_Test
             try 
             {
                 Console.WriteLine("instantiating the BME");
-                bme = new Bme680(i2c, (byte)Bme680.Addresses.Address1);
+                bme = new Bme680(i2c, (byte)Bme680.Addresses.Address_0x76);
                 Console.WriteLine("Bme up");
 
                 var conditions = await bme.Read();
