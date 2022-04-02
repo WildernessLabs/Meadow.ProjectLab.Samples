@@ -85,8 +85,10 @@ namespace HackBoard_Test
                     i2cBus: i2c,
                     measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
                     lightTransmittance: 1, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
-                    address: (byte)Bh1750.Addresses.Default
+                    address: (byte)Bh1750.Addresses.Address_0x23
                 );
+
+                bh1750.StartUpdating(TimeSpan.FromSeconds(2));
             }
             catch (Exception e) 
             {
