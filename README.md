@@ -23,7 +23,7 @@ The PROJ LAB board includes the following expansion connection options:
 As well as connectors to 5V, 3.3V, ground, one analog port and 2 GPIO ports.
 
 ## License
-Copyright 2019-2022, Wilderness Labs Inc.
+Copyright 2022, Wilderness Labs Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
