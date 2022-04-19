@@ -1,5 +1,6 @@
 # Meadow.ProjLab.Samples
-Samples for the Wilderness Labs **PROJ LAB** Meadow project board. PROJ LAB is a hardware development and prototyping board designed to enable rapid prototyping and IoT software development. 
+
+This repo contains code samples for the Wilderness Labs **PROJ LAB** Meadow project board. PROJ LAB is a hardware development and prototyping board designed to enable rapid prototyping and IoT software development with [Meadow](http://developer.wildernesslabs.co/Meadow/) and [Meadow.Foundation](http://developer.wildernesslabs.co/Meadow/Meadow.Foundation/).
 
 ## Hardware
 
