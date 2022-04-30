@@ -31,14 +31,10 @@ namespace HackBoard_Test
         PushButton buttonLeft;
         PushButton buttonDown;
         Bme680 bme;
-        Apa102 rgbLedStrip;
-        int numberOfLeds = 9;
-        float maxBrightness = 0.25f;
 
         public MeadowApp()
         {
-            Initialize().Wait();
-            SetInitialRgbLedColors();
+            Initialize().Wait();            
             ReadLightSensor().Wait();
             displayController.Render();
             StartUpdating();
@@ -52,9 +48,7 @@ namespace HackBoard_Test
             onboardLed = new RgbPwmLed(device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue,
-                3.3f, 3.3f, 3.3f,
-                Meadow.Peripherals.Leds.IRgbLed.CommonType.CommonAnode);
+                bluePwmPin: Device.Pins.OnboardLedBlue);
 
             noize = new PiezoSpeaker(Device, Device.Pins.D11);
 
@@ -69,14 +63,12 @@ namespace HackBoard_Test
                 chipSelectPin: Device.Pins.A03,
                 dcPin: Device.Pins.A04,
                 resetPin: Device.Pins.A05,
-                width: 240, height: 240, displayColorMode: ColorType.Format16bppRgb565)
+                width: 240, height: 240, 
+                displayColorMode: ColorType.Format16bppRgb565)
             {
                 IgnoreOutOfBoundsPixels = true
             };
             displayController = new DisplayController(display);
-
-            // HD107S RGB LEDs
-            rgbLedStrip = new Apa102(spi, numberOfLeds, Apa102.PixelOrder.BGR);
 
             // Bh1750
             try 
@@ -156,20 +148,6 @@ namespace HackBoard_Test
 
                 displayController.LightConditions = result;
             }
-        }
-
-        void SetInitialRgbLedColors()
-        {
-            //rgbLedStrip.Clear();
-
-            //rgbLedStrip.SetLed(index: 0, color: Color.Red, brightness: 0.5f);
-            //rgbLedStrip.SetLed(index: 1, color: Color.Purple, brightness: 0.6f);
-            //rgbLedStrip.SetLed(index: 2, color: Color.Blue, brightness: 0.7f);
-            //rgbLedStrip.SetLed(index: 2, color: Color.Green, brightness: 0.8f);
-            //rgbLedStrip.SetLed(index: 2, color: Color.Yellow, brightness: 0.9f);
-            //rgbLedStrip.SetLed(index: 2, color: Color.Orange, brightness: 1.0f);
-
-            //rgbLedStrip.Show();
         }
 
         void CycleColors(int duration)

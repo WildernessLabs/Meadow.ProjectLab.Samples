@@ -11,6 +11,5 @@
     <PackageReference Include="Meadow.Foundation.Displays.TftSpi" Version="0.*" />
     <PackageReference Include="Meadow.Foundation.Sensors.Light.Bh1750" Version="0.*" />
     <PackageReference Include="Meadow.Foundation.Sensors.Atmospheric.Bme68x" Version="0.*" />
-    <PackageReference Include="Meadow.Foundation.Leds.Apa102" Version="0.*" />
   </ItemGroup>
 </Project>
