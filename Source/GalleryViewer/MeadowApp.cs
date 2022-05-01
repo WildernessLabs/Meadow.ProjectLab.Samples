@@ -54,7 +54,8 @@ namespace GalleryViewer
                 chipSelectPin: Device.Pins.A03,
                 dcPin: Device.Pins.A04,
                 resetPin: Device.Pins.A05,
-                width: 240, height: 240, 
+                width: 240, 
+                height: 240, 
                 displayColorMode: ColorType.Format16bppRgb565
             );
 
