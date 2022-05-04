@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjLab_Test", "ProjLab_Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemperatureMonitor", "TemperatureMonitor\TemperatureMonitor.csproj", "{DC973505-A017-40B7-974F-C284BBBE63FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalogClockFace", "AnalogClockFace\AnalogClockFace.csproj", "{7943AE54-D0D0-479E-929A-C9AB59CFE237}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalogClockFace", "AnalogClockFace\AnalogClockFace.csproj", "{7943AE54-D0D0-479E-929A-C9AB59CFE237}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simon", "Simon\Simon.csproj", "{EFBB5780-55BB-4CA7-9FA5-A134526663CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,12 @@ Global
 		{7943AE54-D0D0-479E-929A-C9AB59CFE237}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7943AE54-D0D0-479E-929A-C9AB59CFE237}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7943AE54-D0D0-479E-929A-C9AB59CFE237}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
