@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemperatureMonitor", "Tempe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalogClockFace", "AnalogClockFace\AnalogClockFace.csproj", "{7943AE54-D0D0-479E-929A-C9AB59CFE237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simon", "Simon\Simon.csproj", "{EFBB5780-55BB-4CA7-9FA5-A134526663CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simon", "Simon\Simon.csproj", "{EFBB5780-55BB-4CA7-9FA5-A134526663CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorseCodeTrainer", "MorseCodeTrainer\MorseCodeTrainer.csproj", "{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,12 @@ Global
 		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFBB5780-55BB-4CA7-9FA5-A134526663CE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
