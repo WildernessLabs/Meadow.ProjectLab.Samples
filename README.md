@@ -4,6 +4,23 @@
 
 This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**) Meadow project board. PROJ LAB is a hardware development and prototyping board designed to enable rapid prototyping and IoT software development with [Meadow](http://developer.wildernesslabs.co/Meadow/) and [Meadow.Foundation](http://developer.wildernesslabs.co/Meadow/Meadow.Foundation/).
 
+<table>
+    <tr>
+        <td>
+            <img src="Design/GalleryViewer.png"/><br/>
+            <a href="Source/GalleryViewer/">Source Code</a>
+        </td>
+        <td>
+            <img src="Design/WifiWeather.png"/><br/>
+            <a href="Source/WifiWeather/">Source Code</a>
+        </td>
+        <td>
+            <img src="Design/MeadowClockGraphics.png"/><br/>
+            <a href="Source/AnalogClockFace/">Source Code</a>
+        </td>
+    </tr>
+</table>
+
 ## Hardware
 
 The PROJ LAB board includes the following hardware:
