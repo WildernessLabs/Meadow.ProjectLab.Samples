@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.1.32421.90
+VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalleryViewer", "GalleryViewer\GalleryViewer.csproj", "{347D4E07-FF0F-42CE-903A-4FD2CB5C31A6}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowConnectedSample", "Connectivity\MeadowConnectedSample\MeadowConnectedSample.csproj", "{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoistureMeter", "MoistureMeter\MoistureMeter.csproj", "{9490F3E6-E035-493A-82F3-A533A640955D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantMonitor", "PlantMonitor\PlantMonitor.csproj", "{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -247,6 +249,24 @@ Global
 		{9490F3E6-E035-493A-82F3-A533A640955D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{9490F3E6-E035-493A-82F3-A533A640955D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{9490F3E6-E035-493A-82F3-A533A640955D}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|iPhone.Deploy.0 = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Debug|iPhoneSimulator.Deploy.0 = Debug|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|iPhone.Build.0 = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|iPhone.Deploy.0 = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
