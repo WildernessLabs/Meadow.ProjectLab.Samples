@@ -5,6 +5,7 @@ using SimpleJpegDecoder;
 using System.IO;
 using System.Reflection;
 using Meadow.Units;
+using Meadow.Hardware;
 
 namespace PlantMonitor
 {
@@ -12,9 +13,30 @@ namespace PlantMonitor
     {
         MicroGraphics graphics;
 
-        public DisplayController(St7789 display)
+        public DisplayController()
         {
+            var config = new SpiClockConfiguration(
+                speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
+                mode: SpiClockConfiguration.Mode.Mode3);
+            var spiBus = MeadowApp.Device.CreateSpiBus(
+                clock: MeadowApp.Device.Pins.SCK,
+                copi: MeadowApp.Device.Pins.MOSI,
+                cipo: MeadowApp.Device.Pins.MISO,
+                config: config);
+            var display = new St7789
+            (
+                device: MeadowApp.Device,
+                spiBus: spiBus,
+                chipSelectPin: MeadowApp.Device.Pins.A03,
+                dcPin: MeadowApp.Device.Pins.A04,
+                resetPin: MeadowApp.Device.Pins.A05,
+                width: 240,
+                height: 240,
+                displayColorMode: ColorType.Format16bppRgb565
+            );
+
             graphics = new MicroGraphics(display);
+            graphics.Rotation = RotationType._90Degrees;
             graphics.CurrentFont = new Font12x20();
             graphics.Stroke = 3;
 
@@ -32,7 +54,36 @@ namespace PlantMonitor
             graphics.Show();
         }
 
-        void UpdateImage(int index, int xOffSet, int yOffSet)
+        void RefreshMoistureImage(int percentage)
+        {
+            if (percentage >= 0 && percentage <= 25)
+            {
+                DrawImage(0, 42, 10);
+            }
+            else if (percentage > 25 && percentage <= 50)
+            {
+                DrawImage(1, 28, 4);
+            }
+            else if (percentage > 50 && percentage <= 75)
+            {
+                DrawImage(2, 31, 5);
+            }
+            else if (percentage > 75)
+            {
+                DrawImage(3, 35, 5);
+            }
+
+            graphics.Show();
+        }
+
+        void RefreshMoisturePercentage(int percentage)
+        {
+            graphics.DrawRectangle(0, 208, 96, 32, Color.White, true);
+            graphics.DrawText(0, 208, $"{percentage}%", Color.Black, ScaleFactor.X2);
+            graphics.Show();
+        }
+
+        void DrawImage(int index, int xOffSet, int yOffSet)
         {
             var jpgData = LoadResource($"level_{index}.jpg");
             var decoder = new JpegDecoder();
@@ -78,41 +129,10 @@ namespace PlantMonitor
             }
         }
 
-        public void UpdateMoistureImage(double moistureReadings)
+        public void Update(int percentage) 
         {
-            double moisture = moistureReadings;
-
-            if (moisture > 1) moisture = 1f;
-            else if (moisture < 0) moisture = 0f;
-
-            if (moisture > 0 && moisture <= 0.25)
-            {
-                UpdateImage(0, 42, 10);
-            }
-            else if (moisture > 0.25 && moisture <= 0.50)
-            {
-                UpdateImage(1, 28, 4);
-            }
-            else if (moisture > 0.50 && moisture <= 0.75)
-            {
-                UpdateImage(2, 31, 5);
-            }
-            else if (moisture > 0.75 && moisture <= 1.0)
-            {
-                UpdateImage(3, 35, 5);
-            }
-
-            graphics.Show();
-        }
-
-        public void UpdateMoisturePercentage(double newValue, double oldValue)
-        {
-            if (newValue > 1) newValue = 1f;
-            else if (newValue < 0) newValue = 0f;
-
-            graphics.DrawText(0, 208, $"{(int)(oldValue * 100)}%", Color.White, ScaleFactor.X2);
-            graphics.DrawText(0, 208, $"{(int)(newValue * 100)}%", Color.Black, ScaleFactor.X2);
-            graphics.Show();
+            RefreshMoistureImage(percentage);
+            RefreshMoisturePercentage(percentage);
         }
 
         public void UpdateTemperatureValue(Temperature newValue, Temperature oldValue)
