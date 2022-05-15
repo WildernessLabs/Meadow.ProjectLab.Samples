@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WifiWeather", "WifiWeather\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjLab_Test", "ProjLab_Test\ProjLab_Test.csproj", "{95F44AA6-7A82-43E7-A61A-3BE5B6D02C9A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemperatureMonitor", "TemperatureMonitor\TemperatureMonitor.csproj", "{DC973505-A017-40B7-974F-C284BBBE63FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbientRoomMonitor", "AmbientRoomMonitor\AmbientRoomMonitor.csproj", "{DC973505-A017-40B7-974F-C284BBBE63FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalogClockFace", "AnalogClockFace\AnalogClockFace.csproj", "{7943AE54-D0D0-479E-929A-C9AB59CFE237}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simon", "Simon\Simon.csproj", "{EFBB5780-55BB-4CA7-9FA5-A134526663CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorseCodeTrainer", "MorseCodeTrainer\MorseCodeTrainer.csproj", "{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MorseCodeTrainer", "MorseCodeTrainer\MorseCodeTrainer.csproj", "{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Diagnostics", "_Diagnostics", "{440AD92F-6011-4301-BED5-87EB28E0F32D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{95F44AA6-7A82-43E7-A61A-3BE5B6D02C9A} = {440AD92F-6011-4301-BED5-87EB28E0F32D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43AB8674-050D-49FE-BB0A-5158149A21A4}

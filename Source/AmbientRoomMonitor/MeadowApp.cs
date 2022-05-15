@@ -9,7 +9,7 @@ using Meadow.Hardware;
 using Meadow.Units;
 using System;
 
-namespace TemperatureMonitor
+namespace AmbientRoomMonitor
 {
     // Change F7MicroV2 to F7Micro for V1.x boards
     public class MeadowApp : App<F7MicroV2, MeadowApp>
@@ -43,7 +43,7 @@ namespace TemperatureMonitor
             onboardLed.SetColor(Color.Red);
 
             bme = new Bme680(Device.CreateI2cBus(), (byte)Bme680.Addresses.Address_0x76);
-            bme.TemperatureUpdated += AnalogTemperatureUpdated;
+            bme.Updated += Bme680_Updated;
 
             var config = new SpiClockConfiguration(
                  speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
@@ -72,21 +72,19 @@ namespace TemperatureMonitor
             onboardLed.SetColor(Color.Green);
         }
 
-        void AnalogTemperatureUpdated(object sender, IChangeResult<Meadow.Units.Temperature> e)
+        private void Bme680_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
         {
             graphics.DrawRectangle(
-                x: 48, y: 160,
-                width: 144,
-                height: 40,
+                x: 150, y: 145,
+                width: 84,
+                height: 68,
                 color: colors[colors.Length - 1],
                 filled: true);
-
-            graphics.DrawText(
-                x: 48, y: 160,
-                text: $"{e.New.Celsius:00.0}°C",
-                color: Color.White,
-                scaleFactor: ScaleFactor.X2);
-
+            
+            graphics.DrawText(186, 145, $"{(int)e.New.Temperature.Value.Celsius}°C", Color.White);
+            graphics.DrawText(150, 168, $"{(int)e.New.Pressure.Value.Millibar}mbar", Color.White);
+            graphics.DrawText(198, 193, $"{(int)e.New.Humidity.Value.Percent}%", Color.White);
+            
             graphics.Show();
         }
 
@@ -117,7 +115,9 @@ namespace TemperatureMonitor
             graphics.DrawLine(0, 230, 239, 230, Color.White);
 
             graphics.CurrentFont = new Font12x20();
-            graphics.DrawText(54, 130, "TEMPERATURE", Color.White);
+            graphics.DrawText(6, 145, "TEMPERATURE", Color.White);
+            graphics.DrawText(6, 169, "PRESSURE", Color.White);
+            graphics.DrawText(6, 193, "HUMIDITY", Color.White);
 
             graphics.Show();
         }
