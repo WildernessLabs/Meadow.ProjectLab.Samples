@@ -23,14 +23,14 @@ namespace TemperatureMonitor
         };
 
         MicroGraphics graphics;
-        Bme680 analogTemperature;
+        Bme680 bme;
 
         public MeadowApp()
         {
             Initialize();
 
             LoadScreen();
-            analogTemperature.StartUpdating(TimeSpan.FromSeconds(5));
+            bme.StartUpdating(TimeSpan.FromSeconds(5));
         }
 
         void Initialize()
@@ -42,8 +42,8 @@ namespace TemperatureMonitor
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            analogTemperature = new Bme680(Device.CreateI2cBus(), (byte)Bme680.Addresses.Address_0x76);
-            analogTemperature.TemperatureUpdated += AnalogTemperatureUpdated;
+            bme = new Bme680(Device.CreateI2cBus(), (byte)Bme680.Addresses.Address_0x76);
+            bme.TemperatureUpdated += AnalogTemperatureUpdated;
 
             var config = new SpiClockConfiguration(
                  speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
