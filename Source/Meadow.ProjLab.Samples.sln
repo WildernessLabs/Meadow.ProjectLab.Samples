@@ -25,7 +25,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileCompanionApp.Android"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileCompanionApp.iOS", "Connectivity\MobileCompanionApp\MobileCompanionApp.iOS\MobileCompanionApp.iOS.csproj", "{951C3BF6-CCF7-4BDD-9B41-A7CE337361F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileCompanionApp", "Connectivity\MobileCompanionApp\MobileCompanionApp\MobileCompanionApp.csproj", "{FDF30616-3277-44B9-88D4-96A6D4FDF169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileCompanionApp", "Connectivity\MobileCompanionApp\MobileCompanionApp\MobileCompanionApp.csproj", "{FDF30616-3277-44B9-88D4-96A6D4FDF169}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommonContracts", "Connectivity\CommonContracts\CommonContracts.shproj", "{567267B3-ED96-4FEA-B555-2EE203372EA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowClimaHackKit", "Connectivity\MeadowClimaHackKit\MeadowClimaHackKit.csproj", "{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +209,24 @@ Global
 		{FDF30616-3277-44B9-88D4-96A6D4FDF169}.Release|iPhone.Build.0 = Release|Any CPU
 		{FDF30616-3277-44B9-88D4-96A6D4FDF169}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{FDF30616-3277-44B9-88D4-96A6D4FDF169}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|iPhone.Deploy.0 = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Debug|iPhoneSimulator.Deploy.0 = Debug|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|iPhone.Build.0 = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|iPhone.Deploy.0 = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,8 +236,14 @@ Global
 		{C9022D29-A329-4778-8355-B6A93EAD8E6A} = {3526B55E-A473-4714-AED2-4CE73B07F545}
 		{951C3BF6-CCF7-4BDD-9B41-A7CE337361F5} = {3526B55E-A473-4714-AED2-4CE73B07F545}
 		{FDF30616-3277-44B9-88D4-96A6D4FDF169} = {3526B55E-A473-4714-AED2-4CE73B07F545}
+		{567267B3-ED96-4FEA-B555-2EE203372EA4} = {3526B55E-A473-4714-AED2-4CE73B07F545}
+		{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C} = {3526B55E-A473-4714-AED2-4CE73B07F545}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43AB8674-050D-49FE-BB0A-5158149A21A4}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Connectivity\CommonContracts\CommonContracts.projitems*{567267b3-ed96-4fea-b555-2ee203372ea4}*SharedItemsImports = 13
+		Connectivity\CommonContracts\CommonContracts.projitems*{bb001fc4-cb47-485e-9ef3-bc7bf5c3198c}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
