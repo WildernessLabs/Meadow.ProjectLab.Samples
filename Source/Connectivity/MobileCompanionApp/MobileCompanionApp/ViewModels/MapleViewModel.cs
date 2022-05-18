@@ -29,13 +29,6 @@ namespace MobileCompanionApp
             set { _isScanning = value; OnPropertyChanged(nameof(IsScanning)); }
         }
 
-        bool isRefreshing;
-        public bool IsRefreshing
-        {
-            get => isRefreshing;
-            set { isRefreshing = value; OnPropertyChanged(nameof(IsRefreshing)); }
-        }
-
         bool _isServerListEmpty;
         public bool IsServerListEmpty
         {
@@ -65,9 +58,9 @@ namespace MobileCompanionApp
 
         public ObservableCollection<ServerModel> HostList { get; set; }
 
-        public ICommand SearchServersCommand { get; private set; }
+        public ICommand CmdSearchServers { get; private set; }
 
-        public ICommand CmdReloadTemperatureLog { get; private set; }
+        public ICommand CmdGetAmbientRoom { get; private set; }
 
         public MapleViewModel()
         {
@@ -78,14 +71,9 @@ namespace MobileCompanionApp
             client = new MapleClient();
             client.Servers.CollectionChanged += ServersCollectionChanged;
 
-            CmdReloadTemperatureLog = new Command(async () =>
-            {
-                await GetTemperatureLogs();
+            CmdSearchServers = new Command(async () => await GetServers());
 
-                IsRefreshing = false;
-            });
-
-            SearchServersCommand = new Command(async () => await GetServers());
+            CmdGetAmbientRoom = new Command(async () => await GetTemperatureLogs());            
         }
 
         void ServersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

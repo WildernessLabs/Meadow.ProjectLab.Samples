@@ -16,7 +16,7 @@
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="CornerRadius" Value="5" />
                 <Setter Property="HeightRequest" Value="50" />
-                <Setter Property="BackgroundColor" Value="#EF7D3B" />
+                <Setter Property="BackgroundColor" Value="#14607F" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -24,7 +24,7 @@
     <ContentPage.Content>
         <StackLayout Padding="20">
             <Frame Padding="20" CornerRadius="10" BackgroundColor="#23abe3">
-                <StackLayout Spacing="20">
+                <StackLayout Spacing="15">
                     <Image Source="img_project_lab" />
                     <Button Text="Bluetooth" Clicked="BtnBluetoothClicked" Style="{StaticResource ButtonNavStyle}" />
                     <Button Text="Maple" Clicked="BtnMapleClicked" Style="{StaticResource ButtonNavStyle}" />

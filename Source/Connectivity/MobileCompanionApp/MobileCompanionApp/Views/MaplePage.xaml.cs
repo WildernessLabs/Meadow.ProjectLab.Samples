@@ -9,5 +9,11 @@ namespace MobileCompanionApp
             InitializeComponent();
             BindingContext = new MapleViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            (BindingContext as MapleViewModel).CmdSearchServers.Execute(null);
+        }
     }
 }
