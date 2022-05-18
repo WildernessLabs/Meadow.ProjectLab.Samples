@@ -1,5 +1,5 @@
-﻿using Meadow.Foundation.Web.Maple.Client;
-using MobileCompanionApp.Models;
+﻿using CommonContracts.Models;
+using Meadow.Foundation.Web.Maple.Client;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -62,6 +62,26 @@ namespace MobileCompanionApp
 
         public ICommand CmdGetAmbientRoom { get; private set; }
 
+        // BME688
+        string temperature;
+        public string Temperature
+        {
+            get => temperature;
+            set { temperature = value; OnPropertyChanged(nameof(Temperature)); }
+        }
+        string humidity;
+        public string Humidity
+        {
+            get => humidity;
+            set { humidity = value; OnPropertyChanged(nameof(Humidity)); }
+        }
+        string pressure;
+        public string Pressure
+        {
+            get => pressure;
+            set { pressure = value; OnPropertyChanged(nameof(Pressure)); }
+        }
+
         public MapleViewModel()
         {
             HostList = new ObservableCollection<ServerModel>();
@@ -73,7 +93,7 @@ namespace MobileCompanionApp
 
             CmdSearchServers = new Command(async () => await GetServers());
 
-            CmdGetAmbientRoom = new Command(async () => await GetTemperatureLogs());            
+            CmdGetAmbientRoom = new Command(async () => await GetTemperatureLogs());
         }
 
         void ServersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -128,12 +148,16 @@ namespace MobileCompanionApp
         {
             try
             {
-                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "gettemperaturelogs", null, null);
+                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getroomambient", null, null);
 
                 if (response == null)
                     return;
 
                 var value = System.Text.Json.JsonSerializer.Deserialize<ClimateModel>(response);
+
+                Temperature = value.Temperature;
+                Humidity = value.Humidity;
+                Pressure = value.Pressure;
             }
             catch (Exception ex)
             {

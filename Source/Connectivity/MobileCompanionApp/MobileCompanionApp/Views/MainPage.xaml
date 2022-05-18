@@ -26,8 +26,8 @@
             <Frame Padding="20" CornerRadius="10" BackgroundColor="#23abe3">
                 <StackLayout Spacing="15">
                     <Image Source="img_project_lab" />
+                    <Button Text="WIFI using Maple" Clicked="BtnMapleClicked" Style="{StaticResource ButtonNavStyle}" />
                     <Button Text="Bluetooth" Clicked="BtnBluetoothClicked" Style="{StaticResource ButtonNavStyle}" />
-                    <Button Text="Maple" Clicked="BtnMapleClicked" Style="{StaticResource ButtonNavStyle}" />
                 </StackLayout>
             </Frame>
 

@@ -6,21 +6,30 @@
     ios:Page.UseSafeArea="true"
     x:Class="MobileCompanionApp.MaplePage">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="TextColor">#555</Color>
+            <Style x:Key="ButtonNavStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="BackgroundColor" Value="#14607F" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <Grid>
             <Grid RowSpacing="10" Padding="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Text="Maple servers:" FontSize="Medium" TextColor="Black" />
-
-                <Frame Grid.Row="1" BackgroundColor="#23ABE3" HasShadow="False" CornerRadius="5" Padding="10,0,0,0">
+                <Frame Grid.Row="0" BackgroundColor="#23ABE3" HasShadow="False" CornerRadius="5" Padding="10,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -53,7 +62,7 @@
                     </Grid>
                 </Frame>
 
-                <Frame Grid.Row="2" BackgroundColor="#EF7D3B" HasShadow="False" CornerRadius="5" Padding="10">
+                <Frame Grid.Row="1" BackgroundColor="#EF7D3B" HasShadow="False" CornerRadius="5" Padding="10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -74,15 +83,122 @@
                     </Grid>
                 </Frame>
 
-                <Label Grid.Row="3" Text="Ambient Room Logs:" TextColor="Black" FontSize="Medium" Margin="0,5" />
+                <ScrollView Grid.Row="2" >
+                    <StackLayout Spacing="10">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
+                            <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="10">
+                                <Label Grid.Row="0" Text="Onboard RGB LED" TextColor="White" FontSize="Medium" />
+                                <StackLayout Grid.Row="1" Margin="10,0,0,0">
+                                    <Label TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Status: " />
+                                                <Span Text="Blinking" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <Grid Grid.Row="2" ColumnDefinitions="*,*,*" Margin="10,0,10,0">
+                                    <Button Grid.Column="0" Text="Toggle" Style="{StaticResource ButtonNavStyle}" />
+                                    <Button Grid.Column="1" Text="Blink" Style="{StaticResource ButtonNavStyle}" />
+                                    <Button Grid.Column="2" Text="Pulse" Style="{StaticResource ButtonNavStyle}" />
+                                </Grid>
+                            </Grid>
+                        </Frame>
 
-                <Frame Grid.Row="4" BackgroundColor="#F5F5F5" HasShadow="False" Padding="0">
-                    <Grid>
-                        
-                    </Grid>
-                </Frame>
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
+                            <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
+                                <Label Grid.Row="0" Text="BME688 Atmospheric Sensor" TextColor="White" FontSize="Medium" />
+                                <StackLayout Grid.Row="1" Margin="10,0,0,0">
+                                    <Label TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Temperature: " />
+                                                <Span Text="{Binding Temperature}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Humidity: " />
+                                                <Span Text="{Binding Humidity}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Pressure: " />
+                                                <Span Text="{Binding Pressure}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
 
-                <Label Grid.Row="5" Text="By Wilderness Labs" TextColor="Black" 
+                                <Button Grid.Row="1" Grid.Column="1" Text="Update" Command="{Binding CmdGetAmbientRoom}"
+                                    VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
+                            </Grid>
+                        </Frame>
+
+                    <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
+                            <Label Grid.Row="0" Text="BMI270 Accelerometer Sensor" Grid.ColumnSpan="2" TextColor="White" FontSize="Medium" />
+                            <StackLayout Grid.Row="1" Margin="10,0,0,0">
+                                <Label TextColor="White">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="X: " />
+                                            <Span Text="23" FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label TextColor="White">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Y: " />
+                                            <Span Text="67" FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label TextColor="White">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Z: " />
+                                            <Span Text="89" FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+
+                            <Button Grid.Row="1" Grid.Column="1" Text="Update" 
+                                VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
+                        </Grid>
+                    </Frame>
+
+                    <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
+                            <Label Grid.Row="0" Text="BH1750 Light Sensor" TextColor="White" FontSize="Medium" />
+                            <StackLayout Grid.Row="1" Margin="10,0,0,0">
+                                <Label TextColor="White">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Light: " />
+                                            <Span Text="234 Luz" FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                
+                            </StackLayout>
+
+                            <Button Grid.Row="1" Grid.Column="1" Text="Update" 
+                                VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                </ScrollView>
+
+                <Label Grid.Row="3" Text="By Wilderness Labs" TextColor="Black" 
                     HorizontalOptions="Center" VerticalOptions="EndAndExpand" />
             </Grid>
         </Grid>

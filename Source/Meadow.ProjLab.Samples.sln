@@ -245,5 +245,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Connectivity\CommonContracts\CommonContracts.projitems*{567267b3-ed96-4fea-b555-2ee203372ea4}*SharedItemsImports = 13
 		Connectivity\CommonContracts\CommonContracts.projitems*{bb001fc4-cb47-485e-9ef3-bc7bf5c3198c}*SharedItemsImports = 5
+		Connectivity\CommonContracts\CommonContracts.projitems*{fdf30616-3277-44b9-88d4-96a6d4fdf169}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

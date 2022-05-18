@@ -22,4 +22,5 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+  <Import Project="..\..\CommonContracts\CommonContracts.projitems" Label="Shared" />
 </Project>
