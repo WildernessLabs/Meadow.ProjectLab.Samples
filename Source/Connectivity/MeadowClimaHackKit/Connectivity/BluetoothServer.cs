@@ -18,7 +18,7 @@ namespace MeadowClimaHackKit.Connectivity
         public void Initialize()
         {
             bleTreeDefinition = GetDefinition();
-            TemperatureController.Instance.TemperatureUpdated += TemperatureUpdated;
+            //Bme688Controller.Instance.TemperatureUpdated += TemperatureUpdated;
             MeadowApp.Device.BluetoothAdapter.StartBluetoothServer(bleTreeDefinition);
         }
 

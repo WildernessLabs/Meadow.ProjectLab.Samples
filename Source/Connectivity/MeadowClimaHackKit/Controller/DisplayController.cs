@@ -1,5 +1,4 @@
 ﻿using Meadow.Foundation;
-using Meadow.Foundation.Displays.TextDisplayMenu;
 using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.Buffers;
@@ -16,22 +15,21 @@ namespace MeadowClimaHackKit.Controller
 {
     public class DisplayController
     {
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
+
+        static Color backgroundColor = Color.FromHex("#23ABE3");
+
         CancellationTokenSource token;
 
         protected Temperature conditions;
 
-        protected Menu menu;
         protected BufferRgb888 logo, wifiConnecting, wifiConnected;
         protected MicroGraphics graphics;
 
-        static Color backgroundColor = Color.FromHex("#23ABE3");
-
         protected bool isCelcius = true;
         protected bool isRendering = false;
-
-        private static readonly Lazy<DisplayController> instance =
-            new Lazy<DisplayController>(() => new DisplayController());
-        public static DisplayController Instance => instance.Value;
 
         private DisplayController()
         {
@@ -40,7 +38,6 @@ namespace MeadowClimaHackKit.Controller
 
         public void Initialize()
         {
-            // our display needs mode3
             var config = new SpiClockConfiguration(
                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
                 mode: SpiClockConfiguration.Mode.Mode3);
@@ -61,28 +58,15 @@ namespace MeadowClimaHackKit.Controller
                 displayColorMode: ColorType.Format16bppRgb565
             );
 
-            // create our graphics surface that we'll draw onto and then blit to the display
             graphics = new MicroGraphics(st7789)
             {
                 CurrentFont = new Font12x20(),
                 Stroke = 3,
                 Rotation = RotationType._90Degrees
             };
-            graphics.DisplayConfig.FontScale = 2;
 
-            var menuItems = new MenuItem[]
-            {
-                new MenuItem("°C", command: "setCelcius"),
-                new MenuItem("°F", command: "setFahrenheit"),
-            };
-
-            menu = new Menu(graphics, menuItems, false);
-            menu.Selected += MenuSelected;
-
-            // finally, clear the display so it's ready for action
             graphics.Clear(true);
 
-            //and load the logo jpg into a buffer
             logo = LoadJpeg("img_meadow.jpg");
             wifiConnected = LoadJpeg("img_wifi_connected.jpg");
             wifiConnecting = LoadJpeg("img_wifi_connecting.jpg");
@@ -96,30 +80,15 @@ namespace MeadowClimaHackKit.Controller
             return new BufferRgb888(decoder.Width, decoder.Height, decoder.GetImageData());
         }
 
-        void MenuSelected(object sender, MenuSelectedEventArgs e)
-        {
-            Console.WriteLine("MenuSelected: " + e.Command);
-
-            isCelcius = (e.Command == "setCelcius");
-
-            //hide the menu after a selection
-            menu.Disable();
-            //and update the display
-            Render();
-        }
-
         void DrawBackground()
         {
-            //clear the buffer to a single color
             graphics.Clear(backgroundColor);
 
-            //draw the jpeg logo
             graphics.DrawBuffer(
                 x: graphics.Width / 2 - logo.Width / 2,
                 y: 34,
                 buffer: logo);
 
-            //draw the circle
             graphics.DrawCircle(
                 centerX: graphics.Width / 2,
                 centerY: graphics.Height / 2,
@@ -128,43 +97,11 @@ namespace MeadowClimaHackKit.Controller
                 filled: false);
         }
 
-        public void UpdateDisplay(Temperature conditions)
-        {
-            this.conditions = conditions;
-
-            if (menu.IsEnabled == false)
-            {
-                Render();
-            }
-        }
-
         public void ShowSplashScreen()
         {
             DrawBackground();
 
             graphics.Show();
-        }
-
-        public void MenuUp()
-        {
-            menu.Previous();
-        }
-
-        public void MenuDown()
-        {
-            menu.Next();
-        }
-
-        public void MenuSelect()
-        {
-            if (menu.IsEnabled == false)
-            {
-                menu.Enable();
-            }
-            else
-            {
-                menu.Select();
-            }
         }
 
         protected byte[] LoadResource(string filename)
@@ -178,51 +115,12 @@ namespace MeadowClimaHackKit.Controller
             return ms.ToArray();
         }
 
-        protected void Render()
-        {
-            //if the menu is enabled, it's responsible for drawing the screen
-            if (menu.IsEnabled) { return; }
-
-            // if we're already rendering, bail out.
-            if (isRendering)
-            {
-                Console.WriteLine("Already in a rendering loop, bailing out.");
-                return;
-            }
-
-            isRendering = true;
-
-            DrawBackground();
-
-            string tempText;
-            if (isCelcius)
-            {
-                tempText = $"{conditions.Celsius:##.#}°C";
-            }
-            else
-            {
-                tempText = $"{conditions.Fahrenheit:##.#}°F";
-            }
-
-            graphics.DrawText(
-                x: graphics.Width / 2,
-                y: 140,
-                text: tempText,
-                color: Color.Black,
-                scaleFactor: ScaleFactor.X2,
-                alignment: TextAlignment.Center);
-
-            graphics.Show();
-
-            isRendering = false;
-        }
-
         public async Task StartWifiConnectingAnimation() 
         {
             token = new CancellationTokenSource();
 
             while (!token.IsCancellationRequested)
-            {                
+            {
                 graphics.DrawBuffer(
                     x: graphics.Width / 2 - wifiConnecting.Width / 2,
                     y: 134,
@@ -244,6 +142,21 @@ namespace MeadowClimaHackKit.Controller
         public void StopWifiConnectingAnimation() 
         {
             token.Cancel();
+        }
+
+        public void ShowMapleReady() 
+        {
+            graphics.DrawRectangle(77, 134, 86, 74, backgroundColor, true);
+
+            graphics.CurrentFont = new Font12x16();
+            graphics.DrawText(120, 128, "MAPLE", ScaleFactor.X2, TextAlignment.Center);
+
+            string ipAddress = MeadowApp.Device.WiFiAdapter.IpAddress.ToString();
+            graphics.DrawText(120, 171, $"{ipAddress}", ScaleFactor.X1, TextAlignment.Center);
+
+            graphics.DrawText(120, 197, $"READY", ScaleFactor.X1, TextAlignment.Center);
+
+            graphics.Show();
         }
     }
 }

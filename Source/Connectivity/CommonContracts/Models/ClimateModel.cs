@@ -15,14 +15,5 @@ namespace CommonContracts.Models
 
         [JsonPropertyName("humdity")]
         public string Humidity { get; set; }
-
-        [JsonPropertyName("rain")]
-        public string Rain { get; set; }
-
-        [JsonPropertyName("windspeed")]
-        public string WindSpeed { get; set; }
-
-        [JsonPropertyName("winddirection")]
-        public string WindDirection { get; set; }
     }
 }
