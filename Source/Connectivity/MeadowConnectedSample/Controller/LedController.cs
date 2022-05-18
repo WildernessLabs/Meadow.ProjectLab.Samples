@@ -2,7 +2,7 @@
 using Meadow.Foundation.Leds;
 using System;
 
-namespace MeadowClimaHackKit.Controller
+namespace MeadowConnectedSample.Controller
 {
     public class LedController
     {

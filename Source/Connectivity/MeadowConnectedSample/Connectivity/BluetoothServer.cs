@@ -1,8 +1,8 @@
 ﻿using Meadow.Gateways.Bluetooth;
-using MeadowClimaHackKit.Controller;
+using MeadowConnectedSample.Controller;
 using System;
 
-namespace MeadowClimaHackKit.Connectivity
+namespace MeadowConnectedSample.Connectivity
 {
     public class BluetoothServer
     {

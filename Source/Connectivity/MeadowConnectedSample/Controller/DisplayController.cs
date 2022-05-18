@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MeadowClimaHackKit.Controller
+namespace MeadowConnectedSample.Controller
 {
     public class DisplayController
     {
@@ -107,7 +107,7 @@ namespace MeadowClimaHackKit.Controller
         protected byte[] LoadResource(string filename)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"MeadowClimaHackKit.{filename}";
+            var resourceName = $"MeadowConnectedSample.{filename}";
 
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             using var ms = new MemoryStream();

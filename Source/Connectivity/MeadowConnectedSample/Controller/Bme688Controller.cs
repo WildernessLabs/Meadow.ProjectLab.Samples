@@ -3,7 +3,7 @@ using Meadow.Units;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowClimaHackKit.Controller
+namespace MeadowConnectedSample.Controller
 {
     public class Bme688Controller
     {

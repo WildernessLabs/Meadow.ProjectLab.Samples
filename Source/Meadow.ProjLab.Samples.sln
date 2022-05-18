@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileCompanionApp", "Conne
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommonContracts", "Connectivity\CommonContracts\CommonContracts.shproj", "{567267B3-ED96-4FEA-B555-2EE203372EA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowClimaHackKit", "Connectivity\MeadowClimaHackKit\MeadowClimaHackKit.csproj", "{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowConnectedSample", "Connectivity\MeadowConnectedSample\MeadowConnectedSample.csproj", "{BB001FC4-CB47-485E-9EF3-BC7BF5C3198C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

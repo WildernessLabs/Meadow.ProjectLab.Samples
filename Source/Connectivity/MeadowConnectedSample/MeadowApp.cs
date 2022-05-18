@@ -4,12 +4,12 @@ using Meadow.Foundation;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Web.Maple.Server;
 using Meadow.Gateway.WiFi;
-using MeadowClimaHackKit.Connectivity;
-using MeadowClimaHackKit.Controller;
+using MeadowConnectedSample.Connectivity;
+using MeadowConnectedSample.Controller;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowClimaHackKit
+namespace MeadowConnectedSample
 {
     // public class MeadowApp : App<F7Micro, MeadowApp> <- If you have a Meadow F7v1.*
     public class MeadowApp : App<F7MicroV2, MeadowApp>
