@@ -10,7 +10,8 @@ namespace MeadowConnectedSample.Controller
             new Lazy<LedController>(() => new LedController());
         public static LedController Instance => instance.Value;
 
-        RgbPwmLed led;
+        RgbPwmLed rgbPwmLed;
+        bool isAnimating;
 
         private LedController()
         {
@@ -19,7 +20,7 @@ namespace MeadowConnectedSample.Controller
 
         private void Initialize()
         {
-            led = new RgbPwmLed(
+            rgbPwmLed = new RgbPwmLed(
                 MeadowApp.Device,
                 MeadowApp.Device.Pins.OnboardLedRed,
                 MeadowApp.Device.Pins.OnboardLedGreen,
@@ -29,7 +30,43 @@ namespace MeadowConnectedSample.Controller
 
         public void SetColor(Color color)
         {
-            led.SetColor(color);
+            rgbPwmLed.SetColor(color);
+        }
+
+        public void Toggle() 
+        {
+            if (rgbPwmLed.IsOn || isAnimating)
+            {
+                rgbPwmLed.Stop();
+                rgbPwmLed.IsOn = false;
+                isAnimating = false;
+            }
+            else
+            {
+                rgbPwmLed.Stop();
+                rgbPwmLed.SetColor(GetRandomColor());
+                rgbPwmLed.IsOn = true;
+            }
+        }
+
+        public void StartBlink()
+        {
+            rgbPwmLed.Stop();
+            rgbPwmLed.StartBlink(GetRandomColor());
+            isAnimating = true;
+        }
+
+        public void StartPulse()
+        {
+            rgbPwmLed.Stop();
+            rgbPwmLed.StartPulse(GetRandomColor());
+            isAnimating = true;
+        }
+
+        protected Color GetRandomColor()
+        {
+            var random = new Random();
+            return Color.FromHsba(random.NextDouble(), 1, 1);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Hardware;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace MeadowConnectedSample.Controller
 
         private Bme688Controller() { }
 
-        public void Initialize()
+        public void Initialize(II2cBus i2c)
         {
-            bme688 = new Bme680(MeadowApp.Device.CreateI2cBus(), (byte)Bme680.Addresses.Address_0x76);
+            bme688 = new Bme680(i2c, (byte)Bme680.Addresses.Address_0x76);
         }
 
         public Task<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> Read() 

@@ -34,7 +34,7 @@ namespace HackBoard_Test
 
         public MeadowApp()
         {
-            Initialize().Wait();            
+            Initialize().Wait();
             ReadLightSensor().Wait();
             displayController.Render();
             StartUpdating();

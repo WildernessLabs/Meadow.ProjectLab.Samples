@@ -1,7 +1,6 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Web.Maple.Server;
 using Meadow.Gateway.WiFi;
 using MeadowConnectedSample.Connectivity;
@@ -24,6 +23,10 @@ namespace MeadowConnectedSample
             LedController.Instance.SetColor(Color.Red);
 
             DisplayController.Instance.ShowSplashScreen();
+
+            var i2c = Device.CreateI2cBus();
+            Bh1750Controller.Instance.Initialize(i2c);
+            Bme688Controller.Instance.Initialize(i2c);
 
             //InitializeBluetooth();
             InitializeMaple().Wait();
@@ -48,8 +51,6 @@ namespace MeadowConnectedSample
 
             MapleServer mapleServer = new MapleServer(Device.WiFiAdapter.IpAddress, 5417, false);
             mapleServer.Start();
-
-            Bme688Controller.Instance.Initialize();
 
             DisplayController.Instance.ShowMapleReady();
 
