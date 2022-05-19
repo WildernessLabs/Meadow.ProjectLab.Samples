@@ -92,19 +92,19 @@
                                     <Label TextColor="White">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Status: " />
-                                                <Span Text="Blinking" FontAttributes="Bold" />
+                                                <Span Text="LED Status: " />
+                                                <Span Text="{Binding LedStatus}" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
                                 </StackLayout>
                                 <Grid ColumnDefinitions="*,*,*">
                                     <Button Grid.Column="0" Text="On/off" Style="{StaticResource ButtonNavStyle}"
-                                        Command="{Binding SetOnboardLed}" CommandParameter="toggle"/>
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="toggle"/>
                                     <Button Grid.Column="1" Text="Blink" Style="{StaticResource ButtonNavStyle}" 
-                                        Command="{Binding SetOnboardLed}" CommandParameter="blink"/>
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="blink"/>
                                     <Button Grid.Column="2" Text="Pulse" Style="{StaticResource ButtonNavStyle}"
-                                        Command="{Binding SetOnboardLed}" CommandParameter="pulse"/>
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="pulse"/>
                                 </Grid>
                             </StackLayout>
                         </Frame>
@@ -116,7 +116,7 @@
                                     <Label Grid.Column="0" TextColor="White">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Temperature: " />
+                                                <Span Text="Temp: " />
                                                 <Span Text="{Binding Temperature}" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>

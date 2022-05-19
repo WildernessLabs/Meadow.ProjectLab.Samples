@@ -11,6 +11,8 @@ namespace MobileCompanionApp
         {
             InitializeComponent();
 
+            Current = this;
+
             MainPage = new NavigationPage(new MainPage())
                 { BarTextColor = Color.White, BarBackgroundColor = (Color)Current.Resources["ButtonActive"] };
         }

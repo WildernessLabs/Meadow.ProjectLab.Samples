@@ -63,7 +63,7 @@ namespace MobileCompanionApp
         public string LedStatus
         {
             get => ledStatus;
-            set { ledStatus = value; OnPropertyChanged(nameof(ledStatus)); }
+            set { ledStatus = value; OnPropertyChanged(nameof(LedStatus)); }
         }
         public ICommand CmdSetOnboardLed { get; private set; }
 
@@ -173,16 +173,12 @@ namespace MobileCompanionApp
 
                 if (response)
                 {
-                    //IsOn = IsOff = IsBlinking = IsPulsing = IsRunningColors = false;
-
-                    //switch (command)
-                    //{
-                    //    case "TurnOn": IsOn = true; break;
-                    //    case "TurnOff": IsOff = true; break;
-                    //    case "StartBlink": IsBlinking = true; break;
-                    //    case "StartPulse": IsPulsing = true; break;
-                    //    case "StartRunningColors": IsRunningColors = true; break;
-                    //}
+                    switch (command)
+                    {
+                        case "toggle": LedStatus = "Toggled"; break;
+                        case "blink": LedStatus = "Blinking"; break;
+                        case "pulse": LedStatus = "Pulsing"; break;
+                    }
                 }
                 else
                 {
@@ -210,7 +206,10 @@ namespace MobileCompanionApp
                 var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getbme688data", null, null);
 
                 if (response == null)
+                {
+                    IsBusy = false;
                     return;
+                }
 
                 var value = System.Text.Json.JsonSerializer.Deserialize<ClimateModel>(response);
 
@@ -230,12 +229,19 @@ namespace MobileCompanionApp
 
         async Task GetBh1750Data() 
         {
+            if (IsBusy || (SelectedServer == null && string.IsNullOrEmpty(IpAddress)))
+                return;
+            IsBusy = true;
+
             try
             {
                 var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getbh1750data", null, null);
 
                 if (response == null)
+                {
+                    IsBusy = false;
                     return;
+                }
 
                 var value = System.Text.Json.JsonSerializer.Deserialize<IlluminanceModel>(response);
 
@@ -244,6 +250,10 @@ namespace MobileCompanionApp
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }
