@@ -85,10 +85,10 @@
 
                 <ScrollView Grid.Row="2" >
                     <StackLayout Spacing="10">
-                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
-                            <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="10">
-                                <Label Grid.Row="0" Text="Onboard RGB LED" TextColor="White" FontSize="Medium" />
-                                <StackLayout Grid.Row="1" Margin="10,0,0,0">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                            <StackLayout Spacing="10">
+                                <Label Text="Onboard RGB LED" TextColor="White" FontSize="Medium" />
+                                <StackLayout>
                                     <Label TextColor="White">
                                         <Label.FormattedText>
                                             <FormattedString>
@@ -98,19 +98,19 @@
                                         </Label.FormattedText>
                                     </Label>
                                 </StackLayout>
-                                <Grid Grid.Row="2" ColumnDefinitions="*,*,*" Margin="10,0,10,0">
-                                    <Button Grid.Column="0" Text="Toggle" Style="{StaticResource ButtonNavStyle}" />
+                                <Grid ColumnDefinitions="*,*,*">
+                                    <Button Grid.Column="0" Text="On/off" Style="{StaticResource ButtonNavStyle}" />
                                     <Button Grid.Column="1" Text="Blink" Style="{StaticResource ButtonNavStyle}" />
                                     <Button Grid.Column="2" Text="Pulse" Style="{StaticResource ButtonNavStyle}" />
                                 </Grid>
-                            </Grid>
+                            </StackLayout>
                         </Frame>
 
-                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
-                            <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
-                                <Label Grid.Row="0" Text="BME688 Atmospheric Sensor" TextColor="White" FontSize="Medium" />
-                                <StackLayout Grid.Row="1" Margin="10,0,0,0">
-                                    <Label TextColor="White">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                            <StackLayout Spacing="10">
+                                <Label Text="BME688 Atmospheric Sensor" TextColor="White" FontSize="Medium" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label Grid.Column="0" TextColor="White">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Temperature: " />
@@ -118,7 +118,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label TextColor="White">
+                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Humidity: " />
@@ -126,7 +126,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label TextColor="White">
+                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Pressure: " />
@@ -134,68 +134,67 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                </StackLayout>
+                                </Grid>
 
-                                <Button Grid.Row="1" Grid.Column="1" Text="Update" Command="{Binding CmdGetAmbientRoom}"
+                                <Button Text="Read Sensor" Command="{Binding CmdGetAmbientRoom}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
-                            </Grid>
+                            </StackLayout>
                         </Frame>
 
-                    <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
-                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
-                            <Label Grid.Row="0" Text="BMI270 Accelerometer Sensor" Grid.ColumnSpan="2" TextColor="White" FontSize="Medium" />
-                            <StackLayout Grid.Row="1" Margin="10,0,0,0">
-                                <Label TextColor="White">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="X: " />
-                                            <Span Text="23" FontAttributes="Bold" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                                <Label TextColor="White">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="Y: " />
-                                            <Span Text="67" FontAttributes="Bold" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                                <Label TextColor="White">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="Z: " />
-                                            <Span Text="89" FontAttributes="Bold" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                            <StackLayout Spacing="10">
+                                <Label Text="BH1750 Light Sensor" TextColor="White" FontSize="Medium" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Light: " />
+                                                <Span Text="234 Luz" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <Button Text="Read Sensor" Command="{Binding CmdGetAmbientRoom}"
+                                    VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </StackLayout>
+                        </Frame>
 
-                            <Button Grid.Row="1" Grid.Column="1" Text="Update" 
-                                VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
-                        </Grid>
-                    </Frame>
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" Opacity="0.7" CornerRadius="5">
+                            <StackLayout Spacing="10">
+                                <Label Text="BMI270 Accelerometer Sensor" TextColor="White" FontSize="Medium" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label Grid.Column="0" TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="X: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Y: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Z: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
 
-                    <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10">
-                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
-                            <Label Grid.Row="0" Text="BH1750 Light Sensor" TextColor="White" FontSize="Medium" />
-                            <StackLayout Grid.Row="1" Margin="10,0,0,0">
-                                <Label TextColor="White">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="Light: " />
-                                            <Span Text="234 Luz" FontAttributes="Bold" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                                
+                                <Button Text="Read Sensor"
+                                    VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </StackLayout>
-
-                            <Button Grid.Row="1" Grid.Column="1" Text="Update" 
-                                VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
-                        </Grid>
-                    </Frame>
-                </StackLayout>
+                        </Frame>
+                    </StackLayout>
                 </ScrollView>
 
                 <Label Grid.Row="3" Text="By Wilderness Labs" TextColor="Black" 

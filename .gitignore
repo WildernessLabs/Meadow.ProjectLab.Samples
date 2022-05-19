@@ -351,3 +351,4 @@ MigrationBackup/
 
 # Mac Bullshit
 **/.DS_Store
+Source/Connectivity/MobileCompanionApp/MobileCompanionApp.Android/Resources/Resource.designer.cs
