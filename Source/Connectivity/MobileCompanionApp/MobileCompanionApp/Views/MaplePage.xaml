@@ -151,7 +151,7 @@
                                     <Label TextColor="White">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Light: " />
+                                                <Span Text="Luminance: " />
                                                 <Span Text="{Binding Illuminance}" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>
