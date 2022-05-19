@@ -111,6 +111,8 @@ namespace MobileCompanionApp
             CmdSetOnboardLed = new Command(async (obj) => await SetOnboardLed(obj as string));
 
             CmdGetBme688Data = new Command(async () => await GetBme688Data());
+
+            CmdGetBh1750Data = new Command(async () => await GetBh1750Data());
         }
 
         void ServersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -163,9 +165,8 @@ namespace MobileCompanionApp
 
         async Task SetOnboardLed(string command)
         {
-            if (IsBusy || (SelectedServer == null && string.IsNullOrEmpty(IpAddress)))
+            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
                 return;
-            IsBusy = true;
 
             try
             {
@@ -189,17 +190,12 @@ namespace MobileCompanionApp
             {
                 Console.WriteLine(ex.Message);
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         async Task GetBme688Data()
         {
-            if (IsBusy || (SelectedServer == null && string.IsNullOrEmpty(IpAddress)))
+            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
                 return;
-            IsBusy = true;
 
             try
             {
@@ -207,7 +203,6 @@ namespace MobileCompanionApp
 
                 if (response == null)
                 {
-                    IsBusy = false;
                     return;
                 }
 
@@ -221,27 +216,19 @@ namespace MobileCompanionApp
             {
                 Console.WriteLine(ex.Message);
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         async Task GetBh1750Data() 
         {
-            if (IsBusy || (SelectedServer == null && string.IsNullOrEmpty(IpAddress)))
+            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
                 return;
-            IsBusy = true;
 
             try
             {
                 var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getbh1750data", null, null);
 
                 if (response == null)
-                {
-                    IsBusy = false;
                     return;
-                }
 
                 var value = System.Text.Json.JsonSerializer.Deserialize<IlluminanceModel>(response);
 
@@ -250,10 +237,6 @@ namespace MobileCompanionApp
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                IsBusy = false;
             }
         }
     }
