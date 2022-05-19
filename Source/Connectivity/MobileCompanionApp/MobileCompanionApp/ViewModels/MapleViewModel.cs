@@ -13,8 +13,6 @@ namespace MobileCompanionApp
     {
         public MapleClient client { get; private set; }
 
-        public ObservableCollection<ClimateModel> WeatherLog { get; set; }
-
         int _serverPort;
         public int ServerPort
         {
@@ -60,7 +58,14 @@ namespace MobileCompanionApp
 
         public ICommand CmdSearchServers { get; private set; }
 
-        public ICommand CmdGetAmbientRoom { get; private set; }
+        // Onboard RGB LED
+        string ledStatus;
+        public string LedStatus
+        {
+            get => ledStatus;
+            set { ledStatus = value; OnPropertyChanged(nameof(ledStatus)); }
+        }
+        public ICommand CmdSetOnboardLed { get; private set; }
 
         // BME688
         string temperature;
@@ -81,6 +86,16 @@ namespace MobileCompanionApp
             get => pressure;
             set { pressure = value; OnPropertyChanged(nameof(Pressure)); }
         }
+        public ICommand CmdGetBme688Data { get; private set; }
+
+        // BH1750
+        string illuminance;
+        public string Illuminance
+        {
+            get => illuminance;
+            set { illuminance = value; OnPropertyChanged(nameof(Illuminance)); }
+        }
+        public ICommand CmdGetBh1750Data { get; private set; }
 
         public MapleViewModel()
         {
@@ -93,7 +108,9 @@ namespace MobileCompanionApp
 
             CmdSearchServers = new Command(async () => await GetServers());
 
-            CmdGetAmbientRoom = new Command(async () => await GetTemperatureLogs());
+            CmdSetOnboardLed = new Command(async (obj) => await SetOnboardLed(obj as string));
+
+            CmdGetBme688Data = new Command(async () => await GetBme688Data());
         }
 
         void ServersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -144,11 +161,53 @@ namespace MobileCompanionApp
             }
         }
 
-        async Task GetTemperatureLogs()
+        async Task SetOnboardLed(string command)
         {
+            if (IsBusy || (SelectedServer == null && string.IsNullOrEmpty(IpAddress)))
+                return;
+            IsBusy = true;
+
             try
             {
-                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getroomambient", null, null);
+                bool response = await client.PostAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, command, string.Empty);
+
+                if (response)
+                {
+                    //IsOn = IsOff = IsBlinking = IsPulsing = IsRunningColors = false;
+
+                    //switch (command)
+                    //{
+                    //    case "TurnOn": IsOn = true; break;
+                    //    case "TurnOff": IsOff = true; break;
+                    //    case "StartBlink": IsBlinking = true; break;
+                    //    case "StartPulse": IsPulsing = true; break;
+                    //    case "StartRunningColors": IsRunningColors = true; break;
+                    //}
+                }
+                else
+                {
+                    await App.Current.DisplayAlert("Error", "Request failed.", "Close");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        async Task GetBme688Data()
+        {
+            if (IsBusy || (SelectedServer == null && string.IsNullOrEmpty(IpAddress)))
+                return;
+            IsBusy = true;
+
+            try
+            {
+                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getbme688data", null, null);
 
                 if (response == null)
                     return;
@@ -163,15 +222,28 @@ namespace MobileCompanionApp
             {
                 Console.WriteLine(ex.Message);
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
-        public async Task LoadData()
+        async Task GetBh1750Data() 
         {
-            await GetServers();
-
-            if (SelectedServer != null)
+            try
             {
-                await GetTemperatureLogs();
+                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getbh1750data", null, null);
+
+                if (response == null)
+                    return;
+
+                var value = System.Text.Json.JsonSerializer.Deserialize<IlluminanceModel>(response);
+
+                Illuminance = value.Illuminance;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
