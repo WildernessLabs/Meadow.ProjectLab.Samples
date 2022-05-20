@@ -1,6 +1,7 @@
 ﻿using Meadow.Foundation.Sensors.Light;
 using Meadow.Hardware;
 using Meadow.Units;
+using MeadowConnectedSample.Connectivity;
 using System;
 using System.Threading.Tasks;
 
@@ -14,16 +15,25 @@ namespace MeadowConnectedSample.Controller
 
         Bh1750 bh1750;
 
+        public string LuminanceReading { get; private set; }
+
         private Bh1750Controller() { }
 
         public void Initialize(II2cBus i2c)
         {
             bh1750 = new Bh1750(
                     i2cBus: i2c,
-                    measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
-                    lightTransmittance: 1, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
-                    address: (byte)Bh1750.Addresses.Address_0x23
-                );
+                    measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, 
+                    lightTransmittance: 1, 
+                    address: (byte)Bh1750.Addresses.Address_0x23);
+            bh1750.Updated += Bh1750Updated;
+            bh1750.StartUpdating(TimeSpan.FromSeconds(5));
+        }
+
+        private void Bh1750Updated(object sender, Meadow.IChangeResult<Illuminance> e)
+        {
+            LuminanceReading = $"{e.New.Lux}lx";
+            BluetoothServer.Instance.SetBh1750CharacteristicValue(LuminanceReading);
         }
 
         public Task<Illuminance> Read()

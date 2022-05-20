@@ -1,4 +1,5 @@
-﻿using Meadow.Gateways.Bluetooth;
+﻿using CommonContracts.Bluetooth;
+using Meadow.Gateways.Bluetooth;
 using MeadowConnectedSample.Controller;
 using System;
 
@@ -11,27 +12,77 @@ namespace MeadowConnectedSample.Connectivity
         public static BluetoothServer Instance => instance.Value;
 
         Definition bleTreeDefinition;
-        CharacteristicString temperatureCharacteristic;
+        CharacteristicBool   ledToggleCharacteristic;
+        CharacteristicBool   ledBlinkCharacteristic;
+        CharacteristicBool   ledPulseCharacteristic;
+        CharacteristicString bme688DataCharacteristic;
+        CharacteristicString bh1750DataCharacteristic;
 
         private BluetoothServer() { }
 
         public void Initialize()
         {
             bleTreeDefinition = GetDefinition();
-            //Bme688Controller.Instance.TemperatureUpdated += TemperatureUpdated;
             MeadowApp.Device.BluetoothAdapter.StartBluetoothServer(bleTreeDefinition);
+
+            ledToggleCharacteristic.ValueSet += LedToggleCharacteristicValueSet;
+            ledBlinkCharacteristic.ValueSet += LedBlinkCharacteristicValueSet;
+            ledPulseCharacteristic.ValueSet += LedPulseCharacteristicValueSet;            
         }
 
-        private void TemperatureUpdated(object sender, Meadow.Units.Temperature e)
+        private void LedToggleCharacteristicValueSet(ICharacteristic c, object data)
         {
-            temperatureCharacteristic.SetValue($"{ e.Celsius:N2}°C;");
+            LedController.Instance.Toggle();
+        }
+
+        private void LedBlinkCharacteristicValueSet(ICharacteristic c, object data)
+        {
+            LedController.Instance.StartBlink();
+        }
+
+        private void LedPulseCharacteristicValueSet(ICharacteristic c, object data)
+        {
+            LedController.Instance.StartPulse();
+        }
+
+        public void SetBme688CharacteristicValue(string value) 
+        {
+            bme688DataCharacteristic.SetValue(value);
+            Console.WriteLine(value);
+        }
+
+        public void SetBh1750CharacteristicValue(string value)
+        {
+            bh1750DataCharacteristic.SetValue(value);
+            Console.WriteLine(value);
         }
 
         Definition GetDefinition()
         {
-            temperatureCharacteristic = new CharacteristicString(
-                name: "Temperature",
-                uuid: "e78f7b5e-842b-4b99-94e3-7401bf72b870",
+            ledToggleCharacteristic = new CharacteristicBool(
+                name: "LED_TOGGLE",
+                uuid: CharacteristicsConstants.LED_TOGGLE,
+                permissions: CharacteristicPermission.Read | CharacteristicPermission.Write,
+                properties: CharacteristicProperty.Read | CharacteristicProperty.Write);
+            ledBlinkCharacteristic = new CharacteristicBool(
+                name: "LED_BLINK",
+                uuid: CharacteristicsConstants.LED_BLINK,
+                permissions: CharacteristicPermission.Read | CharacteristicPermission.Write,
+                properties: CharacteristicProperty.Read | CharacteristicProperty.Write);
+            ledPulseCharacteristic = new CharacteristicBool(
+                name: "LED_PULSE",
+                uuid: CharacteristicsConstants.LED_PULSE,
+                permissions: CharacteristicPermission.Read | CharacteristicPermission.Write,
+                properties: CharacteristicProperty.Read | CharacteristicProperty.Write);
+            bme688DataCharacteristic = new CharacteristicString(
+                name: "BME688_DATA",
+                uuid: CharacteristicsConstants.BME688_DATA,
+                maxLength: 20,
+                permissions: CharacteristicPermission.Read,
+                properties: CharacteristicProperty.Read);
+            bh1750DataCharacteristic = new CharacteristicString(
+                name: "BH1750_DATA",
+                uuid: CharacteristicsConstants.BH1750_DATA,
                 maxLength: 20,
                 permissions: CharacteristicPermission.Read,
                 properties: CharacteristicProperty.Read);
@@ -39,10 +90,14 @@ namespace MeadowConnectedSample.Connectivity
             var service = new Service(
                 name: "ServiceA",
                 uuid: 253,
-                temperatureCharacteristic
+                ledToggleCharacteristic,
+                ledBlinkCharacteristic,
+                ledPulseCharacteristic,
+                bme688DataCharacteristic,
+                bh1750DataCharacteristic
             );
 
-            return new Definition("MeadowClimaHackKit", service);
+            return new Definition("Meadow", service);
         }
     }
 }

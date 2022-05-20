@@ -6,12 +6,15 @@
     package="com.companyname.mobilecompanionapp">
     <uses-sdk 
         android:minSdkVersion="21" 
-        android:targetSdkVersion="31" />
+        android:targetSdkVersion="30" />
     <application 
         android:label="Project Lab" 
         android:theme="@style/MainTheme"
         android:networkSecurityConfig="@xml/network_security_config" 
         android:usesCleartextTraffic="true"></application>
-    <uses-permission 
-        android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 </manifest>

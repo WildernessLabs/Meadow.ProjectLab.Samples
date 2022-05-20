@@ -5,7 +5,7 @@ using Android.OS;
 
 namespace MobileCompanionApp.Droid
 {
-    [Activity(Label = "Clima", 
+    [Activity(Label = "Project Lab", 
         Icon = "@mipmap/icon_launcher", 
         RoundIcon = "@mipmap/icon_round_launcher", 
         Theme = "@style/Theme.Splash",

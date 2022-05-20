@@ -94,9 +94,12 @@
                                     </Label>
                                 </StackLayout>
                                 <Grid ColumnDefinitions="*,*,*">
-                                    <Button Grid.Column="0" Text="On/off" Style="{StaticResource ButtonNavStyle}" />
-                                    <Button Grid.Column="1" Text="Blink" Style="{StaticResource ButtonNavStyle}" />
-                                    <Button Grid.Column="2" Text="Pulse" Style="{StaticResource ButtonNavStyle}" />
+                                    <Button Grid.Column="0" Text="On/off" Style="{StaticResource ButtonNavStyle}"
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="toggle"/>
+                                    <Button Grid.Column="1" Text="Blink" Style="{StaticResource ButtonNavStyle}" 
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="blink"/>
+                                    <Button Grid.Column="2" Text="Pulse" Style="{StaticResource ButtonNavStyle}"
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="pulse"/>
                                 </Grid>
                             </StackLayout>
                         </Frame>
@@ -131,7 +134,7 @@
                                     </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor" Command="{Binding CmdGetAmbientRoom}"
+                                <Button Text="Read Sensor" Command="{Binding CmdGetBme688Data}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </StackLayout>
                         </Frame>

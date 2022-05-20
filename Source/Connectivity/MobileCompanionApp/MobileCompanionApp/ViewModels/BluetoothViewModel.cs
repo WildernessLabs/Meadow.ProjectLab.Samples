@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MobileCompanionApp.Utils;
+using CommonContracts.Bluetooth;
 using Xamarin.Forms;
 
 namespace MobileCompanionApp
@@ -17,17 +17,16 @@ namespace MobileCompanionApp
     {
         int listenTimeout = 5000;
 
-        ushort DEVICE_ID = 896;
+        ushort DEVICE_ID = 253;
 
         IAdapter adapter;
         IService service;
 
-        ICharacteristic tempCharacteristic;
-        ICharacteristic pressureCharacteristic;
-        ICharacteristic humidityCharacteristic;
-        ICharacteristic rainFallCharacteristic;
-        ICharacteristic windSpeedCharacteristic;
-        ICharacteristic windDirectionCharacteristic;
+        ICharacteristic ledToggleCharacteristic;
+        ICharacteristic ledBlinkCharacteristic;
+        ICharacteristic ledPulseCharacteristic;
+        ICharacteristic bme688DataCharacteristic;
+        ICharacteristic bh1750DataCharacteristic;
 
         public ObservableCollection<IDevice> DeviceList { get; set; }
 
@@ -59,46 +58,48 @@ namespace MobileCompanionApp
             set { isDeviceListEmpty = value; OnPropertyChanged(nameof(IsDeviceListEmpty)); }
         }
 
-        string temperatureValue;
-        public string TemperatureValue
-        {
-            get => temperatureValue;
-            set { temperatureValue = value; OnPropertyChanged(nameof(TemperatureValue)); }
-        }
-
-        string pressureValue;
-        public string PressureValue
-        {
-            get => pressureValue;
-            set { pressureValue = value; OnPropertyChanged(nameof(PressureValue)); }
-        }
-
-        string humidityValue;
-        public string HumidityValue
-        {
-            get => humidityValue;
-            set { humidityValue = value; OnPropertyChanged(nameof(HumidityValue)); }
-        }
-
-        string windSpeedValue;
-        public string WindSpeedValue
-        {
-            get => windSpeedValue;
-            set { windSpeedValue = value; OnPropertyChanged(nameof(WindSpeedValue)); }
-        }
-
-        string windDirectionValue;
-        public string WindDirectionValue
-        {
-            get => windDirectionValue;
-            set { windDirectionValue = value; OnPropertyChanged(nameof(WindDirectionValue)); }
-        }
-
         public ICommand CmdToggleConnection { get; set; }
 
         public ICommand CmdSearchForDevices { get; set; }
 
-        public ICommand CmdGetClimaStatus { get; set; }
+        // Onboard RGB LED
+        string ledStatus;
+        public string LedStatus
+        {
+            get => ledStatus;
+            set { ledStatus = value; OnPropertyChanged(nameof(LedStatus)); }
+        }
+        public ICommand CmdSetOnboardLed { get; private set; }
+
+        // BME688
+        string temperature;
+        public string Temperature
+        {
+            get => temperature;
+            set { temperature = value; OnPropertyChanged(nameof(Temperature)); }
+        }
+        string humidity;
+        public string Humidity
+        {
+            get => humidity;
+            set { humidity = value; OnPropertyChanged(nameof(Humidity)); }
+        }
+        string pressure;
+        public string Pressure
+        {
+            get => pressure;
+            set { pressure = value; OnPropertyChanged(nameof(Pressure)); }
+        }
+        public ICommand CmdGetBme688Data { get; private set; }
+
+        // BH1750
+        string illuminance;
+        public string Illuminance
+        {
+            get => illuminance;
+            set { illuminance = value; OnPropertyChanged(nameof(Illuminance)); }
+        }
+        public ICommand CmdGetBh1750Data { get; private set; }
 
         public BluetoothViewModel()
         {
@@ -113,9 +114,13 @@ namespace MobileCompanionApp
 
             CmdToggleConnection = new Command(async () => await ToggleConnection());
 
-            CmdSearchForDevices = new Command(async () => await DiscoverDevices());
+            CmdSearchForDevices = new Command(async () => await SearchForDevices());
 
-            CmdGetClimaStatus = new Command(async () => await GetClimaStatus());
+            CmdSetOnboardLed = new Command(async (obj) => await SetOnboardLed(obj as string));
+
+            CmdGetBme688Data = new Command(async () => await GetBme688Data());
+
+            CmdGetBh1750Data = new Command(async () => await GetBh1750Data());
         }
 
         void AdapterDeviceDisconnected(object sender, DeviceEventArgs e)
@@ -139,12 +144,11 @@ namespace MobileCompanionApp
                 }
             }
 
-            tempCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.TEMPERATURE));
-            pressureCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.PRESSURE));
-            humidityCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.HUMIDITY));
-            rainFallCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.RAINFALL));
-            windSpeedCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.WIND_SPEED));
-            windDirectionCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.WIND_DIRECTION));
+            ledToggleCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_TOGGLE));
+            ledBlinkCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_BLINK));
+            ledPulseCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_PULSE));
+            bme688DataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BME688_DATA));
+            bh1750DataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BH1750_DATA));
         }
 
         async void AdapterDeviceDiscovered(object sender, DeviceEventArgs e)
@@ -155,7 +159,7 @@ namespace MobileCompanionApp
                 DeviceList.Add(e.Device);
             }
 
-            if (e.Device.Name == "Meadow Clima")
+            if (e.Device.Name == "Meadow")
             {
                 await adapter.StopScanningForDevicesAsync();
                 IsDeviceListEmpty = false;
@@ -168,30 +172,6 @@ namespace MobileCompanionApp
             await Task.Delay(listenTimeout);
             await adapter.StopScanningForDevicesAsync();
             IsScanning = false;
-        }
-
-        async Task DiscoverDevices()
-        {
-            try
-            {
-                IsScanning = true;
-
-                var tasks = new Task[]
-                {
-                    ScanTimeoutTask(),
-                    adapter.StartScanningForDevicesAsync()
-                };
-
-                await Task.WhenAny(tasks);
-            }
-            catch (DeviceConnectionException ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
         }
 
         async Task ToggleConnection()
@@ -219,28 +199,67 @@ namespace MobileCompanionApp
             }
         }
 
-        async Task GetClimaStatus()
+        async Task SearchForDevices()
         {
-            if (IsBusy)
-                return;
-            IsBusy = true;
-
             try
             {
-                TemperatureValue = System.Text.Encoding.Default.GetString(await tempCharacteristic.ReadAsync()).Split(';')[0];
-                PressureValue = System.Text.Encoding.Default.GetString(await pressureCharacteristic.ReadAsync()).Split(';')[0];
-                HumidityValue = System.Text.Encoding.Default.GetString(await humidityCharacteristic.ReadAsync()).Split(';')[0];
-                WindSpeedValue = System.Text.Encoding.Default.GetString(await windSpeedCharacteristic.ReadAsync()).Split(';')[0];
-                WindDirectionValue = System.Text.Encoding.Default.GetString(await windDirectionCharacteristic.ReadAsync()).Split(';')[0];
+                IsScanning = true;
+
+                var tasks = new Task[]
+                {
+                    ScanTimeoutTask(),
+                    adapter.StartScanningForDevicesAsync()
+                };
+
+                await Task.WhenAny(tasks);
+            }
+            catch (DeviceConnectionException ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
-            finally
+        }
+
+        async Task SetOnboardLed(string command)
+        {
+            byte[] array = new byte[1];
+
+            switch (command)
             {
-                IsBusy = false;
+                case "toggle":
+                    array[0] = 1;
+                    await ledToggleCharacteristic.WriteAsync(array);
+                    LedStatus = "Toggled"; 
+                    break;
+
+                case "blink": 
+                    await ledBlinkCharacteristic.WriteAsync(array);
+                    LedStatus = "Blinking"; 
+                    break;
+
+                case "pulse": 
+                    await ledPulseCharacteristic.WriteAsync(array);
+                    LedStatus = "Pulsing"; 
+                    break;
             }
+        }
+
+        async Task GetBme688Data()
+        {
+            string ambient = System.Text.Encoding.Default.GetString(await bme688DataCharacteristic.ReadAsync());
+            var value = ambient.Split(';');
+            
+            Temperature = value[0];
+            Humidity = value[1];
+            Pressure= value[2];
+        }
+
+        async Task GetBh1750Data()
+        {
+            Illuminance = System.Text.Encoding.Default.GetString(await bh1750DataCharacteristic.ReadAsync());
         }
 
         protected int UuidToUshort(string uuid)

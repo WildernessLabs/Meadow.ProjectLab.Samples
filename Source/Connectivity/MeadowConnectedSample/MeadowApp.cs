@@ -28,13 +28,15 @@ namespace MeadowConnectedSample
             Bh1750Controller.Instance.Initialize(i2c);
             Bme688Controller.Instance.Initialize(i2c);
 
-            //InitializeBluetooth();
-            InitializeMaple().Wait();
+            InitializeBluetooth();
+            //InitializeMaple().Wait();
         }
 
         void InitializeBluetooth()
         {
             BluetoothServer.Instance.Initialize();
+
+            LedController.Instance.SetColor(Color.Green);
         }
 
         async Task InitializeMaple()

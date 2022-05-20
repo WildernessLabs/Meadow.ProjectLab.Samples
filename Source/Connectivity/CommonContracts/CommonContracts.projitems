@@ -9,6 +9,7 @@
     <Import_RootNamespace>Clima.Contracts</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ClimateModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\IlluminanceModel.cs" />
   </ItemGroup>
