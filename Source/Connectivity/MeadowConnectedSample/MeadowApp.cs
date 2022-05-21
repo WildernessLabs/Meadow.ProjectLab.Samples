@@ -22,13 +22,13 @@ namespace MeadowConnectedSample
         {
             LedController.Instance.SetColor(Color.Red);
 
-            DisplayController.Instance.ShowSplashScreen();
+            //DisplayController.Instance.ShowSplashScreen();
 
             var i2c = Device.CreateI2cBus();
             Bh1750Controller.Instance.Initialize(i2c);
-            Bme688Controller.Instance.Initialize(i2c);
+            //Bme688Controller.Instance.Initialize(i2c);
 
-            InitializeBluetooth();
+            //InitializeBluetooth();
             //InitializeMaple().Wait();
         }
 

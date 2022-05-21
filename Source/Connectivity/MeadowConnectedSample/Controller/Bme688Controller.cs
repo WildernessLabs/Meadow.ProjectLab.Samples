@@ -22,8 +22,8 @@ namespace MeadowConnectedSample.Controller
         public void Initialize(II2cBus i2c)
         {
             bme688 = new Bme680(i2c, (byte)Bme680.Addresses.Address_0x76);
-            bme688.Updated += Bme688Updated;
-            bme688.StartUpdating(TimeSpan.FromSeconds(5));
+            //bme688.Updated += Bme688Updated;
+            //bme688.StartUpdating(TimeSpan.FromSeconds(5));
         }
 
         private void Bme688Updated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
