@@ -41,11 +41,11 @@ namespace HackBoard_Test
 
         public MeadowApp()
         {
-            Initialize().Wait();
+            Initialize();
             displayController.Render();
         }
 
-        async Task Initialize()
+        void Initialize()
         {
             Console.WriteLine("Initialize hardware...");
 
@@ -81,13 +81,12 @@ namespace HackBoard_Test
 
             i2c = Device.CreateI2cBus();
 
-            // Bh1750
             try 
             {
                 bh1750 = new Bh1750(
                     i2cBus: i2c,
                     measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
-                    lightTransmittance: 1, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
+                    lightTransmittance: 0.5, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
                     address: (byte)Bh1750.Addresses.Address_0x23
                 );
                 bh1750.Updated += Bh1750Updated;
@@ -109,7 +108,6 @@ namespace HackBoard_Test
                 Console.WriteLine($"Could not bring up Bme680: {e.Message}");
             }
 
-            // buttons
             buttonUp = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
             buttonUp.Clicked += (s, e) => ButtonClicked(Buttons.Up);
             buttonRight = new PushButton(Device, Device.Pins.D05, ResistorMode.InternalPullDown);
@@ -118,6 +116,8 @@ namespace HackBoard_Test
             buttonDown.Clicked += (s, e) => ButtonClicked(Buttons.Down);
             buttonLeft = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
             buttonLeft.Clicked += (s, e) => ButtonClicked(Buttons.Left);
+
+            onboardLed.SetColor(Color.Green);
         }
 
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
