@@ -28,7 +28,10 @@ namespace MeadowConnectedSample.Controller
         private void Bme688Updated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
         {
             AmbientReading = e.New;
-            BluetoothServer.Instance.SetBme688CharacteristicValue(AmbientReading);
+            if (BluetoothServer.Instance.IsInitialized)
+            {
+                BluetoothServer.Instance.SetBme688CharacteristicValue(AmbientReading);
+            }
         }
     }
 }

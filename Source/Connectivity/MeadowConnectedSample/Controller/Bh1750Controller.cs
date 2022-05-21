@@ -31,8 +31,11 @@ namespace MeadowConnectedSample.Controller
 
         private void Bh1750Updated(object sender, Meadow.IChangeResult<Illuminance> e)
         {
-            IlluminanceReading = e?.New; // $"{e?.New.Lux}lx;";
-            BluetoothServer.Instance.SetBh1750CharacteristicValue(IlluminanceReading);
+            IlluminanceReading = e?.New;
+            if (BluetoothServer.Instance.IsInitialized)
+            { 
+                BluetoothServer.Instance.SetBh1750CharacteristicValue(IlluminanceReading); 
+            }
         }
     }
 }

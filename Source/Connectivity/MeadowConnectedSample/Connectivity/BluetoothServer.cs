@@ -25,11 +25,11 @@ namespace MeadowConnectedSample.Connectivity
 
         public void Initialize()
         {
-            bleTreeDefinition = GetDefinition();
-            MeadowApp.Device.BluetoothAdapter.StartBluetoothServer(bleTreeDefinition);
+            bleTreeDefinition = GetDefinition();            
             ledToggleCharacteristic.ValueSet += LedToggleCharacteristicValueSet;
             ledBlinkCharacteristic.ValueSet += LedBlinkCharacteristicValueSet;
             ledPulseCharacteristic.ValueSet += LedPulseCharacteristicValueSet;
+            MeadowApp.Device.BluetoothAdapter.StartBluetoothServer(bleTreeDefinition);
 
             IsInitialized = true;
         }
@@ -51,12 +51,12 @@ namespace MeadowConnectedSample.Connectivity
 
         public void SetBme688CharacteristicValue((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure) value) 
         {
-            if (IsInitialized) bme688DataCharacteristic.SetValue($"{(int)value.Temperature?.Celsius}°C;{(int)value.Humidity?.Percent}%;{(int)value.Pressure?.Millibar}mbar");
+            bme688DataCharacteristic.SetValue($"{(int)value.Temperature?.Celsius}°C;{(int)value.Humidity?.Percent}%;{(int)value.Pressure?.Millibar}mbar");
         }
 
         public void SetBh1750CharacteristicValue(Illuminance? value)
         {
-            if (IsInitialized) bh1750DataCharacteristic.SetValue($"{(int)value?.Lux}lx;");
+            bh1750DataCharacteristic.SetValue($"{(int)value?.Lux}lx;");
         }
 
         Definition GetDefinition()
@@ -99,7 +99,7 @@ namespace MeadowConnectedSample.Connectivity
                 bh1750DataCharacteristic
             );
 
-            return new Definition("Meadow", service);
+            return new Definition("ProjectLab", service);
         }
     }
 }
