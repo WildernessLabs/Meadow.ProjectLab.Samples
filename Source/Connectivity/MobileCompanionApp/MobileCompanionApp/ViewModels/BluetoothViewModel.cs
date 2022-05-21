@@ -249,8 +249,7 @@ namespace MobileCompanionApp
 
         async Task GetBme688Data()
         {
-            string ambient = System.Text.Encoding.Default.GetString(await bme688DataCharacteristic.ReadAsync());
-            var value = ambient.Split(';');
+            var value = System.Text.Encoding.Default.GetString(await bme688DataCharacteristic.ReadAsync()).Split(';');
             
             Temperature = value[0];
             Humidity = value[1];
@@ -259,7 +258,7 @@ namespace MobileCompanionApp
 
         async Task GetBh1750Data()
         {
-            Illuminance = System.Text.Encoding.Default.GetString(await bh1750DataCharacteristic.ReadAsync());
+            Illuminance = System.Text.Encoding.Default.GetString(await bh1750DataCharacteristic.ReadAsync()).Split(';')[0];
         }
 
         protected int UuidToUshort(string uuid)

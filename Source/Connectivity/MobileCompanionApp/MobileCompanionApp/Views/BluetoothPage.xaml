@@ -88,7 +88,7 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Status: " />
-                                                <Span Text="Blinking" FontAttributes="Bold" />
+                                                <Span Text="{Binding LedStatus}" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -111,7 +111,7 @@
                                     <Label Grid.Column="0" TextColor="White">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Temperature: " />
+                                                <Span Text="Temp: " />
                                                 <Span Text="{Binding Temperature}" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>
@@ -147,13 +147,13 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Light: " />
-                                                <Span Text="234 Luz" FontAttributes="Bold" />
+                                                <Span Text="{Binding Illuminance}" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor" Command="{Binding CmdGetAmbientRoom}"
+                                <Button Text="Read Sensor" Command="{Binding CmdGetBh1750Data}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </StackLayout>
                         </Frame>

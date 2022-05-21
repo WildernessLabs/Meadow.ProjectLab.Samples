@@ -25,7 +25,7 @@ namespace MeadowConnectedSample.Controller
 
         protected Temperature conditions;
 
-        protected BufferRgb888 logo, wifiConnecting, wifiConnected;
+        protected BufferRgb888 logo, imgConnecting, imgConnected;
         protected MicroGraphics graphics;
 
         protected bool isCelcius = true;
@@ -68,8 +68,7 @@ namespace MeadowConnectedSample.Controller
             graphics.Clear(true);
 
             logo = LoadJpeg("img_meadow.jpg");
-            wifiConnected = LoadJpeg("img_wifi_connected.jpg");
-            wifiConnecting = LoadJpeg("img_wifi_connecting.jpg");
+            
         }
 
         BufferRgb888 LoadJpeg(string fileName)
@@ -115,24 +114,27 @@ namespace MeadowConnectedSample.Controller
             return ms.ToArray();
         }
 
-        public async Task StartWifiConnectingAnimation() 
-        {
+        public async Task StartConnectingAnimation(bool isWiFi) 
+        {            
+            imgConnected = LoadJpeg(isWiFi? "img_wifi_connected.jpg" : "img_ble_paired.jpg");
+            imgConnecting = LoadJpeg(isWiFi? "img_wifi_connecting.jpg" : "img_ble_pairing.jpg");
+
             token = new CancellationTokenSource();
 
             while (!token.IsCancellationRequested)
             {
                 graphics.DrawBuffer(
-                    x: graphics.Width / 2 - wifiConnecting.Width / 2,
+                    x: graphics.Width / 2 - imgConnecting.Width / 2,
                     y: 134,
-                    buffer: wifiConnecting);
+                    buffer: imgConnecting);
                 graphics.Show();
 
                 await Task.Delay(500);
 
                 graphics.DrawBuffer(
-                    x: graphics.Width / 2 - wifiConnected.Width / 2,
+                    x: graphics.Width / 2 - imgConnected.Width / 2,
                     y: 134,
-                    buffer: wifiConnected);
+                    buffer: imgConnected);
                 graphics.Show();
 
                 await Task.Delay(500);

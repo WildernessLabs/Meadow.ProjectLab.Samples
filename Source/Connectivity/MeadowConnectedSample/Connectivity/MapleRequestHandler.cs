@@ -1,5 +1,4 @@
 ﻿using CommonContracts.Models;
-using Meadow.Foundation;
 using Meadow.Foundation.Web.Maple.Server;
 using Meadow.Foundation.Web.Maple.Server.Routing;
 using MeadowConnectedSample.Controller;
@@ -34,7 +33,7 @@ namespace MeadowConnectedSample.Connectivity
         [HttpGet("/getbme688data")]
         public IActionResult GetBme688Data()
         {
-            var reading = Bme688Controller.Instance.Read().Result;
+            var reading = Bme688Controller.Instance.AmbientReading;
             var data = new ClimateModel() 
             { 
                 Temperature = $"{(int)reading.Temperature.Value.Celsius}°C",
@@ -49,10 +48,10 @@ namespace MeadowConnectedSample.Connectivity
         [HttpGet("/getbh1750data")]
         public IActionResult getBh1750Data()
         {
-            var reading = Bh1750Controller.Instance.Read().Result;
+            var reading = Bh1750Controller.Instance.IlluminanceReading;
             var data = new IlluminanceModel()
             {
-                Illuminance = $"{(int)reading.Lux}lx"
+                Illuminance = $"{(int)reading?.Lux}lx"
             };
 
             Context.Response.ContentType = ContentTypes.Application_Json;

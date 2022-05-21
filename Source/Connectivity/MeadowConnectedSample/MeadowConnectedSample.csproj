@@ -6,6 +6,8 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="img_ble_paired.jpg" />
+    <None Remove="img_ble_pairing.jpg" />
     <None Remove="meadow.config.yaml" />
   </ItemGroup>
   <ItemGroup>
@@ -14,6 +16,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="img_ble_paired.jpg" />
+    <EmbeddedResource Include="img_ble_pairing.jpg" />
     <EmbeddedResource Include="img_meadow.jpg" />
     <EmbeddedResource Include="img_wifi_connected.jpg" />
     <EmbeddedResource Include="img_wifi_connecting.jpg" />

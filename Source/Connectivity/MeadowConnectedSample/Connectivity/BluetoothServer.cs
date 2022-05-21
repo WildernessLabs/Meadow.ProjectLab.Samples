@@ -1,5 +1,6 @@
 ﻿using CommonContracts.Bluetooth;
 using Meadow.Gateways.Bluetooth;
+using Meadow.Units;
 using MeadowConnectedSample.Controller;
 using System;
 
@@ -18,16 +19,19 @@ namespace MeadowConnectedSample.Connectivity
         CharacteristicString bme688DataCharacteristic;
         CharacteristicString bh1750DataCharacteristic;
 
+        public bool IsInitialized { get; private set; }
+
         private BluetoothServer() { }
 
         public void Initialize()
         {
             bleTreeDefinition = GetDefinition();
             MeadowApp.Device.BluetoothAdapter.StartBluetoothServer(bleTreeDefinition);
-
             ledToggleCharacteristic.ValueSet += LedToggleCharacteristicValueSet;
             ledBlinkCharacteristic.ValueSet += LedBlinkCharacteristicValueSet;
-            ledPulseCharacteristic.ValueSet += LedPulseCharacteristicValueSet;            
+            ledPulseCharacteristic.ValueSet += LedPulseCharacteristicValueSet;
+
+            IsInitialized = true;
         }
 
         private void LedToggleCharacteristicValueSet(ICharacteristic c, object data)
@@ -45,16 +49,14 @@ namespace MeadowConnectedSample.Connectivity
             LedController.Instance.StartPulse();
         }
 
-        public void SetBme688CharacteristicValue(string value) 
+        public void SetBme688CharacteristicValue((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure) value) 
         {
-            bme688DataCharacteristic.SetValue(value);
-            Console.WriteLine(value);
+            if (IsInitialized) bme688DataCharacteristic.SetValue($"{(int)value.Temperature?.Celsius}°C;{(int)value.Humidity?.Percent}%;{(int)value.Pressure?.Millibar}mbar");
         }
 
-        public void SetBh1750CharacteristicValue(string value)
+        public void SetBh1750CharacteristicValue(Illuminance? value)
         {
-            bh1750DataCharacteristic.SetValue(value);
-            Console.WriteLine(value);
+            if (IsInitialized) bh1750DataCharacteristic.SetValue($"{(int)value?.Lux}lx;");
         }
 
         Definition GetDefinition()

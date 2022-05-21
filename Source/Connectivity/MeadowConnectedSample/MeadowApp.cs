@@ -22,26 +22,28 @@ namespace MeadowConnectedSample
         {
             LedController.Instance.SetColor(Color.Red);
 
-            //DisplayController.Instance.ShowSplashScreen();
+            DisplayController.Instance.ShowSplashScreen();
 
             var i2c = Device.CreateI2cBus();
             Bh1750Controller.Instance.Initialize(i2c);
-            //Bme688Controller.Instance.Initialize(i2c);
+            Bme688Controller.Instance.Initialize(i2c);
 
-            //InitializeBluetooth();
+            InitializeBluetooth();
             //InitializeMaple().Wait();
-        }
-
-        void InitializeBluetooth()
-        {
-            BluetoothServer.Instance.Initialize();
 
             LedController.Instance.SetColor(Color.Green);
         }
 
+        void InitializeBluetooth()
+        {
+            DisplayController.Instance.StartConnectingAnimation(isWiFi: false);
+
+            BluetoothServer.Instance.Initialize();
+        }
+
         async Task InitializeMaple()
         {
-            DisplayController.Instance.StartWifiConnectingAnimation();
+            DisplayController.Instance.StartConnectingAnimation(isWiFi: true);
             
             var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
             if (result.ConnectionStatus != ConnectionStatus.Success)
@@ -55,8 +57,6 @@ namespace MeadowConnectedSample
             mapleServer.Start();
 
             DisplayController.Instance.ShowMapleReady();
-
-            LedController.Instance.SetColor(Color.Green);
         }
     }
 }

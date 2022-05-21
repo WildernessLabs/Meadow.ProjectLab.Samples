@@ -3,7 +3,6 @@ using Meadow.Hardware;
 using Meadow.Units;
 using MeadowConnectedSample.Connectivity;
 using System;
-using System.Threading.Tasks;
 
 namespace MeadowConnectedSample.Controller
 {
@@ -15,7 +14,7 @@ namespace MeadowConnectedSample.Controller
 
         Bh1750 bh1750;
 
-        public string LuminanceReading { get; private set; }
+        public Illuminance? IlluminanceReading { get; private set; }
 
         private Bh1750Controller() { }
 
@@ -32,13 +31,8 @@ namespace MeadowConnectedSample.Controller
 
         private void Bh1750Updated(object sender, Meadow.IChangeResult<Illuminance> e)
         {
-            LuminanceReading = $"{e.New.Lux}lx";
-            BluetoothServer.Instance.SetBh1750CharacteristicValue(LuminanceReading);
-        }
-
-        public Task<Illuminance> Read()
-        {
-            return bh1750.Read();
+            IlluminanceReading = e?.New; // $"{e?.New.Lux}lx;";
+            BluetoothServer.Instance.SetBh1750CharacteristicValue(IlluminanceReading);
         }
     }
 }
