@@ -7,7 +7,7 @@ namespace HackBoard_Test
 {
     public class DisplayController
     {
-        MicroGraphics canvas;
+        MicroGraphics graphics;
         bool buttonClicked = false;
         MeadowApp.Buttons whichButton;
 
@@ -18,8 +18,7 @@ namespace HackBoard_Test
                 bmeConditions = value;
                 Render();
             }
-        }
-        (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? bmeConditions;
+        } (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? bmeConditions;
 
         public Illuminance? LightConditions 
         {
@@ -32,17 +31,17 @@ namespace HackBoard_Test
 
         public DisplayController(IGraphicsDisplay display)
         {
-            canvas = new MicroGraphics(display);
-            canvas.Rotation = RotationType._90Degrees;
+            graphics = new MicroGraphics(display);
+            graphics.Rotation = RotationType._90Degrees;
 
-            canvas.Clear(true);
+            graphics.Clear(true);
         }
 
         public void Render()
         {
-            canvas.Clear();
-            DrawShit();
-            canvas.Show();
+            graphics.Clear();
+            Draw();
+            graphics.Show();
         }
 
         public void DrawButtonClick(MeadowApp.Buttons which)
@@ -55,24 +54,34 @@ namespace HackBoard_Test
             buttonClicked = false;
         }
 
-        protected void DrawShit()
+        protected void Draw()
         {
-            canvas.CurrentFont = new Font12x20();
-            canvas.DrawText(x: 5, y: 5, "hello, Meadow!", WildernessLabsColors.AzureBlue);
+            graphics.CurrentFont = new Font12x16();
+            graphics.DrawText(x: 5, y: 5, "hello, Meadow!", WildernessLabsColors.AzureBlue);
 
             if (buttonClicked) {
-                canvas.DrawText(x: 5, y: 20, $"{whichButton} clicked.", WildernessLabsColors.ChileanFire);
+                graphics.DrawText(x: 5, y: 20, $"{whichButton} clicked.", WildernessLabsColors.ChileanFire);
             }
 
             if (BmeConditions is { } conditions) {
                 if(conditions.Temperature is { } temp)
-                canvas.DrawText(x: 5, y: 40, $"Temp: {temp.Celsius:N2}C", WildernessLabsColors.GalleryWhite);
+                graphics.DrawText(x: 5, y: 40, $"Temp: {temp.Celsius:N2}C", WildernessLabsColors.GalleryWhite);
             }
 
             if (LightConditions is { } light) {
                 if (light is { } lightReading)
-                    canvas.DrawText(x: 5, y: 60, $"Lux: {lightReading:N2}Lux", WildernessLabsColors.GalleryWhite);
+                    graphics.DrawText(x: 5, y: 60, $"Lux: {lightReading:N2}Lux", WildernessLabsColors.GalleryWhite);
             }
+        }
+
+        public void UpdateBmeData((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure) values) 
+        {
+            graphics.DrawText(8, 28, "BME688");
+            graphics.DrawRectangle(15, 48, 200, 56, Color.Black, true);
+            graphics.DrawText(16, 48, $"Temperature: {(int)values.Temperature?.Celsius}°C");
+            graphics.DrawText(16, 68, $"Humidity: {(int)values.Humidity?.Percent}");
+            graphics.DrawText(16, 88, $"Pressure: {(int)values.Pressure?.Millibar}");
+            graphics.Show();
         }
     }
 }

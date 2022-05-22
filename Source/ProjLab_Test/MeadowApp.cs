@@ -123,6 +123,7 @@ namespace HackBoard_Test
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
         {
             Console.WriteLine($"BME688: {(int)e.New.Temperature?.Celsius}°C - {(int)e.New.Humidity?.Percent}% - {(int)e.New.Pressure?.Millibar}mbar");
+            //displayController.UpdateBmeData(e.New); //ToDo: investigate why this stops the triggering this event after the first call
         }
 
         private void Bh1750Updated(object sender, IChangeResult<Illuminance> e)
