@@ -21,7 +21,6 @@ namespace HackBoard_Test
     {
         RgbPwmLed onboardLed;
         PiezoSpeaker noize;
-        ISpiBus spi;
         II2cBus i2c;
         St7789 display;
         DisplayController displayController;
@@ -30,18 +29,23 @@ namespace HackBoard_Test
         PushButton buttonRight;
         PushButton buttonLeft;
         PushButton buttonDown;
-        Bme680 bme;
+        Bme680 bme688;
+
+        public enum Buttons
+        {
+            Up,
+            Right,
+            Down,
+            Left
+        }
 
         public MeadowApp()
         {
-            Initialize().Wait();            
-            ReadLightSensor().Wait();
+            Initialize();
             displayController.Render();
-            StartUpdating();
-            CycleColors(1000);
         }
 
-        async Task Initialize()
+        void Initialize()
         {
             Console.WriteLine("Initialize hardware...");
 
@@ -49,13 +53,18 @@ namespace HackBoard_Test
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
                 bluePwmPin: Device.Pins.OnboardLedBlue);
+            onboardLed.SetColor(Color.Red);
 
             noize = new PiezoSpeaker(Device, Device.Pins.D11);
 
-            i2c = Device.CreateI2cBus();
-
-            var config = new SpiClockConfiguration(new Frequency(48000, Frequency.UnitType.Kilohertz), SpiClockConfiguration.Mode.Mode3);
-            var spiBus = Device.CreateSpiBus(Device.Pins.SCK, Device.Pins.MOSI, Device.Pins.MISO, config);
+            var config = new SpiClockConfiguration(
+                new Frequency(48000, Frequency.UnitType.Kilohertz), 
+                SpiClockConfiguration.Mode.Mode3);
+            var spiBus = Device.CreateSpiBus(
+                Device.Pins.SCK, 
+                Device.Pins.MOSI, 
+                Device.Pins.MISO, 
+                config);
 
             display = new St7789(
                 device: Device,
@@ -70,17 +79,18 @@ namespace HackBoard_Test
             };
             displayController = new DisplayController(display);
 
-            // Bh1750
+            i2c = Device.CreateI2cBus();
+
             try 
             {
                 bh1750 = new Bh1750(
                     i2cBus: i2c,
                     measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
-                    lightTransmittance: 1, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
+                    lightTransmittance: 0.5, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
                     address: (byte)Bh1750.Addresses.Address_0x23
                 );
-
-                bh1750.StartUpdating(TimeSpan.FromSeconds(2));
+                bh1750.Updated += Bh1750Updated;
+                bh1750.StartUpdating(TimeSpan.FromSeconds(5));
             }
             catch (Exception e) 
             {
@@ -89,26 +99,15 @@ namespace HackBoard_Test
 
             try 
             {
-                Console.WriteLine("instantiating the BME");
-                bme = new Bme680(i2c, (byte)Bme680.Addresses.Address_0x76);
-                Console.WriteLine("Bme up");
-
-                var conditions = await bme.Read();
-                Console.WriteLine("Initial Readings:");
-                Console.WriteLine($"  Temperature: {conditions.Temperature?.Celsius:N2}C");
-                Console.WriteLine($"  Pressure: {conditions.Pressure?.Bar:N2}hPa");
-                Console.WriteLine($"  Relative Humidity: {conditions.Humidity?.Percent:N2}%");
-
-                displayController.BmeConditions = conditions;
-
-                Bme680.CreateObserver(result => { displayController.BmeConditions = result.New; }, null);
+                bme688 = new Bme680(i2c, (byte)Bme680.Addresses.Address_0x76);
+                bme688.Updated += Bme688Updated;
+                bme688.StartUpdating(TimeSpan.FromSeconds(5));
             } 
             catch (Exception e) 
             {
                 Console.WriteLine($"Could not bring up Bme680: {e.Message}");
             }
 
-            // buttons
             buttonUp = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
             buttonUp.Clicked += (s, e) => ButtonClicked(Buttons.Up);
             buttonRight = new PushButton(Device, Device.Pins.D05, ResistorMode.InternalPullDown);
@@ -117,75 +116,24 @@ namespace HackBoard_Test
             buttonDown.Clicked += (s, e) => ButtonClicked(Buttons.Down);
             buttonLeft = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
             buttonLeft.Clicked += (s, e) => ButtonClicked(Buttons.Left);
+
+            onboardLed.SetColor(Color.Green);
         }
 
-        public enum Buttons
+        private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
         {
-            Up,
-            Right,
-            Down,
-            Left
+            Console.WriteLine($"BME688: {(int)e.New.Temperature?.Celsius}°C - {(int)e.New.Humidity?.Percent}% - {(int)e.New.Pressure?.Millibar}mbar");
+        }
+
+        private void Bh1750Updated(object sender, IChangeResult<Illuminance> e)
+        {
+            Console.WriteLine($"BH1750: {e.New.Lux}");
         }
 
         void ButtonClicked(Buttons whichButton)
         {
             Console.WriteLine($"Button Clicked: {whichButton}");
             displayController.DrawButtonClick(whichButton);
-        }
-
-        void StartUpdating()
-        {
-            // TODO: Throws a NRE for some reason.
-            //bme.StartUpdating();
-        }
-
-        async Task ReadLightSensor()
-        {
-            if (bh1750 != null) {
-                var result = await bh1750.Read();
-                Console.WriteLine("Initial Readings:");
-                Console.WriteLine($"   Light: {result.Lux:N2}Lux");
-
-                displayController.LightConditions = result;
-            }
-        }
-
-        void CycleColors(int duration)
-        {
-            Console.WriteLine("Cycle colors...");
-
-            while (true) {
-                Console.WriteLine("Playing a tone.");
-                noize.PlayTone(440, 500);
-
-                ShowColorPulse(Color.Blue, duration);
-                ShowColorPulse(Color.Cyan, duration);
-                ShowColorPulse(Color.Green, duration);
-                ShowColorPulse(Color.GreenYellow, duration);
-                ShowColorPulse(Color.Yellow, duration);
-                ShowColorPulse(Color.Orange, duration);
-                ShowColorPulse(Color.OrangeRed, duration);
-                ShowColorPulse(Color.Red, duration);
-                ShowColorPulse(Color.MediumVioletRed, duration);
-                ShowColorPulse(Color.Purple, duration);
-                ShowColorPulse(Color.Magenta, duration);
-                ShowColorPulse(Color.Pink, duration);
-            }
-        }
-
-        void ShowColorPulse(Color color, int duration = 1000)
-        {
-            onboardLed.StartPulse(color, duration / 2);
-            Thread.Sleep(duration);
-            onboardLed.Stop();
-        }
-
-        void ShowColor(Color color, int duration = 1000)
-        {
-            Console.WriteLine($"Color: {color}");
-            onboardLed.SetColor(color);
-            Thread.Sleep(duration);
-            onboardLed.Stop();
         }
     }
 }
