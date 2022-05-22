@@ -4,16 +4,28 @@ namespace MobileCompanionApp
 {
     public partial class BluetoothPage : ContentPage
     {
+        BluetoothViewModel vm;
+
         public BluetoothPage()
         {
             InitializeComponent();
-            BindingContext = new BluetoothViewModel();
+            BindingContext = vm = new BluetoothViewModel();
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            (BindingContext as BluetoothViewModel).CmdSearchForDevices.Execute(null);
+            vm.CmdSearchForDevices.Execute(null);
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            if (vm.IsConnected) 
+            {
+                vm.CmdToggleConnection.Execute(null);
+            }
         }
     }
 }

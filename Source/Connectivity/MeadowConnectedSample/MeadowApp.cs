@@ -51,7 +51,7 @@ namespace MeadowConnectedSample
                 throw new Exception($"Cannot connect to network: {result.ConnectionStatus}");
             }
 
-            DisplayController.Instance.StopWifiConnectingAnimation();
+            DisplayController.Instance.StopConnectingAnimation();
 
             MapleServer mapleServer = new MapleServer(Device.WiFiAdapter.IpAddress, 5417, false);
             mapleServer.Start();

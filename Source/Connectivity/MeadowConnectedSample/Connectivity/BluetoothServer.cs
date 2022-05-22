@@ -13,6 +13,7 @@ namespace MeadowConnectedSample.Connectivity
         public static BluetoothServer Instance => instance.Value;
 
         Definition bleTreeDefinition;
+        CharacteristicBool   pairingCharacteristic;
         CharacteristicBool   ledToggleCharacteristic;
         CharacteristicBool   ledBlinkCharacteristic;
         CharacteristicBool   ledPulseCharacteristic;
@@ -25,13 +26,26 @@ namespace MeadowConnectedSample.Connectivity
 
         public void Initialize()
         {
-            bleTreeDefinition = GetDefinition();            
+            bleTreeDefinition = GetDefinition();
+            pairingCharacteristic.ValueSet += PairingCharacteristicValueSet;
             ledToggleCharacteristic.ValueSet += LedToggleCharacteristicValueSet;
             ledBlinkCharacteristic.ValueSet += LedBlinkCharacteristicValueSet;
             ledPulseCharacteristic.ValueSet += LedPulseCharacteristicValueSet;
             MeadowApp.Device.BluetoothAdapter.StartBluetoothServer(bleTreeDefinition);
 
             IsInitialized = true;
+        }
+
+        private void PairingCharacteristicValueSet(ICharacteristic c, object data)
+        {
+            if ((bool)data)
+            {
+                DisplayController.Instance.ShowBluetoothPaired();
+            }
+            else
+            {
+                DisplayController.Instance.StartConnectingAnimation(false);
+            }
         }
 
         private void LedToggleCharacteristicValueSet(ICharacteristic c, object data)
@@ -61,6 +75,11 @@ namespace MeadowConnectedSample.Connectivity
 
         Definition GetDefinition()
         {
+            pairingCharacteristic = new CharacteristicBool(
+                name: "PAIRING",
+                uuid: CharacteristicsConstants.PAIRING,
+                permissions: CharacteristicPermission.Read | CharacteristicPermission.Write,
+                properties: CharacteristicProperty.Read | CharacteristicProperty.Write);
             ledToggleCharacteristic = new CharacteristicBool(
                 name: "LED_TOGGLE",
                 uuid: CharacteristicsConstants.LED_TOGGLE,
@@ -90,8 +109,9 @@ namespace MeadowConnectedSample.Connectivity
                 properties: CharacteristicProperty.Read);
 
             var service = new Service(
-                name: "ServiceA",
+                name: "Service",
                 uuid: 253,
+                pairingCharacteristic,
                 ledToggleCharacteristic,
                 ledBlinkCharacteristic,
                 ledPulseCharacteristic,

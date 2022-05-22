@@ -23,13 +23,8 @@ namespace MeadowConnectedSample.Controller
 
         CancellationTokenSource token;
 
-        protected Temperature conditions;
-
-        protected BufferRgb888 logo, imgConnecting, imgConnected;
+        protected BufferRgb888 imgConnecting, imgConnected;
         protected MicroGraphics graphics;
-
-        protected bool isCelcius = true;
-        protected bool isRendering = false;
 
         private DisplayController()
         {
@@ -66,9 +61,6 @@ namespace MeadowConnectedSample.Controller
             };
 
             graphics.Clear(true);
-
-            logo = LoadJpeg("img_meadow.jpg");
-            
         }
 
         BufferRgb888 LoadJpeg(string fileName)
@@ -81,6 +73,8 @@ namespace MeadowConnectedSample.Controller
 
         void DrawBackground()
         {
+            var logo = LoadJpeg("img_meadow.jpg");
+
             graphics.Clear(backgroundColor);
 
             graphics.DrawBuffer(
@@ -121,27 +115,25 @@ namespace MeadowConnectedSample.Controller
 
             token = new CancellationTokenSource();
 
+            graphics.DrawRectangle(44, 132, 146, 63, backgroundColor, true);
+
+
+            bool alternateImg = false;
             while (!token.IsCancellationRequested)
             {
+                alternateImg = !alternateImg;
+
                 graphics.DrawBuffer(
                     x: graphics.Width / 2 - imgConnecting.Width / 2,
                     y: 134,
-                    buffer: imgConnecting);
-                graphics.Show();
-
-                await Task.Delay(500);
-
-                graphics.DrawBuffer(
-                    x: graphics.Width / 2 - imgConnected.Width / 2,
-                    y: 134,
-                    buffer: imgConnected);
+                    buffer: alternateImg ? imgConnecting : imgConnected);
                 graphics.Show();
 
                 await Task.Delay(500);
             }
         }
 
-        public void StopWifiConnectingAnimation() 
+        public void StopConnectingAnimation() 
         {
             token.Cancel();
         }
@@ -157,6 +149,20 @@ namespace MeadowConnectedSample.Controller
             graphics.DrawText(120, 171, $"{ipAddress}", ScaleFactor.X1, TextAlignment.Center);
 
             graphics.DrawText(120, 197, $"READY", ScaleFactor.X1, TextAlignment.Center);
+
+            graphics.Show();
+        }
+
+        public void ShowBluetoothPaired() 
+        {
+            StopConnectingAnimation();
+
+            graphics.DrawRectangle(77, 134, 86, 74, backgroundColor, true);
+
+            graphics.CurrentFont = new Font12x16();
+            graphics.DrawText(120, 132, "BLUETOOTH", ScaleFactor.X1, TextAlignment.Center);
+
+            graphics.DrawText(120, 163, "PAIRED", ScaleFactor.X2, TextAlignment.Center);
 
             graphics.Show();
         }

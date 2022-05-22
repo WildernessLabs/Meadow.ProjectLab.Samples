@@ -22,6 +22,7 @@ namespace MobileCompanionApp
         IAdapter adapter;
         IService service;
 
+        ICharacteristic pairingCharacteristic;
         ICharacteristic ledToggleCharacteristic;
         ICharacteristic ledBlinkCharacteristic;
         ICharacteristic ledPulseCharacteristic;
@@ -144,11 +145,14 @@ namespace MobileCompanionApp
                 }
             }
 
+            pairingCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.PAIRING));
             ledToggleCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_TOGGLE));
             ledBlinkCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_BLINK));
             ledPulseCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_PULSE));
             bme688DataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BME688_DATA));
             bh1750DataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BH1750_DATA));
+
+            SetPairingStatus();
         }
 
         async void AdapterDeviceDiscovered(object sender, DeviceEventArgs e)
@@ -159,7 +163,7 @@ namespace MobileCompanionApp
                 DeviceList.Add(e.Device);
             }
 
-            if (e.Device.Name == "Meadow")
+            if (e.Device.Name == "ProjectLab")
             {
                 await adapter.StopScanningForDevicesAsync();
                 IsDeviceListEmpty = false;
@@ -180,8 +184,10 @@ namespace MobileCompanionApp
             {
                 if (IsConnected)
                 {
-                    await adapter.DisconnectDeviceAsync(DeviceSelected);
                     IsConnected = false;
+                    await SetPairingStatus();
+                    await adapter.DisconnectDeviceAsync(DeviceSelected);
+                    
                 }
                 else
                 {
@@ -259,6 +265,14 @@ namespace MobileCompanionApp
         async Task GetBh1750Data()
         {
             Illuminance = System.Text.Encoding.Default.GetString(await bh1750DataCharacteristic.ReadAsync()).Split(';')[0];
+        }
+
+        async Task SetPairingStatus() 
+        {
+            byte[] array = new byte[1];
+            array[0] = IsConnected ? (byte)1 : (byte)0;
+
+            await pairingCharacteristic.WriteAsync(array);
         }
 
         protected int UuidToUshort(string uuid)
