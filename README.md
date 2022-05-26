@@ -10,42 +10,61 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
     <tr>
         <td>
             <img src="Design/GalleryViewer.png"/><br/>
+            Make an Image Gallery with a ST7789 Display and Meadow.<br/>
             <a href="Source/GalleryViewer/">Source Code</a>
         </td>
         <td>
             <img src="Design/WifiWeather.png"/><br/>
+            Weather Station using public web service on a ProjectLab<br/>
             <a href="Source/WifiWeather/">Source Code</a>
         </td>
         <td>
             <img src="Design/MeadowClockGraphics.png"/><br/>
+            Draw an analog clock watch face on using MicroGraphics<br/>
             <a href="Source/AnalogClockFace/">Source Code</a>
         </td>
     </tr>
     <tr>
         <td>
             <img src="Design/TemperatureMonitor.png"/><br/>
+            Room ambient monitor with a BME688 on a Project Lab<br/>
             <a href="Source/TemperatureMonitor/">Source Code</a>
         </td>
         <td>
             <img src="Design/Simon.png"/><br/>
+            Run a Simon Game on a display and push button d-pad</br>
             <a href="Source/Simon/">Source Code</a>
         </td>
         <td>
             <img src="Design/MorseCodeTrainer.png"/><br/>
+            Train your Morse Code spelling skills with Meadow<br/>
             <a href="Source/MorseCodeTrainer/">Source Code</a>
         </td>
     </tr>
     <tr>
         <td>
             <img src="Design/maple.png"/><br/>
+            Control a Project Lab board over WiFI with a xamarin app</br>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
             <img src="Design/bluetooth.png"/><br/>
+            Control a Project Lab board over Bluetooth with a companion app<br/>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
             <img src="Design/template_empty.png"/><br/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </td>
+        <td>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </td>
+        <td>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </td>
     </tr>
 </table>
