@@ -35,6 +35,19 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
             <a href="Source/MorseCodeTrainer/">Source Code</a>
         </td>
     </tr>
+    <tr>
+        <td>
+            <img src="Design/maple.png"/><br/>
+            <a href="Source/Connectivity/">Source Code</a>
+        </td>
+        <td>
+            <img src="Design/bluetooth.png"/><br/>
+            <a href="Source/Connectivity/">Source Code</a>
+        </td>
+        <td>
+            <img src="Design/template_empty.png"/><br/>
+        </td>
+    </tr>
 </table>
 
 ## Hardware
