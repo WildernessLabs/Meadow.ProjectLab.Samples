@@ -4,6 +4,7 @@ using Meadow.Foundation;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Buttons;
+using Meadow.Hardware;
 using MorseCodeTrainer.Controllers;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace MorseCodeTrainer
 
             displayController = new DisplayController();
 
-            button = new PushButton(device: Device, Device.Pins.D15);
+            button = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
             button.PressStarted += ButtonPressStarted;
             button.PressEnded += ButtonPressEnded;
 

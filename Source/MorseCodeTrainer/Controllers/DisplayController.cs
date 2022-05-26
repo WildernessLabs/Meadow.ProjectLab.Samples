@@ -41,7 +41,7 @@ namespace MorseCodeTrainer.Controllers
             {
                 Stroke = 1,
                 CurrentFont = new Font12x20(),
-                Rotation = RotationType._270Degrees
+                Rotation = RotationType._90Degrees
             };
             graphics.Clear();
             graphics.Show();
