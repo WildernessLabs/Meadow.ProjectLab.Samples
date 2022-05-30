@@ -14,8 +14,8 @@ using System.Reflection;
 
 namespace GalleryViewer
 {
-    // public class MeadowApp : App<F7Micro, MeadowApp> <- If you have a Meadow F7v1.*
-    public class MeadowApp : App<F7MicroV2, MeadowApp>
+    // public class MeadowApp : App<F7FeatherV1, MeadowApp> <- If you have a Meadow F7v1.*
+    public class MeadowApp : App<F7FeatherV2, MeadowApp>
     {
         RgbPwmLed led;
         MicroGraphics graphics;

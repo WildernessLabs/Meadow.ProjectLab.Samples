@@ -11,8 +11,8 @@ using System;
 
 namespace AmbientRoomMonitor
 {
-    // Change F7MicroV2 to F7Micro for V1.x boards
-    public class MeadowApp : App<F7MicroV2, MeadowApp>
+    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    public class MeadowApp : App<F7FeatherV2, MeadowApp>
     {
         Color[] colors = new Color[4]
         {

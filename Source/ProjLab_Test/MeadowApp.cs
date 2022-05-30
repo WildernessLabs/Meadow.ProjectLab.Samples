@@ -11,13 +11,11 @@ using Meadow.Foundation.Sensors.Light;
 using Meadow.Hardware;
 using Meadow.Units;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HackBoard_Test
 {
-    // Change F7MicroV2 to F7Micro for V1.x boards
-    public class MeadowApp : App<F7MicroV2, MeadowApp>
+    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    public class MeadowApp : App<F7FeatherV2, MeadowApp>
     {
         RgbPwmLed onboardLed;
         PiezoSpeaker noize;

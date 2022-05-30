@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace Simon
 {
-    // Change F7MicroV2 to F7Micro for V1.x boards
-    public class MeadowApp : App<F7MicroV2, MeadowApp>
+    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    public class MeadowApp : App<F7FeatherV2, MeadowApp>
     {
         int ANIMATION_DELAY = 50;
         const int DOT_UP = 0;
