@@ -1,6 +1,5 @@
 ﻿using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
-using Meadow.Peripherals.Sensors.Hid;
 using Meadow.Units;
 
 namespace HackBoard_Test
@@ -8,7 +7,6 @@ namespace HackBoard_Test
     public class DisplayController
     {
         MicroGraphics graphics;
-
 
         public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? AtmosphericConditions
         {
@@ -85,7 +83,8 @@ namespace HackBoard_Test
         {
             graphics = new MicroGraphics(display)
             {
-                Rotation = RotationType._90Degrees
+                Rotation = RotationType._90Degrees,
+                CurrentFont = new Font12x16()
             };
 
             graphics.Clear(true);
@@ -113,27 +112,31 @@ namespace HackBoard_Test
             }
         }
 
+        void DrawStatus(string label, string value, Color color, int yPosition)
+        {
+            graphics.DrawText(x: 5, y: yPosition, label, color: color);
+            graphics.DrawText(x: 240, y: yPosition, value, alignment: TextAlignment.Right, color: color);
+        }
+
         void Draw()
         {
-            graphics.CurrentFont = new Font12x16();
             graphics.DrawText(x: 5, y: 5, "Hello PROJ LAB!", WildernessLabsColors.AzureBlue);
-
 
             if (AtmosphericConditions is { } conditions)
             {
                 if(conditions.Temperature is { } temp)
                 {
-                    graphics.DrawText(x: 5, y:  40, $"Temperature: {temp.Celsius:N1}C", WildernessLabsColors.GalleryWhite);
+                    DrawStatus("Temperature:", $"{temp.Celsius:N1}C", WildernessLabsColors.GalleryWhite, 40);
                 }
 
                 if (conditions.Pressure is { } pressure)
                 {
-                    graphics.DrawText(x: 5, y:  60, $"Pressure:    {pressure.StandardAtmosphere:N1}atm", WildernessLabsColors.GalleryWhite);
+                    DrawStatus("Pressure:", $"{pressure.StandardAtmosphere:N1}atm", WildernessLabsColors.GalleryWhite, 60);
                 }
 
                 if (conditions.Humidity is { } humidity)
                 {
-                    graphics.DrawText(x: 5, y:  80, $"Humidity:    {humidity.Percent:N1}%", WildernessLabsColors.GalleryWhite);
+                    DrawStatus("Humidity:", $"{humidity.Percent:N1}%", WildernessLabsColors.GalleryWhite, 80);
                 }
             }
 
@@ -141,14 +144,14 @@ namespace HackBoard_Test
             {
                 if (light is { } lightReading)
                 {
-                    graphics.DrawText(x: 5, y: 100, $"Lux:         {lightReading:N0}Lux", WildernessLabsColors.GalleryWhite);
+                    DrawStatus("Lux:", $"{lightReading:N0}Lux", WildernessLabsColors.GalleryWhite, 100);
                 }
             }
 
-            graphics.DrawText(x: 5, y: 140, $"Up:    {(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire);
-            graphics.DrawText(x: 5, y: 160, $"Down:  {(DownButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire);
-            graphics.DrawText(x: 5, y: 180, $"Left:  {(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire);
-            graphics.DrawText(x: 5, y: 200, $"Right: {(RightButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire);
+            DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 140);
+            DrawStatus("Down:", $"{(DownButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 160);
+            DrawStatus("Left:", $"{(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 180);
+            DrawStatus("Right:", $"{(RightButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 200);
         }
     }
 }

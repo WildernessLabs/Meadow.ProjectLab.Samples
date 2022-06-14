@@ -117,11 +117,6 @@ namespace HackBoard_Test
             onboardLed.SetColor(Color.Green);
         }
 
-        private void ButtonUp_PressStarted(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
         {
             Console.WriteLine($"BME688: {(int)e.New.Temperature?.Celsius}°C - {(int)e.New.Humidity?.Percent}% - {(int)e.New.Pressure?.Millibar}mbar");
