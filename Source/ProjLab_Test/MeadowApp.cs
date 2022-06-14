@@ -18,7 +18,7 @@ namespace HackBoard_Test
     public class MeadowApp : App<F7FeatherV2, MeadowApp>
     {
         RgbPwmLed onboardLed;
-        PiezoSpeaker noize;
+        PiezoSpeaker speaker;
         II2cBus i2c;
         St7789 display;
         DisplayController displayController;
@@ -29,18 +29,10 @@ namespace HackBoard_Test
         PushButton buttonDown;
         Bme680 bme688;
 
-        public enum Buttons
-        {
-            Up,
-            Right,
-            Down,
-            Left
-        }
-
         public MeadowApp()
         {
             Initialize();
-            displayController.Render();
+            displayController.Update();
         }
 
         void Initialize()
@@ -53,11 +45,12 @@ namespace HackBoard_Test
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            noize = new PiezoSpeaker(Device, Device.Pins.D11);
+            speaker = new PiezoSpeaker(Device, Device.Pins.D11);
 
             var config = new SpiClockConfiguration(
                 new Frequency(48000, Frequency.UnitType.Kilohertz), 
                 SpiClockConfiguration.Mode.Mode3);
+
             var spiBus = Device.CreateSpiBus(
                 Device.Pins.SCK, 
                 Device.Pins.MOSI, 
@@ -103,17 +96,23 @@ namespace HackBoard_Test
             } 
             catch (Exception e) 
             {
-                Console.WriteLine($"Could not bring up Bme680: {e.Message}");
+                Console.WriteLine($"Could not bring up Bme688: {e.Message}");
             }
 
             buttonUp = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
-            buttonUp.Clicked += (s, e) => ButtonClicked(Buttons.Up);
             buttonRight = new PushButton(Device, Device.Pins.D05, ResistorMode.InternalPullDown);
-            buttonRight.Clicked += (s, e) => ButtonClicked(Buttons.Right);
             buttonDown = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullDown);
-            buttonDown.Clicked += (s, e) => ButtonClicked(Buttons.Down);
             buttonLeft = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
-            buttonLeft.Clicked += (s, e) => ButtonClicked(Buttons.Left);
+
+            buttonUp.PressStarted += (s, e) => displayController.UpButtonState = true;
+            buttonDown.PressStarted += (s, e) => displayController.DownButtonState = true;
+            buttonLeft.PressStarted += (s, e) => displayController.LeftButtonState = true;
+            buttonRight.PressStarted += (s, e) => displayController.RightButtonState = true;
+
+            buttonUp.PressEnded += (s, e) => displayController.UpButtonState = false;
+            buttonDown.PressEnded += (s, e) => displayController.DownButtonState = false;
+            buttonLeft.PressEnded += (s, e) => displayController.LeftButtonState = false;
+            buttonRight.PressEnded += (s, e) => displayController.RightButtonState = false;
 
             onboardLed.SetColor(Color.Green);
         }
@@ -121,18 +120,13 @@ namespace HackBoard_Test
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
         {
             Console.WriteLine($"BME688: {(int)e.New.Temperature?.Celsius}°C - {(int)e.New.Humidity?.Percent}% - {(int)e.New.Pressure?.Millibar}mbar");
-            //displayController.UpdateBmeData(e.New); //ToDo: investigate why this stops the triggering this event after the first call
+            displayController.AtmosphericConditions = e.New;
         }
 
         private void Bh1750Updated(object sender, IChangeResult<Illuminance> e)
         {
             Console.WriteLine($"BH1750: {e.New.Lux}");
-        }
-
-        void ButtonClicked(Buttons whichButton)
-        {
-            Console.WriteLine($"Button Clicked: {whichButton}");
-            displayController.DrawButtonClick(whichButton);
+            displayController.LightConditions = e.New;
         }
     }
 }
