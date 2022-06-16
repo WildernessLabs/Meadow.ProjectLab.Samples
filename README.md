@@ -9,6 +9,23 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
 <table>
     <tr>
         <td>
+            <img src="Design/maple.png"/><br/>
+            Control a Project Lab board over WiFI with a xamarin app</br>
+            <a href="Source/Connectivity/">Source Code</a>
+        </td>
+        <td>
+            <img src="Design/bluetooth.png"/><br/>
+            Control a Project Lab board over Bluetooth with a companion app<br/>
+            <a href="Source/Connectivity/">Source Code</a>
+        </td>
+        <td>
+            <img src="Design/MoistureMeter.png"/><br/>
+            Use a Grove Soil Moisture sensor and graph its value on the display<br/>
+            <a href="Source/MoistureMeter/">Source Code</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <img src="Design/GalleryViewer.png"/><br/>
             Make an Image Gallery with a ST7789 Display and Meadow.<br/>
             <a href="Source/GalleryViewer/">Source Code</a>
@@ -39,21 +56,6 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
             <img src="Design/MorseCodeTrainer.png"/><br/>
             Train your Morse Code spelling skills with Meadow<br/>
             <a href="Source/MorseCodeTrainer/">Source Code</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <img src="Design/maple.png"/><br/>
-            Control a Project Lab board over WiFI with a xamarin app</br>
-            <a href="Source/Connectivity/">Source Code</a>
-        </td>
-        <td>
-            <img src="Design/bluetooth.png"/><br/>
-            Control a Project Lab board over Bluetooth with a companion app<br/>
-            <a href="Source/Connectivity/">Source Code</a>
-        </td>
-        <td>
-            <img src="Design/template_empty.png"/><br/>
         </td>
     </tr>
     <tr>
