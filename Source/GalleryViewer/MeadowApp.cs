@@ -11,11 +11,12 @@ using SimpleJpegDecoder;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
-namespace GalleryViewer
+namespace MeadowApp
 {
     // public class MeadowApp : App<F7FeatherV1, MeadowApp> <- If you have a Meadow F7v1.*
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
         RgbPwmLed led;
         MicroGraphics graphics;
@@ -24,7 +25,7 @@ namespace GalleryViewer
         int selectedIndex;
         string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
 
-        public MeadowApp()
+        async Task IApp.Initialize()
         {
             led = new RgbPwmLed(
                 device: Device,
