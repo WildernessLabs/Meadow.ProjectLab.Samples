@@ -3,9 +3,8 @@ using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
 using Meadow.Hardware;
 using Meadow.Units;
-using System.Threading.Tasks;
 
-namespace MoistureMeter.Controllers
+namespace MeadowApp.Controllers
 {
     public class DisplayController
     {

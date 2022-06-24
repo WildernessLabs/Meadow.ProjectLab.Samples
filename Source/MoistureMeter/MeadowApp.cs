@@ -3,23 +3,18 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
-using MoistureMeter.Controllers;
+using MeadowApp.Controllers;
 using System;
 using System.Threading.Tasks;
 
-namespace MoistureMeter
+namespace MeadowApp
 {
     // Change F7MicroV2 to F7Micro for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
         MoistureSensor sensor;
 
-        public MeadowApp()
-        {
-            Initialize();
-        }
-
-        void Initialize()
+        async Task IApp.Initialize()
         {
             var onboardLed = new RgbPwmLed(device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
