@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simon
+namespace MeadowApp
 {
     public enum GameState
     {
