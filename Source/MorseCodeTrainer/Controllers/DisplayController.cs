@@ -4,7 +4,7 @@ using Meadow.Foundation.Graphics;
 using Meadow.Hardware;
 using Meadow.Units;
 
-namespace MorseCodeTrainer.Controllers
+namespace MeadowApp.Controllers
 {
     public class DisplayController
     {
@@ -50,7 +50,7 @@ namespace MorseCodeTrainer.Controllers
         void DrawTitleAndFrame()
         {
             graphics.Clear();
-            graphics.DrawRectangle(0, 0, 240, 240);
+            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height);
             graphics.DrawText(24, 15, "Morse Code Coach");
             graphics.DrawHorizontalLine(24, 41, 196, Color.White);
             graphics.Show();

@@ -5,7 +5,7 @@ using Meadow.Foundation.Audio;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Hardware;
-using MorseCodeTrainer.Controllers;
+using MeadowApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,10 +13,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace MorseCodeTrainer
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
         Dictionary<string, string> morseCode;
 
@@ -29,12 +29,7 @@ namespace MorseCodeTrainer
         string answer;
         string question;
 
-        public MeadowApp()
-        {
-            Initialize();
-        }
-
-        void Initialize()
+        async Task IApp.Initialize()
         {
             piezo = new PiezoSpeaker(Device, Device.Pins.D11);
 
@@ -128,9 +123,9 @@ namespace MorseCodeTrainer
             timer.Start();
         }
 
-        void ButtonPressStarted(object sender, EventArgs e)
+        async void ButtonPressStarted(object sender, EventArgs e)
         {
-            piezo.PlayTone(440);
+            await piezo.PlayTone(new Meadow.Units.Frequency(440));
             stopWatch.Reset();
             stopWatch.Start();
             timer.Stop();
