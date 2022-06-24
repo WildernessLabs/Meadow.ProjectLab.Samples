@@ -8,11 +8,12 @@ using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Hardware;
 using Meadow.Units;
 using System;
+using System.Threading.Tasks;
 
-namespace AmbientRoomMonitor
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
         Color[] colors = new Color[4]
         {
@@ -25,15 +26,7 @@ namespace AmbientRoomMonitor
         MicroGraphics graphics;
         Bme680 bme;
 
-        public MeadowApp()
-        {
-            Initialize();
-
-            LoadScreen();
-            bme.StartUpdating(TimeSpan.FromSeconds(5));
-        }
-
-        void Initialize()
+        async Task IApp.Initialize()
         {
             var onboardLed = new RgbPwmLed(
                 device: Device,
@@ -61,18 +54,18 @@ namespace AmbientRoomMonitor
                 resetPin: Device.Pins.A05,
                 width: 240, 
                 height: 240,
-                displayColorMode: ColorType.Format16bppRgb565)
-            {
-                IgnoreOutOfBoundsPixels = true
-            };
+                displayColorMode: ColorType.Format16bppRgb565);
 
-            graphics = new MicroGraphics(st7789);
+            graphics = new MicroGraphics(st7789) 
+            { 
+                IgnoreOutOfBoundsPixels = true 
+            };
             graphics.Rotation = RotationType._90Degrees;
 
             onboardLed.SetColor(Color.Green);
         }
 
-        private void Bme680_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
+        void Bme680_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
         {
             graphics.DrawRectangle(
                 x: 150, y: 145,
@@ -107,7 +100,6 @@ namespace AmbientRoomMonitor
                     color: colors[i - 1],
                     filled: true
                 );
-
                 radius -= 20;
             }
 
@@ -120,6 +112,12 @@ namespace AmbientRoomMonitor
             graphics.DrawText(6, 193, "HUMIDITY", Color.White);
 
             graphics.Show();
+        }
+
+        async Task IApp.Run()
+        {
+            LoadScreen();
+            bme.StartUpdating(TimeSpan.FromSeconds(5));
         }
     }
 }
