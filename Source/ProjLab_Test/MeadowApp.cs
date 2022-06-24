@@ -11,11 +11,12 @@ using Meadow.Foundation.Sensors.Light;
 using Meadow.Hardware;
 using Meadow.Units;
 using System;
+using System.Threading.Tasks;
 
-namespace HackBoard_Test
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
         RgbPwmLed onboardLed;
         PiezoSpeaker speaker;
@@ -29,13 +30,13 @@ namespace HackBoard_Test
         PushButton buttonDown;
         Bme680 bme688;
 
-        public MeadowApp()
-        {
-            Initialize();
-            displayController.Update();
-        }
+        //public MeadowApp()
+        //{
+        //    Initialize();
+        //    displayController.Update();
+        //}
 
-        void Initialize()
+        async Task IApp.Initialize()
         {
             Console.WriteLine("Initialize hardware...");
 
@@ -48,13 +49,13 @@ namespace HackBoard_Test
             speaker = new PiezoSpeaker(Device, Device.Pins.D11);
 
             var config = new SpiClockConfiguration(
-                new Frequency(48000, Frequency.UnitType.Kilohertz), 
+                new Frequency(48000, Frequency.UnitType.Kilohertz),
                 SpiClockConfiguration.Mode.Mode3);
 
             var spiBus = Device.CreateSpiBus(
-                Device.Pins.SCK, 
-                Device.Pins.MOSI, 
-                Device.Pins.MISO, 
+                Device.Pins.SCK,
+                Device.Pins.MOSI,
+                Device.Pins.MISO,
                 config);
 
             display = new St7789(
@@ -63,16 +64,13 @@ namespace HackBoard_Test
                 chipSelectPin: Device.Pins.A03,
                 dcPin: Device.Pins.A04,
                 resetPin: Device.Pins.A05,
-                width: 240, height: 240, 
-                displayColorMode: ColorType.Format16bppRgb565)
-            {
-                IgnoreOutOfBoundsPixels = true
-            };
+                width: 240, height: 240,
+                displayColorMode: ColorType.Format16bppRgb565);
             displayController = new DisplayController(display);
 
             i2c = Device.CreateI2cBus();
 
-            try 
+            try
             {
                 bh1750 = new Bh1750(
                     i2cBus: i2c,
@@ -83,18 +81,18 @@ namespace HackBoard_Test
                 bh1750.Updated += Bh1750Updated;
                 bh1750.StartUpdating(TimeSpan.FromSeconds(5));
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Console.WriteLine($"Could not bring up Bh1750: {e.Message}");
             }
 
-            try 
+            try
             {
                 bme688 = new Bme680(i2c, (byte)Bme680.Addresses.Address_0x76);
                 bme688.Updated += Bme688Updated;
                 bme688.StartUpdating(TimeSpan.FromSeconds(5));
-            } 
-            catch (Exception e) 
+            }
+            catch (Exception e)
             {
                 Console.WriteLine($"Could not bring up Bme688: {e.Message}");
             }
@@ -127,6 +125,11 @@ namespace HackBoard_Test
         {
             Console.WriteLine($"BH1750: {e.New.Lux}");
             displayController.LightConditions = e.New;
+        }
+
+        async Task IApp.Run()
+        {
+            displayController.Update();
         }
     }
 }

@@ -2,7 +2,7 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Units;
 
-namespace HackBoard_Test
+namespace MeadowApp
 {
     public class DisplayController
     {
