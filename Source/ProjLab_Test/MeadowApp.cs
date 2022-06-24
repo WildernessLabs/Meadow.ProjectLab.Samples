@@ -30,12 +30,6 @@ namespace MeadowApp
         PushButton buttonDown;
         Bme680 bme688;
 
-        //public MeadowApp()
-        //{
-        //    Initialize();
-        //    displayController.Update();
-        //}
-
         async Task IApp.Initialize()
         {
             Console.WriteLine("Initialize hardware...");
