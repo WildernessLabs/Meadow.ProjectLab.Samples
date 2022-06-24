@@ -7,7 +7,7 @@ using System.Reflection;
 using Meadow.Units;
 using Meadow.Hardware;
 
-namespace PlantMonitor
+namespace MeadowApp
 {
     public class DisplayController
     {
@@ -35,14 +35,17 @@ namespace PlantMonitor
                 displayColorMode: ColorType.Format16bppRgb565
             );
 
-            graphics = new MicroGraphics(display);
-            graphics.Rotation = RotationType._90Degrees;
-            graphics.CurrentFont = new Font12x20();
-            graphics.Stroke = 3;
+            graphics = new MicroGraphics(display)
+            {
+                IgnoreOutOfBoundsPixels = true,
+                Rotation = RotationType._90Degrees,
+                CurrentFont = new Font12x20(),
+                Stroke = 3,
+            };
 
             graphics.Clear();
 
-            graphics.DrawRectangle(0, 0, 240, 240, Color.White, true);
+            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height, Color.White, true);
 
             string plant = "Plant";
             string monitor = "Monitor";

@@ -4,22 +4,18 @@ using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
 using System;
+using System.Threading.Tasks;
 
-namespace PlantMonitor
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
         RgbPwmLed onboardLed;
         MoistureSensor moistureSensor;
         DisplayController displayController;
 
-        public MeadowApp()
-        {
-            Initialize();
-        }
-
-        void Initialize()
+        async Task IApp.Initialize()
         {
             onboardLed = new RgbPwmLed(
                 device: Device,
