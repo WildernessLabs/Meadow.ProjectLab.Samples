@@ -1,24 +1,19 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Web.Maple.Server;
+using Meadow.Foundation.Web.Maple;
 using Meadow.Gateway.WiFi;
-using MeadowConnectedSample.Connectivity;
-using MeadowConnectedSample.Controller;
+using MeadowApp.Connectivity;
+using MeadowApp.Controller;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowConnectedSample
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
-        public MeadowApp()
-        {
-            Initialize();
-        }
-
-        void Initialize() 
+        async Task IApp.Initialize() 
         {
             LedController.Instance.SetColor(Color.Red);
 
@@ -28,8 +23,8 @@ namespace MeadowConnectedSample
             Bh1750Controller.Instance.Initialize(i2c);
             Bme688Controller.Instance.Initialize(i2c);
 
-            InitializeBluetooth();
-            //InitializeMaple().Wait();
+            //InitializeBluetooth();
+            await InitializeMaple();
 
             LedController.Instance.SetColor(Color.Green);
         }
@@ -53,7 +48,7 @@ namespace MeadowConnectedSample
 
             DisplayController.Instance.StopConnectingAnimation();
 
-            MapleServer mapleServer = new MapleServer(Device.WiFiAdapter.IpAddress, 5417, false);
+            var mapleServer = new MapleServer(Device.WiFiAdapter.IpAddress, 5417, false);
             mapleServer.Start();
 
             DisplayController.Instance.ShowMapleReady();

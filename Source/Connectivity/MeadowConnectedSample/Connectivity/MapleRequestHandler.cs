@@ -1,9 +1,9 @@
 ﻿using CommonContracts.Models;
-using Meadow.Foundation.Web.Maple.Server;
-using Meadow.Foundation.Web.Maple.Server.Routing;
-using MeadowConnectedSample.Controller;
+using Meadow.Foundation.Web.Maple;
+using Meadow.Foundation.Web.Maple.Routing;
+using MeadowApp.Controller;
 
-namespace MeadowConnectedSample.Connectivity
+namespace MeadowApp.Connectivity
 {
     public class MapleRequestHandler : RequestHandlerBase
     {

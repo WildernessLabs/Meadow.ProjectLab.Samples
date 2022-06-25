@@ -1,10 +1,10 @@
 ﻿using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Hardware;
 using Meadow.Units;
-using MeadowConnectedSample.Connectivity;
+using MeadowApp.Connectivity;
 using System;
 
-namespace MeadowConnectedSample.Controller
+namespace MeadowApp.Controller
 {
     public class Bme688Controller
     {

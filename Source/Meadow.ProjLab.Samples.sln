@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Graphics.MicroGraphics", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoistureSensor", "..\..\Meadow.Foundation.Grove\Source\MoistureSensor\Driver\MoistureSensor.csproj", "{A6141607-D2E9-4436-9BBD-523EF9D27497}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Maple.MapleServer", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Web.Maple.MapleServer\Driver\Web.Maple.MapleServer.csproj", "{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -469,6 +471,24 @@ Global
 		{A6141607-D2E9-4436-9BBD-523EF9D27497}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{A6141607-D2E9-4436-9BBD-523EF9D27497}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A6141607-D2E9-4436-9BBD-523EF9D27497}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|iPhone.Deploy.0 = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Debug|iPhoneSimulator.Deploy.0 = Debug|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhone.Build.0 = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhone.Deploy.0 = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -490,6 +510,7 @@ Global
 		{6205CC53-BB71-4F5A-AC29-444DC55BB4BA} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 		{B5806FEA-885A-40AC-B242-C729569F9AB5} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 		{A6141607-D2E9-4436-9BBD-523EF9D27497} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
+		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43AB8674-050D-49FE-BB0A-5158149A21A4}
