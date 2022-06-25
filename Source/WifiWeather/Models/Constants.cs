@@ -1,4 +1,4 @@
-﻿namespace WifiWeather.Models
+﻿namespace MeadowApp.Models
 {
     public sealed class WeatherConstants
     {

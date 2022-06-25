@@ -2,9 +2,9 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WifiWeather.Models;
+using MeadowApp.Models;
 
-namespace WifiWeather.Services
+namespace MeadowApp.Services
 {
     public static class WeatherService
     {

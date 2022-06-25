@@ -1,4 +1,4 @@
-﻿namespace WifiWeather
+﻿namespace MeadowApp
 {
     public class Secrets
     {

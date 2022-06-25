@@ -7,10 +7,10 @@ using SimpleJpegDecoder;
 using System;
 using System.IO;
 using System.Reflection;
-using WifiWeather.Models;
-using WifiWeather.ViewModels;
+using MeadowApp.Models;
+using MeadowApp.ViewModels;
 
-namespace WifiWeather.Views
+namespace MeadowApp.Views
 {
     public class WeatherView
     {

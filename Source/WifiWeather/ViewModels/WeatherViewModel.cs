@@ -1,8 +1,8 @@
 ﻿using Meadow.Units;
 using System;
-using WifiWeather.Models;
+using MeadowApp.Models;
 
-namespace WifiWeather.ViewModels
+namespace MeadowApp.ViewModels
 {
     public class WeatherViewModel
     {

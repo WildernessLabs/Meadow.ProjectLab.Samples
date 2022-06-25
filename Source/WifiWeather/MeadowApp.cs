@@ -3,31 +3,23 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Temperature;
 using Meadow.Gateway.WiFi;
 using System;
 using System.Threading.Tasks;
-using WifiWeather.Services;
-using WifiWeather.ViewModels;
-using WifiWeather.Views;
+using MeadowApp.Services;
+using MeadowApp.ViewModels;
+using MeadowApp.Views;
 
-namespace WifiWeather
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>, IApp
     {
         RgbPwmLed onboardLed;
         WeatherView displayController;
         Bme680 bme;
 
-        public MeadowApp()
-        {
-            Initialize().Wait();
-
-            Start().Wait();
-        }
-
-        async Task Initialize()
+        async Task IApp.Initialize()
         {
             onboardLed = new RgbPwmLed(
                 device: Device,
@@ -71,7 +63,7 @@ namespace WifiWeather
             onboardLed.StartPulse(Color.Green);
         }
 
-        async Task Start()
+        async Task IApp.Run()
         {
             await GetTemperature();
 
