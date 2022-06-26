@@ -7,7 +7,7 @@ using System.Reflection;
 using Meadow.Units;
 using Meadow.Hardware;
 
-namespace MeadowApp
+namespace PlantMonitor.Controllers
 {
     public class DisplayController
     {
@@ -51,8 +51,8 @@ namespace MeadowApp
             string monitor = "Monitor";
 
             graphics.CurrentFont = new Font12x16();
-            graphics.DrawText((240 - (plant.Length * 24)) / 2, 80, plant, Color.Black, ScaleFactor.X2);
-            graphics.DrawText((240 - (monitor.Length * 24)) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
+            graphics.DrawText((240 - plant.Length * 24) / 2, 80, plant, Color.Black, ScaleFactor.X2);
+            graphics.DrawText((240 - monitor.Length * 24) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
 
             graphics.Show();
         }
@@ -132,7 +132,7 @@ namespace MeadowApp
             }
         }
 
-        public void Update(int percentage) 
+        public void Update(int percentage)
         {
             RefreshMoistureImage(percentage);
             RefreshMoisturePercentage(percentage);

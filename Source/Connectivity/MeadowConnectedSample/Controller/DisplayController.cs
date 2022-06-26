@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MeadowApp.Controller
+namespace MeadowConnectedSample.Controller
 {
     public class DisplayController
     {

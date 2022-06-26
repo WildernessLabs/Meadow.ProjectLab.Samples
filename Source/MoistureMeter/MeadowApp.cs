@@ -3,11 +3,11 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
-using MeadowApp.Controllers;
+using MoistureMeter.Controllers;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowApp
+namespace MoistureMeter
 {
     // Change F7MicroV2 to F7Micro for V1.x boards
     public class MeadowApp : App<F7FeatherV2>, IApp

@@ -1,4 +1,4 @@
-﻿namespace MeadowApp
+﻿namespace MeadowConnectedSample
 {
     public class Secrets
     {

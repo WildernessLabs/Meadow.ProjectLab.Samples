@@ -1,4 +1,4 @@
-﻿namespace MeadowApp.Models
+﻿namespace WifiWeather.Models
 {
     public class WeatherReading
     {

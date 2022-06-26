@@ -4,7 +4,7 @@ using Meadow.Foundation.Graphics;
 using Meadow.Hardware;
 using Meadow.Units;
 
-namespace MeadowApp.Controllers
+namespace MoistureMeter.Controllers
 {
     public class DisplayController
     {

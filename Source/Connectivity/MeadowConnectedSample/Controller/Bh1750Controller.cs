@@ -1,10 +1,10 @@
 ﻿using Meadow.Foundation.Sensors.Light;
 using Meadow.Hardware;
 using Meadow.Units;
-using MeadowApp.Connectivity;
+using MeadowConnectedSample.Connectivity;
 using System;
 
-namespace MeadowApp.Controller
+namespace MeadowConnectedSample.Controller
 {
     public class Bh1750Controller
     {

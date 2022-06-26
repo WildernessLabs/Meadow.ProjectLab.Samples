@@ -6,11 +6,11 @@ using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Gateway.WiFi;
 using System;
 using System.Threading.Tasks;
-using MeadowApp.Services;
-using MeadowApp.ViewModels;
-using MeadowApp.Views;
+using WifiWeather.Services;
+using WifiWeather.ViewModels;
+using WifiWeather.Views;
 
-namespace MeadowApp
+namespace WifiWeather
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>, IApp

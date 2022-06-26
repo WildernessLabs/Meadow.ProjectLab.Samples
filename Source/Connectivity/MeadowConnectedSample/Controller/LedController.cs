@@ -2,7 +2,7 @@
 using Meadow.Foundation.Leds;
 using System;
 
-namespace MeadowApp.Controller
+namespace MeadowConnectedSample.Controller
 {
     public class LedController
     {

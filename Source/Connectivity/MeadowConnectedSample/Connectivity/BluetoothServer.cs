@@ -1,10 +1,10 @@
 ﻿using CommonContracts.Bluetooth;
 using Meadow.Gateways.Bluetooth;
 using Meadow.Units;
-using MeadowApp.Controller;
+using MeadowConnectedSample.Controller;
 using System;
 
-namespace MeadowApp.Connectivity
+namespace MeadowConnectedSample.Connectivity
 {
     public class BluetoothServer
     {

@@ -13,7 +13,7 @@ using Meadow.Units;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowApp
+namespace ProjLab_Test
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>, IApp

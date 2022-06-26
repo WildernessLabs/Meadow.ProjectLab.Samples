@@ -5,7 +5,7 @@ using Meadow.Foundation.Audio;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Hardware;
-using MeadowApp.Controllers;
+using MorseCodeTrainer.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace MeadowApp
+namespace MorseCodeTrainer
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>, IApp
