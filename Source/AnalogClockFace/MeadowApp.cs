@@ -11,7 +11,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AnalogClockFace
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>, IApp
@@ -85,7 +85,7 @@ namespace AnalogClockFace
             int yCenter = graphics.Height / 2;
             int x, y;
 
-            graphics.DrawRectangle(0, 0, graphics.Width-1, graphics.Height-1, Color.White);
+            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height, Color.White);
             graphics.DrawRectangle(5, 5, graphics.Width - 10, graphics.Height - 10, Color.White);
 
             graphics.CurrentFont = new Font12x20();

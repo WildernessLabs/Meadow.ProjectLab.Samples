@@ -1,4 +1,4 @@
-﻿namespace AnalogClockFace
+﻿namespace MeadowApp
 {
     public class Secrets
     {
