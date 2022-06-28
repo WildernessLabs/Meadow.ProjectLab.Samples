@@ -63,7 +63,7 @@ namespace WifiWeather
             onboardLed.StartPulse(Color.Green);
         }
 
-        async Task IApp.Run()
+        public override async Task Run()
         {
             await GetTemperature();
 
@@ -77,6 +77,8 @@ namespace WifiWeather
                 displayController.UpdateDateTime();
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }
+
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
         }
     }
 }

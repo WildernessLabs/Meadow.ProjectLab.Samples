@@ -2,7 +2,7 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Units;
 
-namespace ProjLab_Test
+namespace MeadowApp
 {
     public class DisplayController
     {

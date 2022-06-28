@@ -38,5 +38,10 @@ namespace MoistureMeter
 
             onboardLed.SetColor(Color.Green);
         }
+
+        public override async Task Run()
+        {
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+        }
     }
 }

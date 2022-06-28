@@ -155,5 +155,10 @@ namespace MorseCodeTrainer
             question = morseCode.ElementAt(new Random().Next(0, morseCode.Count)).Value;
             displayController.ShowLetterQuestion(question);
         }
+
+        public override async Task Run()
+        {
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+        }
     }
 }

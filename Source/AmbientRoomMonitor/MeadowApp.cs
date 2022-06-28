@@ -25,7 +25,7 @@ namespace AmbientRoomMonitor
 
         MicroGraphics graphics;
         Bme680 bme;
-
+        
         async Task IApp.Initialize()
         {
             var onboardLed = new RgbPwmLed(
@@ -114,10 +114,12 @@ namespace AmbientRoomMonitor
             graphics.Show();
         }
 
-        async Task IApp.Run()
+        public override async Task Run()
         {
             LoadScreen();
             bme.StartUpdating(TimeSpan.FromSeconds(5));
+
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
         }
     }
 }

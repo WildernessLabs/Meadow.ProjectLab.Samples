@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalleryViewer", "GalleryVie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WifiWeather", "WifiWeather\WifiWeather.csproj", "{CB510EA2-7A21-46DD-AA6E-58CBEF6062E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjLab_Test", "ProjLab_Test\ProjLab_Test.csproj", "{95F44AA6-7A82-43E7-A61A-3BE5B6D02C9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjLab_Demo", "ProjLab_Demo\ProjLab_Demo.csproj", "{95F44AA6-7A82-43E7-A61A-3BE5B6D02C9A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbientRoomMonitor", "AmbientRoomMonitor\AmbientRoomMonitor.csproj", "{DC973505-A017-40B7-974F-C284BBBE63FC}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simon", "Simon\Simon.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MorseCodeTrainer", "MorseCodeTrainer\MorseCodeTrainer.csproj", "{0629508B-5CAF-44CD-B42B-6B4801C5DCAE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Diagnostics", "_Diagnostics", "{440AD92F-6011-4301-BED5-87EB28E0F32D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GettingStarted", "GettingStarted", "{440AD92F-6011-4301-BED5-87EB28E0F32D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectivity", "Connectivity", "{3526B55E-A473-4714-AED2-4CE73B07F545}"
 EndProject
@@ -58,6 +58,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoistureSensor", "..\..\Meadow.Foundation.Grove\Source\MoistureSensor\Driver\MoistureSensor.csproj", "{A6141607-D2E9-4436-9BBD-523EF9D27497}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Maple.MapleServer", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Web.Maple.MapleServer\Driver\Web.Maple.MapleServer.csproj", "{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Logging", "..\..\Meadow.Logging\lib\Meadow.Logging.csproj", "{A73A816D-D4F9-41D4-8C38-E9330F21F78E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -489,6 +491,18 @@ Global
 		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|iPhone.Build.0 = Release|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -511,6 +525,7 @@ Global
 		{B5806FEA-885A-40AC-B242-C729569F9AB5} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 		{A6141607-D2E9-4436-9BBD-523EF9D27497} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
+		{A73A816D-D4F9-41D4-8C38-E9330F21F78E} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43AB8674-050D-49FE-BB0A-5158149A21A4}

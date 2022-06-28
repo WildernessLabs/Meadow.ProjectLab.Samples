@@ -53,5 +53,10 @@ namespace MeadowConnectedSample
 
             DisplayController.Instance.ShowMapleReady();
         }
+
+        public override async Task Run()
+        {
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+        }
     }
 }

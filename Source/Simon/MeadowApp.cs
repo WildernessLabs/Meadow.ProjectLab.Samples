@@ -271,7 +271,7 @@ namespace Simon
             }
         }
 
-        async Task IApp.Run()
+        public override async Task Run()
         {
             DrawAllDots(true);
             game.OnGameStateChanged += OnGameStateChanged;
