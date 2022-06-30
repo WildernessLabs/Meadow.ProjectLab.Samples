@@ -16,6 +16,10 @@ namespace MeadowApp
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>, IApp
     {
+        // Set value to false when entering WIFI credentials
+        // in the Secrets.cs
+        bool offlineMode = true;
+
         readonly Color WatchBackgroundColor = Color.White;
 
         MicroGraphics graphics;
@@ -30,10 +34,17 @@ namespace MeadowApp
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            var connectionResult = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
-            if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
+            if (offlineMode)
             {
-                throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
+                Device.SetClock(DateTime.Now);
+            }
+            else
+            {
+                var connectionResult = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
+                if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
+                {
+                    throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
+                }
             }
 
             var config = new SpiClockConfiguration(
