@@ -6,14 +6,21 @@ using System.IO;
 using System.Reflection;
 using Meadow.Units;
 using Meadow.Hardware;
+using System;
 
 namespace PlantMonitor.Controllers
 {
     public class DisplayController
     {
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
+
         MicroGraphics graphics;
 
-        public DisplayController()
+        private DisplayController() { }
+
+        public void Initialize()
         {
             var config = new SpiClockConfiguration(
                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
@@ -44,16 +51,12 @@ namespace PlantMonitor.Controllers
             };
 
             graphics.Clear();
-
             graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height, Color.White, true);
-
             string plant = "Plant";
             string monitor = "Monitor";
-
             graphics.CurrentFont = new Font12x16();
             graphics.DrawText((240 - plant.Length * 24) / 2, 80, plant, Color.Black, ScaleFactor.X2);
             graphics.DrawText((240 - monitor.Length * 24) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
-
             graphics.Show();
         }
 

@@ -3,20 +3,21 @@ using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
 using Meadow.Hardware;
 using Meadow.Units;
+using System;
 
 namespace MorseCodeTrainer.Controllers
 {
     public class DisplayController
     {
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
+
         MicroGraphics graphics;
 
-        public DisplayController()
-        {
-            Initialize();
-            DrawTitleAndFrame();
-        }
+        private DisplayController() { }
 
-        void Initialize()
+        public void Initialize()
         {
             var config = new SpiClockConfiguration(
                 new Frequency(48000, Frequency.UnitType.Kilohertz),
@@ -43,12 +44,7 @@ namespace MorseCodeTrainer.Controllers
                 CurrentFont = new Font12x20(),
                 Rotation = RotationType._90Degrees
             };
-            graphics.Clear();
-            graphics.Show();
-        }
 
-        void DrawTitleAndFrame()
-        {
             graphics.Clear();
             graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height);
             graphics.DrawText(24, 15, "Morse Code Coach");

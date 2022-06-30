@@ -22,7 +22,6 @@ namespace MorseCodeTrainer
 
         PushButton button;
         PiezoSpeaker piezo;
-        DisplayController displayController;
 
         Timer timer;
         Stopwatch stopWatch;
@@ -39,7 +38,7 @@ namespace MorseCodeTrainer
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            displayController = new DisplayController();
+            DisplayController.Instance.Initialize();
 
             button = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
             button.PressStarted += ButtonPressStarted;
@@ -106,7 +105,7 @@ namespace MorseCodeTrainer
 
             bool isCorrect = morseCode[answer] == question;
 
-            displayController.DrawCorrectIncorrectMessage(question, answer, isCorrect);
+            DisplayController.Instance.DrawCorrectIncorrectMessage(question, answer, isCorrect);
 
             await Task.Delay(2000);
 
@@ -117,7 +116,7 @@ namespace MorseCodeTrainer
             else
             {
                 answer = string.Empty;
-                displayController.ShowLetterQuestion(question);
+                DisplayController.Instance.ShowLetterQuestion(question);
             }
 
             timer.Start();
@@ -145,7 +144,7 @@ namespace MorseCodeTrainer
                 answer += "-";
             }
 
-            displayController.UpdateAnswer(answer, Color.White);
+            DisplayController.Instance.UpdateAnswer(answer, Color.White);
             timer.Start();
         }
 
@@ -153,7 +152,7 @@ namespace MorseCodeTrainer
         {
             answer = string.Empty;
             question = morseCode.ElementAt(new Random().Next(0, morseCode.Count)).Value;
-            displayController.ShowLetterQuestion(question);
+            DisplayController.Instance.ShowLetterQuestion(question);
         }
 
         public override async Task Run()

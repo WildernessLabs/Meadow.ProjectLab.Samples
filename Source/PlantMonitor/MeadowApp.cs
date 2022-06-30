@@ -25,7 +25,7 @@ namespace PlantMonitor
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            displayController = new DisplayController();
+            DisplayController.Instance.Initialize();
 
             moistureSensor = new MoistureSensor(Device, Device.Pins.A01);
             var moistureSensorObserver = MoistureSensor.CreateObserver(

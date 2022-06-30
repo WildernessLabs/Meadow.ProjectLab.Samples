@@ -22,7 +22,7 @@ namespace MoistureMeter
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            var displayController = new DisplayController();
+            DisplayController.Instance.Initialize();
 
             sensor = new MoistureSensor(Device, Device.Pins.A01);
 
@@ -30,7 +30,7 @@ namespace MoistureMeter
             {
                 var percentage = (int)ExtensionMethods.Map(result.New.Millivolts, 0, 1750, 0, 100);
 
-                displayController.UpdatePercentage(percentage > 100 ? 100 : percentage);
+                DisplayController.Instance.UpdatePercentage(percentage > 100 ? 100 : percentage);
                 //Console.WriteLine($"RAW: {result.New.Millivolts:N2}mV - PERCENTAGE: {percentage}%");
             };
 
