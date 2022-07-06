@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 namespace PlantMonitor
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
         MoistureSensor moistureSensor;
         DisplayController displayController;
 
-        async Task IApp.Initialize()
+        public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
                 device: Device,
@@ -40,14 +40,17 @@ namespace PlantMonitor
                 filter: null
             );
             moistureSensor.Subscribe(moistureSensorObserver);
-            moistureSensor.StartUpdating(TimeSpan.FromMinutes(1));
 
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
-        public override async Task Run()
+        public override Task Run()
         {
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            moistureSensor.StartUpdating(TimeSpan.FromMinutes(1));
+
+            return base.Run();
         }
     }
 }

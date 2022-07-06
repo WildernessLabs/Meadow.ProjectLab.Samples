@@ -13,13 +13,13 @@ using WifiWeather.Views;
 namespace WifiWeather
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
         WeatherView displayController;
         Bme680 bme;
 
-        async Task IApp.Initialize()
+        public override async Task Initialize()
         {
             onboardLed = new RgbPwmLed(
                 device: Device,
@@ -77,8 +77,6 @@ namespace WifiWeather
                 displayController.UpdateDateTime();
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }
-
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
         }
     }
 }

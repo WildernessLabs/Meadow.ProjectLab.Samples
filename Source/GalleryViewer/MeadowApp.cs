@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace GalleryViewer
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed led;
         MicroGraphics graphics;
@@ -25,7 +25,7 @@ namespace GalleryViewer
         int selectedIndex;
         string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
 
-        async Task IApp.Initialize()
+        public override Task Initialize()
         {
             led = new RgbPwmLed(
                 device: Device,
@@ -63,9 +63,9 @@ namespace GalleryViewer
             graphics = new MicroGraphics(display);
             graphics.Rotation = RotationType._90Degrees;
 
-            DisplayJPG();
-
             led.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         void ButtonUpClicked(object sender, EventArgs e)
@@ -140,9 +140,11 @@ namespace GalleryViewer
             }
         }
 
-        public override async Task Run() 
+        public override Task Run()
         {
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            DisplayJPG();
+
+            return base.Run();
         }
     }
 }

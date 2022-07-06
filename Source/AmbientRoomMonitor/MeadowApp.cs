@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace AmbientRoomMonitor
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         Color[] colors = new Color[4]
         {
@@ -26,7 +26,7 @@ namespace AmbientRoomMonitor
         MicroGraphics graphics;
         Bme680 bme;
         
-        async Task IApp.Initialize()
+        public override Task Initialize()
         {
             var onboardLed = new RgbPwmLed(
                 device: Device,
@@ -63,6 +63,8 @@ namespace AmbientRoomMonitor
             graphics.Rotation = RotationType._90Degrees;
 
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         void Bme680_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
@@ -114,12 +116,13 @@ namespace AmbientRoomMonitor
             graphics.Show();
         }
 
-        public override async Task Run()
+        public override Task Run()
         {
             LoadScreen();
+
             bme.StartUpdating(TimeSpan.FromSeconds(5));
 
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            return base.Run();
         }
     }
 }

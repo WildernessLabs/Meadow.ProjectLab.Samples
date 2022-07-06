@@ -13,10 +13,10 @@ using Meadow.Units;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowApp
+namespace ProjLab_Demo
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
         PiezoSpeaker speaker;
@@ -30,7 +30,7 @@ namespace MeadowApp
         PushButton buttonDown;
         Bme680 bme688;
 
-        async Task IApp.Initialize()
+        public override Task Initialize()
         {
             Console.WriteLine("Initialize hardware...");
 
@@ -107,6 +107,8 @@ namespace MeadowApp
             buttonRight.PressEnded += (s, e) => displayController.RightButtonState = false;
 
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
@@ -121,11 +123,11 @@ namespace MeadowApp
             displayController.LightConditions = e.New;
         }
 
-        public override async Task Run()
+        public override Task Run()
         {
             displayController.Update();
 
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            return base.Run();
         }
     }
 }

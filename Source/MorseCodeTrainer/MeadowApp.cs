@@ -16,7 +16,7 @@ using System.Timers;
 namespace MorseCodeTrainer
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         Dictionary<string, string> morseCode;
 
@@ -28,10 +28,8 @@ namespace MorseCodeTrainer
         string answer;
         string question;
 
-        async Task IApp.Initialize()
+        public override Task Initialize()
         {
-            piezo = new PiezoSpeaker(Device, Device.Pins.D11);
-
             var onboardLed = new RgbPwmLed(device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
@@ -44,6 +42,8 @@ namespace MorseCodeTrainer
             button.PressStarted += ButtonPressStarted;
             button.PressEnded += ButtonPressEnded;
 
+            piezo = new PiezoSpeaker(Device, Device.Pins.D11);
+
             stopWatch = new Stopwatch();
 
             timer = new Timer(2000);
@@ -51,9 +51,9 @@ namespace MorseCodeTrainer
 
             LoadMorseCode();
 
-            ShowLetterQuestion();
-
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         void LoadMorseCode()
@@ -155,9 +155,11 @@ namespace MorseCodeTrainer
             DisplayController.Instance.ShowLetterQuestion(question);
         }
 
-        public override async Task Run()
+        public override Task Run()
         {
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            ShowLetterQuestion();
+
+            return base.Run();
         }
     }
 }

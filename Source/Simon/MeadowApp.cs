@@ -9,13 +9,12 @@ using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Hardware;
 using Meadow.Units;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Simon
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         int ANIMATION_DELAY = 50;
         const int DOT_UP = 0;
@@ -32,7 +31,7 @@ namespace Simon
         MicroGraphics graphics;
         PiezoSpeaker speaker;
 
-        async Task IApp.Initialize()
+        public override Task Initialize()
         {
             speaker = new PiezoSpeaker(Device, Device.Pins.D11);
 
@@ -90,6 +89,8 @@ namespace Simon
             buttons[1].Clicked += ButtonRightClicked;
 
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         async void ButtonUpClicked(object sender, EventArgs e)
@@ -271,11 +272,13 @@ namespace Simon
             }
         }
 
-        public override async Task Run()
+        public override Task Run()
         {
             DrawAllDots(true);
             game.OnGameStateChanged += OnGameStateChanged;
             game.Reset();
+
+            return base.Run();
         }
     }
 }

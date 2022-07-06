@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 namespace MoistureMeter
 {
     // Change F7MicroV2 to F7Micro for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         MoistureSensor sensor;
 
-        async Task IApp.Initialize()
+        public override Task Initialize()
         {
             var onboardLed = new RgbPwmLed(device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
@@ -31,17 +31,13 @@ namespace MoistureMeter
                 var percentage = (int)ExtensionMethods.Map(result.New.Millivolts, 0, 1750, 0, 100);
 
                 DisplayController.Instance.UpdatePercentage(percentage > 100 ? 100 : percentage);
-                //Console.WriteLine($"RAW: {result.New.Millivolts:N2}mV - PERCENTAGE: {percentage}%");
             };
 
             sensor.StartUpdating(TimeSpan.FromMilliseconds(1000));
 
             onboardLed.SetColor(Color.Green);
-        }
 
-        public override async Task Run()
-        {
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            return base.Initialize();
         }
     }
 }

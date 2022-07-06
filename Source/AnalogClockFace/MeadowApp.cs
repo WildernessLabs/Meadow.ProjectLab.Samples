@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
         // Set value to false when entering WIFI credentials
         // in the Secrets.cs
@@ -25,7 +25,7 @@ namespace MeadowApp
         MicroGraphics graphics;
         int tick;
 
-        async Task IApp.Initialize()
+        public override async Task Initialize()
         {
             var onboardLed = new RgbPwmLed(
                 device: Device,
@@ -194,11 +194,11 @@ namespace MeadowApp
             graphics.Show();
         }
 
-        public override async Task Run()
+        public override Task Run()
         {
             DrawClock();
 
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            return base.Run();
         }
     }
 }
