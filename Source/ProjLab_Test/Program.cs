@@ -1,17 +1,13 @@
-﻿using System.Threading;
-using Meadow;
+﻿using Meadow;
+using System.Threading.Tasks;
 
 namespace HackBoard_Test
 {
     class Program
     {
-        static IApp app;
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            // instantiate and run new meadow app
-            app = new MeadowApp();
-
-            Thread.Sleep(Timeout.Infinite);
+            await MeadowOS.Main(args);
         }
     }
 }
