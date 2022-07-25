@@ -149,7 +149,7 @@ namespace Simon
         async Task DrawDotFilled(int index, int duration = 400)
         {
             DrawDot(index, true);
-            await speaker.PlayTone(notes[index], duration);
+            await speaker.PlayTone(notes[index], TimeSpan.FromMilliseconds(duration));
             DrawDot(index, false);
         }
 
@@ -223,7 +223,7 @@ namespace Simon
             isAnimating = true;
 
             //await Task.Delay(750);
-            await speaker.PlayTone(new Frequency(123.47f), 750);
+            await speaker.PlayTone(new Frequency(123.47f), TimeSpan.FromMilliseconds(750));
 
             for (int i = 0; i < 20; i++)
             {
