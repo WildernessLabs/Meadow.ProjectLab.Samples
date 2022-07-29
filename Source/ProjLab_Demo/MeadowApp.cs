@@ -27,7 +27,6 @@ namespace ProjLab_Demo
         PushButton buttonUp;
         PushButton buttonRight;
         PushButton buttonLeft;
-        PushButton buttonDown;
         Bme680 bme688;
 
         public override Task Initialize()
@@ -93,16 +92,13 @@ namespace ProjLab_Demo
 
             buttonUp = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
             buttonRight = new PushButton(Device, Device.Pins.D05, ResistorMode.InternalPullDown);
-            buttonDown = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullDown);
             buttonLeft = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
 
             buttonUp.PressStarted += (s, e) => displayController.UpButtonState = true;
-            buttonDown.PressStarted += (s, e) => displayController.DownButtonState = true;
             buttonLeft.PressStarted += (s, e) => displayController.LeftButtonState = true;
             buttonRight.PressStarted += (s, e) => displayController.RightButtonState = true;
 
             buttonUp.PressEnded += (s, e) => displayController.UpButtonState = false;
-            buttonDown.PressEnded += (s, e) => displayController.DownButtonState = false;
             buttonLeft.PressEnded += (s, e) => displayController.LeftButtonState = false;
             buttonRight.PressEnded += (s, e) => displayController.RightButtonState = false;
 

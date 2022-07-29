@@ -41,7 +41,6 @@ namespace ProjLab_Demo
         }
         bool upButtonState = false;
 
-
         public bool DownButtonState
         {
             get => downButtonState;
@@ -74,7 +73,6 @@ namespace ProjLab_Demo
             }
         }
         bool rightButtonState = false;
-
 
         bool isUpdating = false;
         bool needsUpdate = false;
@@ -149,7 +147,7 @@ namespace ProjLab_Demo
             }
 
             DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 140);
-            DrawStatus("Down:", $"{(DownButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 160);
+            DrawStatus("Down:", $"Disabled", WildernessLabsColors.ChileanFire, 160);
             DrawStatus("Left:", $"{(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 180);
             DrawStatus("Right:", $"{(RightButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 200);
         }
