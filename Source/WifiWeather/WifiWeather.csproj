@@ -6,7 +6,6 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="meadow.config.yaml" />
     <None Remove="w_clear.jpg" />
     <None Remove="w_cloudy.jpg" />
     <None Remove="w_drizzle.jpg" />
@@ -14,11 +13,6 @@
     <None Remove="w_rain.jpg" />
     <None Remove="w_snow.jpg" />
     <None Remove="w_storm.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="meadow.config.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="w_drizzle.jpg" />
@@ -35,5 +29,10 @@
     <ProjectReference Include="..\..\..\Meadow.Core\source\Meadow.F7\Meadow.F7.csproj" />
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.TftSpi\Driver\Displays.TftSpi.csproj" />
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme680\Driver\Sensors.Atmospheric.Bme68x.csproj" />    
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="meadow.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

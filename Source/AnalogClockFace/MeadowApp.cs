@@ -124,7 +124,6 @@ namespace MeadowApp
             var today = DateTime.Now.AddHours(TimeZoneOffSet);
             int minute = today.Minute;
             int hour = today.Hour > 12 ? today.Hour - 12 : today.Hour;
-            Console.WriteLine($"{hour}:{minute}");
 
             int x, y, xT, yT;
 

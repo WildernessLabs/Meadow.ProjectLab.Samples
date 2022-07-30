@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 namespace MeadowConnectedSample
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>, IApp
+    public class MeadowApp : App<F7FeatherV2>
     {
-        async Task IApp.Initialize() 
+        bool useBluetooth = true;
+
+        public override async Task Initialize() 
         {
             LedController.Instance.SetColor(Color.Red);
 
@@ -23,40 +25,43 @@ namespace MeadowConnectedSample
             Bh1750Controller.Instance.Initialize(i2c);
             Bme688Controller.Instance.Initialize(i2c);
 
-            //InitializeBluetooth();
-            await InitializeMaple();
+            if (useBluetooth)
+            {
+                DisplayController.Instance.StartConnectingAnimation(isWiFi: false);
+
+                BluetoothServer.Instance.Initialize();
+            }
+            else
+            {
+                DisplayController.Instance.StartConnectingAnimation(isWiFi: true);
+
+                var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+                if (result.ConnectionStatus != ConnectionStatus.Success)
+                {
+                    throw new Exception($"Cannot connect to network: {result.ConnectionStatus}");
+                }
+
+                DisplayController.Instance.StopConnectingAnimation();
+            }
 
             LedController.Instance.SetColor(Color.Green);
         }
 
-        void InitializeBluetooth()
+        public override Task Run()
         {
-            DisplayController.Instance.StartConnectingAnimation(isWiFi: false);
-
-            BluetoothServer.Instance.Initialize();
-        }
-
-        async Task InitializeMaple()
-        {
-            DisplayController.Instance.StartConnectingAnimation(isWiFi: true);
-            
-            var result = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
-            if (result.ConnectionStatus != ConnectionStatus.Success)
+            if (useBluetooth)
             {
-                throw new Exception($"Cannot connect to network: {result.ConnectionStatus}");
+                
+            }
+            else 
+            {
+                var mapleServer = new MapleServer(Device.WiFiAdapter.IpAddress, 5417, false);
+                mapleServer.Start();
+
+                DisplayController.Instance.ShowMapleReady();
             }
 
-            DisplayController.Instance.StopConnectingAnimation();
-
-            var mapleServer = new MapleServer(Device.WiFiAdapter.IpAddress, 5417, false);
-            mapleServer.Start();
-
-            DisplayController.Instance.ShowMapleReady();
-        }
-
-        public override async Task Run()
-        {
-            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
+            return base.Run();
         }
     }
 }

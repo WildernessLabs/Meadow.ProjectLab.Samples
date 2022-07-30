@@ -20,8 +20,8 @@ namespace GalleryViewer
     {
         RgbPwmLed led;
         MicroGraphics graphics;
-        PushButton buttonUp;
-        PushButton buttonDown;
+        PushButton buttonLeft;
+        PushButton buttonRight;
         int selectedIndex;
         string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
 
@@ -34,11 +34,11 @@ namespace GalleryViewer
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             led.SetColor(Color.Red);
 
-            buttonUp = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
-            buttonUp.Clicked += ButtonUpClicked;
+            buttonLeft = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
+            buttonLeft.Clicked += ButtonUpClicked;
 
-            buttonDown = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullDown);
-            buttonDown.Clicked += ButtonDownClicked;
+            buttonRight = new PushButton(Device, Device.Pins.D05, ResistorMode.InternalPullDown);
+            buttonRight.Clicked += ButtonDownClicked;
 
             var config = new SpiClockConfiguration(
                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
