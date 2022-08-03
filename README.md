@@ -2,7 +2,7 @@
 
 # Meadow.ProjectLab.Samples
 
-This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**) Meadow project board. PROJ LAB is a hardware development and prototyping board designed to enable rapid prototyping and IoT software development with [Meadow](http://developer.wildernesslabs.co/Meadow/) and [Meadow.Foundation](http://developer.wildernesslabs.co/Meadow/Meadow.Foundation/).
+This repo contains code samples for the Wilderness Labs Meadow Project Lab Board (**PROJ LAB**). The Project Lab Board is a hardware development and prototyping board designed to enable rapid prototyping and IoT software development with [Meadow](http://developer.wildernesslabs.co/Meadow/) and [Meadow.Foundation](http://developer.wildernesslabs.co/Meadow/Meadow.Foundation/).
 
 ## Project Samples
 
@@ -10,12 +10,12 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
     <tr>
         <td>
             <img src="Design/maple.png"/><br/>
-            Control a Project Lab board over WiFI with a xamarin app</br>
+            Control a Project Lab Board over Wi-Fi with a Xamarin app</br>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
             <img src="Design/bluetooth.png"/><br/>
-            Control a Project Lab board over Bluetooth with a companion app<br/>
+            Control a Project Lab Board over Bluetooth with a companion app<br/>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
@@ -32,7 +32,7 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
         </td>
         <td>
             <img src="Design/WifiWeather.png"/><br/>
-            Weather Station using public web service on a ProjectLab<br/>
+            Weather Station using public web service on a Project Lab Board<br/>
             <a href="Source/WifiWeather/">Source Code</a>
         </td>
         <td>
@@ -44,7 +44,7 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
     <tr>
         <td>
             <img src="Design/TemperatureMonitor.png"/><br/>
-            Room ambient monitor with a BME688 on a Project Lab<br/>
+            Room ambient monitor with a BME688 on a Project Lab Board<br/>
             <a href="Source/TemperatureMonitor/">Source Code</a>
         </td>
         <td>
@@ -73,7 +73,7 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
 
 ## Hardware
 
-The PROJ LAB board includes the following hardware:
+The Project Lab Board includes the following hardware:
 * **ST7789** - SPI 240x240 color display
 * **BMI270** - I2C motion and acceleration sensor
 * **BH1750** - I2C light sensor
@@ -82,7 +82,7 @@ The PROJ LAB board includes the following hardware:
 
 ## Connectivity
 
-The PROJ LAB board includes the following expansion connection options:
+The Project Lab Board includes the following expansion connection options:
 * **MikroBUS** - 2 sets of MikroBUS pin headers
 * **Qwiic** - Stemma QT I2C connector
 * **Grove** - analog header
