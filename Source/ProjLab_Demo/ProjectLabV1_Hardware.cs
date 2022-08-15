@@ -64,8 +64,8 @@ namespace ProjLab_Demo
 
             //==== Display
             Display = new St7789(
-            device: device,
-            spiBus: SpiBus,
+                device: device,
+                spiBus: SpiBus,
                 chipSelectPin: device.Pins.A03,
                 dcPin: device.Pins.A04,
                 resetPin: device.Pins.A05,

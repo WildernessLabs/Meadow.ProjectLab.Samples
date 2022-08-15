@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Maple.MapleServer", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Logging", "..\..\Meadow.Logging\lib\Meadow.Logging.csproj", "{A73A816D-D4F9-41D4-8C38-E9330F21F78E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICs.IOExpanders.Mcp23x08", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\ICs.IOExpanders.Mcp23x08\Driver\ICs.IOExpanders.Mcp23x08.csproj", "{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -455,6 +457,18 @@ Global
 		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|iPhone.Build.0 = Release|Any CPU
 		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{A73A816D-D4F9-41D4-8C38-E9330F21F78E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Release|iPhone.Build.0 = Release|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -475,6 +489,7 @@ Global
 		{A6141607-D2E9-4436-9BBD-523EF9D27497} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 		{2E2416E2-CBE2-4F63-B1F9-4195A12942FA} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 		{A73A816D-D4F9-41D4-8C38-E9330F21F78E} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
+		{2CDE2BE0-2B91-48D8-8F89-16D6F215E845} = {07065FBF-FF56-4F48-BE7C-4A6570DC08DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43AB8674-050D-49FE-BB0A-5158149A21A4}
