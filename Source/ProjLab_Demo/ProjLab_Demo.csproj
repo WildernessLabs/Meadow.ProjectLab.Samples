@@ -7,28 +7,28 @@
     <Configurations>Debug_v1_ProjLab;Release_v1_ProjLab;Debug_v2_ProjLab;Release_v2_ProjLab</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_v1_ProjLab|AnyCPU' ">
-    <IntermediateOutputPath>obj\Debug\netstandard2.1</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\Debug\netstandard2.1\netstandard2.1</IntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <DefineConstants>TRACE;DEBUG;V1_PROJLAB;DEBUG_V1_PROJLAB;NETSTANDARD;NETSTANDARD2_1;</DefineConstants>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_v1_ProjLab|AnyCPU' ">
-    <IntermediateOutputPath>obj\Release\netstandard2.1</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\Release\netstandard2.1\netstandard2.1</IntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE;RELEASE;V1_PROJLAB;RELEASE_V1_PROJLAB;NETSTANDARD;NETSTANDARD2_1;</DefineConstants>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_v2_ProjLab|AnyCPU' ">
-    <IntermediateOutputPath>obj\Debug\netstandard2.1\netstandard2.1</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\Debug\netstandard2.1\netstandard2.1\netstandard2.1</IntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <DefineConstants>TRACE;DEBUG;V2_PROJLAB;DEBUG_V2_PROJLAB;NETSTANDARD;NETSTANDARD2_1;</DefineConstants>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_v2_ProjLab|AnyCPU' ">
-    <IntermediateOutputPath>obj\Release\netstandard2.1\netstandard2.1</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\Release\netstandard2.1\netstandard2.1\netstandard2.1</IntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE;RELEASE;V2_PROJLAB;RELEASE_V2_PROJLAB;NETSTANDARD;NETSTANDARD2_1;</DefineConstants>

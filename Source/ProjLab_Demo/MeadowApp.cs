@@ -31,7 +31,6 @@ namespace ProjLab_Demo
 #elif V2_PROJLAB
             hardware = new ProjectLabV2_HardwareConfig();
 #endif
-
             // Initialize the board specific hardware
             hardware.Initialize(Device);
 
