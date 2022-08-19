@@ -70,7 +70,7 @@ namespace ProjLab_Demo
                 dcPin: device.Pins.A04,
                 resetPin: device.Pins.A05,
                 width: 240, height: 240,
-                displayColorMode: ColorType.Format16bppRgb565);
+                colorMode: ColorType.Format16bppRgb565);
 
             //==== Onboard LED
             OnboardLed = new RgbPwmLed(device: device,

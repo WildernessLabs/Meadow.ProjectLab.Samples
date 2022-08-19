@@ -29,7 +29,7 @@ namespace ProjLab_Demo
 #if V1_PROJLAB
             hardware = new ProjectLabV1_Hardware();
 #elif V2_PROJLAB
-            hardware = new ProjectLabV2_HardwareConfig();
+            hardware = new ProjectLabV2_Hardware();
 #endif
             // Initialize the board specific hardware
             hardware.Initialize(Device);
