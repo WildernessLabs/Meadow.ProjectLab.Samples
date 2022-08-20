@@ -68,7 +68,7 @@ namespace ProjLab_Demo
 
         private void Bmi270Updated(object sender, IChangeResult<(Acceleration3D? Acceleration3D, AngularVelocity3D? AngularVelocity3D, Temperature? Temperature)> e)
         {
-            Console.WriteLine($"BMI270: {e.New.Acceleration3D.Value.X:0.0},{e.New.Acceleration3D.Value.Y:0.0},{e.New.Acceleration3D.Value.Z:0.0}g");
+            Console.WriteLine($"BMI270: {e.New.Acceleration3D.Value.X.Gravity:0.0},{e.New.Acceleration3D.Value.Y.Gravity:0.0},{e.New.Acceleration3D.Value.Z.Gravity:0.0}g");
             displayController.AccelerationConditions = e.New;
         }
 

@@ -159,7 +159,7 @@ namespace ProjLab_Demo
             {
                 if(acceleration.Acceleration3D is { } accel3D)
                 {
-                    DrawStatus("Accel:", $"{accel3D.X:0.0},{accel3D.Y:0.0},{accel3D.Z:0.0}g", WildernessLabsColors.AzureBlue, 115);
+                    DrawStatus("Accel:", $"{accel3D.X.Gravity:0.0},{accel3D.Y.Gravity:0.0},{accel3D.Z.Gravity:0.0}g", WildernessLabsColors.AzureBlue, 115);
                 }
 
                 if(acceleration.AngularVelocity3D is { } angular3D)
