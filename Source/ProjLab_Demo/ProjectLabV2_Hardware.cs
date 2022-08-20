@@ -81,16 +81,6 @@ namespace ProjLab_Demo
             var dcPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP6);
             var resetPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP7);
 
-            /*
-            Display = new St7789(
-                device: device,
-                spiBus: SpiBus,
-                chipSelectPin: Mcp_1.Pins.GP5,
-                dcPin: Mcp_1.Pins.GP6,
-                resetPin: Mcp_1.Pins.GP6,
-                width: 240, height: 240,
-                colorMode: ColorType.Format16bppRgb565); */
-
             Display = new St7789(
                 spiBus: SpiBus,
                 chipSelectPort: chipSelectPort,
