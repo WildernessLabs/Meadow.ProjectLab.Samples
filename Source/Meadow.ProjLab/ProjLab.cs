@@ -13,7 +13,7 @@ namespace Meadow.Devices
 {
     public class ProjLab
     {
-        protected Logger? Logger { get; }
+        protected Logger? Logger { get; } = Resolver.Log;
         public ISpiBus SpiBus { get; }
         public II2cBus I2CBus { get; }
 
@@ -39,11 +39,9 @@ namespace Meadow.Devices
         public Bme680 EnvironmentalSensor => _bme680.Value;
         public PiezoSpeaker Speaker => _speaker.Value;
 
-        public ProjLab(Logger logger = null)
+        public ProjLab()
         {
-            Logger = logger;
-
-            if (Resolver.Device == null)
+            if(Resolver.Device == null)
             {
                 var msg = "ProjLab instance must be created no earlier than App.Initialize()";
                 Logger?.Error(msg);
@@ -118,7 +116,7 @@ namespace Meadow.Devices
                 _speaker = new Lazy<PiezoSpeaker>(() =>
                    new PiezoSpeaker(Resolver.Device, Resolver.Device.GetPin("D11")));
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Logger?.Error(ex.Message);
             }
