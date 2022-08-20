@@ -164,7 +164,7 @@ namespace ProjLab_Demo
 
                 if(acceleration.AngularVelocity3D is { } angular3D)
                 {
-                    DrawStatus("Gyro:", $"{angular3D.X:0.0},{angular3D.Y:0.0},{angular3D.Z:0.0}rpm", WildernessLabsColors.AzureBlue, 135);
+                    DrawStatus("Gyro:", $"{angular3D.X:0},{angular3D.Y:0},{angular3D.Z:0}rpm", WildernessLabsColors.AzureBlue, 135);
                 }
             }
 
