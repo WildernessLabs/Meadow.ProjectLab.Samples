@@ -54,7 +54,7 @@ namespace AmbientRoomMonitor
                 resetPin: Device.Pins.A05,
                 width: 240, 
                 height: 240,
-                displayColorMode: ColorType.Format16bppRgb565);
+                colorMode: ColorType.Format16bppRgb565);
 
             graphics = new MicroGraphics(st7789) 
             { 

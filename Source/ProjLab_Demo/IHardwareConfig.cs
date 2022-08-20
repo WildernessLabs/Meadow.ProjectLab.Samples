@@ -3,6 +3,7 @@ using Meadow;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Light;
@@ -21,6 +22,7 @@ namespace ProjLab_Demo
 
         Bh1750? Bh1750 { get; }
         Bme680? Bme688 { get; }
+        Bmi270? Bmi270 { get; }
 
         PushButton UpButton { get; }
         PushButton DownButton { get; }

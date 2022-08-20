@@ -5,6 +5,7 @@ using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Light;
@@ -30,12 +31,11 @@ namespace ProjLab_Demo
 
         public Bme680? Bme688 { get; protected set; }
 
+        public Bmi270? Bmi270 { get; protected set; }
+
         public PushButton UpButton { get; protected set; }
-
         public PushButton DownButton { get; protected set; }
-
         public PushButton LeftButton { get; protected set; }
-
         public PushButton RightButton { get; protected set; }
 
 
@@ -95,6 +95,19 @@ namespace ProjLab_Demo
             catch (Exception e)
             {
                 Console.WriteLine($"Could not bring up Bh1750: {e.Message}");
+            }
+
+            //==== BMI270
+            try
+            {
+                Bmi270 = new Bmi270(
+                    i2cBus: I2cBus,
+                    address: (byte)Bmi270.Addresses.Address_0x68
+                );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Could not bring up Bmi270: {e.Message}");
             }
 
             //==== BME688

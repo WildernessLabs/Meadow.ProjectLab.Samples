@@ -11,7 +11,7 @@ namespace ProjLab_Demo
         public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? AtmosphericConditions
         {
             get => atmosphericConditions;
-            set 
+            set
             {
                 atmosphericConditions = value;
                 Update();
@@ -29,6 +29,18 @@ namespace ProjLab_Demo
             }
         }
         Illuminance? lightConditions;
+
+        public (Acceleration3D? Acceleration3D, AngularVelocity3D? AngularVelocity3D, Temperature? Temperature) AccelerationConditions
+        {
+            get => accelerationConditions;
+            set
+            {
+                accelerationConditions = value;
+                Update();
+            }
+        }
+        (Acceleration3D? Acceleration3D, AngularVelocity3D? AngularVelocity3D, Temperature? Temperature) accelerationConditions;
+
 
         public bool UpButtonState
         {
@@ -112,44 +124,54 @@ namespace ProjLab_Demo
 
         void DrawStatus(string label, string value, Color color, int yPosition)
         {
-            graphics.DrawText(x: 5, y: yPosition, label, color: color);
-            graphics.DrawText(x: 240, y: yPosition, value, alignment: TextAlignment.Right, color: color);
+            graphics.DrawText(x: 2, y: yPosition, label, color: color);
+            graphics.DrawText(x: 238, y: yPosition, value, alignment: TextAlignment.Right, color: color);
         }
 
         void Draw()
         {
-            graphics.DrawText(x: 5, y: 5, "Hello PROJ LAB!", WildernessLabsColors.AzureBlue);
+            graphics.DrawText(x: 2, y: 0, "Hello PROJ LAB!", WildernessLabsColors.AzureBlue);
 
             if (AtmosphericConditions is { } conditions)
             {
                 if(conditions.Temperature is { } temp)
                 {
-                    DrawStatus("Temperature:", $"{temp.Celsius:N1}C", WildernessLabsColors.GalleryWhite, 40);
+                    DrawStatus("Temperature:", $"{temp.Celsius:N1}C", WildernessLabsColors.GalleryWhite, 35);
                 }
 
                 if (conditions.Pressure is { } pressure)
                 {
-                    DrawStatus("Pressure:", $"{pressure.StandardAtmosphere:N1}atm", WildernessLabsColors.GalleryWhite, 60);
+                    DrawStatus("Pressure:", $"{pressure.StandardAtmosphere:N1}atm", WildernessLabsColors.GalleryWhite, 55);
                 }
 
                 if (conditions.Humidity is { } humidity)
                 {
-                    DrawStatus("Humidity:", $"{humidity.Percent:N1}%", WildernessLabsColors.GalleryWhite, 80);
+                    DrawStatus("Humidity:", $"{humidity.Percent:N1}%", WildernessLabsColors.GalleryWhite, 75);
                 }
             }
 
             if (LightConditions is { } light) 
             {
-                if (light is { } lightReading)
+                DrawStatus("Lux:", $"{light:N0}Lux", WildernessLabsColors.GalleryWhite, 95);
+            }
+
+            if(AccelerationConditions is { } acceleration)
+            {
+                if(acceleration.Acceleration3D is { } accel3D)
                 {
-                    DrawStatus("Lux:", $"{lightReading:N0}Lux", WildernessLabsColors.GalleryWhite, 100);
+                    DrawStatus("Accel:", $"{accel3D.X:0.0},{accel3D.Y:0.0},{accel3D.Z:0.0}g", WildernessLabsColors.AzureBlue, 115);
+                }
+
+                if(acceleration.AngularVelocity3D is { } angular3D)
+                {
+                    DrawStatus("Gyro:", $"{angular3D.X:0.0},{angular3D.Y:0.0},{angular3D.Z:0.0}rpm", WildernessLabsColors.AzureBlue, 135);
                 }
             }
 
-            DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 140);
-            DrawStatus("Down:", $"Disabled", WildernessLabsColors.ChileanFire, 160);
-            DrawStatus("Left:", $"{(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 180);
-            DrawStatus("Right:", $"{(RightButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 200);
+            DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 160);
+            DrawStatus("Down:", $"Disabled", WildernessLabsColors.ChileanFire, 180);
+            DrawStatus("Left:", $"{(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 200);
+            DrawStatus("Right:", $"{(RightButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 220);
         }
     }
 }

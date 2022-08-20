@@ -6,6 +6,7 @@ using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.ICs.IOExpanders;
 using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Light;
@@ -30,6 +31,8 @@ namespace ProjLab_Demo
         public Bh1750? Bh1750 { get; protected set; }
 
         public Bme680? Bme688 { get; protected set; }
+
+        public Bmi270? Bmi270 { get; protected set; }
 
         public PushButton UpButton { get; protected set; }
         public PushButton DownButton { get; protected set; }
@@ -81,22 +84,12 @@ namespace ProjLab_Demo
             var dcPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP6);
             var resetPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP7);
 
-            /*
-            Display = new St7789(
-                device: device,
-                spiBus: SpiBus,
-                chipSelectPin: Mcp_1.Pins.GP5,
-                dcPin: Mcp_1.Pins.GP6,
-                resetPin: Mcp_1.Pins.GP6,
-                width: 240, height: 240,
-                colorMode: ColorType.Format16bppRgb565); */
-
             Display = new St7789(
                 spiBus: SpiBus,
                 chipSelectPort: chipSelectPort,
                 dataCommandPort: dcPort,
                 resetPort: resetPort,
-                240, 240,
+                width: 240, height: 240,
                 colorMode: ColorType.Format16bppRgb565);
 
             //==== Onboard LED
@@ -122,6 +115,19 @@ namespace ProjLab_Demo
             catch (Exception e)
             {
                 Console.WriteLine($"Could not bring up Bh1750: {e.Message}");
+            }
+
+            //==== BMI270
+            try
+            {
+                Bmi270 = new Bmi270(
+                    i2cBus: I2cBus,
+                    address: (byte)Bmi270.Addresses.Address_0x68
+                );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Could not bring up Bmi270: {e.Message}");
             }
 
             //==== BME688
