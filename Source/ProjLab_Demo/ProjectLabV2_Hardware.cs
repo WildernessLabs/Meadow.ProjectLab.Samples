@@ -141,8 +141,6 @@ namespace ProjLab_Demo
             }
 
             //==== Buttons
-            // TODO: consider how we want to instantiate these, given the resistors/edges, and such
-            //UpButton = new PushButton(Mcp_1, Mcp_1.Pins.GP0, ResistorMode.Disabled);
             var upPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP0, InterruptMode.EdgeBoth);
             UpButton = new PushButton(upPort);
 

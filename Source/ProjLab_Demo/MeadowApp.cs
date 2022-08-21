@@ -36,31 +36,44 @@ namespace ProjLab_Demo
 
             displayController = new DisplayController(hardware.Display);
 
+            //---- BH1750 Light Sensor
             if (hardware.Bh1750 is { } bh1750) {
                 bh1750.Updated += Bh1750Updated;
                 bh1750.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
+            //---- BME688 Atmospheric sensor
             if (hardware.Bme688 is { } bme688)
             {
                 bme688.Updated += Bme688Updated;
                 bme688.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
+            //---- BMI270 Accel/IMU
             if(hardware.Bmi270 is { } bmi270)
             {
                 bmi270.Updated += Bmi270Updated;
                 bmi270.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
+            //---- buttons
             hardware.UpButton.PressStarted += (s, e) => displayController.UpButtonState = true;
+            Console.WriteLine("UP");
             hardware.LeftButton.PressStarted += (s, e) => displayController.LeftButtonState = true;
+            Console.WriteLine("Left");
             hardware.RightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
+            Console.WriteLine("Right");
 
             hardware.UpButton.PressEnded += (s, e) => displayController.UpButtonState = false;
             hardware.LeftButton.PressEnded += (s, e) => displayController.LeftButtonState = false;
             hardware.RightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
 
+#if V2_PROJLAB
+            hardware.DownButton.PressStarted += (s, e) => displayController.DownButtonState = true;
+            Console.WriteLine("Down");
+            hardware.DownButton.PressEnded += (s, e) => displayController.RightButtonState = false;
+#endif
+            //---- heartbeat
             hardware.OnboardLed.StartPulse(WildernessLabsColors.PearGreen);
 
             return base.Initialize();
@@ -89,7 +102,12 @@ namespace ProjLab_Demo
         {
             displayController.Update();
 
+            Console.WriteLine("starting da blink");
+            hardware.OnboardLed.StartBlink(WildernessLabsColors.PearGreen, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(2000), 0.5f);
+
             return base.Run();
         }
+
+        
     }
 }
