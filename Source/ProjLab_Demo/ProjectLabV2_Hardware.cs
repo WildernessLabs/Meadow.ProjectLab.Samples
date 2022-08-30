@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Audio;
@@ -105,6 +106,8 @@ namespace ProjLab_Demo
                 var chipSelectPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP5);
                 var dcPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP6);
                 var resetPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP7);
+
+                Thread.Sleep(50);
 
                 Display = new St7789(
                     spiBus: SpiBus,
