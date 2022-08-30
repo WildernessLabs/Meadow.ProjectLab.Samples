@@ -30,6 +30,7 @@ namespace ProjLab_Demo
         PushButton RightButton { get; }
 
         PiezoSpeaker Speaker { get; }
+        HardwareBringupStatus Status { get; }
 
         void Initialize(IF7FeatherMeadowDevice device);
     }
