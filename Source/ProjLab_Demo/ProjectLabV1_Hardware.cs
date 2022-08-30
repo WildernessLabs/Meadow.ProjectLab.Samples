@@ -2,7 +2,7 @@
 using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays.TftSpi;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
@@ -24,7 +24,7 @@ namespace ProjLab_Demo
         public RgbPwmLed OnboardLed { get; protected set; }
         public PiezoSpeaker Speaker { get; protected set; }
         public Bh1750? Bh1750 { get; protected set; }
-        public Bme680? Bme688 { get; protected set; }
+        public Bme688? Bme688 { get; protected set; }
         public Bmi270? Bmi270 { get; protected set; }
 
         public PushButton UpButton { get; protected set; }
@@ -122,7 +122,7 @@ namespace ProjLab_Demo
             //==== BME688
             try
             {
-                Bme688 = new Bme680(I2cBus, (byte)Bme680.Addresses.Address_0x76);
+                Bme688 = new Bme688(I2cBus, (byte)Bme68x.Addresses.Address_0x76);
                 Status.Bme688 = true;
             }
             catch (Exception e)

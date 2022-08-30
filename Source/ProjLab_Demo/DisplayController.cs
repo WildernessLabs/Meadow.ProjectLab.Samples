@@ -8,7 +8,7 @@ namespace ProjLab_Demo
     {
         MicroGraphics graphics;
 
-        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? AtmosphericConditions
+        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)? AtmosphericConditions
         {
             get => atmosphericConditions;
             set
@@ -17,7 +17,7 @@ namespace ProjLab_Demo
                 Update();
             }
         }
-        (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)? atmosphericConditions;
+        (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)? atmosphericConditions;
 
         public Illuminance? LightConditions
         {
@@ -159,7 +159,7 @@ namespace ProjLab_Demo
             {
                 if(acceleration.Acceleration3D is { } accel3D)
                 {
-                    DrawStatus("Accel:", $"{accel3D.X.Gravity:0.0},{accel3D.Y.Gravity:0.0},{accel3D.Z.Gravity:0.0}g", WildernessLabsColors.AzureBlue, 115);
+                    DrawStatus("Accel:", $"{accel3D.X.Gravity:0.#},{accel3D.Y.Gravity:0.#},{accel3D.Z.Gravity:0.#}g", WildernessLabsColors.AzureBlue, 115);
                 }
 
                 if(acceleration.AngularVelocity3D is { } angular3D)

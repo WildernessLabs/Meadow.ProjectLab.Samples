@@ -2,7 +2,7 @@
 using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays.TftSpi;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.ICs.IOExpanders;
 using Meadow.Foundation.Leds;
@@ -25,7 +25,7 @@ namespace ProjLab_Demo
         public RgbPwmLed OnboardLed { get; protected set; }
         public PiezoSpeaker Speaker { get; protected set; }
         public Bh1750? Bh1750 { get; protected set; }
-        public Bme680? Bme688 { get; protected set; }
+        public Bme688? Bme688 { get; protected set; }
         public Bmi270? Bmi270 { get; protected set; }
 
         public PushButton UpButton { get; protected set; }
@@ -40,6 +40,8 @@ namespace ProjLab_Demo
 
         public void Initialize(IF7FeatherMeadowDevice device)
         {
+            Console.WriteLine("Initialize I2cBus...");
+
             //==== I2C Bus
             try
             {
@@ -51,7 +53,9 @@ namespace ProjLab_Demo
                 Console.WriteLine($"ERR creating I2C: {e.Message}");
             }
 
-            //==== MCP23008's
+            Console.WriteLine("Initialize MCP23008s...");
+
+            //==== MCP23008s
             try
             {
                 // MCP the First.
@@ -72,6 +76,8 @@ namespace ProjLab_Demo
                 Console.WriteLine($"ERR creating MCP: {e.Message}");
             }
 
+            Console.WriteLine("Initialize SpiBus...");
+
             //==== SPI BUS
             try
             {
@@ -91,6 +97,8 @@ namespace ProjLab_Demo
                 Console.WriteLine($"ERR creating SPI: {e.Message}");
             }
 
+            Console.WriteLine("Initialize ST7789...");
+
             //==== Display
             if (Mcp_1 != null)
             {
@@ -107,6 +115,8 @@ namespace ProjLab_Demo
                     colorMode: ColorType.Format16bppRgb565);
             }
 
+            Console.WriteLine("Initialize LED...");
+
             //==== Onboard LED
             OnboardLed = new RgbPwmLed(device: device,
                 redPwmPin: device.Pins.OnboardLedRed,
@@ -114,8 +124,12 @@ namespace ProjLab_Demo
                 bluePwmPin: device.Pins.OnboardLedBlue);
             OnboardLed.StartPulse(WildernessLabsColors.ChileanFire);
 
+            Console.WriteLine("Initialize Speaker...");
+
             //==== Speaker
             Speaker = new PiezoSpeaker(device, device.Pins.D11);
+
+            Console.WriteLine("Initialize BH1750...");
 
             //==== BH1750
             try
@@ -133,6 +147,8 @@ namespace ProjLab_Demo
                 Console.WriteLine($"Could not bring up Bh1750: {e.Message}");
             }
 
+            Console.WriteLine("Initialize BMI270...");
+
             //==== BMI270
             try
             {
@@ -147,16 +163,20 @@ namespace ProjLab_Demo
                 Console.WriteLine($"Could not bring up Bmi270: {e.Message}");
             }
 
+            Console.WriteLine("Initialize BME688...");
+
             //==== BME688
             try
             {
-                Bme688 = new Bme680(I2cBus, (byte)Bme680.Addresses.Address_0x76);
+                Bme688 = new Bme688(I2cBus, (byte)Bme688.Addresses.Address_0x76);
                 Status.Bme688 = true;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Could not bring up Bme688: {e.Message}");
             }
+
+            Console.WriteLine("Initialize Buttons...");
 
             //==== Buttons
             if (Mcp_1 != null)
@@ -178,7 +198,8 @@ namespace ProjLab_Demo
                 Status.BtnLeft = true;
             }
 
-            if (Status.AllGood) {
+            if (Status.AllGood) 
+            {
                 Console.WriteLine("Hardware initialized without errs.");
             }
             else

@@ -1,7 +1,7 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Gateway.WiFi;
@@ -64,7 +64,7 @@ namespace MeadowApp
                 resetPin: Device.Pins.A05,
                 width: 240,
                 height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
+                colorMode: ColorType.Format16bppRgb565
             );
 
             graphics = new MicroGraphics(st7789)

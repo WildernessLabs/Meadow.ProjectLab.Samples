@@ -21,7 +21,7 @@ namespace ProjLab_Demo
         II2cBus I2cBus { get; }
 
         Bh1750? Bh1750 { get; }
-        Bme680? Bme688 { get; }
+        Bme688? Bme688 { get; }
         Bmi270? Bmi270 { get; }
 
         PushButton UpButton { get; }

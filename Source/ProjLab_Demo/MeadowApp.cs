@@ -2,7 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays.TftSpi;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
@@ -50,31 +50,30 @@ namespace ProjLab_Demo
             }
 
             //---- BMI270 Accel/IMU
-            if(hardware.Bmi270 is { } bmi270)
+            if (hardware.Bmi270 is { } bmi270)
             {
                 bmi270.Updated += Bmi270Updated;
                 bmi270.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
             //---- buttons
-            hardware.UpButton.PressStarted += (s, e) => displayController.UpButtonState = true;
-            Console.WriteLine("UP");
             hardware.LeftButton.PressStarted += (s, e) => displayController.LeftButtonState = true;
-            Console.WriteLine("Left");
             hardware.RightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
-            Console.WriteLine("Right");
 
-            hardware.UpButton.PressEnded += (s, e) => displayController.UpButtonState = false;
             hardware.LeftButton.PressEnded += (s, e) => displayController.LeftButtonState = false;
             hardware.RightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
 
 #if V2_PROJLAB
+            hardware.UpButton.PressStarted += (s, e) => displayController.UpButtonState = true;
+            hardware.UpButton.PressEnded += (s, e) => displayController.UpButtonState = false;
+
             hardware.DownButton.PressStarted += (s, e) => displayController.DownButtonState = true;
-            Console.WriteLine("Down");
             hardware.DownButton.PressEnded += (s, e) => displayController.RightButtonState = false;
 #endif
             //---- heartbeat
             hardware.OnboardLed.StartPulse(WildernessLabsColors.PearGreen);
+
+            Console.WriteLine("Initialization complete");
 
             return base.Initialize();
         }
@@ -85,7 +84,7 @@ namespace ProjLab_Demo
             displayController.AccelerationConditions = e.New;
         }
 
-        private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
+        private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             Console.WriteLine($"BME688: {(int)e.New.Temperature?.Celsius}°C - {(int)e.New.Humidity?.Percent}% - {(int)e.New.Pressure?.Millibar}mbar");
             displayController.AtmosphericConditions = e.New;
@@ -100,6 +99,8 @@ namespace ProjLab_Demo
 
         public override Task Run()
         {
+            Console.WriteLine("Run...");
+
             displayController.Update();
 
             Console.WriteLine("starting da blink");
