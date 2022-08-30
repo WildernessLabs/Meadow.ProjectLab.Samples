@@ -57,16 +57,23 @@ namespace ProjLab_Demo
 
             //==== MCP23008's
 
-            // MCP the First.
-            IDigitalInputPort mcp1_int = device.CreateDigitalInputPort(
-                device.Pins.D09, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
+            try
+            {
+                // MCP the First.
+                IDigitalInputPort mcp1_int = device.CreateDigitalInputPort(
+                    device.Pins.D09, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
 
-            Mcp_1 = new Mcp23008(I2cBus, address: 0x20, mcp1_int);
+                Mcp_1 = new Mcp23008(I2cBus, address: 0x20, mcp1_int);
 
-            // MCP the Second.
-            IDigitalInputPort mcp2_int = device.CreateDigitalInputPort(
-                device.Pins.D10, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
-            Mcp_2 = new Mcp23008(I2cBus, address: 0x21, mcp2_int);
+                // MCP the Second.
+                IDigitalInputPort mcp2_int = device.CreateDigitalInputPort(
+                    device.Pins.D10, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
+                Mcp_2 = new Mcp23008(I2cBus, address: 0x21, mcp2_int);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERR creating MCP: {e.Message}");
+            }
 
             //==== SPI BUS
             var spiConfig = new SpiClockConfiguration(
@@ -80,17 +87,20 @@ namespace ProjLab_Demo
                 spiConfig);
 
             //==== Display
-            var chipSelectPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP5);
-            var dcPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP6);
-            var resetPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP7);
+            if (Mcp_1 != null)
+            {
+                var chipSelectPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP5);
+                var dcPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP6);
+                var resetPort = Mcp_1.CreateDigitalOutputPort(Mcp_1.Pins.GP7);
 
-            Display = new St7789(
-                spiBus: SpiBus,
-                chipSelectPort: chipSelectPort,
-                dataCommandPort: dcPort,
-                resetPort: resetPort,
-                width: 240, height: 240,
-                colorMode: ColorType.Format16bppRgb565);
+                Display = new St7789(
+                    spiBus: SpiBus,
+                    chipSelectPort: chipSelectPort,
+                    dataCommandPort: dcPort,
+                    resetPort: resetPort,
+                    width: 240, height: 240,
+                    colorMode: ColorType.Format16bppRgb565);
+            }
 
             //==== Onboard LED
             OnboardLed = new RgbPwmLed(device: device,
@@ -141,18 +151,20 @@ namespace ProjLab_Demo
             }
 
             //==== Buttons
-            var upPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP0, InterruptMode.EdgeBoth);
-            UpButton = new PushButton(upPort);
+            if (Mcp_1 != null)
+            {
+                var upPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP0, InterruptMode.EdgeBoth);
+                UpButton = new PushButton(upPort);
 
-            var rightPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP1, InterruptMode.EdgeBoth);
-            RightButton = new PushButton(rightPort);
+                var rightPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP1, InterruptMode.EdgeBoth);
+                RightButton = new PushButton(rightPort);
 
-            var downPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP3, InterruptMode.EdgeBoth);
-            DownButton = new PushButton(downPort);
+                var downPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP3, InterruptMode.EdgeBoth);
+                DownButton = new PushButton(downPort);
 
-            var leftPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP2, InterruptMode.EdgeBoth);
-            LeftButton = new PushButton(leftPort);
-
+                var leftPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP2, InterruptMode.EdgeBoth);
+                LeftButton = new PushButton(leftPort);
+            }
             Console.WriteLine("Hardware initialization complete");
         }
     }
