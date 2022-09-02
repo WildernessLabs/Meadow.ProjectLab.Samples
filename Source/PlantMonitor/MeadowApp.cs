@@ -3,23 +3,20 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
+using PlantMonitor.Controllers;
 using System;
+using System.Threading.Tasks;
 
 namespace PlantMonitor
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
         MoistureSensor moistureSensor;
         DisplayController displayController;
 
-        public MeadowApp()
-        {
-            Initialize();
-        }
-
-        void Initialize()
+        public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
                 device: Device,
@@ -28,7 +25,7 @@ namespace PlantMonitor
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            displayController = new DisplayController();
+            DisplayController.Instance.Initialize();
 
             moistureSensor = new MoistureSensor(Device, Device.Pins.A01);
             var moistureSensorObserver = MoistureSensor.CreateObserver(
@@ -43,9 +40,17 @@ namespace PlantMonitor
                 filter: null
             );
             moistureSensor.Subscribe(moistureSensorObserver);
-            moistureSensor.StartUpdating(TimeSpan.FromMinutes(1));
 
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
+        }
+
+        public override Task Run()
+        {
+            moistureSensor.StartUpdating(TimeSpan.FromMinutes(1));
+
+            return base.Run();
         }
     }
 }

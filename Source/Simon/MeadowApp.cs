@@ -9,13 +9,12 @@ using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Hardware;
 using Meadow.Units;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Simon
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>
     {
         int ANIMATION_DELAY = 50;
         const int DOT_UP = 0;
@@ -24,7 +23,7 @@ namespace Simon
         const int DOT_RIGHT = 3;
 
         bool isAnimating;
-        float[] notes;
+        Frequency[] notes;
 
         SimonGame game;
 
@@ -32,16 +31,7 @@ namespace Simon
         MicroGraphics graphics;
         PiezoSpeaker speaker;
 
-        public MeadowApp()
-        {
-            Initialize();
-
-            DrawAllDots(true);
-            game.OnGameStateChanged += OnGameStateChanged;
-            game.Reset();
-        }
-
-        void Initialize()
+        public override Task Initialize()
         {
             speaker = new PiezoSpeaker(Device, Device.Pins.D11);
 
@@ -52,7 +42,13 @@ namespace Simon
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            notes = new float[] { 261.63f, 329.63f, 392, 523.25f };
+            notes = new Frequency[] 
+            { 
+                new Frequency(261.63f),
+                new Frequency(329.63f),
+                new Frequency(392),
+                new Frequency(523.25f) 
+            };
 
             game = new SimonGame();
 
@@ -93,6 +89,8 @@ namespace Simon
             buttons[1].Clicked += ButtonRightClicked;
 
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         async void ButtonUpClicked(object sender, EventArgs e)
@@ -151,7 +149,7 @@ namespace Simon
         async Task DrawDotFilled(int index, int duration = 400)
         {
             DrawDot(index, true);
-            await speaker.PlayTone(notes[index], duration);
+            await speaker.PlayTone(notes[index], TimeSpan.FromMilliseconds(duration));
             DrawDot(index, false);
         }
 
@@ -225,7 +223,7 @@ namespace Simon
             isAnimating = true;
 
             //await Task.Delay(750);
-            await speaker.PlayTone(123.47f, 750);
+            await speaker.PlayTone(new Frequency(123.47f), TimeSpan.FromMilliseconds(750));
 
             for (int i = 0; i < 20; i++)
             {
@@ -272,6 +270,15 @@ namespace Simon
             {
                 graphics.Show();
             }
+        }
+
+        public override Task Run()
+        {
+            DrawAllDots(true);
+            game.OnGameStateChanged += OnGameStateChanged;
+            game.Reset();
+
+            return base.Run();
         }
     }
 }

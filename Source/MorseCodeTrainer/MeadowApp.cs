@@ -16,39 +16,33 @@ using System.Timers;
 namespace MorseCodeTrainer
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>
     {
         Dictionary<string, string> morseCode;
 
         PushButton button;
         PiezoSpeaker piezo;
-        DisplayController displayController;
 
         Timer timer;
         Stopwatch stopWatch;
         string answer;
         string question;
 
-        public MeadowApp()
+        public override Task Initialize()
         {
-            Initialize();
-        }
-
-        void Initialize()
-        {
-            piezo = new PiezoSpeaker(Device, Device.Pins.D11);
-
             var onboardLed = new RgbPwmLed(device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            displayController = new DisplayController();
+            DisplayController.Instance.Initialize();
 
             button = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
             button.PressStarted += ButtonPressStarted;
             button.PressEnded += ButtonPressEnded;
+
+            piezo = new PiezoSpeaker(Device, Device.Pins.D11);
 
             stopWatch = new Stopwatch();
 
@@ -57,9 +51,9 @@ namespace MorseCodeTrainer
 
             LoadMorseCode();
 
-            ShowLetterQuestion();
-
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         void LoadMorseCode()
@@ -111,7 +105,7 @@ namespace MorseCodeTrainer
 
             bool isCorrect = morseCode[answer] == question;
 
-            displayController.DrawCorrectIncorrectMessage(question, answer, isCorrect);
+            DisplayController.Instance.DrawCorrectIncorrectMessage(question, answer, isCorrect);
 
             await Task.Delay(2000);
 
@@ -122,15 +116,15 @@ namespace MorseCodeTrainer
             else
             {
                 answer = string.Empty;
-                displayController.ShowLetterQuestion(question);
+                DisplayController.Instance.ShowLetterQuestion(question);
             }
 
             timer.Start();
         }
 
-        void ButtonPressStarted(object sender, EventArgs e)
+        async void ButtonPressStarted(object sender, EventArgs e)
         {
-            piezo.PlayTone(440);
+            await piezo.PlayTone(new Meadow.Units.Frequency(440));
             stopWatch.Reset();
             stopWatch.Start();
             timer.Stop();
@@ -150,7 +144,7 @@ namespace MorseCodeTrainer
                 answer += "-";
             }
 
-            displayController.UpdateAnswer(answer, Color.White);
+            DisplayController.Instance.UpdateAnswer(answer, Color.White);
             timer.Start();
         }
 
@@ -158,7 +152,14 @@ namespace MorseCodeTrainer
         {
             answer = string.Empty;
             question = morseCode.ElementAt(new Random().Next(0, morseCode.Count)).Value;
-            displayController.ShowLetterQuestion(question);
+            DisplayController.Instance.ShowLetterQuestion(question);
+        }
+
+        public override Task Run()
+        {
+            ShowLetterQuestion();
+
+            return base.Run();
         }
     }
 }

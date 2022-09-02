@@ -6,14 +6,21 @@ using System.IO;
 using System.Reflection;
 using Meadow.Units;
 using Meadow.Hardware;
+using System;
 
-namespace PlantMonitor
+namespace PlantMonitor.Controllers
 {
     public class DisplayController
     {
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
+
         MicroGraphics graphics;
 
-        public DisplayController()
+        private DisplayController() { }
+
+        public void Initialize()
         {
             var config = new SpiClockConfiguration(
                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
@@ -35,22 +42,21 @@ namespace PlantMonitor
                 displayColorMode: ColorType.Format16bppRgb565
             );
 
-            graphics = new MicroGraphics(display);
-            graphics.Rotation = RotationType._90Degrees;
-            graphics.CurrentFont = new Font12x20();
-            graphics.Stroke = 3;
+            graphics = new MicroGraphics(display)
+            {
+                IgnoreOutOfBoundsPixels = true,
+                Rotation = RotationType._90Degrees,
+                CurrentFont = new Font12x20(),
+                Stroke = 3,
+            };
 
             graphics.Clear();
-
-            graphics.DrawRectangle(0, 0, 240, 240, Color.White, true);
-
+            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height, Color.White, true);
             string plant = "Plant";
             string monitor = "Monitor";
-
             graphics.CurrentFont = new Font12x16();
-            graphics.DrawText((240 - (plant.Length * 24)) / 2, 80, plant, Color.Black, ScaleFactor.X2);
-            graphics.DrawText((240 - (monitor.Length * 24)) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
-
+            graphics.DrawText((240 - plant.Length * 24) / 2, 80, plant, Color.Black, ScaleFactor.X2);
+            graphics.DrawText((240 - monitor.Length * 24) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
             graphics.Show();
         }
 
@@ -129,7 +135,7 @@ namespace PlantMonitor
             }
         }
 
-        public void Update(int percentage) 
+        public void Update(int percentage)
         {
             RefreshMoistureImage(percentage);
             RefreshMoisturePercentage(percentage);

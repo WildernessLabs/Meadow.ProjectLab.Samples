@@ -11,20 +11,21 @@ using SimpleJpegDecoder;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GalleryViewer
 {
-    // public class MeadowApp : App<F7FeatherV1, MeadowApp> <- If you have a Meadow F7v1.*
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed led;
         MicroGraphics graphics;
-        PushButton buttonUp;
-        PushButton buttonDown;
+        PushButton buttonLeft;
+        PushButton buttonRight;
         int selectedIndex;
         string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
 
-        public MeadowApp()
+        public override Task Initialize()
         {
             led = new RgbPwmLed(
                 device: Device,
@@ -33,11 +34,11 @@ namespace GalleryViewer
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             led.SetColor(Color.Red);
 
-            buttonUp = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
-            buttonUp.Clicked += ButtonUpClicked;
+            buttonLeft = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
+            buttonLeft.Clicked += ButtonUpClicked;
 
-            buttonDown = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullDown);
-            buttonDown.Clicked += ButtonDownClicked;
+            buttonRight = new PushButton(Device, Device.Pins.D05, ResistorMode.InternalPullDown);
+            buttonRight.Clicked += ButtonDownClicked;
 
             var config = new SpiClockConfiguration(
                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
@@ -62,9 +63,9 @@ namespace GalleryViewer
             graphics = new MicroGraphics(display);
             graphics.Rotation = RotationType._90Degrees;
 
-            DisplayJPG();
-
             led.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
         void ButtonUpClicked(object sender, EventArgs e)
@@ -137,6 +138,13 @@ namespace GalleryViewer
                     return ms.ToArray();
                 }
             }
+        }
+
+        public override Task Run()
+        {
+            DisplayJPG();
+
+            return base.Run();
         }
     }
 }

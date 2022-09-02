@@ -3,20 +3,21 @@ using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
 using Meadow.Hardware;
 using Meadow.Units;
-using System.Threading.Tasks;
+using System;
 
 namespace MoistureMeter.Controllers
 {
     public class DisplayController
     {
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
+
         MicroGraphics graphics;
 
-        public DisplayController()
-        {
-            Initialize();
-        }
+        private DisplayController() { }
 
-        void Initialize()
+        public void Initialize()
         {
             var config = new SpiClockConfiguration(
                 new Frequency(48000, Frequency.UnitType.Kilohertz),
