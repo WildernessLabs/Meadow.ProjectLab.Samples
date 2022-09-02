@@ -1,14 +1,6 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays;
-using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Buttons;
-using Meadow.Foundation.Sensors.Light;
-using Meadow.Hardware;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -57,10 +49,19 @@ namespace ProjLab_Demo
             }
 
             //---- buttons
-            hardware.LeftButton.PressStarted += (s, e) => displayController.LeftButtonState = true;
-            hardware.RightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
+            hardware.LeftButton.PressStarted += (s, e) => {
 
-            hardware.LeftButton.PressEnded += (s, e) => displayController.LeftButtonState = false;
+                Console.WriteLine("Left Button press started");
+                displayController.LeftButtonState = true;
+            };
+
+            hardware.LeftButton.PressEnded += (s, e) =>
+            {
+                Console.WriteLine("Left Button press ended");
+                displayController.LeftButtonState = false;
+            };
+            
+            hardware.RightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
             hardware.RightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
 
 #if V2_PROJLAB
@@ -68,7 +69,7 @@ namespace ProjLab_Demo
             hardware.UpButton.PressEnded += (s, e) => displayController.UpButtonState = false;
 
             hardware.DownButton.PressStarted += (s, e) => displayController.DownButtonState = true;
-            hardware.DownButton.PressEnded += (s, e) => displayController.RightButtonState = false;
+            hardware.DownButton.PressEnded += (s, e) => displayController.DownButtonState = false;
 #endif
             //---- heartbeat
             hardware.OnboardLed.StartPulse(WildernessLabsColors.PearGreen);
@@ -96,19 +97,16 @@ namespace ProjLab_Demo
             displayController.LightConditions = e.New;
         }
 
-
         public override Task Run()
         {
             Console.WriteLine("Run...");
 
             displayController.Update();
 
-            Console.WriteLine("starting da blink");
+            Console.WriteLine("starting blink");
             hardware.OnboardLed.StartBlink(WildernessLabsColors.PearGreen, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(2000), 0.5f);
 
             return base.Run();
         }
-
-        
     }
 }
