@@ -1,5 +1,5 @@
 using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays.TftSpi;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
@@ -72,8 +72,7 @@ namespace Meadow.Devices
                         chipSelectPin: Resolver.Device.GetPin("A03"),
                         dcPin: Resolver.Device.GetPin("A04"),
                         resetPin: Resolver.Device.GetPin("A05"),
-                        width: 240, height: 240,
-                        displayColorMode: ColorType.Format16bppRgb565));
+                        width: 240, height: 240));
 
                 _lightSensor = new Lazy<Bh1750>(() =>
                     new Bh1750(
