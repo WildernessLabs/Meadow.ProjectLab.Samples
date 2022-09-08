@@ -1,6 +1,6 @@
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays;
-using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Light;
@@ -11,7 +11,7 @@ using System;
 
 namespace Meadow.Devices
 {
-    public class ProjLab
+    public class ProjectLab
     {
         protected Logger? Logger { get; } = Resolver.Log;
         public ISpiBus SpiBus { get; }
@@ -25,10 +25,7 @@ namespace Meadow.Devices
         private readonly Lazy<PushButton> _rightButton;
         private readonly Lazy<Bme680> _bme680;
         private readonly Lazy<PiezoSpeaker> _speaker;
-        // onboardLed = new RgbPwmLed(device: Device,
-        //redPwmPin: Device.Pins.OnboardLedRed,
-        //        greenPwmPin: Device.Pins.OnboardLedGreen,
-        //        bluePwmPin: Device.Pins.OnboardLedBlue);
+        private readonly Lazy<Bmi270> _imu;
 
         public St7789 Display => _display.Value;
         public Bh1750 LightSensor => _lightSensor.Value;
@@ -38,10 +35,11 @@ namespace Meadow.Devices
         public PushButton RightButton => _rightButton.Value;
         public Bme680 EnvironmentalSensor => _bme680.Value;
         public PiezoSpeaker Speaker => _speaker.Value;
+        public Bmi270 IMU => _imu.Value;
 
-        public ProjLab()
+        public ProjectLab()
         {
-            if(Resolver.Device == null)
+            if (Resolver.Device == null)
             {
                 var msg = "ProjLab instance must be created no earlier than App.Initialize()";
                 Logger?.Error(msg);
@@ -114,8 +112,11 @@ namespace Meadow.Devices
 
                 _speaker = new Lazy<PiezoSpeaker>(() =>
                    new PiezoSpeaker(Resolver.Device, Resolver.Device.GetPin("D11")));
+
+                _imu = new Lazy<Bmi270>(() =>
+                    new Bmi270(I2CBus));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger?.Error(ex.Message);
             }

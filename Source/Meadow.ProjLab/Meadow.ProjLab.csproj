@@ -25,5 +25,6 @@
 	  <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Displays.TftSpi\Driver\Displays.TftSpi.csproj" />
 	  <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Atmospheric.Bme68x\Driver\Sensors.Atmospheric.Bme68x.csproj" />
 	  <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Light.Bh1750\Driver\Sensors.Light.Bh1750.csproj" />
+	  <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Motion.Bmi270\Driver\Sensors.Motion.Bmi270.csproj" />
 	</ItemGroup>
 </Project>
