@@ -49,22 +49,19 @@ namespace ProjLab_Demo
             }
 
             //---- buttons
-            hardware.LeftButton.PressStarted += (s, e) => {
+            if (hardware.LeftButton is { } leftButton) {
+                leftButton.PressStarted += (s, e) => displayController.LeftButtonState = true;
+                leftButton.PressEnded += (s, e) => displayController.LeftButtonState = false;
+            }
 
-                Console.WriteLine("Left Button press started");
-                displayController.LeftButtonState = true;
-            };
-
-            hardware.LeftButton.PressEnded += (s, e) =>
+            if (hardware.RightButton is { } rightButton)
             {
-                Console.WriteLine("Left Button press ended");
-                displayController.LeftButtonState = false;
-            };
-            
-            hardware.RightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
-            hardware.RightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
+                rightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
+                rightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
+            }
 
 #if V2_PROJLAB
+
             hardware.UpButton.PressStarted += (s, e) => displayController.UpButtonState = true;
             hardware.UpButton.PressEnded += (s, e) => displayController.UpButtonState = false;
 
