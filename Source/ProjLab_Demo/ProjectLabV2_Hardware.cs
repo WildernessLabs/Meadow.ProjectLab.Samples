@@ -36,6 +36,7 @@ namespace ProjLab_Demo
 
         public Mcp23008 Mcp_1 { get; protected set; }
         public Mcp23008 Mcp_2 { get; protected set; }
+        public Mcp23008 Mcp_Version { get; protected set; }
 
         public HardwareBringupStatus Status { get; protected set; } = new HardwareBringupStatus();
 
@@ -62,8 +63,9 @@ namespace ProjLab_Demo
                 // MCP the First
                 IDigitalInputPort mcp1_int = device.CreateDigitalInputPort(
                     device.Pins.D09, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
+                IDigitalOutputPort mcp_Reset = device.CreateDigitalOutputPort(device.Pins.D14);
 
-                Mcp_1 = new Mcp23008(I2cBus, address: 0x20, mcp1_int);
+                Mcp_1 = new Mcp23008(I2cBus, address: 0x20, mcp1_int, mcp_Reset);
                 Status.Mcp_1 = true;
             }
             catch (Exception e)
@@ -81,6 +83,16 @@ namespace ProjLab_Demo
             catch (Exception e)
             {
                 Console.WriteLine($"ERR creating MCP2: {e.Message}");
+            }
+            try
+            {
+                Mcp_Version = new Mcp23008(I2cBus, address: 0x23);
+                byte version = Mcp_Version.ReadFromPorts(Mcp23xxx.PortBank.A);
+                Console.WriteLine($"Project Lab version: {version.ToString()}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERR creating the MCP that has version information: {e.Message}");
             }
 
             Console.WriteLine("Initialize SpiBus...");

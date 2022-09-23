@@ -3,6 +3,7 @@ using System.Text;
 
 namespace ProjLab_Demo
 {
+    //TODO: this has to be hardware specific, since the MCPs aren't on v1, etc.
     public class HardwareBringupStatus
     {
         public bool I2c { get; set; } = false;

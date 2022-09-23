@@ -26,7 +26,9 @@ namespace ProjLab_Demo
             // Initialize the board specific hardware
             hardware.Initialize(Device);
 
-            displayController = new DisplayController(hardware.Display);
+            if (hardware.Display is { } display) {
+                displayController = new DisplayController(display);
+            }
 
             //---- BH1750 Light Sensor
             if (hardware.Bh1750 is { } bh1750) {
@@ -60,14 +62,18 @@ namespace ProjLab_Demo
                 rightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
             }
 
-#if V2_PROJLAB
+            if (hardware.UpButton is { } upButton)
+            {
+                upButton.PressStarted += (s, e) => displayController.UpButtonState = true;
+                upButton.PressEnded += (s, e) => displayController.UpButtonState = false;
+            }
 
-            hardware.UpButton.PressStarted += (s, e) => displayController.UpButtonState = true;
-            hardware.UpButton.PressEnded += (s, e) => displayController.UpButtonState = false;
+            if (hardware.DownButton is { } downButton)
+            {
+                downButton.PressStarted += (s, e) => displayController.DownButtonState = true;
+                downButton.PressEnded += (s, e) => displayController.DownButtonState = false;
+            }
 
-            hardware.DownButton.PressStarted += (s, e) => displayController.DownButtonState = true;
-            hardware.DownButton.PressEnded += (s, e) => displayController.DownButtonState = false;
-#endif
             //---- heartbeat
             hardware.OnboardLed.StartPulse(WildernessLabsColors.PearGreen);
 
@@ -79,26 +85,38 @@ namespace ProjLab_Demo
         private void Bmi270Updated(object sender, IChangeResult<(Acceleration3D? Acceleration3D, AngularVelocity3D? AngularVelocity3D, Temperature? Temperature)> e)
         {
             Console.WriteLine($"BMI270: {e.New.Acceleration3D.Value.X.Gravity:0.0},{e.New.Acceleration3D.Value.Y.Gravity:0.0},{e.New.Acceleration3D.Value.Z.Gravity:0.0}g");
-            displayController.AccelerationConditions = e.New;
+            if (displayController != null)
+            {
+                displayController.AccelerationConditions = e.New;
+            }
         }
 
         private void Bme688Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             Console.WriteLine($"BME688: {(int)e.New.Temperature?.Celsius}°C - {(int)e.New.Humidity?.Percent}% - {(int)e.New.Pressure?.Millibar}mbar");
-            displayController.AtmosphericConditions = e.New;
+            if (displayController != null)
+            {
+                displayController.AtmosphericConditions = e.New;
+            }
         }
 
         private void Bh1750Updated(object sender, IChangeResult<Illuminance> e)
         {
             Console.WriteLine($"BH1750: {e.New.Lux}");
-            displayController.LightConditions = e.New;
+            if (displayController != null)
+            {
+                displayController.LightConditions = e.New;
+            }
         }
 
         public override Task Run()
         {
             Console.WriteLine("Run...");
 
-            displayController.Update();
+            if (displayController != null)
+            {
+                displayController.Update();
+            }
 
             Console.WriteLine("starting blink");
             hardware.OnboardLed.StartBlink(WildernessLabsColors.PearGreen, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(2000), 0.5f);
