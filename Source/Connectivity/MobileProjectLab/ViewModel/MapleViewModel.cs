@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
 
-namespace MobileMaple.ViewModel
+namespace MobileProjectLab.ViewModel
 {
     public class MapleViewModel : BaseViewModel
     {

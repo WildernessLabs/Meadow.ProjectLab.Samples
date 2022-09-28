@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoistureMeter", "MoistureMe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantMonitor", "PlantMonitor\PlantMonitor.csproj", "{FB54A642-D81B-4E25-BEE1-83B82CB53FE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileMaple", "Connectivity\MobileMaple\MobileMaple.csproj", "{EF253DA1-F3FE-4AF6-B42A-87A8495A6E76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileProjectLab", "Connectivity\MobileProjectLab\MobileProjectLab.csproj", "{EF253DA1-F3FE-4AF6-B42A-87A8495A6E76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

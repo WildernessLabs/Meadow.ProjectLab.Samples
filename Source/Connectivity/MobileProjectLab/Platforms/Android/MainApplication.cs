@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace MobileMaple;
+namespace MobileProjectLab;
 
 [Application]
 public class MainApplication : MauiApplication

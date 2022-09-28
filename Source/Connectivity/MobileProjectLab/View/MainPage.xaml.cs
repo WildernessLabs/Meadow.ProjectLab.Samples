@@ -1,4 +1,4 @@
-﻿namespace MobileMaple.View
+﻿namespace MobileProjectLab.View
 {
     public partial class MainPage : ContentPage
     {

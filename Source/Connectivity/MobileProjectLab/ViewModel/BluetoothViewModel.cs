@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CommonContracts.Bluetooth;
 
-namespace MobileMaple.ViewModel
+namespace MobileProjectLab.ViewModel
 {
     public class BluetoothViewModel : BaseViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace MobileMaple.Converter
+namespace MobileProjectLab.Converter
 {
     public class InverseBoolConverter
     {

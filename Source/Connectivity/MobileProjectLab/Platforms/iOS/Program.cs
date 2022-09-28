@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace MobileMaple;
+namespace MobileProjectLab;
 
 public class Program
 {

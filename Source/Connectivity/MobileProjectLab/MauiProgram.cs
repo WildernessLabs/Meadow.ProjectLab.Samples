@@ -1,4 +1,4 @@
-﻿namespace MobileMaple;
+﻿namespace MobileProjectLab;
 
 public static class MauiProgram
 {

@@ -2,9 +2,9 @@
 <ContentPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="MobileMaple.View.MainPage"
+    x:Class="MobileProjectLab.View.MainPage"
     BackgroundColor="White"
-    Title="Maple Devices">
+    Title="Project Lab Companion App">
 
     <ContentPage.Resources>
         <ResourceDictionary>

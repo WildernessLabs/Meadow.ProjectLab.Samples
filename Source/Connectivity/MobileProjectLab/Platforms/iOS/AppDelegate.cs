@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace MobileMaple;
+namespace MobileProjectLab;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

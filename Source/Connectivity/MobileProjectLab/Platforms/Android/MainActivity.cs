@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 
-namespace MobileMaple
+namespace MobileProjectLab
 {
     [Activity(
         Label = "Project Lab",

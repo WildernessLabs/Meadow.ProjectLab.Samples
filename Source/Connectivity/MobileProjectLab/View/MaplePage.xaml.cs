@@ -1,6 +1,6 @@
-﻿using MobileMaple.ViewModel;
+﻿using MobileProjectLab.ViewModel;
 
-namespace MobileMaple.View
+namespace MobileProjectLab.View
 {
     public partial class MaplePage : ContentPage
     {

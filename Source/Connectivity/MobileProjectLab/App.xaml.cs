@@ -1,4 +1,4 @@
-﻿namespace MobileMaple
+﻿namespace MobileProjectLab
 {
     public partial class App : Application
     {
