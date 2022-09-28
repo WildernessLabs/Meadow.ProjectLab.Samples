@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MobileMaple.View.BluetoothPage"
+    BackgroundColor="White"
+    Title="Servo Controller">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="TextColor">#555</Color>
+            <Style x:Key="ButtonNavStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="BackgroundColor" Value="#14607F" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowSpacing="10" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Frame Grid.Row="0" BackgroundColor="#23ABE3" HasShadow="False" CornerRadius="5" Padding="10,0,0,0">
+                    <Grid ColumnDefinitions="*, Auto, 1, Auto" ColumnSpacing="0">
+                        <Grid Grid.Column="0">
+                            <Picker TextColor="White" FontSize="Medium" BackgroundColor="Transparent"
+                                ItemsSource="{Binding DeviceList}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding DeviceSelected}"/>
+                            <!--<Label Text="Meadow Clima.Pro" 
+                                FontSize="Medium" TextColor="White" VerticalOptions="Center" />-->
+                        </Grid>
+
+                        <Grid Grid.Column="1" WidthRequest="50" HeightRequest="50">
+                            <Button Command="{Binding CmdToggleConnection}" BackgroundColor="Transparent" CornerRadius="5" />
+                            <Image Margin="10" HorizontalOptions="Center" Source="icon_connected">
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image" Binding="{Binding IsDeviceListEmpty}" Value="True">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                        <Setter Property="InputTransparent" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image" Binding="{Binding IsDeviceListEmpty}" Value="False">
+                                        <Setter Property="Opacity" Value="1" />
+                                        <Setter Property="InputTransparent" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image" Binding="{Binding IsScanning}" Value="True">
+                                        <Setter Property="IsVisible" Value="False" />
+                                        <Setter Property="InputTransparent" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image" Binding="{Binding IsScanning}" Value="False">
+                                        <Setter Property="IsVisible" Value="True" />
+                                        <Setter Property="InputTransparent" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image" Binding="{Binding IsConnected}" Value="True">
+                                        <Setter Property="Source" Value="icon_connected" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image" Binding="{Binding IsConnected}" Value="False">
+                                        <Setter Property="Source" Value="icon_disconnected" />
+                                    </DataTrigger>
+                                </Image.Triggers>
+                            </Image>
+                            <ActivityIndicator Color="White" IsRunning="True" IsVisible="{Binding IsScanning}" Margin="7" />
+                        </Grid>
+
+                        <BoxView Grid.Column="2" Color="White" />
+
+                        <Grid Grid.Column="3" WidthRequest="50" HeightRequest="50">
+                            <Button Command="{Binding CmdSearchForDevices}" BackgroundColor="Transparent" CornerRadius="5" />
+                            <Image Source="icon_search.png" Margin="10" InputTransparent="True" HorizontalOptions="Center" />
+                        </Grid>
+                    </Grid>
+                </Frame>
+
+                <ScrollView Grid.Row="1" >
+                    <StackLayout Spacing="10">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Onboard RGB LED" TextColor="White" FontSize="Medium" />
+                                <StackLayout>
+                                    <Label TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Status: " />
+                                                <Span Text="{Binding LedStatus}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                                    <Button Grid.Column="0" Text="On/off" Style="{StaticResource ButtonNavStyle}"
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="toggle"/>
+                                    <Button Grid.Column="1" Text="Blink" Style="{StaticResource ButtonNavStyle}" 
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="blink"/>
+                                    <Button Grid.Column="2" Text="Pulse" Style="{StaticResource ButtonNavStyle}"
+                                        Command="{Binding CmdSetOnboardLed}" CommandParameter="pulse"/>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="BME688 Atmospheric Sensor" TextColor="White" FontSize="Medium" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label Grid.Column="0" TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Temp: " />
+                                                <Span Text="{Binding Temperature}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Humidity: " />
+                                                <Span Text="{Binding Humidity}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Pressure: " />
+                                                <Span Text="{Binding Pressure}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <Button Text="Read Sensor" Command="{Binding CmdGetBme688Data}"
+                                    VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="BH1750 Light Sensor" TextColor="White" FontSize="Medium" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Light: " />
+                                                <Span Text="{Binding Illuminance}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <Button Text="Read Sensor" Command="{Binding CmdGetBh1750Data}"
+                                    VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" Opacity="0.5" CornerRadius="5">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="BMI270 Accelerometer Sensor" TextColor="White" FontSize="Medium" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label Grid.Column="0" TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="X: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Y: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Z: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <Button Text="Read Sensor"
+                                    VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </StackLayout>
+                </ScrollView>
+
+                <Label Grid.Row="2" Text="By Wilderness Labs" TextColor="Black" 
+                    HorizontalOptions="Center" VerticalOptions="EndAndExpand" />
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
