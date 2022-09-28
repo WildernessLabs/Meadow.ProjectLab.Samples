@@ -21,7 +21,7 @@
 
     <ContentPage.Content>
         <StackLayout Margin="20">
-            <Frame Padding="20" CornerRadius="10" BackgroundColor="#23abe3">
+            <Frame Padding="20" CornerRadius="10" BackgroundColor="#23abe3" BorderColor="Transparent">
                 <StackLayout Spacing="15">
                     <Image Source="img_project_lab" />
                     <Button Text="WIFI using Maple" Clicked="BtnMapleClicked" Style="{StaticResource ButtonNavStyle}" />

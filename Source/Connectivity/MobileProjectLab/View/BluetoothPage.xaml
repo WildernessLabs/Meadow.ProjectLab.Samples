@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MobileProjectLab.View.BluetoothPage"
     BackgroundColor="White"
-    Title="Servo Controller">
+    Title="Bluetooth Connection">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -28,13 +28,11 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Frame Grid.Row="0" BackgroundColor="#23ABE3" HasShadow="False" CornerRadius="5" Padding="10,0,0,0">
+                <Frame Grid.Row="0" BackgroundColor="#23ABE3" HasShadow="False" CornerRadius="5" Padding="10,0,0,0" BorderColor="Transparent">
                     <Grid ColumnDefinitions="*, Auto, 1, Auto" ColumnSpacing="0">
                         <Grid Grid.Column="0">
                             <Picker TextColor="White" FontSize="Medium" BackgroundColor="Transparent"
                                 ItemsSource="{Binding DeviceList}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding DeviceSelected}"/>
-                            <!--<Label Text="Meadow Clima.Pro" 
-                                FontSize="Medium" TextColor="White" VerticalOptions="Center" />-->
                         </Grid>
 
                         <Grid Grid.Column="1" WidthRequest="50" HeightRequest="50">
@@ -58,10 +56,10 @@
                                         <Setter Property="InputTransparent" Value="True" />
                                     </DataTrigger>
                                     <DataTrigger TargetType="Image" Binding="{Binding IsConnected}" Value="True">
-                                        <Setter Property="Source" Value="icon_connected" />
+                                        <Setter Property="Source" Value="img_ble_paired" />
                                     </DataTrigger>
                                     <DataTrigger TargetType="Image" Binding="{Binding IsConnected}" Value="False">
-                                        <Setter Property="Source" Value="icon_disconnected" />
+                                        <Setter Property="Source" Value="img_ble_pair" />
                                     </DataTrigger>
                                 </Image.Triggers>
                             </Image>
@@ -72,14 +70,14 @@
 
                         <Grid Grid.Column="3" WidthRequest="50" HeightRequest="50">
                             <Button Command="{Binding CmdSearchForDevices}" BackgroundColor="Transparent" CornerRadius="5" />
-                            <Image Source="icon_search.png" Margin="10" InputTransparent="True" HorizontalOptions="Center" />
+                            <Image Source="img_search" Margin="10" InputTransparent="True" HorizontalOptions="Center" />
                         </Grid>
                     </Grid>
                 </Frame>
 
                 <ScrollView Grid.Row="1" >
                     <StackLayout Spacing="10">
-                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="Onboard RGB LED" TextColor="White" FontSize="Medium" />
                                 <StackLayout>
@@ -103,7 +101,7 @@
                             </VerticalStackLayout>
                         </Frame>
 
-                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="BME688 Atmospheric Sensor" TextColor="White" FontSize="Medium" />
                                 <Grid ColumnDefinitions="Auto,*,Auto">
@@ -138,7 +136,7 @@
                             </VerticalStackLayout>
                         </Frame>
 
-                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="BH1750 Light Sensor" TextColor="White" FontSize="Medium" />
                                 <Grid ColumnDefinitions="Auto,*,Auto">
@@ -157,7 +155,7 @@
                             </VerticalStackLayout>
                         </Frame>
 
-                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" Opacity="0.5" CornerRadius="5">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" Opacity="0.5" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="BMI270 Accelerometer Sensor" TextColor="White" FontSize="Medium" />
                                 <Grid ColumnDefinitions="Auto,*,Auto">
