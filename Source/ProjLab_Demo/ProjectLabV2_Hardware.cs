@@ -36,6 +36,7 @@ namespace ProjLab_Demo
 
         public Mcp23008 Mcp_1 { get; protected set; }
         public Mcp23008 Mcp_2 { get; protected set; }
+        public Mcp23008 Mcp_Version { get; protected set; }
 
         public HardwareBringupStatus Status { get; protected set; } = new HardwareBringupStatus();
 
@@ -59,14 +60,21 @@ namespace ProjLab_Demo
             //==== MCP23008s
             try
             {
-                // MCP the First.
+                // MCP the First
                 IDigitalInputPort mcp1_int = device.CreateDigitalInputPort(
                     device.Pins.D09, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
+                IDigitalOutputPort mcp_Reset = device.CreateDigitalOutputPort(device.Pins.D14);
 
-                Mcp_1 = new Mcp23008(I2cBus, address: 0x20, mcp1_int);
+                Mcp_1 = new Mcp23008(I2cBus, address: 0x20, mcp1_int, mcp_Reset);
                 Status.Mcp_1 = true;
-
-                // MCP the Second.
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERR creating MCP1: {e.Message}");
+            }
+            try
+            {
+                // MCP the Second
                 IDigitalInputPort mcp2_int = device.CreateDigitalInputPort(
                     device.Pins.D10, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
                 Mcp_2 = new Mcp23008(I2cBus, address: 0x21, mcp2_int);
@@ -74,7 +82,17 @@ namespace ProjLab_Demo
             }
             catch (Exception e)
             {
-                Console.WriteLine($"ERR creating MCP: {e.Message}");
+                Console.WriteLine($"ERR creating MCP2: {e.Message}");
+            }
+            try
+            {
+                Mcp_Version = new Mcp23008(I2cBus, address: 0x23);
+                byte version = Mcp_Version.ReadFromPorts(Mcp23xxx.PortBank.A);
+                Console.WriteLine($"Project Lab version: {version.ToString()}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERR creating the MCP that has version information: {e.Message}");
             }
 
             Console.WriteLine("Initialize SpiBus...");
@@ -184,19 +202,27 @@ namespace ProjLab_Demo
             //==== Buttons
             if (Mcp_1 != null)
             {
-                var upPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP0, InterruptMode.EdgeBoth);
+                /* 2a
+                var upPort    = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP0, InterruptMode.EdgeBoth, ResistorMode.ExternalPullDown);
+                var rightPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP1, InterruptMode.EdgeBoth, ResistorMode.ExternalPullDown);
+                var downPort  = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP3, InterruptMode.EdgeBoth, ResistorMode.ExternalPullDown);
+                var leftPort  = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP2, InterruptMode.EdgeBoth, ResistorMode.ExternalPullDown);
+                */
+
+                var upPort    = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP0, InterruptMode.EdgeBoth, ResistorMode.InternalPullUp);
+                var rightPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP1, InterruptMode.EdgeBoth, ResistorMode.InternalPullUp);
+                var downPort  = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP3, InterruptMode.EdgeBoth, ResistorMode.InternalPullUp);
+                var leftPort  = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP2, InterruptMode.EdgeBoth, ResistorMode.InternalPullUp);
+
                 UpButton = new PushButton(upPort);
                 Status.BtnUp = true;
-
-                var rightPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP1, InterruptMode.EdgeBoth);
+                
                 RightButton = new PushButton(rightPort);
                 Status.BtnRight = true;
-
-                var downPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP3, InterruptMode.EdgeBoth);
+                
                 DownButton = new PushButton(downPort);
                 Status.BtnDown = true;
-
-                var leftPort = Mcp_1.CreateDigitalInputPort(Mcp_1.Pins.GP2, InterruptMode.EdgeBoth);
+                
                 LeftButton = new PushButton(leftPort);
                 Status.BtnLeft = true;
             }

@@ -6,7 +6,7 @@ namespace ProjLab_Demo
 {
     public class DisplayController
     {
-        MicroGraphics graphics;
+        readonly MicroGraphics graphics;
 
         public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)? AtmosphericConditions
         {
@@ -103,12 +103,13 @@ namespace ProjLab_Demo
         public void Update()
         {
             if (isUpdating)
-            { 
+            {   //queue up the next update
                 needsUpdate = true;
                 return;
             }
 
             isUpdating = true;
+
             graphics.Clear();
             Draw();
             graphics.Show();
@@ -168,8 +169,13 @@ namespace ProjLab_Demo
                 }
             }
 
-            DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 160);
+#if V1_PROJLAB
+            DrawStatus("Up:", $"Disabled", WildernessLabsColors.ChileanFire, 160);
             DrawStatus("Down:", $"Disabled", WildernessLabsColors.ChileanFire, 180);
+#else 
+            DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 160);
+            DrawStatus("Down:", $"{(DownButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 180);
+#endif
             DrawStatus("Left:", $"{(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 200);
             DrawStatus("Right:", $"{(RightButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 220);
         }

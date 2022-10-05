@@ -131,12 +131,19 @@ namespace ProjLab_Demo
             }
 
             //==== Buttons
-            UpButton = new PushButton(device, device.Pins.D15, ResistorMode.InternalPullDown);
-            Status.BtnUp = true;
-            DownButton = new PushButton(device, device.Pins.D05, ResistorMode.InternalPullDown);
-            Status.BtnDown = true;
-            LeftButton = new PushButton(device, device.Pins.D10, ResistorMode.InternalPullDown);
-            Status.BtnLeft = true;
+            try
+            {
+                UpButton = new PushButton(device, device.Pins.D15, ResistorMode.InternalPullDown);
+                Status.BtnUp = true;
+                DownButton = new PushButton(device, device.Pins.D05, ResistorMode.InternalPullDown);
+                Status.BtnDown = true;
+                LeftButton = new PushButton(device, device.Pins.D10, ResistorMode.InternalPullDown);
+                Status.BtnLeft = true;
+
+            }
+            catch (Exception e) {
+                Console.WriteLine($"Could not bring up buttons: {e.Message}");
+            }
 
             if (Status.AllGood)
             {
