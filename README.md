@@ -71,6 +71,14 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
     </tr>
 </table>
 
+## Onboard On/Off switch
+
+Project Lab boards come with an Enable/Disable switch onboard so you can reset the board by flipping the switch off and on. Make sure the switch is set to ENABLE when intending to work on your project, otherwise it will remain off and it wont be detected on your computer.
+
+<p align="center">
+    <img src="Design/EnableDisable.png" width="50%" />
+</p>
+
 ## Hardware
 
 The PROJ LAB board includes the following hardware:
