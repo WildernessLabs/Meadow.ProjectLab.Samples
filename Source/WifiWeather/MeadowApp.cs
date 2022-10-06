@@ -1,9 +1,8 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Gateway.WiFi;
+using Meadow.Hardware;
 using System;
 using System.Threading.Tasks;
 using WifiWeather.Services;
@@ -15,52 +14,49 @@ namespace WifiWeather
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
     {
-        RgbPwmLed onboardLed;
         WeatherView displayController;
-        Bme680 bme;
+        ProjectLab projLab;
 
         public override async Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            projLab = new ProjectLab();
 
-            var connectionResult = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+
+            projLab.Led.SetColor(Color.Red);
+
+            var connectionResult = await Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>().Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+
             if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
             {
                 throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
             }
 
-            bme = new Bme680(Device.CreateI2cBus(), (byte)Bme680.Addresses.Address_0x76);
-            await bme.Read();
-
             displayController = new WeatherView();
+            displayController.Initialize(projLab.Display);
 
-            onboardLed.StartPulse(Color.Green);
+            projLab.Led.StartPulse(Color.Green);
         }
 
         async Task GetTemperature()
         {
-            onboardLed.StartPulse(Color.Magenta);
+            projLab.Led.StartPulse(Color.Magenta);
 
             // Get indoor conditions
-            var roomTemperature = await bme.Read();
+            var conditions = await projLab.EnvironmentalSensor.Read();
 
             // Get outdoor conditions
             var outdoorConditions = await WeatherService.GetWeatherForecast();
 
-            onboardLed.StartPulse(Color.Orange);
+            projLab.Led.StartPulse(Color.Orange);
 
             // Format indoor/outdoor conditions data
-            var model = new WeatherViewModel(outdoorConditions, roomTemperature.Temperature);
+            var model = new WeatherViewModel(outdoorConditions, conditions.Temperature);
 
             // Send formatted data to display to render
             displayController.UpdateDisplay(model);
 
-            onboardLed.StartPulse(Color.Green);
+            projLab.Led.StartPulse(Color.Green);
         }
 
         public override async Task Run()

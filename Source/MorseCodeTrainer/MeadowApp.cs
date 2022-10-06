@@ -27,9 +27,11 @@ namespace MorseCodeTrainer
         {
             projLab = new ProjectLab();
 
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+
             projLab.Led.SetColor(Color.Red);
 
-            DisplayController.Instance.Initialize();
+            DisplayController.Instance.Initialize(projLab.Display);
 
             projLab.LeftButton.PressStarted += ButtonPressStarted;
             projLab.LeftButton.PressEnded += ButtonPressEnded;

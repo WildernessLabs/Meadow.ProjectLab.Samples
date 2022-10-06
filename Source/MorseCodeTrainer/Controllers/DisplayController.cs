@@ -1,8 +1,5 @@
 ﻿using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Hardware;
-using Meadow.Units;
 using System;
 
 namespace MorseCodeTrainer.Controllers
@@ -17,27 +14,8 @@ namespace MorseCodeTrainer.Controllers
 
         private DisplayController() { }
 
-        public void Initialize()
+        public void Initialize(IGraphicsDisplay display)
         {
-            var config = new SpiClockConfiguration(
-                new Frequency(48000, Frequency.UnitType.Kilohertz),
-                SpiClockConfiguration.Mode.Mode3);
-            var spiBus = MeadowApp.Device.CreateSpiBus(
-                clock: MeadowApp.Device.Pins.SCK,
-                copi: MeadowApp.Device.Pins.MOSI,
-                cipo: MeadowApp.Device.Pins.MISO,
-                config: config);
-            var display = new St7789
-            (
-                device: MeadowApp.Device,
-                spiBus: spiBus,
-                chipSelectPin: MeadowApp.Device.Pins.A03,
-                dcPin: MeadowApp.Device.Pins.A04,
-                resetPin: MeadowApp.Device.Pins.A05,
-                width: 240,
-                height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
-            );
             graphics = new MicroGraphics(display)
             {
                 Stroke = 1,
