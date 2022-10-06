@@ -47,7 +47,7 @@ namespace AmbientRoomMonitor
 
         private void LightSensor_Updated(object sender, IChangeResult<Illuminance> e)
         {
-            graphics.DrawText(130, 121, $"{(int)e.New.Lux}lux", Color.White);
+            graphics.DrawText(162, 121, $"{(int)e.New.Lux:000}lux", Color.White);
         }
 
         private void EnvironmentalSensor_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)

@@ -41,7 +41,8 @@ namespace Meadow.Devices
         public PiezoSpeaker Speaker => _speaker.Value;
         public Bmi270 IMU => _imu.Value;
 
-        private IProjectLabHardware _hardware;
+        internal IProjectLabHardware Hardware { get; }
+
         private string? _rev;
 
         public Mcp23008? Mcp_1 { get; }
@@ -94,7 +95,7 @@ namespace Meadow.Devices
             }
             catch (Exception e)
             {
-                Logger?.Warn($"ERR creating MCP1: {e.Message}");
+                Logger?.Warn($"Failed to create MCP1: {e.Message}");
             }
             try
             {
@@ -105,7 +106,7 @@ namespace Meadow.Devices
             }
             catch (Exception e)
             {
-                Logger?.Warn($"ERR creating MCP2: {e.Message}");
+                Logger?.Warn($"Failed to create MCP2: {e.Message}");
             }
             try
             {
@@ -118,11 +119,11 @@ namespace Meadow.Devices
 
             if (Mcp_1 == null)
             {
-                _hardware = new ProjectLabHardwareV1(device, SpiBus);
+                Hardware = new ProjectLabHardwareV1(device, SpiBus);
             }
             else
             {
-                _hardware = new ProjectLabHardwareV2(Mcp_1, Mcp_Version, device, SpiBus);
+                Hardware = new ProjectLabHardwareV2(Mcp_1, Mcp_Version, device, SpiBus);
             }
 
             // lazy load all components
@@ -135,7 +136,7 @@ namespace Meadow.Devices
                     greenPwmPin: device.Pins.OnboardLedGreen,
                     bluePwmPin: device.Pins.OnboardLedBlue));
 
-                _display = new Lazy<St7789>(_hardware.GetDisplay());
+                _display = new Lazy<St7789>(Hardware.GetDisplay());
 
                 _lightSensor = new Lazy<Bh1750>(() =>
                     new Bh1750(
@@ -144,29 +145,31 @@ namespace Meadow.Devices
                         lightTransmittance: 0.5, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
                         address: (byte)Bh1750.Addresses.Address_0x23));
 
-                _upButton = new Lazy<PushButton>(_hardware.GetUpButton());
-                _downButton = new Lazy<PushButton>(_hardware.GetDownButton());
-                _leftButton = new Lazy<PushButton>(_hardware.GetLeftButton());
-                _rightButton = new Lazy<PushButton>(_hardware.GetRightButton());
 
-                _bme680 = new Lazy<Bme680>(() =>
-                    new Bme680(I2CBus, (byte)Bme680.Addresses.Address_0x76));
+                _rightButton = new Lazy<PushButton>(Hardware.GetRightButton());
 
-                _speaker = new Lazy<PiezoSpeaker>(() =>
-                   new PiezoSpeaker(Resolver.Device, device.Pins.D11));
+                if (!this.IsV1Hardware())
+                {
+                    _upButton = new Lazy<PushButton>(Hardware.GetUpButton());
+                    _leftButton = new Lazy<PushButton>(Hardware.GetLeftButton());
+                    _downButton = new Lazy<PushButton>(Hardware.GetDownButton());
+                }
 
-                _imu = new Lazy<Bmi270>(() =>
-                    new Bmi270(I2CBus));
+                _bme680 = new Lazy<Bme680>(new Bme680(I2CBus, (byte)Bme680.Addresses.Address_0x76));
+
+                _speaker = new Lazy<PiezoSpeaker>(new PiezoSpeaker(device, device.Pins.D11));
+
+                _imu = new Lazy<Bmi270>(new Bmi270(I2CBus));
             }
             catch (Exception ex)
             {
-                Logger?.Error(ex.Message);
+                Logger?.Error($"Error initializing ProjectLab: {ex.Message}");
             }
         }
 
         public string HardwareRevision
         {
-            get => _hardware.GetRevisionString();
+            get => Hardware.GetRevisionString();
         }
 
         public static (

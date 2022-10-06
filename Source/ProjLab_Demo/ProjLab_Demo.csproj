@@ -40,6 +40,9 @@
     <ProjectReference Include="..\Meadow.ProjLab\Meadow.ProjLab.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="app.config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="meadow.config.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

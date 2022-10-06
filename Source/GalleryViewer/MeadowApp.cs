@@ -25,6 +25,8 @@ namespace GalleryViewer
         {
             projLab = new ProjectLab();
 
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+
             projLab.Led.SetColor(Color.Red);
 
             projLab.LeftButton.Clicked += ButtonUpClicked;

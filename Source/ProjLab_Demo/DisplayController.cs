@@ -88,9 +88,11 @@ namespace ProjLab_Demo
 
         bool isUpdating = false;
         bool needsUpdate = false;
+        bool isV1 = false;
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IGraphicsDisplay display, bool isV1)
         {
+            this.isV1 = isV1;
             graphics = new MicroGraphics(display)
             {
                 Rotation = RotationType._90Degrees,
@@ -114,9 +116,9 @@ namespace ProjLab_Demo
             Draw();
             graphics.Show();
 
-            isUpdating = false; 
+            isUpdating = false;
 
-            if(needsUpdate)
+            if (needsUpdate)
             {
                 needsUpdate = false;
                 Update();
@@ -135,7 +137,7 @@ namespace ProjLab_Demo
 
             if (AtmosphericConditions is { } conditions)
             {
-                if(conditions.Temperature is { } temp)
+                if (conditions.Temperature is { } temp)
                 {
                     DrawStatus("Temperature:", $"{temp.Celsius:N1}C", WildernessLabsColors.GalleryWhite, 35);
                 }
@@ -151,32 +153,37 @@ namespace ProjLab_Demo
                 }
             }
 
-            if (LightConditions is { } light) 
+            if (LightConditions is { } light)
             {
                 DrawStatus("Lux:", $"{light:N0}Lux", WildernessLabsColors.GalleryWhite, 95);
             }
 
-            if(AccelerationConditions is { } acceleration)
+            if (AccelerationConditions is { } acceleration)
             {
-                if(acceleration.Acceleration3D is { } accel3D)
+                if (acceleration.Acceleration3D is { } accel3D)
                 {
                     DrawStatus("Accel:", $"{accel3D.X.Gravity:0.#},{accel3D.Y.Gravity:0.#},{accel3D.Z.Gravity:0.#}g", WildernessLabsColors.AzureBlue, 115);
                 }
 
-                if(acceleration.AngularVelocity3D is { } angular3D)
+                if (acceleration.AngularVelocity3D is { } angular3D)
                 {
                     DrawStatus("Gyro:", $"{angular3D.X:0},{angular3D.Y:0},{angular3D.Z:0}rpm", WildernessLabsColors.AzureBlue, 135);
                 }
             }
 
-#if V1_PROJLAB
-            DrawStatus("Up:", $"Disabled", WildernessLabsColors.ChileanFire, 160);
-            DrawStatus("Down:", $"Disabled", WildernessLabsColors.ChileanFire, 180);
-#else 
-            DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 160);
-            DrawStatus("Down:", $"{(DownButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 180);
-#endif
-            DrawStatus("Left:", $"{(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 200);
+            if (isV1)
+            {
+                DrawStatus("Left:", $"disabled", WildernessLabsColors.ChileanFire, 200);
+                DrawStatus("Down:", $"disabled", WildernessLabsColors.ChileanFire, 180);
+                DrawStatus("Up:", $"disabled", WildernessLabsColors.ChileanFire, 160);
+            }
+            else
+            {
+                DrawStatus("Left:", $"{(LeftButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 200);
+                DrawStatus("Down:", $"{(DownButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 180);
+                DrawStatus("Up:", $"{(UpButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 160);
+            }
+
             DrawStatus("Right:", $"{(RightButtonState ? "pressed" : "released")}", WildernessLabsColors.ChileanFire, 220);
         }
     }
