@@ -110,8 +110,6 @@ namespace Meadow.Devices
             try
             {
                 Mcp_Version = new Mcp23008(I2CBus, address: 0x23);
-                byte version = Mcp_Version.ReadFromPorts(Mcp23xxx.PortBank.A);
-                Logger?.Info($"Project Lab version: {version}");
             }
             catch (Exception e)
             {
@@ -124,7 +122,7 @@ namespace Meadow.Devices
             }
             else
             {
-                _hardware = new ProjectLabHardwareV2(Mcp_1, device, SpiBus);
+                _hardware = new ProjectLabHardwareV2(Mcp_1, Mcp_Version, device, SpiBus);
             }
 
             // lazy load all components

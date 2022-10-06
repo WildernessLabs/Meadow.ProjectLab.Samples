@@ -12,24 +12,39 @@ namespace Meadow.Devices
         private IF7FeatherMeadowDevice _device;
         private ISpiBus _spiBus;
         private Mcp23008 _mcp1;
+        private Mcp23008? _mcpVersion;
 
         private St7789? _display;
         private PushButton? _left;
         private PushButton? _right;
         private PushButton? _up;
         private PushButton? _down;
-        private string _revision = "v2.x";
+        private string? _revision;
 
-        public ProjectLabHardwareV2(Mcp23008 mcp1, IF7FeatherMeadowDevice device, ISpiBus spiBus)
+        public ProjectLabHardwareV2(Mcp23008 mcp1, Mcp23008? mcpVersion, IF7FeatherMeadowDevice device, ISpiBus spiBus)
         {
             _device = device;
             _spiBus = spiBus;
             _mcp1 = mcp1;
+            _mcpVersion = mcpVersion;
         }
 
         public string GetRevisionString()
         {
             // TODO: figure this out from MCP3?
+            if (_revision == null)
+            {
+                if (_mcpVersion == null)
+                {
+                    _revision = $"v2.x";
+                }
+                else
+                {
+                    byte rev = _mcpVersion.ReadFromPorts(Mcp23xxx.PortBank.A);
+                    //mapping? 0 == d2.d?
+                    _revision = $"v2.{rev}";
+                }
+            }
             return _revision;
         }
 

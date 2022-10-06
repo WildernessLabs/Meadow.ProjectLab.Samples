@@ -26,9 +26,13 @@ namespace AmbientRoomMonitor
         {
             projLab = new ProjectLab();
 
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+
             projLab.Led.SetColor(Color.Red);
 
             projLab.EnvironmentalSensor.Updated += EnvironmentalSensor_Updated;
+
+            projLab.LightSensor.Updated += LightSensor_Updated;
 
             graphics = new MicroGraphics(projLab.Display)
             {
@@ -39,6 +43,11 @@ namespace AmbientRoomMonitor
             projLab.Led.SetColor(Color.Green);
 
             return base.Initialize();
+        }
+
+        private void LightSensor_Updated(object sender, IChangeResult<Illuminance> e)
+        {
+            graphics.DrawText(130, 121, $"{(int)e.New.Lux}lux", Color.White);
         }
 
         private void EnvironmentalSensor_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
@@ -83,6 +92,7 @@ namespace AmbientRoomMonitor
             graphics.DrawLine(0, 230, 239, 230, Color.White);
 
             graphics.CurrentFont = new Font12x20();
+            graphics.DrawText(6, 121, "LIGHT", Color.White);
             graphics.DrawText(6, 145, "TEMPERATURE", Color.White);
             graphics.DrawText(6, 169, "PRESSURE", Color.White);
             graphics.DrawText(6, 193, "HUMIDITY", Color.White);
@@ -95,6 +105,7 @@ namespace AmbientRoomMonitor
             LoadScreen();
 
             projLab.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(5));
+            projLab.LightSensor.StartUpdating(TimeSpan.FromSeconds(5));
 
             return base.Run();
         }
