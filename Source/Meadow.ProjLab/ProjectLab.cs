@@ -1,5 +1,6 @@
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays;
+using Meadow.Foundation.ICs.IOExpanders;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
@@ -40,11 +41,27 @@ namespace Meadow.Devices
         public PiezoSpeaker Speaker => _speaker.Value;
         public Bmi270 IMU => _imu.Value;
 
+        private IProjectLabHardware _hardware;
+
+        public Mcp23008? Mcp_1 { get; }
+        public Mcp23008? Mcp_2 { get; }
+        public Mcp23008? Mcp_Version { get; }
+
         public ProjectLab()
         {
+            // check to see if we have an MCP23008 - it was introduced in v2 hardware
             if (Resolver.Device == null)
             {
                 var msg = "ProjLab instance must be created no earlier than App.Initialize()";
+                Logger?.Error(msg);
+                throw new Exception(msg);
+            }
+
+            var device = Resolver.Device as IF7FeatherMeadowDevice;
+
+            if (device == null)
+            {
+                var msg = "ProjLab Device must be an F7Feather";
                 Logger?.Error(msg);
                 throw new Exception(msg);
             }
@@ -56,31 +73,70 @@ namespace Meadow.Devices
                            SpiClockConfiguration.Mode.Mode3);
 
             SpiBus = Resolver.Device.CreateSpiBus(
-                Resolver.Device.GetPin("SCK"),
-                Resolver.Device.GetPin("COPI"),
-                Resolver.Device.GetPin("CIPO"),
+                device.Pins.SCK,
+                device.Pins.COPI,
+                device.Pins.CIPO,
                 config);
 
-            I2CBus = Resolver.Device.CreateI2cBus();
+            I2CBus = device.CreateI2cBus();
+
+            // determine hardware
+
+            try
+            {
+                // MCP the First
+                IDigitalInputPort mcp1_int = device.CreateDigitalInputPort(
+                    device.Pins.D09, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
+                IDigitalOutputPort mcp_Reset = device.CreateDigitalOutputPort(device.Pins.D14);
+
+                Mcp_1 = new Mcp23008(I2CBus, address: 0x20, mcp1_int, mcp_Reset);
+            }
+            catch (Exception e)
+            {
+                Logger?.Warn($"ERR creating MCP1: {e.Message}");
+            }
+            try
+            {
+                // MCP the Second
+                IDigitalInputPort mcp2_int = device.CreateDigitalInputPort(
+                    device.Pins.D10, InterruptMode.EdgeRising, ResistorMode.InternalPullDown);
+                Mcp_2 = new Mcp23008(I2CBus, address: 0x21, mcp2_int);
+            }
+            catch (Exception e)
+            {
+                Logger?.Warn($"ERR creating MCP2: {e.Message}");
+            }
+            try
+            {
+                Mcp_Version = new Mcp23008(I2CBus, address: 0x23);
+                byte version = Mcp_Version.ReadFromPorts(Mcp23xxx.PortBank.A);
+                Logger?.Info($"Project Lab version: {version}");
+            }
+            catch (Exception e)
+            {
+                Logger?.Warn($"ERR creating the MCP that has version information: {e.Message}");
+            }
+
+            if (Mcp_1 == null)
+            {
+                _hardware = new ProjectLabHardwareV1(device, SpiBus);
+            }
+            else
+            {
+                _hardware = new ProjectLabHardwareV2(Mcp_1, device, SpiBus);
+            }
 
             // lazy load all components
             try
             {
                 _led = new Lazy<RgbPwmLed>(() =>
                     new RgbPwmLed(
-                    device: Resolver.Device,
-                    redPwmPin: Resolver.Device.GetPin("OnboardLedRed"),
-                    greenPwmPin: Resolver.Device.GetPin("OnboardLedGreen"),
-                    bluePwmPin: Resolver.Device.GetPin("OnboardLedBlue")));
+                    device: device,
+                    redPwmPin: device.Pins.OnboardLedRed,
+                    greenPwmPin: device.Pins.OnboardLedGreen,
+                    bluePwmPin: device.Pins.OnboardLedBlue));
 
-                _display = new Lazy<St7789>(() =>
-                    new St7789(
-                        device: Resolver.Device,
-                        spiBus: SpiBus,
-                        chipSelectPin: Resolver.Device.GetPin("A03"),
-                        dcPin: Resolver.Device.GetPin("A04"),
-                        resetPin: Resolver.Device.GetPin("A05"),
-                        width: 240, height: 240));
+                _display = new Lazy<St7789>(_hardware.GetDisplay());
 
                 _lightSensor = new Lazy<Bh1750>(() =>
                     new Bh1750(
@@ -89,39 +145,16 @@ namespace Meadow.Devices
                         lightTransmittance: 0.5, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
                         address: (byte)Bh1750.Addresses.Address_0x23));
 
-                _upButton = new Lazy<PushButton>(() =>
-                    new PushButton(
-                        Resolver.Device.CreateDigitalInputPort(
-                            Resolver.Device.GetPin("D15"),
-                            InterruptMode.EdgeBoth,
-                            ResistorMode.InternalPullDown)));
-
-                _downButton = new Lazy<PushButton>(() =>
-                    new PushButton(
-                        Resolver.Device.CreateDigitalInputPort(
-                            Resolver.Device.GetPin("D02"),
-                            InterruptMode.EdgeBoth,
-                            ResistorMode.InternalPullDown)));
-
-                _leftButton = new Lazy<PushButton>(() =>
-                    new PushButton(
-                        Resolver.Device.CreateDigitalInputPort(
-                            Resolver.Device.GetPin("D10"),
-                            InterruptMode.EdgeBoth,
-                            ResistorMode.InternalPullDown)));
-
-                _rightButton = new Lazy<PushButton>(() =>
-                    new PushButton(
-                        Resolver.Device.CreateDigitalInputPort(
-                            Resolver.Device.GetPin("D05"),
-                            InterruptMode.EdgeBoth,
-                            ResistorMode.InternalPullDown)));
+                _upButton = new Lazy<PushButton>(_hardware.GetUpButton());
+                _downButton = new Lazy<PushButton>(_hardware.GetDownButton());
+                _leftButton = new Lazy<PushButton>(_hardware.GetLeftButton());
+                _rightButton = new Lazy<PushButton>(_hardware.GetRightButton());
 
                 _bme680 = new Lazy<Bme680>(() =>
                     new Bme680(I2CBus, (byte)Bme680.Addresses.Address_0x76));
 
                 _speaker = new Lazy<PiezoSpeaker>(() =>
-                   new PiezoSpeaker(Resolver.Device, Resolver.Device.GetPin("D11")));
+                   new PiezoSpeaker(Resolver.Device, device.Pins.D11));
 
                 _imu = new Lazy<Bmi270>(() =>
                     new Bmi270(I2CBus));
