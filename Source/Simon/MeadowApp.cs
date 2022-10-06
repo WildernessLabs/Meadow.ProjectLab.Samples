@@ -1,12 +1,8 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Audio;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Buttons;
-using Meadow.Hardware;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -27,51 +23,27 @@ namespace Simon
 
         SimonGame game;
 
-        PushButton[] buttons;
         MicroGraphics graphics;
-        PiezoSpeaker speaker;
+        ProjectLab projLab;
+        PushButton[] buttons;
 
         public override Task Initialize()
         {
-            speaker = new PiezoSpeaker(Device, Device.Pins.D11);
+            projLab = new ProjectLab();
 
-            var onboardLed = new RgbPwmLed(
-                device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            projLab.Led.SetColor(Color.Red);
 
-            notes = new Frequency[] 
-            { 
+            notes = new Frequency[]
+            {
                 new Frequency(261.63f),
                 new Frequency(329.63f),
                 new Frequency(392),
-                new Frequency(523.25f) 
+                new Frequency(523.25f)
             };
 
             game = new SimonGame();
 
-            var config = new SpiClockConfiguration(
-                speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
-                mode: SpiClockConfiguration.Mode.Mode3);
-            var spiBus = Device.CreateSpiBus(
-                clock: Device.Pins.SCK,
-                copi: Device.Pins.MOSI,
-                cipo: Device.Pins.MISO,
-                config: config);
-            var display = new St7789
-            (
-                device: Device,
-                spiBus: spiBus,
-                chipSelectPin: Device.Pins.A03,
-                dcPin: Device.Pins.A04,
-                resetPin: Device.Pins.A05,
-                width: 240,
-                height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
-            );
-            graphics = new MicroGraphics(display)
+            graphics = new MicroGraphics(projLab.Display)
             {
                 Rotation = RotationType._90Degrees,
                 Stroke = 5
@@ -79,16 +51,16 @@ namespace Simon
             graphics.Clear();
 
             buttons = new PushButton[4];
-            buttons[0] = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
+            buttons[0] = projLab.UpButton;
             buttons[0].Clicked += ButtonUpClicked;
-            buttons[2] = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullDown);
+            buttons[2] = projLab.DownButton;
             buttons[2].Clicked += ButtonDownClicked;
-            buttons[3] = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
+            buttons[3] = projLab.LeftButton;
             buttons[3].Clicked += ButtonLeftClicked;
-            buttons[1] = new PushButton(Device, Device.Pins.D05, ResistorMode.InternalPullDown);
+            buttons[1] = projLab.RightButton;
             buttons[1].Clicked += ButtonRightClicked;
 
-            onboardLed.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
 
             return base.Initialize();
         }
@@ -149,7 +121,7 @@ namespace Simon
         async Task DrawDotFilled(int index, int duration = 400)
         {
             DrawDot(index, true);
-            await speaker.PlayTone(notes[index], TimeSpan.FromMilliseconds(duration));
+            await projLab.Speaker.PlayTone(notes[index], TimeSpan.FromMilliseconds(duration));
             DrawDot(index, false);
         }
 
@@ -223,7 +195,7 @@ namespace Simon
             isAnimating = true;
 
             //await Task.Delay(750);
-            await speaker.PlayTone(new Frequency(123.47f), TimeSpan.FromMilliseconds(750));
+            await projLab.Speaker.PlayTone(new Frequency(123.47f), TimeSpan.FromMilliseconds(750));
 
             for (int i = 0; i < 20; i++)
             {
@@ -244,9 +216,9 @@ namespace Simon
             await ShowStartAnimation();
         }
 
-        void DrawDot(int index, bool isFilled, bool update = true) 
+        void DrawDot(int index, bool isFilled, bool update = true)
         {
-            switch (index) 
+            switch (index)
             {
                 case DOT_UP:
                     graphics.DrawCircle(120, 55, 40, Color.Black, true);

@@ -1,5 +1,4 @@
-﻿using System;
-using Meadow;
+﻿using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays;
@@ -9,9 +8,9 @@ using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Foundation.Sensors.Light;
-using Meadow.Gateways.Bluetooth;
 using Meadow.Hardware;
 using Meadow.Units;
+using System;
 
 namespace ProjLab_Demo
 {
@@ -141,7 +140,8 @@ namespace ProjLab_Demo
                 Status.BtnLeft = true;
 
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Console.WriteLine($"Could not bring up buttons: {e.Message}");
             }
 

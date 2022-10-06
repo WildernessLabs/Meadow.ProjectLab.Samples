@@ -1,12 +1,9 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Gateway.WiFi;
 using Meadow.Hardware;
-using Meadow.Units;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,16 +20,14 @@ namespace MeadowApp
         readonly Color WatchBackgroundColor = Color.White;
 
         MicroGraphics graphics;
+        ProjectLab projLab;
         int tick;
 
         public override async Task Initialize()
         {
-            var onboardLed = new RgbPwmLed(
-                device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            projLab = new ProjectLab();
+
+            projLab.Led.SetColor(Color.Red);
 
             if (offlineMode)
             {
@@ -40,40 +35,21 @@ namespace MeadowApp
             }
             else
             {
-                var connectionResult = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
+                var connectionResult = await Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>().Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
                 if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
                 {
                     throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
                 }
             }
 
-            var config = new SpiClockConfiguration(
-                speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
-                mode: SpiClockConfiguration.Mode.Mode3);
-            var spiBus = Device.CreateSpiBus(
-                clock: Device.Pins.SCK,
-                copi: Device.Pins.MOSI,
-                cipo: Device.Pins.MISO,
-                config: config);
-            var st7789 = new St7789
-            (
-                device: Device,
-                spiBus: spiBus,
-                chipSelectPin: Device.Pins.A03,
-                dcPin: Device.Pins.A04,
-                resetPin: Device.Pins.A05,
-                width: 240,
-                height: 240,
-                colorMode: ColorType.Format16bppRgb565
-            );
 
-            graphics = new MicroGraphics(st7789)
+            graphics = new MicroGraphics(projLab.Display)
             {
                 IgnoreOutOfBoundsPixels = true
             };
             graphics.Rotation = RotationType._90Degrees;
 
-            onboardLed.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
         }
 
         void DrawClock()

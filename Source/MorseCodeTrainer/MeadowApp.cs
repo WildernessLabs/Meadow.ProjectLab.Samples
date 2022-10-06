@@ -1,10 +1,6 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Audio;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Buttons;
-using Meadow.Hardware;
 using MorseCodeTrainer.Controllers;
 using System;
 using System.Collections.Generic;
@@ -20,29 +16,23 @@ namespace MorseCodeTrainer
     {
         Dictionary<string, string> morseCode;
 
-        PushButton button;
-        PiezoSpeaker piezo;
-
         Timer timer;
         Stopwatch stopWatch;
         string answer;
         string question;
 
+        ProjectLab projLab;
+
         public override Task Initialize()
         {
-            var onboardLed = new RgbPwmLed(device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            projLab = new ProjectLab();
+
+            projLab.Led.SetColor(Color.Red);
 
             DisplayController.Instance.Initialize();
 
-            button = new PushButton(Device, Device.Pins.D10, ResistorMode.InternalPullDown);
-            button.PressStarted += ButtonPressStarted;
-            button.PressEnded += ButtonPressEnded;
-
-            piezo = new PiezoSpeaker(Device, Device.Pins.D11);
+            projLab.LeftButton.PressStarted += ButtonPressStarted;
+            projLab.LeftButton.PressEnded += ButtonPressEnded;
 
             stopWatch = new Stopwatch();
 
@@ -51,7 +41,7 @@ namespace MorseCodeTrainer
 
             LoadMorseCode();
 
-            onboardLed.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
 
             return base.Initialize();
         }
@@ -124,7 +114,7 @@ namespace MorseCodeTrainer
 
         async void ButtonPressStarted(object sender, EventArgs e)
         {
-            await piezo.PlayTone(new Meadow.Units.Frequency(440));
+            await projLab.Speaker.PlayTone(new Meadow.Units.Frequency(440));
             stopWatch.Reset();
             stopWatch.Start();
             timer.Stop();
@@ -132,7 +122,7 @@ namespace MorseCodeTrainer
 
         void ButtonPressEnded(object sender, EventArgs e)
         {
-            piezo.StopTone();
+            projLab.Speaker.StopTone();
             stopWatch.Stop();
 
             if (stopWatch.ElapsedMilliseconds < 200)

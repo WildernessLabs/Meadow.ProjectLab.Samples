@@ -1,5 +1,6 @@
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Displays;
+using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Buttons;
@@ -17,6 +18,7 @@ namespace Meadow.Devices
         public ISpiBus SpiBus { get; }
         public II2cBus I2CBus { get; }
 
+        private readonly Lazy<RgbPwmLed> _led;
         private readonly Lazy<St7789> _display;
         private readonly Lazy<Bh1750> _lightSensor;
         private readonly Lazy<PushButton> _upButton;
@@ -27,6 +29,7 @@ namespace Meadow.Devices
         private readonly Lazy<PiezoSpeaker> _speaker;
         private readonly Lazy<Bmi270> _imu;
 
+        public RgbPwmLed Led => _led.Value;
         public St7789 Display => _display.Value;
         public Bh1750 LightSensor => _lightSensor.Value;
         public PushButton UpButton => _upButton.Value;
@@ -63,6 +66,13 @@ namespace Meadow.Devices
             // lazy load all components
             try
             {
+                _led = new Lazy<RgbPwmLed>(() =>
+                    new RgbPwmLed(
+                    device: Resolver.Device,
+                    redPwmPin: Resolver.Device.GetPin("OnboardLedRed"),
+                    greenPwmPin: Resolver.Device.GetPin("OnboardLedGreen"),
+                    bluePwmPin: Resolver.Device.GetPin("OnboardLedBlue")));
+
                 _display = new Lazy<St7789>(() =>
                     new St7789(
                         device: Resolver.Device,

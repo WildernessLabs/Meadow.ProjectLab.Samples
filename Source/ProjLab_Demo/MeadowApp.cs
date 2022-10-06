@@ -11,71 +11,67 @@ namespace ProjLab_Demo
     public class MeadowApp : App<F7FeatherV2>
     {
         DisplayController displayController;
-        IHardwareConfig hardware;
+        ProjectLab projLab;
 
         public override Task Initialize()
         {
             Console.WriteLine("Initialize hardware...");
 
-            // get the correct hardware config depending on board version
-#if V1_PROJLAB
-            hardware = new ProjectLabV1_Hardware();
-#elif V2_PROJLAB
-            hardware = new ProjectLabV2_Hardware();
-#endif
-            // Initialize the board specific hardware
-            hardware.Initialize(Device);
+            projLab = new ProjectLab();
 
-            if (hardware.Display is { } display) {
+            if (projLab.Display is { } display)
+            {
                 displayController = new DisplayController(display);
             }
 
             //---- BH1750 Light Sensor
-            if (hardware.Bh1750 is { } bh1750) {
+            if (projLab.LightSensor is { } bh1750)
+            {
                 bh1750.Updated += Bh1750Updated;
                 bh1750.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
             //---- BME688 Atmospheric sensor
-            if (hardware.Bme688 is { } bme688)
+            if (projLab.EnvironmentalSensor is { } bme688)
             {
                 bme688.Updated += Bme688Updated;
                 bme688.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
             //---- BMI270 Accel/IMU
-            if (hardware.Bmi270 is { } bmi270)
+            if (projLab.IMU is { } bmi270)
             {
                 bmi270.Updated += Bmi270Updated;
                 bmi270.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
             //---- buttons
-            if (hardware.LeftButton is { } leftButton) {
+            if (projLab.LeftButton is { } leftButton)
+            {
                 leftButton.PressStarted += (s, e) => displayController.LeftButtonState = true;
                 leftButton.PressEnded += (s, e) => displayController.LeftButtonState = false;
             }
 
-            if (hardware.RightButton is { } rightButton)
+            if (projLab.RightButton is { } rightButton)
             {
                 rightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
                 rightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
             }
 
-            if (hardware.UpButton is { } upButton)
+            if (projLab.UpButton is { } upButton)
             {
                 upButton.PressStarted += (s, e) => displayController.UpButtonState = true;
                 upButton.PressEnded += (s, e) => displayController.UpButtonState = false;
             }
 
-            if (hardware.DownButton is { } downButton)
+            if (projLab.DownButton is { } downButton)
             {
                 downButton.PressStarted += (s, e) => displayController.DownButtonState = true;
                 downButton.PressEnded += (s, e) => displayController.DownButtonState = false;
             }
 
             //---- heartbeat
-            hardware.OnboardLed.StartPulse(WildernessLabsColors.PearGreen);
+            projLab.Led.StartPulse(WildernessLabsColors.PearGreen);
 
             Console.WriteLine("Initialization complete");
 
@@ -119,7 +115,7 @@ namespace ProjLab_Demo
             }
 
             Console.WriteLine("starting blink");
-            hardware.OnboardLed.StartBlink(WildernessLabsColors.PearGreen, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(2000), 0.5f);
+            projLab.Led.StartBlink(WildernessLabsColors.PearGreen, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(2000), 0.5f);
 
             return base.Run();
         }

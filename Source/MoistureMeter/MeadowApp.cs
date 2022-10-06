@@ -2,7 +2,6 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
-using Meadow.Foundation.Leds;
 using MoistureMeter.Controllers;
 using System;
 using System.Threading.Tasks;
@@ -13,20 +12,19 @@ namespace MoistureMeter
     public class MeadowApp : App<F7FeatherV2>
     {
         MoistureSensor sensor;
+        ProjectLab projLab;
 
         public override Task Initialize()
         {
-            var onboardLed = new RgbPwmLed(device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            projLab = new ProjectLab();
 
-            DisplayController.Instance.Initialize();
+            projLab.Led.SetColor(Color.Red);
+
+            DisplayController.Instance.Initialize(projLab.Display);
 
             sensor = new MoistureSensor(Device, Device.Pins.A01);
 
-            sensor.Updated += (sender, result) => 
+            sensor.Updated += (sender, result) =>
             {
                 var percentage = (int)ExtensionMethods.Map(result.New.Millivolts, 0, 1750, 0, 100);
 
@@ -35,7 +33,7 @@ namespace MoistureMeter
 
             sensor.StartUpdating(TimeSpan.FromMilliseconds(1000));
 
-            onboardLed.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
 
             return base.Initialize();
         }

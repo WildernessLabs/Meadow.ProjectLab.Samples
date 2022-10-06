@@ -1,11 +1,7 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Hardware;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -24,50 +20,28 @@ namespace AmbientRoomMonitor
         };
 
         MicroGraphics graphics;
-        Bme680 bme;
-        
+        ProjectLab projLab;
+
         public override Task Initialize()
         {
-            var onboardLed = new RgbPwmLed(
-                device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            projLab = new ProjectLab();
 
-            bme = new Bme680(Device.CreateI2cBus(), (byte)Bme680.Addresses.Address_0x76);
-            bme.Updated += Bme680_Updated;
+            projLab.Led.SetColor(Color.Red);
 
-            var config = new SpiClockConfiguration(
-                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
-                 mode: SpiClockConfiguration.Mode.Mode3);
-            var spiBus = Device.CreateSpiBus(
-                clock: Device.Pins.SCK,
-                copi: Device.Pins.MOSI,
-                cipo: Device.Pins.MISO,
-                config: config);
-            var st7789 = new St7789(
-                device: Device,
-                spiBus: spiBus,
-                chipSelectPin: Device.Pins.A03,
-                dcPin: Device.Pins.A04,
-                resetPin: Device.Pins.A05,
-                width: 240, 
-                height: 240,
-                colorMode: ColorType.Format16bppRgb565);
+            projLab.EnvironmentalSensor.Updated += EnvironmentalSensor_Updated;
 
-            graphics = new MicroGraphics(st7789) 
-            { 
-                IgnoreOutOfBoundsPixels = true 
+            graphics = new MicroGraphics(projLab.Display)
+            {
+                IgnoreOutOfBoundsPixels = true
             };
             graphics.Rotation = RotationType._90Degrees;
 
-            onboardLed.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
 
             return base.Initialize();
         }
 
-        void Bme680_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
+        private void EnvironmentalSensor_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             graphics.DrawRectangle(
                 x: 150, y: 145,
@@ -75,11 +49,11 @@ namespace AmbientRoomMonitor
                 height: 68,
                 color: colors[colors.Length - 1],
                 filled: true);
-            
+
             graphics.DrawText(186, 145, $"{(int)e.New.Temperature.Value.Celsius}°C", Color.White);
             graphics.DrawText(150, 168, $"{(int)e.New.Pressure.Value.Millibar}mbar", Color.White);
             graphics.DrawText(198, 193, $"{(int)e.New.Humidity.Value.Percent}%", Color.White);
-            
+
             graphics.Show();
         }
 
@@ -120,7 +94,7 @@ namespace AmbientRoomMonitor
         {
             LoadScreen();
 
-            bme.StartUpdating(TimeSpan.FromSeconds(5));
+            projLab.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(5));
 
             return base.Run();
         }

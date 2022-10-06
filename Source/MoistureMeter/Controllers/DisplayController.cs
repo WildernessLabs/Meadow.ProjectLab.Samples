@@ -1,8 +1,5 @@
 ﻿using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Hardware;
-using Meadow.Units;
 using System;
 
 namespace MoistureMeter.Controllers
@@ -17,27 +14,8 @@ namespace MoistureMeter.Controllers
 
         private DisplayController() { }
 
-        public void Initialize()
+        public void Initialize(IGraphicsDisplay display)
         {
-            var config = new SpiClockConfiguration(
-                new Frequency(48000, Frequency.UnitType.Kilohertz),
-                SpiClockConfiguration.Mode.Mode3);
-            var spiBus = MeadowApp.Device.CreateSpiBus(
-                clock: MeadowApp.Device.Pins.SCK,
-                copi: MeadowApp.Device.Pins.MOSI,
-                cipo: MeadowApp.Device.Pins.MISO,
-                config: config);
-            var display = new St7789
-            (
-                device: MeadowApp.Device,
-                spiBus: spiBus,
-                chipSelectPin: MeadowApp.Device.Pins.A03,
-                dcPin: MeadowApp.Device.Pins.A04,
-                resetPin: MeadowApp.Device.Pins.A05,
-                width: 240,
-                height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
-            );
             graphics = new MicroGraphics(display)
             {
                 Stroke = 1,
@@ -47,7 +25,7 @@ namespace MoistureMeter.Controllers
             graphics.Clear();
         }
 
-        public void UpdatePercentage(int percentage) 
+        public void UpdatePercentage(int percentage)
         {
             graphics.Clear();
 
@@ -56,9 +34,9 @@ namespace MoistureMeter.Controllers
             graphics.DrawRectangle(12, 12, 100, 218, color, true);
 
             int percentageGraph = (int)(percentage == 100 ? 9 : percentage / 10);
-            for (int i = percentageGraph; i >= 0; i--) 
+            for (int i = percentageGraph; i >= 0; i--)
             {
-                switch (i) 
+                switch (i)
                 {
                     case 0:
                     case 1:
@@ -80,7 +58,7 @@ namespace MoistureMeter.Controllers
                         break;
                 }
 
-                graphics.DrawRectangle(12, 222 - (22*i + 12), 100, 20, color, true);
+                graphics.DrawRectangle(12, 222 - (22 * i + 12), 100, 20, color, true);
             }
 
             graphics.DrawText(174, 105, $"{percentage}%", ScaleFactor.X2, TextAlignment.Center);
