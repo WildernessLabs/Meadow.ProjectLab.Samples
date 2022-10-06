@@ -1,43 +1,34 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Hardware;
 using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GalleryViewer
 {
-    // public class MeadowApp : App<F7FeatherV1, MeadowApp> <- If you have a Meadow F7v1.*
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    public class MeadowApp : App<F7FeatherV2>
     {
-        RgbPwmLed led;
         MicroGraphics graphics;
-        PushButton buttonUp;
-        PushButton buttonDown;
         int selectedIndex;
         string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
 
-        public MeadowApp()
+        ProjectLab projLab;
+
+        public override Task Initialize()
         {
-            led = new RgbPwmLed(
-                device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            led.SetColor(Color.Red);
+            projLab = new ProjectLab();
 
-            buttonUp = new PushButton(Device, Device.Pins.D15, ResistorMode.InternalPullDown);
-            buttonUp.Clicked += ButtonUpClicked;
+            projLab.Led.SetColor(Color.Red);
 
-            buttonDown = new PushButton(Device, Device.Pins.D02, ResistorMode.InternalPullDown);
-            buttonDown.Clicked += ButtonDownClicked;
+            projLab.LeftButton.Clicked += ButtonUpClicked;
+            projLab.RightButton.Clicked += ButtonDownClicked;
 
             var config = new SpiClockConfiguration(
                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
@@ -47,29 +38,18 @@ namespace GalleryViewer
                 copi: Device.Pins.MOSI,
                 cipo: Device.Pins.MISO,
                 config: config);
-            var display = new St7789
-            (
-                device: Device,
-                spiBus: spiBus,
-                chipSelectPin: Device.Pins.A03,
-                dcPin: Device.Pins.A04,
-                resetPin: Device.Pins.A05,
-                width: 240, 
-                height: 240, 
-                displayColorMode: ColorType.Format16bppRgb565
-            );
 
-            graphics = new MicroGraphics(display);
+            graphics = new MicroGraphics(projLab.Display);
             graphics.Rotation = RotationType._90Degrees;
 
-            DisplayJPG();
+            projLab.Led.SetColor(Color.Green);
 
-            led.SetColor(Color.Green);
+            return base.Initialize();
         }
 
         void ButtonUpClicked(object sender, EventArgs e)
         {
-            led.SetColor(Color.Red);
+            projLab.Led.SetColor(Color.Red);
 
             if (selectedIndex + 1 > 2)
                 selectedIndex = 0;
@@ -78,12 +58,12 @@ namespace GalleryViewer
 
             DisplayJPG();
 
-            led.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
         }
 
         void ButtonDownClicked(object sender, EventArgs e)
         {
-            led.SetColor(Color.Red);
+            projLab.Led.SetColor(Color.Red);
 
             if (selectedIndex - 1 < 0)
                 selectedIndex = 2;
@@ -92,7 +72,7 @@ namespace GalleryViewer
 
             DisplayJPG();
 
-            led.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
         }
 
         void DisplayJPG()
@@ -137,6 +117,13 @@ namespace GalleryViewer
                     return ms.ToArray();
                 }
             }
+        }
+
+        public override Task Run()
+        {
+            DisplayJPG();
+
+            return base.Run();
         }
     }
 }

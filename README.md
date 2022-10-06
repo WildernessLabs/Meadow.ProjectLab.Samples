@@ -71,6 +71,14 @@ This repo contains code samples for the Wilderness Labs ProjectLab (**PROJ LAB**
     </tr>
 </table>
 
+## Onboard On/Off switch
+
+Project Lab boards come with an Enable/Disable switch onboard so you can reset the board by flipping the switch off and on. Make sure the switch is set to ENABLE when intending to work on your project, otherwise it will remain off and it wont be detected on your computer.
+
+<p align="center">
+    <img src="Design/EnableDisable.png" width="50%" />
+</p>
+
 ## Hardware
 
 The PROJ LAB board includes the following hardware:
@@ -90,6 +98,13 @@ The PROJ LAB board includes the following expansion connection options:
 * **RS-485** - serial 
 
 As well as connectors to 5V, 3.3V, ground, one analog port and 2 GPIO ports.
+
+## Pinout Diagram
+
+Check the diagram below to see what pins on the Meadow are connected to every peripheral on board:
+&nbsp;
+
+![](/Design/Pinout.png)
 
 ## License
 Copyright 2022, Wilderness Labs Inc.
