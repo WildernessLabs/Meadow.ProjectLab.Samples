@@ -10,6 +10,7 @@ namespace Meadow.Devices
         public PushButton GetRightButton();
         public PushButton GetUpButton();
         public PushButton GetDownButton();
+        public string GetRevisionString();
     }
 }
 

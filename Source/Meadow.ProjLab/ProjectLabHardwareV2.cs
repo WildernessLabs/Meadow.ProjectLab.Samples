@@ -14,16 +14,23 @@ namespace Meadow.Devices
         private Mcp23008 _mcp1;
 
         private St7789? _display;
-        private PushButton _left;
-        private PushButton _right;
-        private PushButton _up;
-        private PushButton _down;
+        private PushButton? _left;
+        private PushButton? _right;
+        private PushButton? _up;
+        private PushButton? _down;
+        private string _revision = "v2.x";
 
         public ProjectLabHardwareV2(Mcp23008 mcp1, IF7FeatherMeadowDevice device, ISpiBus spiBus)
         {
             _device = device;
             _spiBus = spiBus;
             _mcp1 = mcp1;
+        }
+
+        public string GetRevisionString()
+        {
+            // TODO: figure this out from MCP3?
+            return _revision;
         }
 
         public St7789 GetDisplay()

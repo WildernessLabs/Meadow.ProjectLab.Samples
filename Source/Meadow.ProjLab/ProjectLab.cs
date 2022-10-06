@@ -42,6 +42,7 @@ namespace Meadow.Devices
         public Bmi270 IMU => _imu.Value;
 
         private IProjectLabHardware _hardware;
+        private string? _rev;
 
         public Mcp23008? Mcp_1 { get; }
         public Mcp23008? Mcp_2 { get; }
@@ -163,6 +164,11 @@ namespace Meadow.Devices
             {
                 Logger?.Error(ex.Message);
             }
+        }
+
+        public string HardwareRevision
+        {
+            get => _hardware.GetRevisionString();
         }
 
         public static (

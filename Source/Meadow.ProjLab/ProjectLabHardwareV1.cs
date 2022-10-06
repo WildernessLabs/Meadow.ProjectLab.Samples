@@ -10,15 +10,21 @@ namespace Meadow.Devices
         private IF7FeatherMeadowDevice _device;
         private ISpiBus _spiBus;
         private St7789? _display;
-        private PushButton _left;
-        private PushButton _right;
-        private PushButton _up;
-        private PushButton _down;
+        private PushButton? _left;
+        private PushButton? _right;
+        private PushButton? _up;
+        private PushButton? _down;
+        private string _revision = "v1.x";
 
         public ProjectLabHardwareV1(IF7FeatherMeadowDevice device, ISpiBus spiBus)
         {
             _device = device;
             _spiBus = spiBus;
+        }
+
+        public string GetRevisionString()
+        {
+            return _revision;
         }
 
         public St7789 GetDisplay()
