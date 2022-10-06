@@ -19,14 +19,17 @@ namespace ProjLab_Demo
 
             projLab = new ProjectLab();
 
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+
             if (projLab.Display is { } display)
             {
-                displayController = new DisplayController(display);
+                displayController = new DisplayController(display, projLab.IsV1Hardware());
             }
 
             //---- BH1750 Light Sensor
             if (projLab.LightSensor is { } bh1750)
             {
+                Resolver.Log.Info($"Light sensor created");
                 bh1750.Updated += Bh1750Updated;
                 bh1750.StartUpdating(TimeSpan.FromSeconds(5));
             }
@@ -34,6 +37,7 @@ namespace ProjLab_Demo
             //---- BME688 Atmospheric sensor
             if (projLab.EnvironmentalSensor is { } bme688)
             {
+                Resolver.Log.Info($"Environmental sensor created");
                 bme688.Updated += Bme688Updated;
                 bme688.StartUpdating(TimeSpan.FromSeconds(5));
             }
@@ -41,33 +45,45 @@ namespace ProjLab_Demo
             //---- BMI270 Accel/IMU
             if (projLab.IMU is { } bmi270)
             {
+                Resolver.Log.Info($"IMU created");
                 bmi270.Updated += Bmi270Updated;
                 bmi270.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
             //---- buttons
-            if (projLab.LeftButton is { } leftButton)
-            {
-                leftButton.PressStarted += (s, e) => displayController.LeftButtonState = true;
-                leftButton.PressEnded += (s, e) => displayController.LeftButtonState = false;
-            }
-
             if (projLab.RightButton is { } rightButton)
             {
+                Resolver.Log.Info($"Right button created");
                 rightButton.PressStarted += (s, e) => displayController.RightButtonState = true;
                 rightButton.PressEnded += (s, e) => displayController.RightButtonState = false;
             }
 
-            if (projLab.UpButton is { } upButton)
+            if (projLab.IsV2Hardware())
             {
-                upButton.PressStarted += (s, e) => displayController.UpButtonState = true;
-                upButton.PressEnded += (s, e) => displayController.UpButtonState = false;
+                if (projLab.DownButton is { } downButton)
+                {
+                    Resolver.Log.Info($"Down button created");
+                    downButton.PressStarted += (s, e) => displayController.DownButtonState = true;
+                    downButton.PressEnded += (s, e) => displayController.DownButtonState = false;
+                }
+                if (projLab.LeftButton is { } leftButton)
+                {
+                    Resolver.Log.Info($"Left button created");
+                    leftButton.PressStarted += (s, e) => displayController.LeftButtonState = true;
+                    leftButton.PressEnded += (s, e) => displayController.LeftButtonState = false;
+                }
+                if (projLab.UpButton is { } upButton)
+                {
+                    Resolver.Log.Info($"Up button created");
+                    upButton.PressStarted += (s, e) => displayController.UpButtonState = true;
+                    upButton.PressEnded += (s, e) => displayController.UpButtonState = false;
+                }
             }
-
-            if (projLab.DownButton is { } downButton)
+            else
             {
-                downButton.PressStarted += (s, e) => displayController.DownButtonState = true;
-                downButton.PressEnded += (s, e) => displayController.DownButtonState = false;
+                Resolver.Log.Info($"Project Lab V1 hardware does not support the Up button");
+                Resolver.Log.Info($"Project Lab V1 hardware does not support the Down button");
+                Resolver.Log.Info($"Project Lab V1 hardware does not support the Left button");
             }
 
             //---- heartbeat

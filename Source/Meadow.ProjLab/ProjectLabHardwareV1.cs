@@ -2,6 +2,7 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Sensors.Buttons;
 using Meadow.Hardware;
+using System;
 
 namespace Meadow.Devices
 {
@@ -10,10 +11,7 @@ namespace Meadow.Devices
         private IF7FeatherMeadowDevice _device;
         private ISpiBus _spiBus;
         private St7789? _display;
-        private PushButton? _left;
         private PushButton? _right;
-        private PushButton? _up;
-        private PushButton? _down;
         private string _revision = "v1.x";
 
         public ProjectLabHardwareV1(IF7FeatherMeadowDevice device, ISpiBus spiBus)
@@ -46,15 +44,11 @@ namespace Meadow.Devices
 
         public PushButton GetLeftButton()
         {
-            if (_left == null)
+            if (Resolver.Device is F7FeatherV2)
             {
-                _left = new PushButton(
-                    Resolver.Device.CreateDigitalInputPort(
-                        Resolver.Device.GetPin("D10"),
-                        InterruptMode.EdgeBoth,
-                        ResistorMode.InternalPullDown));
+                // D10 no interrupts
             }
-            return _left;
+            throw new PlatformNotSupportedException("A hardware bug prevents usage of the Left button on ProjectLab v1 hardware.");
         }
 
         public PushButton GetRightButton()
@@ -63,7 +57,7 @@ namespace Meadow.Devices
             {
                 _right = new PushButton(
                     Resolver.Device.CreateDigitalInputPort(
-                        Resolver.Device.GetPin("D05"),
+                        _device.Pins.D05,
                         InterruptMode.EdgeBoth,
                         ResistorMode.InternalPullDown));
             }
@@ -72,28 +66,21 @@ namespace Meadow.Devices
 
         public PushButton GetUpButton()
         {
-            if (_up == null)
+            // D15
+            if (Resolver.Device is F7FeatherV2)
             {
-                _up = new PushButton(
-                    Resolver.Device.CreateDigitalInputPort(
-                        Resolver.Device.GetPin("D15"),
-                        InterruptMode.EdgeBoth,
-                        ResistorMode.InternalPullDown));
+                // D15 no interrupts
             }
-            return _up;
+            throw new PlatformNotSupportedException("A hardware bug prevents usage of the Up button on ProjectLab v1 hardware.");
         }
 
         public PushButton GetDownButton()
         {
-            if (_down == null)
+            if (Resolver.Device is F7FeatherV2)
             {
-                _down = new PushButton(
-                    Resolver.Device.CreateDigitalInputPort(
-                        Resolver.Device.GetPin("D02"),
-                        InterruptMode.EdgeBoth,
-                        ResistorMode.InternalPullDown));
+                // D02 no interrupts
             }
-            return _down;
+            throw new PlatformNotSupportedException("A hardware bug prevents usage of the Down button on ProjectLab v1 hardware.");
         }
     }
 }
