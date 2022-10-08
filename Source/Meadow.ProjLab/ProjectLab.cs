@@ -20,26 +20,26 @@ namespace Meadow.Devices
         public II2cBus I2CBus { get; }
 
         private readonly Lazy<RgbPwmLed> _led;
-        private readonly Lazy<St7789> _display;
-        private readonly Lazy<Bh1750> _lightSensor;
+        private readonly Lazy<St7789?> _display;
+        private readonly Lazy<Bh1750?> _lightSensor;
         private readonly Lazy<PushButton> _upButton;
         private readonly Lazy<PushButton> _downButton;
         private readonly Lazy<PushButton> _leftButton;
         private readonly Lazy<PushButton> _rightButton;
-        private readonly Lazy<Bme680> _bme680;
+        private readonly Lazy<Bme680?> _bme680;
         private readonly Lazy<PiezoSpeaker> _speaker;
-        private readonly Lazy<Bmi270> _imu;
+        private readonly Lazy<Bmi270?> _imu;
 
         public RgbPwmLed Led => _led.Value;
-        public St7789 Display => _display.Value;
-        public Bh1750 LightSensor => _lightSensor.Value;
+        public St7789? Display => _display.Value;
+        public Bh1750? LightSensor => _lightSensor.Value;
         public PushButton UpButton => _upButton.Value;
         public PushButton DownButton => _downButton.Value;
         public PushButton LeftButton => _leftButton.Value;
         public PushButton RightButton => _rightButton.Value;
-        public Bme680 EnvironmentalSensor => _bme680.Value;
+        public Bme680? EnvironmentalSensor => _bme680.Value;
         public PiezoSpeaker Speaker => _speaker.Value;
-        public Bmi270 IMU => _imu.Value;
+        public Bmi270? IMU => _imu.Value;
 
         internal IProjectLabHardware Hardware { get; }
 
@@ -136,14 +136,36 @@ namespace Meadow.Devices
                     greenPwmPin: device.Pins.OnboardLedGreen,
                     bluePwmPin: device.Pins.OnboardLedBlue));
 
-                _display = new Lazy<St7789>(Hardware.GetDisplay());
+                _display = new Lazy<St7789?>(() =>
+                {
+                    try
+                    {
+                        return Hardware.GetDisplay();
+                    }
+                    catch (Exception ex)
+                    {
+                        Resolver.Log.Error($"Unable to create the ST7789 Display Light Sensor: {ex.Message}");
+                        return default;
+                    }
+                });
 
-                _lightSensor = new Lazy<Bh1750>(() =>
-                    new Bh1750(
-                        i2cBus: I2CBus,
-                        measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
-                        lightTransmittance: 0.5, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
-                        address: (byte)Bh1750.Addresses.Address_0x23));
+
+                _lightSensor = new Lazy<Bh1750?>(() =>
+                {
+                    try
+                    {
+                        return new Bh1750(
+                            i2cBus: I2CBus,
+                            measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, // the various modes take differing amounts of time.
+                            lightTransmittance: 0.5, // lower this to increase sensitivity, for instance, if it's behind a semi opaque window
+                            address: (byte)Bh1750.Addresses.Address_0x23);
+                    }
+                    catch (Exception ex)
+                    {
+                        Resolver.Log.Error($"Unable to create the BH1750 Light Sensor: {ex.Message}");
+                        return default;
+                    }
+                });
 
 
                 _rightButton = new Lazy<PushButton>(Hardware.GetRightButton());
@@ -155,12 +177,35 @@ namespace Meadow.Devices
                     _downButton = new Lazy<PushButton>(Hardware.GetDownButton());
                 }
 
-                _bme680 = new Lazy<Bme680>(new Bme680(I2CBus, (byte)Bme680.Addresses.Address_0x76));
+                _bme680 = new Lazy<Bme680?>(() =>
+                {
+                    try
+                    {
+                        return new Bme680(I2CBus, (byte)Bme680.Addresses.Address_0x76);
+                    }
+                    catch (Exception ex)
+                    {
+                        Resolver.Log.Error($"Unable to create the BME680 Environmental Sensor: {ex.Message}");
+                        return default;
+                    }
+                });
 
                 _speaker = new Lazy<PiezoSpeaker>(new PiezoSpeaker(device, device.Pins.D11));
 
-                _imu = new Lazy<Bmi270>(new Bmi270(I2CBus));
+                _imu = new Lazy<Bmi270?>(() =>
+                {
+                    try
+                    {
+                        return new Bmi270(I2CBus);
+                    }
+                    catch (Exception ex)
+                    {
+                        Resolver.Log.Error($"Unable to create the BMI270 IMU: {ex.Message}");
+                        return default;
+                    }
+                });
             }
+
             catch (Exception ex)
             {
                 Logger?.Error($"Error initializing ProjectLab: {ex.Message}");
