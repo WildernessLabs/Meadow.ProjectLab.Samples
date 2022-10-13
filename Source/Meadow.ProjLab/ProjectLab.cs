@@ -95,7 +95,7 @@ namespace Meadow.Devices
             }
             catch (Exception e)
             {
-                Logger?.Warn($"Failed to create MCP1: {e.Message}");
+                Logger?.Trace($"Failed to create MCP1: {e.Message}");
             }
             try
             {
@@ -106,7 +106,7 @@ namespace Meadow.Devices
             }
             catch (Exception e)
             {
-                Logger?.Warn($"Failed to create MCP2: {e.Message}");
+                Logger?.Trace($"Failed to create MCP2: {e.Message}");
             }
             try
             {
@@ -114,7 +114,7 @@ namespace Meadow.Devices
             }
             catch (Exception e)
             {
-                Logger?.Warn($"ERR creating the MCP that has version information: {e.Message}");
+                Logger?.Trace($"ERR creating the MCP that has version information: {e.Message}");
             }
 
             if (Mcp_1 == null)
