@@ -110,7 +110,7 @@ namespace Meadow.Devices
             }
             try
             {
-                Mcp_Version = new Mcp23008(I2CBus, address: 0x23);
+                Mcp_Version = new Mcp23008(I2CBus, address: 0x27);
             }
             catch (Exception e)
             {
