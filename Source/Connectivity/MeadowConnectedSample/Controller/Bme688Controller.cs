@@ -14,7 +14,7 @@ namespace MeadowConnectedSample.Controller
 
         Bme680 bme688;
 
-        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure) AmbientReading { get; private set; }
+        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) AmbientReading { get; private set; }
 
         private Bme688Controller() { }
 
@@ -25,7 +25,7 @@ namespace MeadowConnectedSample.Controller
             bme688.StartUpdating(TimeSpan.FromSeconds(5));
         }
 
-        private void Bme688Updated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure)> e)
+        private void Bme688Updated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             AmbientReading = e.New;
             if (BluetoothServer.Instance.IsInitialized)
