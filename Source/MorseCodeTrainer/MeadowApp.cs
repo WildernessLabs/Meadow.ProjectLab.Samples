@@ -33,8 +33,8 @@ namespace MorseCodeTrainer
 
             DisplayController.Instance.Initialize(projLab.Display);
 
-            projLab.LeftButton.PressStarted += ButtonPressStarted;
-            projLab.LeftButton.PressEnded += ButtonPressEnded;
+            projLab.RightButton.PressStarted += ButtonPressStarted;
+            projLab.RightButton.PressEnded += ButtonPressEnded;
 
             stopWatch = new Stopwatch();
 

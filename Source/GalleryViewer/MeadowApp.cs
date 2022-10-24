@@ -29,17 +29,11 @@ namespace GalleryViewer
 
             projLab.Led.SetColor(Color.Red);
 
-            projLab.LeftButton.Clicked += ButtonUpClicked;
-            projLab.RightButton.Clicked += ButtonDownClicked;
-
-            var config = new SpiClockConfiguration(
-                speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
-                mode: SpiClockConfiguration.Mode.Mode3);
-            var spiBus = Device.CreateSpiBus(
-                clock: Device.Pins.SCK,
-                copi: Device.Pins.MOSI,
-                cipo: Device.Pins.MISO,
-                config: config);
+            projLab.RightButton.Clicked += ButtonRightClicked;
+            if (projLab.HardwareRevision == "v2.x")
+            {
+                projLab.LeftButton.Clicked += ButtonLeftClicked;
+            }
 
             graphics = new MicroGraphics(projLab.Display);
             graphics.Rotation = RotationType._90Degrees;
@@ -49,7 +43,7 @@ namespace GalleryViewer
             return base.Initialize();
         }
 
-        void ButtonUpClicked(object sender, EventArgs e)
+        void ButtonLeftClicked(object sender, EventArgs e)
         {
             projLab.Led.SetColor(Color.Red);
 
@@ -63,7 +57,7 @@ namespace GalleryViewer
             projLab.Led.SetColor(Color.Green);
         }
 
-        void ButtonDownClicked(object sender, EventArgs e)
+        void ButtonRightClicked(object sender, EventArgs e)
         {
             projLab.Led.SetColor(Color.Red);
 

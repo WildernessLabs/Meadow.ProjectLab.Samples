@@ -43,7 +43,7 @@ namespace ProjLab_Demo
             }
 
             //---- BMI270 Accel/IMU
-            if (projLab.IMU is { } bmi270)
+            if (projLab.MotionSensor is { } bmi270)
             {
                 Resolver.Log.Info($"IMU created");
                 bmi270.Updated += Bmi270Updated;
