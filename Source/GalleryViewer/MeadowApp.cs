@@ -2,8 +2,6 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
-using Meadow.Hardware;
-using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
 using System.IO;
