@@ -1,8 +1,5 @@
 ﻿using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Hardware;
-using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
 using System.IO;
@@ -18,32 +15,12 @@ namespace WifiWeather.Views
 
         public WeatherView()
         {
-            Initialize();
         }
 
-        void Initialize()
+        public void Initialize(IGraphicsDisplay display)
         {
-            var config = new SpiClockConfiguration(
-                 speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
-                 mode: SpiClockConfiguration.Mode.Mode3);
-            var spiBus = MeadowApp.Device.CreateSpiBus(
-                clock: MeadowApp.Device.Pins.SCK,
-                copi: MeadowApp.Device.Pins.MOSI,
-                cipo: MeadowApp.Device.Pins.MISO,
-                config: config);
-            var display = new St7789
-            (
-                device: MeadowApp.Device,
-                spiBus: spiBus,
-                chipSelectPin: MeadowApp.Device.Pins.A03,
-                dcPin: MeadowApp.Device.Pins.A04,
-                resetPin: MeadowApp.Device.Pins.A05,
-                width: 240, height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
-            );
-
             graphics = new MicroGraphics(display)
-            {   
+            {
                 Stroke = 1,
                 CurrentFont = new Font12x20(),
                 Rotation = RotationType._90Degrees
@@ -73,7 +50,7 @@ namespace WifiWeather.Views
             graphics.Show();
         }
 
-        public void UpdateDateTime() 
+        public void UpdateDateTime()
         {
             int TimeZoneOffSet = -8; // PST
             var today = DateTime.Now.AddHours(TimeZoneOffSet);
@@ -81,7 +58,7 @@ namespace WifiWeather.Views
             graphics.DrawRectangle(116, 24, 120, 82, Color.White, true);
 
             graphics.DrawText(128, 24, today.ToString("MM/dd/yy"), color: Color.Black);
-            
+
             graphics.DrawText(116, 66, today.ToString("hh:mm"), Color.Black, ScaleFactor.X2);
 
             graphics.Show();
@@ -119,7 +96,7 @@ namespace WifiWeather.Views
             var assembly = Assembly.GetExecutingAssembly();
             string resourceName;
 
-            switch(weatherCode)
+            switch (weatherCode)
             {
                 case int n when (n >= WeatherConstants.THUNDERSTORM_LIGHT_RAIN && n <= WeatherConstants.THUNDERSTORM_HEAVY_DRIZZLE):
                     resourceName = $"WifiWeather.w_storm.jpg";
@@ -132,7 +109,7 @@ namespace WifiWeather.Views
                     break;
                 case int n when (n >= WeatherConstants.SNOW_LIGHT && n <= WeatherConstants.SNOW_SHOWER_HEAVY):
                     resourceName = $"WifiWeather.w_snow.jpg";
-                    break;                                    
+                    break;
                 case WeatherConstants.CLOUDS_CLEAR:
                     resourceName = $"WifiWeather.w_clear.jpg";
                     break;

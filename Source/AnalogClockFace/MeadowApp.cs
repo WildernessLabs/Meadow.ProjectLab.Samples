@@ -1,72 +1,57 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Gateway.WiFi;
 using Meadow.Hardware;
-using Meadow.Units;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AnalogClockFace
+namespace MeadowApp
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2, MeadowApp>
+    public class MeadowApp : App<F7FeatherV2>
     {
+        // Set value to false when entering WIFI credentials
+        // in the Secrets.cs
+        bool offlineMode = true;
+
         readonly Color WatchBackgroundColor = Color.White;
 
         MicroGraphics graphics;
+        ProjectLab projLab;
         int tick;
 
-        public MeadowApp()
+        public override async Task Initialize()
         {
-            Initialize().Wait();
+            projLab = new ProjectLab();
 
-            DrawClock();
-        }
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
 
-        async Task Initialize()
-        {
-            var onboardLed = new RgbPwmLed(
-                device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            projLab.Led.SetColor(Color.Red);
 
-            var connectionResult = await Device.WiFiAdapter.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
-            if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
+            if (offlineMode)
             {
-                throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
+                Device.SetClock(DateTime.Now);
+            }
+            else
+            {
+                var connectionResult = await Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>().Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
+                if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
+                {
+                    throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
+                }
             }
 
-            var config = new SpiClockConfiguration(
-                speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
-                mode: SpiClockConfiguration.Mode.Mode3);
-            var spiBus = Device.CreateSpiBus(
-                clock: Device.Pins.SCK,
-                copi: Device.Pins.MOSI,
-                cipo: Device.Pins.MISO,
-                config: config);
-            var st7789 = new St7789
-            (
-                device: Device,
-                spiBus: spiBus,
-                chipSelectPin: Device.Pins.A03,
-                dcPin: Device.Pins.A04,
-                resetPin: Device.Pins.A05,
-                width: 240,
-                height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
-            );
 
-            graphics = new MicroGraphics(st7789);
+            graphics = new MicroGraphics(projLab.Display)
+            {
+                IgnoreOutOfBoundsPixels = true
+            };
             graphics.Rotation = RotationType._90Degrees;
 
-            onboardLed.SetColor(Color.Green);
+            projLab.Led.SetColor(Color.Green);
         }
 
         void DrawClock()
@@ -117,7 +102,6 @@ namespace AnalogClockFace
             var today = DateTime.Now.AddHours(TimeZoneOffSet);
             int minute = today.Minute;
             int hour = today.Hour > 12 ? today.Hour - 12 : today.Hour;
-            Console.WriteLine($"{hour}:{minute}");
 
             int x, y, xT, yT;
 
@@ -185,6 +169,13 @@ namespace AnalogClockFace
             y = (int)(yCenter - 70 * Math.Cos(second * Math.PI / 30));
             graphics.DrawLine(xCenter, yCenter, x, y, Color.Red);
             graphics.Show();
+        }
+
+        public override Task Run()
+        {
+            DrawClock();
+
+            return base.Run();
         }
     }
 }

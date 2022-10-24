@@ -1,56 +1,40 @@
 ﻿using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
+using Meadow.Units;
 using SimpleJpegDecoder;
+using System;
 using System.IO;
 using System.Reflection;
-using Meadow.Units;
-using Meadow.Hardware;
 
-namespace PlantMonitor
+namespace PlantMonitor.Controllers
 {
     public class DisplayController
     {
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
+
         MicroGraphics graphics;
 
-        public DisplayController()
-        {
-            var config = new SpiClockConfiguration(
-                speed: new Frequency(48000, Frequency.UnitType.Kilohertz),
-                mode: SpiClockConfiguration.Mode.Mode3);
-            var spiBus = MeadowApp.Device.CreateSpiBus(
-                clock: MeadowApp.Device.Pins.SCK,
-                copi: MeadowApp.Device.Pins.MOSI,
-                cipo: MeadowApp.Device.Pins.MISO,
-                config: config);
-            var display = new St7789
-            (
-                device: MeadowApp.Device,
-                spiBus: spiBus,
-                chipSelectPin: MeadowApp.Device.Pins.A03,
-                dcPin: MeadowApp.Device.Pins.A04,
-                resetPin: MeadowApp.Device.Pins.A05,
-                width: 240,
-                height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
-            );
+        private DisplayController() { }
 
-            graphics = new MicroGraphics(display);
-            graphics.Rotation = RotationType._90Degrees;
-            graphics.CurrentFont = new Font12x20();
-            graphics.Stroke = 3;
+        public void Initialize(IGraphicsDisplay display)
+        {
+            graphics = new MicroGraphics(display)
+            {
+                IgnoreOutOfBoundsPixels = true,
+                Rotation = RotationType._90Degrees,
+                CurrentFont = new Font12x20(),
+                Stroke = 3,
+            };
 
             graphics.Clear();
-
-            graphics.DrawRectangle(0, 0, 240, 240, Color.White, true);
-
+            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height, Color.White, true);
             string plant = "Plant";
             string monitor = "Monitor";
-
             graphics.CurrentFont = new Font12x16();
-            graphics.DrawText((240 - (plant.Length * 24)) / 2, 80, plant, Color.Black, ScaleFactor.X2);
-            graphics.DrawText((240 - (monitor.Length * 24)) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
-
+            graphics.DrawText((240 - plant.Length * 24) / 2, 80, plant, Color.Black, ScaleFactor.X2);
+            graphics.DrawText((240 - monitor.Length * 24) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
             graphics.Show();
         }
 
@@ -129,7 +113,7 @@ namespace PlantMonitor
             }
         }
 
-        public void Update(int percentage) 
+        public void Update(int percentage)
         {
             RefreshMoistureImage(percentage);
             RefreshMoisturePercentage(percentage);

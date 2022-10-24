@@ -1,56 +1,30 @@
 ﻿using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
 using Meadow.Foundation.Graphics;
-using Meadow.Hardware;
-using Meadow.Units;
+using System;
 
 namespace MorseCodeTrainer.Controllers
 {
     public class DisplayController
     {
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
+
         MicroGraphics graphics;
 
-        public DisplayController()
-        {
-            Initialize();
-            DrawTitleAndFrame();
-        }
+        private DisplayController() { }
 
-        void Initialize()
+        public void Initialize(IGraphicsDisplay display)
         {
-            var config = new SpiClockConfiguration(
-                new Frequency(48000, Frequency.UnitType.Kilohertz),
-                SpiClockConfiguration.Mode.Mode3);
-            var spiBus = MeadowApp.Device.CreateSpiBus(
-                clock: MeadowApp.Device.Pins.SCK,
-                copi: MeadowApp.Device.Pins.MOSI,
-                cipo: MeadowApp.Device.Pins.MISO,
-                config: config);
-            var display = new St7789
-            (
-                device: MeadowApp.Device,
-                spiBus: spiBus,
-                chipSelectPin: MeadowApp.Device.Pins.A03,
-                dcPin: MeadowApp.Device.Pins.A04,
-                resetPin: MeadowApp.Device.Pins.A05,
-                width: 240,
-                height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
-            );
             graphics = new MicroGraphics(display)
             {
                 Stroke = 1,
                 CurrentFont = new Font12x20(),
                 Rotation = RotationType._90Degrees
             };
-            graphics.Clear();
-            graphics.Show();
-        }
 
-        void DrawTitleAndFrame()
-        {
             graphics.Clear();
-            graphics.DrawRectangle(0, 0, 240, 240);
+            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height);
             graphics.DrawText(24, 15, "Morse Code Coach");
             graphics.DrawHorizontalLine(24, 41, 196, Color.White);
             graphics.Show();

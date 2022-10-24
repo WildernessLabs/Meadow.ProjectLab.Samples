@@ -1,5 +1,5 @@
 ﻿using Meadow.Foundation;
-using Meadow.Foundation.Displays.TftSpi;
+using Meadow.Foundation.Displays;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.Buffers;
 using Meadow.Hardware;
@@ -50,7 +50,7 @@ namespace MeadowConnectedSample.Controller
                 resetPin: MeadowApp.Device.Pins.A05,
                 width: 240,
                 height: 240,
-                displayColorMode: ColorType.Format16bppRgb565
+                colorMode: ColorType.Format16bppRgb565
             );
 
             graphics = new MicroGraphics(st7789)
@@ -138,14 +138,13 @@ namespace MeadowConnectedSample.Controller
             token.Cancel();
         }
 
-        public void ShowMapleReady() 
+        public void ShowMapleReady(string ipAddress) 
         {
             graphics.DrawRectangle(77, 134, 86, 74, backgroundColor, true);
 
             graphics.CurrentFont = new Font12x16();
             graphics.DrawText(120, 128, "MAPLE", ScaleFactor.X2, TextAlignment.Center);
 
-            string ipAddress = MeadowApp.Device.WiFiAdapter.IpAddress.ToString();
             graphics.DrawText(120, 171, $"{ipAddress}", ScaleFactor.X1, TextAlignment.Center);
 
             graphics.DrawText(120, 197, $"READY", ScaleFactor.X1, TextAlignment.Center);

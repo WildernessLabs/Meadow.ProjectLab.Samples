@@ -63,9 +63,9 @@ namespace MeadowConnectedSample.Connectivity
             LedController.Instance.StartPulse();
         }
 
-        public void SetBme688CharacteristicValue((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure) value) 
+        public void SetBme688CharacteristicValue((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) value) 
         {
-            bme688DataCharacteristic.SetValue($"{(int)value.Temperature?.Celsius}°C;{(int)value.Humidity?.Percent}%;{(int)value.Pressure?.Millibar}mbar");
+            bme688DataCharacteristic.SetValue($"{(int)value.Temperature?.Celsius}°C;{(int)value.Humidity?.Percent}%;{(int)value.Pressure?.Millibar}mbar; {value.GasResistance?.Ohms}ohms");
         }
 
         public void SetBh1750CharacteristicValue(Illuminance? value)
