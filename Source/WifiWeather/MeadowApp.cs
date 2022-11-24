@@ -1,8 +1,10 @@
 ﻿using Meadow;
 using Meadow.Devices;
 using Meadow.Foundation;
+using Meadow.Foundation.Leds;
 using Meadow.Gateway.WiFi;
 using Meadow.Hardware;
+using Meadow.Peripherals.Leds;
 using System;
 using System.Threading.Tasks;
 using WifiWeather.Services;
@@ -14,6 +16,7 @@ namespace WifiWeather
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
     {
+        RgbPwmLed onboardLed;
         WeatherView displayController;
         ProjectLab projLab;
 
@@ -21,9 +24,14 @@ namespace WifiWeather
         {
             projLab = new ProjectLab();
 
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            projLab.Led.SetColor(Color.Red);
+            onboardLed = new RgbPwmLed(device: Device,
+                redPwmPin: Device.Pins.OnboardLedRed,
+                greenPwmPin: Device.Pins.OnboardLedGreen,
+                bluePwmPin: Device.Pins.OnboardLedBlue,
+                CommonType.CommonAnode);
+            onboardLed.SetColor(Color.Red);
 
             var connectionResult = await Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>().Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
 
@@ -35,12 +43,12 @@ namespace WifiWeather
             displayController = new WeatherView();
             displayController.Initialize(projLab.Display);
 
-            projLab.Led.StartPulse(Color.Green);
+            onboardLed.StartPulse(Color.Green);
         }
 
         async Task GetTemperature()
         {
-            projLab.Led.StartPulse(Color.Magenta);
+            onboardLed.StartPulse(Color.Magenta);
 
             // Get indoor conditions
             var conditions = await projLab.EnvironmentalSensor.Read();
@@ -48,7 +56,7 @@ namespace WifiWeather
             // Get outdoor conditions
             var outdoorConditions = await WeatherService.GetWeatherForecast();
 
-            projLab.Led.StartPulse(Color.Orange);
+            onboardLed.StartPulse(Color.Orange);
 
             // Format indoor/outdoor conditions data
             var model = new WeatherViewModel(outdoorConditions, conditions.Temperature);
@@ -56,7 +64,7 @@ namespace WifiWeather
             // Send formatted data to display to render
             displayController.UpdateDisplay(model);
 
-            projLab.Led.StartPulse(Color.Green);
+            onboardLed.StartPulse(Color.Green);
         }
 
         public override async Task Run()

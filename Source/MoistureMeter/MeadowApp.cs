@@ -2,6 +2,8 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
+using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using MoistureMeter.Controllers;
 using System;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ namespace MoistureMeter
     // Change F7MicroV2 to F7Micro for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
     {
+        RgbPwmLed onboardLed;
         MoistureSensor sensor;
         ProjectLab projLab;
 
@@ -18,9 +21,14 @@ namespace MoistureMeter
         {
             projLab = new ProjectLab();
 
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            projLab.Led.SetColor(Color.Red);
+            onboardLed = new RgbPwmLed(device: Device,
+                redPwmPin: Device.Pins.OnboardLedRed,
+                greenPwmPin: Device.Pins.OnboardLedGreen,
+                bluePwmPin: Device.Pins.OnboardLedBlue,
+                CommonType.CommonAnode);
+            onboardLed.SetColor(Color.Red);
 
             DisplayController.Instance.Initialize(projLab.Display);
 
@@ -35,7 +43,7 @@ namespace MoistureMeter
 
             sensor.StartUpdating(TimeSpan.FromMilliseconds(1000));
 
-            projLab.Led.SetColor(Color.Green);
+            onboardLed.SetColor(Color.Green);
 
             return base.Initialize();
         }

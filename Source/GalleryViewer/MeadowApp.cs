@@ -2,6 +2,8 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using SimpleJpegDecoder;
 using System;
 using System.IO;
@@ -13,6 +15,7 @@ namespace GalleryViewer
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
     {
+        RgbPwmLed onboardLed;
         MicroGraphics graphics;
         int selectedIndex;
         string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
@@ -23,12 +26,17 @@ namespace GalleryViewer
         {
             projLab = new ProjectLab();
 
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            projLab.Led.SetColor(Color.Red);
+            onboardLed = new RgbPwmLed(device: Device,
+                redPwmPin: Device.Pins.OnboardLedRed,
+                greenPwmPin: Device.Pins.OnboardLedGreen,
+                bluePwmPin: Device.Pins.OnboardLedBlue,
+                CommonType.CommonAnode);
+            onboardLed.SetColor(Color.Red);
 
             projLab.RightButton.Clicked += ButtonRightClicked;
-            if (projLab.HardwareRevision == "v2.x")
+            if (projLab.RevisionString == "v2.x")
             {
                 projLab.LeftButton.Clicked += ButtonLeftClicked;
             }
@@ -36,14 +44,14 @@ namespace GalleryViewer
             graphics = new MicroGraphics(projLab.Display);
             graphics.Rotation = RotationType._90Degrees;
 
-            projLab.Led.SetColor(Color.Green);
+            onboardLed.SetColor(Color.Green);
 
             return base.Initialize();
         }
 
         void ButtonLeftClicked(object sender, EventArgs e)
         {
-            projLab.Led.SetColor(Color.Red);
+            onboardLed.SetColor(Color.Red);
 
             if (selectedIndex + 1 > 2)
                 selectedIndex = 0;
@@ -52,12 +60,12 @@ namespace GalleryViewer
 
             DisplayJPG();
 
-            projLab.Led.SetColor(Color.Green);
+            onboardLed.SetColor(Color.Green);
         }
 
         void ButtonRightClicked(object sender, EventArgs e)
         {
-            projLab.Led.SetColor(Color.Red);
+            onboardLed.SetColor(Color.Red);
 
             if (selectedIndex - 1 < 0)
                 selectedIndex = 2;
@@ -66,7 +74,7 @@ namespace GalleryViewer
 
             DisplayJPG();
 
-            projLab.Led.SetColor(Color.Green);
+            onboardLed.SetColor(Color.Green);
         }
 
         void DisplayJPG()
