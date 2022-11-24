@@ -2,7 +2,9 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Buttons;
+using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -23,6 +25,7 @@ namespace Simon
 
         SimonGame game;
 
+        RgbPwmLed onboardLed;
         MicroGraphics graphics;
         ProjectLab projLab;
         PushButton[] buttons;
@@ -31,9 +34,14 @@ namespace Simon
         {
             projLab = new ProjectLab();
 
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            projLab.Led.SetColor(Color.Red);
+            onboardLed = new RgbPwmLed(device: Device,
+                redPwmPin: Device.Pins.OnboardLedRed,
+                greenPwmPin: Device.Pins.OnboardLedGreen,
+                bluePwmPin: Device.Pins.OnboardLedBlue,
+                CommonType.CommonAnode);
+            onboardLed.SetColor(Color.Red);
 
             notes = new Frequency[]
             {
@@ -62,7 +70,7 @@ namespace Simon
             buttons[1] = projLab.RightButton;
             buttons[1].Clicked += ButtonRightClicked;
 
-            projLab.Led.SetColor(Color.Green);
+            onboardLed.SetColor(Color.Green);
 
             return base.Initialize();
         }

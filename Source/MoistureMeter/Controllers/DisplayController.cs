@@ -61,7 +61,7 @@ namespace MoistureMeter.Controllers
                 graphics.DrawRectangle(12, 222 - (22 * i + 12), 100, 20, color, true);
             }
 
-            graphics.DrawText(174, 105, $"{percentage}%", ScaleFactor.X2, TextAlignment.Center);
+            graphics.DrawText(174, 105, $"{percentage}%", ScaleFactor.X2, alignmentH: HorizontalAlignment.Center);
 
             graphics.Show();
         }

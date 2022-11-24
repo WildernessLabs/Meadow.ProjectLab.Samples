@@ -143,11 +143,11 @@ namespace MeadowConnectedSample.Controller
             graphics.DrawRectangle(77, 134, 86, 74, backgroundColor, true);
 
             graphics.CurrentFont = new Font12x16();
-            graphics.DrawText(120, 128, "MAPLE", ScaleFactor.X2, TextAlignment.Center);
+            graphics.DrawText(120, 128, "MAPLE", ScaleFactor.X2, alignmentH: HorizontalAlignment.Center);
 
-            graphics.DrawText(120, 171, $"{ipAddress}", ScaleFactor.X1, TextAlignment.Center);
+            graphics.DrawText(120, 171, $"{ipAddress}", ScaleFactor.X1, alignmentH: HorizontalAlignment.Center);
 
-            graphics.DrawText(120, 197, $"READY", ScaleFactor.X1, TextAlignment.Center);
+            graphics.DrawText(120, 197, $"READY", ScaleFactor.X1, alignmentH: HorizontalAlignment.Center);
 
             graphics.Show();
         }
@@ -159,9 +159,9 @@ namespace MeadowConnectedSample.Controller
             graphics.DrawRectangle(77, 134, 86, 74, backgroundColor, true);
 
             graphics.CurrentFont = new Font12x16();
-            graphics.DrawText(120, 132, "BLUETOOTH", ScaleFactor.X1, TextAlignment.Center);
+            graphics.DrawText(120, 132, "BLUETOOTH", ScaleFactor.X1, alignmentH: HorizontalAlignment.Center);
 
-            graphics.DrawText(120, 163, "PAIRED", ScaleFactor.X2, TextAlignment.Center);
+            graphics.DrawText(120, 163, "PAIRED", ScaleFactor.X2, alignmentH: HorizontalAlignment.Center);
 
             graphics.Show();
         }
