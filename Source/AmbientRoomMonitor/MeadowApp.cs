@@ -2,6 +2,8 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -19,6 +21,7 @@ namespace AmbientRoomMonitor
             Color.FromHex("#008500")
         };
 
+        RgbPwmLed onboardLed;
         MicroGraphics graphics;
         ProjectLab projLab;
 
@@ -26,9 +29,14 @@ namespace AmbientRoomMonitor
         {
             projLab = new ProjectLab();
 
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            projLab.Led.SetColor(Color.Red);
+            onboardLed = new RgbPwmLed(device: Device,
+                redPwmPin: Device.Pins.OnboardLedRed,
+                greenPwmPin: Device.Pins.OnboardLedGreen,
+                bluePwmPin: Device.Pins.OnboardLedBlue,
+                CommonType.CommonAnode);
+            onboardLed.SetColor(Color.Red);
 
             projLab.EnvironmentalSensor.Updated += EnvironmentalSensor_Updated;
 
@@ -40,7 +48,7 @@ namespace AmbientRoomMonitor
             };
             graphics.Rotation = RotationType._90Degrees;
 
-            projLab.Led.SetColor(Color.Green);
+            onboardLed.SetColor(Color.Green);
 
             return base.Initialize();
         }

@@ -2,8 +2,10 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Leds;
 using Meadow.Gateway.WiFi;
 using Meadow.Hardware;
+using Meadow.Peripherals.Leds;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +21,7 @@ namespace MeadowApp
 
         readonly Color WatchBackgroundColor = Color.White;
 
+        RgbPwmLed onboardLed;
         MicroGraphics graphics;
         ProjectLab projLab;
         int tick;
@@ -27,9 +30,14 @@ namespace MeadowApp
         {
             projLab = new ProjectLab();
 
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.HardwareRevision}");
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            projLab.Led.SetColor(Color.Red);
+            onboardLed = new RgbPwmLed(device: Device,
+                redPwmPin: Device.Pins.OnboardLedRed,
+                greenPwmPin: Device.Pins.OnboardLedGreen,
+                bluePwmPin: Device.Pins.OnboardLedBlue,
+                CommonType.CommonAnode);
+            onboardLed.SetColor(Color.Red);
 
             if (offlineMode)
             {
@@ -51,7 +59,7 @@ namespace MeadowApp
             };
             graphics.Rotation = RotationType._90Degrees;
 
-            projLab.Led.SetColor(Color.Green);
+            onboardLed.SetColor(Color.Green);
         }
 
         void DrawClock()
