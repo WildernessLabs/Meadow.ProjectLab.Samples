@@ -9,51 +9,51 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
 <table>
     <tr>
         <td>
-            <img src="Design/maple.png"/><br/>
+            <a href="Source/Connectivity/"><img src="Design/maple.png"/></a><br/>
             Control a Project Lab Board over Wi-Fi with a Xamarin app</br>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
-            <img src="Design/bluetooth.png"/><br/>
+            <a href="Source/Connectivity/"><img src="Design/bluetooth.png"/></a><br/>
             Control a Project Lab Board over Bluetooth with a companion app<br/>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
-            <img src="Design/MoistureMeter.png"/><br/>
+            <a href="Source/MoistureMeter/"><img src="Design/MoistureMeter.png"/></a><br/>
             Use a Grove Soil Moisture sensor and graph its value on the display<br/>
             <a href="Source/MoistureMeter/">Source Code</a>
         </td>
     </tr>
     <tr>
         <td>
-            <img src="Design/GalleryViewer.png"/><br/>
+            <a href="Source/GalleryViewer/"><img src="Design/GalleryViewer.png"/></a><br/>
             Make an Image Gallery with a ST7789 Display and Meadow.<br/>
             <a href="Source/GalleryViewer/">Source Code</a>
         </td>
         <td>
-            <img src="Design/WifiWeather.png"/><br/>
+            <a href="Source/WifiWeather/"><img src="Design/WifiWeather.png"/></a><br/>
             Weather Station using public web service on a Project Lab Board<br/>
             <a href="Source/WifiWeather/">Source Code</a>
         </td>
         <td>
-            <img src="Design/MeadowClockGraphics.png"/><br/>
+            <a href="Source/AnalogClockFace/"><img src="Design/MeadowClockGraphics.png"/></a><br/>
             Draw an analog clock watch face on using MicroGraphics<br/>
             <a href="Source/AnalogClockFace/">Source Code</a>
         </td>
     </tr>
     <tr>
         <td>
-            <img src="Design/TemperatureMonitor.png"/><br/>
+            <a href="Source/TemperatureMonitor/"><img src="Design/TemperatureMonitor.png"/></a><br/>
             Room ambient monitor with a BME688 on a Project Lab Board<br/>
             <a href="Source/TemperatureMonitor/">Source Code</a>
         </td>
         <td>
-            <img src="Design/Simon.png"/><br/>
+            <a href="Source/Simon/"><img src="Design/Simon.png"/></a><br/>
             Run a Simon Game on a display and push button d-pad</br>
             <a href="Source/Simon/">Source Code</a>
         </td>
         <td>
-            <img src="Design/MorseCodeTrainer.png"/><br/>
+            <a href="Source/MorseCodeTrainer/"><img src="Design/MorseCodeTrainer.png"/></a><br/>
             Train your Morse Code spelling skills with Meadow<br/>
             <a href="Source/MorseCodeTrainer/">Source Code</a>
         </td>
@@ -104,7 +104,7 @@ As well as connectors to 5V, 3.3V, ground, one analog port and 2 GPIO ports.
 Check the diagram below to see what pins on the Meadow are connected to every peripheral on board:
 &nbsp;
 
-![](/Design/Pinout.png)
+![](/Design/PinoutV1.png)
 
 ## License
 Copyright 2022, Wilderness Labs Inc.
