@@ -1,0 +1,31 @@
+<Project Sdk="Meadow.Sdk/1.1.0">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutputType>Library</OutputType>
+    <AssemblyName>App</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Meadow.Foundation" Version="0.*" />
+    <PackageReference Include="Meadow.F7" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Distance.Vl53l0x" Version="0.1.48" />
+    <PackageReference Include="Meadow.ProjectLab" Version="0.2.0" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Distance.MaxBotix" Version="0.90.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Meadow.Foundation.Sensors.Distance.Vl53l0x" />
+    <None Remove="Meadow.ProjectLab" />
+    <None Remove="Controllers\" />
+    <None Remove="Hardware\" />
+    <None Remove="Meadow.Foundation.Sensors.Distance.MaxBotix" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="meadow.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Hardware\" />
+  </ItemGroup>
+</Project>
