@@ -22,7 +22,7 @@ HardwareConfigTypes currentHardwareConfig = HardwareConfigTypes.LabProto;
 
 #### BoM
 
-* (1) Project Lab board
+* (1) [Project Lab board](https://store.wildernesslabs.co/collections/frontpage/products/project-lab-board)
 * (1) [VL53L0X distance sensor](https://www.adafruit.com/product/5425)
 * (1) [STEMMA QT Cable](https://www.adafruit.com/?q=Stemma+Cabler&sort=BestMatch)
 
@@ -34,7 +34,7 @@ HardwareConfigTypes currentHardwareConfig = HardwareConfigTypes.LabProto;
 
 #### BoM
 
-* (1) Project Lab board
+* (1) [Project Lab board](https://store.wildernesslabs.co/collections/frontpage/products/project-lab-board)
 * (1) [MaxBotix MB7850 XL-TankSensor-WRMA](https://www.maxbotix.com/ultrasonic_sensors/mb7850.htm) distance sensor
 * (1) [Grove Screw Terminal](https://www.seeedstudio.com/Grove-Screw-Terminal.html)
 * (1) [Seeed Studio Grove Cable](https://www.seeedstudio.com/catalogsearch/result/?q=Grove%20Cable)
