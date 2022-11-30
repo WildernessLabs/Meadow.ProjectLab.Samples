@@ -51,3 +51,5 @@ HardwareConfigTypes currentHardwareConfig = HardwareConfigTypes.LabProto;
     | White | White |
     | Blue | Yellow |
 2. Plug the grove screw terminal cable into the Grove UART (middle) connector on the Project Lab board.
+3. Install the maxbotix sensor into a rain barrel: 
+    ![Image of the MaxBotix distance sensor installed in a 55 gallon rain barrel.](Water_Barrel.jpg)
