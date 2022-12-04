@@ -43,9 +43,9 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
     </tr>
     <tr>
         <td>
-            <a href="Source/TemperatureMonitor/"><img src="Design/TemperatureMonitor.png"/></a><br/>
+            <a href="Source/AmbientRoomMonitor/"><img src="Design/TemperatureMonitor.png"/></a><br/>
             Room ambient monitor with a BME688 on a Project Lab Board<br/>
-            <a href="Source/TemperatureMonitor/">Source Code</a>
+            <a href="Source/AmbientRoomMonitor/">Source Code</a>
         </td>
         <td>
             <a href="Source/Simon/"><img src="Design/Simon.png"/></a><br/>
