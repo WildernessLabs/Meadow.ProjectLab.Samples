@@ -12,15 +12,15 @@ namespace MeadowConnectedSample.Controller
             new Lazy<Bme688Controller>(() => new Bme688Controller());
         public static Bme688Controller Instance => instance.Value;
 
-        Bme680 bme688;
+        Bme688 bme688;
 
         public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) AmbientReading { get; private set; }
 
         private Bme688Controller() { }
 
-        public void Initialize(II2cBus i2c)
+        public void Initialize(Bme688 sensor)
         {
-            bme688 = new Bme680(i2c, (byte)Bme680.Addresses.Address_0x76);
+            bme688 = sensor;
             bme688.Updated += Bme688Updated;
             bme688.StartUpdating(TimeSpan.FromSeconds(5));
         }

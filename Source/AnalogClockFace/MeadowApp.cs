@@ -52,7 +52,6 @@ namespace MeadowApp
                 }
             }
 
-
             graphics = new MicroGraphics(projLab.Display)
             {
                 IgnoreOutOfBoundsPixels = true

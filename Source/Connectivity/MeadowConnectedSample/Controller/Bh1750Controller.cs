@@ -1,5 +1,4 @@
 ﻿using Meadow.Foundation.Sensors.Light;
-using Meadow.Hardware;
 using Meadow.Units;
 using MeadowConnectedSample.Connectivity;
 using System;
@@ -18,13 +17,9 @@ namespace MeadowConnectedSample.Controller
 
         private Bh1750Controller() { }
 
-        public void Initialize(II2cBus i2c)
+        public void Initialize(Bh1750 sensor)
         {
-            bh1750 = new Bh1750(
-                    i2cBus: i2c,
-                    measuringMode: Bh1750.MeasuringModes.ContinuouslyHighResolutionMode, 
-                    lightTransmittance: 1, 
-                    address: (byte)Bh1750.Addresses.Address_0x23);
+            bh1750 = sensor;
             bh1750.Updated += Bh1750Updated;
             bh1750.StartUpdating(TimeSpan.FromSeconds(5));
         }
