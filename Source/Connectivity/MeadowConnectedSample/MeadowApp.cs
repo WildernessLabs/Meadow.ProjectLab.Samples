@@ -5,8 +5,6 @@ using Meadow.Foundation.Web.Maple;
 using Meadow.Hardware;
 using MeadowConnectedSample.Connectivity;
 using MeadowConnectedSample.Controller;
-using System;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MeadowConnectedSample
@@ -18,7 +16,7 @@ namespace MeadowConnectedSample
 
         bool useWiFi = true;
 
-        public override async Task Initialize() 
+        public override Task Initialize() 
         {
             LedController.Instance.SetColor(Color.Red);
 
@@ -35,32 +33,29 @@ namespace MeadowConnectedSample
             {
                 DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
-                try
-                {
-                    var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
-
-                    await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
-
-                    Console.WriteLine($"IP Address... {wifi.IpAddress}");
-
-                    DisplayController.Instance.StopConnectingAnimation();
-
-                    var mapleServer = new MapleServer(wifi.IpAddress, 5417, true, logger: Resolver.Log);
-                    mapleServer.Start();
-
-                    DisplayController.Instance.ShowMapleReady(wifi.IpAddress.ToString());
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message.ToString());
-                }
+                var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+                wifi.NetworkConnected += WifiNetworkConnected;
             }
             else
             {
                 DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
                 BluetoothServer.Instance.Initialize();
+
+                LedController.Instance.SetColor(Color.Green);
             }
+
+            return base.Initialize();
+        }
+
+        private void WifiNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
+        {
+            DisplayController.Instance.StopConnectingAnimation();
+
+            var mapleServer = new MapleServer(sender.IpAddress, 5417, true, logger: Resolver.Log);
+            mapleServer.Start();
+
+            DisplayController.Instance.ShowMapleReady(sender.IpAddress.ToString());
 
             LedController.Instance.SetColor(Color.Green);
         }
