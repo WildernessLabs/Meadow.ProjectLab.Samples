@@ -3,11 +3,7 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
-using Meadow.Gateway.WiFi;
-using Meadow.Hardware;
-using Meadow.Peripherals.Leds;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeadowApp
@@ -15,10 +11,6 @@ namespace MeadowApp
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
     {
-        // Set value to false when entering WIFI credentials
-        // in the Secrets.cs
-        bool offlineMode = true;
-
         readonly Color WatchBackgroundColor = Color.White;
 
         RgbPwmLed onboardLed;
@@ -26,53 +18,27 @@ namespace MeadowApp
         ProjectLab projLab;
         int tick;
 
-        public override async Task Initialize()
+        public override Task Initialize()
         {
-            projLab = new ProjectLab();
-
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
-            onboardLed = new RgbPwmLed(device: Device,
+            onboardLed = new RgbPwmLed(
+                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue,
-                CommonType.CommonAnode);
+                bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            if (offlineMode)
-            {
-                Device.SetClock(DateTime.Now);
-            }
-            else
-            {
-                var connectionResult = await Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>().Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
-                if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
-                {
-                    throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
-                }
-            }
+            projLab = new ProjectLab();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            graphics = new MicroGraphics(projLab.Display)
-            {
-                IgnoreOutOfBoundsPixels = true
-            };
+            graphics = new MicroGraphics(projLab.Display);
+            graphics.IgnoreOutOfBoundsPixels = true;
             graphics.Rotation = RotationType._90Degrees;
 
             onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
         }
 
-        void DrawClock()
-        {
-            graphics.Clear(true);
-
-            DrawWatchFace();
-            while (true)
-            {
-                tick++;
-                Thread.Sleep(1000);
-                UpdateClock(second: tick % 60);
-            }
-        }
         void DrawWatchFace()
         {
             graphics.Clear();
@@ -178,11 +144,17 @@ namespace MeadowApp
             graphics.Show();
         }
 
-        public override Task Run()
+        public override async Task Run()
         {
-            DrawClock();
+            graphics.Clear(true);
 
-            return base.Run();
+            DrawWatchFace();
+            while (true)
+            {
+                tick++;
+                await Task.Delay(1000);
+                UpdateClock(second: tick % 60);
+            }
         }
     }
 }

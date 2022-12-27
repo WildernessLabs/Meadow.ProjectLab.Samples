@@ -20,30 +20,42 @@ namespace WifiWeather
         WeatherView displayController;
         ProjectLab projLab;
 
-        public override async Task Initialize()
+        public override Task Initialize()
         {
-            projLab = new ProjectLab();
-
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
-            onboardLed = new RgbPwmLed(device: Device,
+            onboardLed = new RgbPwmLed(
+                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue,
-                CommonType.CommonAnode);
+                bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            var connectionResult = await Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>().Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
+            projLab = new ProjectLab();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
-            {
-                throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
-            }
+            Device.NetworkConnected += DeviceNetworkConnected;
 
             displayController = new WeatherView();
             displayController.Initialize(projLab.Display);
 
             onboardLed.StartPulse(Color.Green);
+
+            return Task.CompletedTask;
+        }
+
+        private async void DeviceNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
+        {
+            await GetTemperature();
+
+            while (true)
+            {
+                if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0)
+                {
+                    await GetTemperature();
+                }
+
+                displayController.UpdateDateTime();
+                await Task.Delay(TimeSpan.FromMinutes(1));
+            }
         }
 
         async Task GetTemperature()
@@ -65,22 +77,6 @@ namespace WifiWeather
             displayController.UpdateDisplay(model);
 
             onboardLed.StartPulse(Color.Green);
-        }
-
-        public override async Task Run()
-        {
-            await GetTemperature();
-
-            while (true)
-            {
-                if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0)
-                {
-                    await GetTemperature();
-                }
-
-                displayController.UpdateDateTime();
-                await Task.Delay(TimeSpan.FromMinutes(1));
-            }
         }
     }
 }
