@@ -3,10 +3,11 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Hardware;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowApp
+namespace AnalogClockFace
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
@@ -18,7 +19,7 @@ namespace MeadowApp
         ProjectLab projLab;
         int tick;
 
-        public override Task Initialize()
+        public override async Task Initialize()
         {
             onboardLed = new RgbPwmLed(
                 device: Device,
@@ -34,9 +35,10 @@ namespace MeadowApp
             graphics.IgnoreOutOfBoundsPixels = true;
             graphics.Rotation = RotationType._90Degrees;
 
-            onboardLed.SetColor(Color.Green);
+            var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+            await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
 
-            return base.Initialize();
+            onboardLed.SetColor(Color.Green);
         }
 
         void DrawWatchFace()
@@ -71,7 +73,7 @@ namespace MeadowApp
             int xCenter = graphics.Width / 2;
             int yCenter = graphics.Height / 2;
 
-            int TimeZoneOffSet = -7; // PST
+            int TimeZoneOffSet = -8; // PST
             var today = DateTime.Now.AddHours(TimeZoneOffSet);
             int minute = today.Minute;
             int hour = today.Hour > 12 ? today.Hour - 12 : today.Hour;

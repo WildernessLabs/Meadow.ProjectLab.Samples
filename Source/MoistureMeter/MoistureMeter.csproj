@@ -6,7 +6,7 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
+    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
     <PackageReference Include="Meadow.Foundation.Grove.Sensors.Moisture.MoistureSensor" Version="0.*" />
   </ItemGroup>
   <ItemGroup>

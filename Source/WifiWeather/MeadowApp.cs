@@ -2,9 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Leds;
-using Meadow.Gateway.WiFi;
 using Meadow.Hardware;
-using Meadow.Peripherals.Leds;
 using System;
 using System.Threading.Tasks;
 using WifiWeather.Services;
@@ -20,7 +18,7 @@ namespace WifiWeather
         WeatherView displayController;
         ProjectLab projLab;
 
-        public override Task Initialize()
+        public override async Task Initialize()
         {
             onboardLed = new RgbPwmLed(
                 device: Device,
@@ -32,30 +30,13 @@ namespace WifiWeather
             projLab = new ProjectLab();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            Device.NetworkConnected += DeviceNetworkConnected;
-
             displayController = new WeatherView();
             displayController.Initialize(projLab.Display);
 
+            var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+            await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
+
             onboardLed.StartPulse(Color.Green);
-
-            return Task.CompletedTask;
-        }
-
-        private async void DeviceNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
-        {
-            await GetTemperature();
-
-            while (true)
-            {
-                if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0)
-                {
-                    await GetTemperature();
-                }
-
-                displayController.UpdateDateTime();
-                await Task.Delay(TimeSpan.FromMinutes(1));
-            }
         }
 
         async Task GetTemperature()
@@ -77,6 +58,22 @@ namespace WifiWeather
             displayController.UpdateDisplay(model);
 
             onboardLed.StartPulse(Color.Green);
+        }
+
+        public override async Task Run()
+        {
+            await GetTemperature();
+
+            while (true)
+            {
+                if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0)
+                {
+                    await GetTemperature();
+                }
+
+                displayController.UpdateDateTime();
+                await Task.Delay(TimeSpan.FromMinutes(1));
+            }
         }
     }
 }

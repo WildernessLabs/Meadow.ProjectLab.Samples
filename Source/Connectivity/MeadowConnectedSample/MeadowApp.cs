@@ -5,8 +5,6 @@ using Meadow.Foundation.Web.Maple;
 using Meadow.Hardware;
 using MeadowConnectedSample.Connectivity;
 using MeadowConnectedSample.Controller;
-using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeadowConnectedSample
@@ -37,6 +35,7 @@ namespace MeadowConnectedSample
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
+
                 await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
             }
             else
@@ -51,8 +50,6 @@ namespace MeadowConnectedSample
 
         private void WifiNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
         {
-            Console.WriteLine($"Connected {sender.IpAddress}");
-
             DisplayController.Instance.StopConnectingAnimation();
 
             var mapleServer = new MapleServer(sender.IpAddress, 5417, true, logger: Resolver.Log);

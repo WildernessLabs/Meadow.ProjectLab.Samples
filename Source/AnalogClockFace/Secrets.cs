@@ -1,4 +1,4 @@
-﻿namespace MeadowConnectedSample
+﻿namespace AnalogClockFace
 {
     public class Secrets
     {

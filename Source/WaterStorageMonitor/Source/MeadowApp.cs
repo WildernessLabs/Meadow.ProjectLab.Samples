@@ -7,10 +7,9 @@ using Meadow.Foundation.Leds;
 using Meadow.Logging;
 using Meadow.Peripherals.Leds;
 using Meadow.Units;
-using RainWaterMonitor;
 using RainWaterMonitor.Hardware;
 
-namespace MeadowApp
+namespace RainWaterMonitor
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
