@@ -2,9 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Leds;
-using Meadow.Gateway.WiFi;
 using Meadow.Hardware;
-using Meadow.Peripherals.Leds;
 using System;
 using System.Threading.Tasks;
 using WifiWeather.Services;
@@ -22,26 +20,21 @@ namespace WifiWeather
 
         public override async Task Initialize()
         {
-            projLab = new ProjectLab();
-
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
-            onboardLed = new RgbPwmLed(device: Device,
+            onboardLed = new RgbPwmLed(
+                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue,
-                CommonType.CommonAnode);
+                bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            var connectionResult = await Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>().Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
-
-            if (connectionResult.ConnectionStatus != ConnectionStatus.Success)
-            {
-                throw new Exception($"Cannot connect to network: {connectionResult.ConnectionStatus}");
-            }
+            projLab = new ProjectLab();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             displayController = new WeatherView();
             displayController.Initialize(projLab.Display);
+
+            var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+            await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
 
             onboardLed.StartPulse(Color.Green);
         }

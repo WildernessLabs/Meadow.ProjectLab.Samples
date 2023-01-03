@@ -32,16 +32,15 @@ namespace Simon
 
         public override Task Initialize()
         {
-            projLab = new ProjectLab();
-
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
-            onboardLed = new RgbPwmLed(device: Device,
+            onboardLed = new RgbPwmLed(
+                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue,
-                CommonType.CommonAnode);
+                bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
+
+            projLab = new ProjectLab();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             notes = new Frequency[]
             {

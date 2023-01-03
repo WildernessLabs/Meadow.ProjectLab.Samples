@@ -9,8 +9,8 @@ namespace WifiWeather.Services
     public static class WeatherService
     {
         static string climateDataUri = "http://api.openweathermap.org/data/2.5/weather";
-        static string city = $"[CITY]";
-        static string apiKey = $"[API KEY]";
+        static string city = $"CITY";
+        static string apiKey = $"API_KEY";
 
         static WeatherService() { }
 
@@ -18,12 +18,12 @@ namespace WifiWeather.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                client.Timeout = new TimeSpan(0, 5, 0);
-
-                HttpResponseMessage response = await client.GetAsync($"{climateDataUri}?q={city}&appid={apiKey}");
-
                 try
                 {
+                    client.Timeout = new TimeSpan(0, 5, 0);
+
+                    HttpResponseMessage response = await client.GetAsync($"{climateDataUri}?q={city}&appid={apiKey}");
+            
                     response.EnsureSuccessStatusCode();
                     string json = await response.Content.ReadAsStringAsync();
                     var values = JsonSerializer.Deserialize<WeatherReading>(json);
