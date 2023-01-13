@@ -1,0 +1,63 @@
+﻿<Project Sdk="Meadow.Sdk/1.1.0">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutputType>Library</OutputType>
+    <AssemblyName>App</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="m8b_01.jpg" />
+    <None Remove="m8b_02.jpg" />
+    <None Remove="m8b_03.jpg" />
+    <None Remove="m8b_04.jpg" />
+    <None Remove="m8b_05.jpg" />
+    <None Remove="m8b_06.jpg" />
+    <None Remove="m8b_07.jpg" />
+    <None Remove="m8b_08.jpg" />
+    <None Remove="m8b_09.jpg" />
+    <None Remove="m8b_10.jpg" />
+    <None Remove="m8b_11.jpg" />
+    <None Remove="m8b_12.jpg" />
+    <None Remove="m8b_13.jpg" />
+    <None Remove="m8b_14.jpg" />
+    <None Remove="m8b_15.jpg" />
+    <None Remove="m8b_16.jpg" />
+    <None Remove="m8b_17.jpg" />
+    <None Remove="m8b_18.jpg" />
+    <None Remove="m8b_19.jpg" />
+    <None Remove="m8b_20.jpg" />
+    <None Remove="m8b_21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="m8b_01.jpg" />
+    <EmbeddedResource Include="m8b_02.jpg" />
+    <EmbeddedResource Include="m8b_03.jpg" />
+    <EmbeddedResource Include="m8b_04.jpg" />
+    <EmbeddedResource Include="m8b_05.jpg" />
+    <EmbeddedResource Include="m8b_06.jpg" />
+    <EmbeddedResource Include="m8b_07.jpg" />
+    <EmbeddedResource Include="m8b_08.jpg" />
+    <EmbeddedResource Include="m8b_09.jpg" />
+    <EmbeddedResource Include="m8b_10.jpg" />
+    <EmbeddedResource Include="m8b_11.jpg" />
+    <EmbeddedResource Include="m8b_12.jpg" />
+    <EmbeddedResource Include="m8b_13.jpg" />
+    <EmbeddedResource Include="m8b_14.jpg" />
+    <EmbeddedResource Include="m8b_15.jpg" />
+    <EmbeddedResource Include="m8b_16.jpg" />
+    <EmbeddedResource Include="m8b_17.jpg" />
+    <EmbeddedResource Include="m8b_18.jpg" />
+    <EmbeddedResource Include="m8b_19.jpg" />
+    <EmbeddedResource Include="m8b_20.jpg" />
+    <EmbeddedResource Include="m8b_21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
+    <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="meadow.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
