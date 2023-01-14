@@ -13,7 +13,7 @@ namespace PlantMonitor
     public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
         MoistureSensor moistureSensor;
         DisplayController displayController;
 
@@ -26,7 +26,7 @@ namespace PlantMonitor
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.CreateProjectLab();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             DisplayController.Instance.Initialize(projLab.Display);

@@ -24,7 +24,7 @@ namespace MorseCodeTrainer
         string answer;
         string question;
 
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
 
         public override Task Initialize()
         {
@@ -35,7 +35,7 @@ namespace MorseCodeTrainer
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.CreateProjectLab();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             DisplayController.Instance.Initialize(projLab.Display);

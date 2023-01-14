@@ -27,7 +27,7 @@ namespace Simon
 
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
         PushButton[] buttons;
 
         public override Task Initialize()
@@ -39,7 +39,7 @@ namespace Simon
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.CreateProjectLab();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             notes = new Frequency[]
