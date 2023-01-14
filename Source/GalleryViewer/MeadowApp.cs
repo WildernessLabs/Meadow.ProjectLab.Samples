@@ -19,7 +19,7 @@ namespace GalleryViewer
         int selectedIndex;
         string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
 
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
 
         public override Task Initialize()
         {
@@ -30,7 +30,7 @@ namespace GalleryViewer
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.CreateProjectLab();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             projLab.RightButton.Clicked += ButtonRightClicked;
