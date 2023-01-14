@@ -1,0 +1,6 @@
+﻿Logging:
+  LogLevel:
+    Default: "Debug"
+Lifecycle:
+  RestartOnAppFailure: false
+  AppFailureRestartDelaySeconds: 60
