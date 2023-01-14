@@ -3,7 +3,9 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Peripherals.Leds;
+using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
 using System.IO;
@@ -18,6 +20,8 @@ namespace MagicEightMeadow
         ProjectLab projectLab;
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
+        bool isShaking = false;
+        bool isAnsweriing = false;
 
         public override Task Initialize()
         {
@@ -35,14 +39,37 @@ namespace MagicEightMeadow
             graphics = new MicroGraphics(projectLab.Display);
             graphics.Rotation = RotationType._90Degrees;
 
-            projectLab.RightButton.Clicked += RightButton_Clicked;
+            projectLab.MotionSensor.AngularVelocity3DUpdated += MotionSensor_AngularVelocity3DUpdated;
+            projectLab.MotionSensor.StartUpdating(TimeSpan.FromSeconds(1));
 
             onboardLed.SetColor(Color.Green);
             return base.Initialize();
         }
 
-        private async void RightButton_Clicked(object sender, EventArgs e)
+        private async void MotionSensor_AngularVelocity3DUpdated(object sender, IChangeResult<Meadow.Units.AngularVelocity3D> e)
         {
+            if (e.New.Y.DegreesPerSecond > 0.5)
+            {
+                isShaking = true;
+            }
+            else
+            {
+                if (isShaking)
+                {
+                    isShaking = false;
+                    await ShowAnswer();
+                }
+            }
+
+            //Console.WriteLine($"({e.New.Y.DegreesPerSecond})");
+        }
+
+        async Task ShowAnswer() 
+        {
+            if (isAnsweriing)
+                return;
+            isAnsweriing = true;
+
             onboardLed.SetColor(Color.Orange);
 
             var rand = new Random();
@@ -54,6 +81,8 @@ namespace MagicEightMeadow
             DisplayJPG(21);
 
             onboardLed.SetColor(Color.Green);
+
+            isAnsweriing = false;
         }
 
         void DisplayJPG(int answerNumber)
