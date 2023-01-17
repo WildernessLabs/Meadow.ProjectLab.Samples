@@ -20,13 +20,10 @@ namespace MagicEightMeadow
         ProjectLab projectLab;
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        bool isShaking = false;
         bool isAnsweriing = false;
 
         public override Task Initialize()
         {
-            Console.WriteLine("Initialize...");
-
             onboardLed = new RgbPwmLed(device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
@@ -39,29 +36,24 @@ namespace MagicEightMeadow
             graphics = new MicroGraphics(projectLab.Display);
             graphics.Rotation = RotationType._90Degrees;
 
-            projectLab.MotionSensor.AngularVelocity3DUpdated += MotionSensor_AngularVelocity3DUpdated;
-            projectLab.MotionSensor.StartUpdating(TimeSpan.FromSeconds(1));
+            var consumer = Bmi270.CreateObserver(
+                handler: result => MotionSensorHandler(result),
+                filter: result => MotionSensorFilter(result));
+            projectLab.MotionSensor.Subscribe(consumer);
 
             onboardLed.SetColor(Color.Green);
+
             return base.Initialize();
         }
 
-        private async void MotionSensor_AngularVelocity3DUpdated(object sender, IChangeResult<Meadow.Units.AngularVelocity3D> e)
+        private void MotionSensorHandler (IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
         {
-            if (e.New.Y.DegreesPerSecond > 0.5)
-            {
-                isShaking = true;
-            }
-            else
-            {
-                if (isShaking)
-                {
-                    isShaking = false;
-                    await ShowAnswer();
-                }
-            }
+            _ = ShowAnswer();
+        }
 
-            //Console.WriteLine($"({e.New.Y.DegreesPerSecond})");
+        private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e) 
+        {
+            return e.New.v3D.Value.Y.DegreesPerSecond > 0.75;
         }
 
         async Task ShowAnswer() 
@@ -118,7 +110,6 @@ namespace MagicEightMeadow
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            Console.WriteLine($"MagicEightMeadow.m8b_{answerNumber.ToString("00")}.jpg");
             var resourceName = $"MagicEightMeadow.m8b_{answerNumber.ToString("00")}.jpg";
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
@@ -136,6 +127,7 @@ namespace MagicEightMeadow
             Console.WriteLine("Run...");
 
             DisplayJPG(21);
+            projectLab.MotionSensor.StartUpdating(TimeSpan.FromSeconds(1));
 
             return base.Run();
         }
