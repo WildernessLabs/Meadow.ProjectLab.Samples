@@ -20,15 +20,15 @@ namespace MagicEightMeadow
         ProjectLab projectLab;
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        bool isAnsweriing = false;
+        bool isAnswering = false;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(device: Device,
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue,
-                CommonType.CommonAnode);
+            onboardLed = new RgbPwmLed(
+                Device,
+                Device.Pins.OnboardLedRed,
+                Device.Pins.OnboardLedGreen,
+                Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
             projectLab = new ProjectLab();
@@ -46,21 +46,12 @@ namespace MagicEightMeadow
             return base.Initialize();
         }
 
-        private void MotionSensorHandler (IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
+        private async void MotionSensorHandler (IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
         {
-            _ = ShowAnswer();
-        }
 
-        private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e) 
-        {
-            return e.New.v3D.Value.Y.DegreesPerSecond > 0.75;
-        }
-
-        async Task ShowAnswer() 
-        {
-            if (isAnsweriing)
+            if (isAnswering)
                 return;
-            isAnsweriing = true;
+            isAnswering = true;
 
             onboardLed.SetColor(Color.Orange);
 
@@ -74,7 +65,13 @@ namespace MagicEightMeadow
 
             onboardLed.SetColor(Color.Green);
 
-            isAnsweriing = false;
+            isAnswering = false;
+        }
+
+        private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e) 
+        {
+            Console.WriteLine("Filter");
+            return e.New.v3D.Value.Y.DegreesPerSecond > 0.75;
         }
 
         void DisplayJPG(int answerNumber)
