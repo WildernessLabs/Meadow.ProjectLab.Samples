@@ -4,7 +4,6 @@ using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
-using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
