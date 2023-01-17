@@ -69,7 +69,6 @@ namespace MagicEightMeadow
 
         private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e) 
         {
-            Console.WriteLine("Filter");
             return e.New.v3D.Value.Y.DegreesPerSecond > 0.75;
         }
 
