@@ -26,7 +26,7 @@
     <None Remove="m8b_18.jpg" />
     <None Remove="m8b_19.jpg" />
     <None Remove="m8b_20.jpg" />
-    <None Remove="m8b_21.jpg" />
+    <None Remove="m8b_question.jpg" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="m8b_01.jpg" />
@@ -49,7 +49,7 @@
     <EmbeddedResource Include="m8b_18.jpg" />
     <EmbeddedResource Include="m8b_19.jpg" />
     <EmbeddedResource Include="m8b_20.jpg" />
-    <EmbeddedResource Include="m8b_21.jpg" />
+    <EmbeddedResource Include="m8b_question.jpg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
