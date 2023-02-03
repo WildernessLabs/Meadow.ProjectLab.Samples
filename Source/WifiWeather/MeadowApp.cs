@@ -16,7 +16,7 @@ namespace WifiWeather
     {
         RgbPwmLed onboardLed;
         WeatherView displayController;
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
 
         public override async Task Initialize()
         {
@@ -27,7 +27,7 @@ namespace WifiWeather
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.CreateProjectLab();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             displayController = new WeatherView();

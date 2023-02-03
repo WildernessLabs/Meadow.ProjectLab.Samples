@@ -16,7 +16,7 @@ namespace AnalogClockFace
 
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
         int tick;
 
         public override async Task Initialize()
@@ -28,7 +28,7 @@ namespace AnalogClockFace
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.CreateProjectLab();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             graphics = new MicroGraphics(projLab.Display);
