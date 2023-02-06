@@ -16,11 +16,11 @@ namespace MeadowConnectedSample
 
         bool useWiFi = true;
 
-        public override async Task Initialize() 
+        public override async Task Initialize()
         {
             LedController.Instance.SetColor(Color.Red);
 
-            projLab = ProjectLab.CreateProjectLab();
+            projLab = ProjectLab.Create();
 
             DisplayController.Instance.Initialize(projLab.Display);
             DisplayController.Instance.ShowSplashScreen();

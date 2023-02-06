@@ -3,7 +3,6 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
-using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -28,13 +27,12 @@ namespace AmbientRoomMonitor
         public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
-                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.CreateProjectLab();
+            projLab = ProjectLab.Create();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             projLab.EnvironmentalSensor.Updated += EnvironmentalSensor_Updated;

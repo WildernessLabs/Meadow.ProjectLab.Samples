@@ -18,7 +18,7 @@ namespace MagicEightMeadow
     public class MeadowApp : App<F7FeatherV2>
     {
         IPixelBuffer questionBuffer;
-        ProjectLab projectLab;
+        IProjectLabHardware projectLab;
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
         bool isAnswering = false;
@@ -34,7 +34,7 @@ namespace MagicEightMeadow
                 Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projectLab = new ProjectLab();
+            projectLab = ProjectLab.Create();
 
             graphics = new MicroGraphics(projectLab.Display);
             graphics.Rotation = RotationType._90Degrees;
@@ -51,7 +51,7 @@ namespace MagicEightMeadow
             return base.Initialize();
         }
 
-        private async void MotionSensorHandler (IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
+        private async void MotionSensorHandler(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
         {
             if (isAnswering)
                 return;
@@ -70,7 +70,7 @@ namespace MagicEightMeadow
             isAnswering = false;
         }
 
-        private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e) 
+        private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
         {
             return e.New.v3D.Value.Y.DegreesPerSecond > 0.75;
         }
@@ -81,13 +81,13 @@ namespace MagicEightMeadow
             graphics.Show();
         }
 
-        void DisplayAnswer() 
+        void DisplayAnswer()
         {
             var rand = new Random();
 
-            var buffer = LoadJpeg(LoadResource(GetAnswerFilename(rand.Next(1,21))));
+            var buffer = LoadJpeg(LoadResource(GetAnswerFilename(rand.Next(1, 21))));
 
-            graphics.DrawBuffer(0, 0,buffer);
+            graphics.DrawBuffer(0, 0, buffer);
             graphics.Show();
         }
 
