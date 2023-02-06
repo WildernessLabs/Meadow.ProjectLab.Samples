@@ -5,6 +5,7 @@ using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Thermostats;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AmbientRoomMonitor
@@ -46,20 +47,52 @@ namespace AmbientRoomMonitor
 
         public override Task Run()
         {
-            return Task.Run(ThermostatUpdateProc);
+            new Thread(async () =>
+            {
+                Resolver.Log.Info($"Starting read proc...");
+
+                while (true)
+                {
+                    Resolver.Log.Debug($"Reading registers...");
+                    try
+                    {
+                        var temp = await _thermostat.GetCurrentTemperature();
+                        var occupiedSP = await _thermostat.GetOccupiedSetpoint();
+
+                        Resolver.Log.Debug($"Temp: {temp}");
+                        Resolver.Log.Debug($"SP: {occupiedSP}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Resolver.Log.Error($"ERROR: {ex.Message}");
+                    }
+
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+            })
+            .Start();
+
+            return Task.CompletedTask;
         }
 
         private async Task ThermostatUpdateProc()
         {
             while (true)
             {
-                var temp = await _thermostat.GetCurrentTemperature();
-                var occupiedSP = await _thermostat.GetOccupiedSetpoint();
+                try
+                {
+                    var temp = await _thermostat.GetCurrentTemperature();
+                    var occupiedSP = await _thermostat.GetOccupiedSetpoint();
 
-                Resolver.Log.Debug($"Temp: {temp}");
-                Resolver.Log.Debug($"SP: {occupiedSP}");
+                    Resolver.Log.Debug($"Temp: {temp}");
+                    Resolver.Log.Debug($"SP: {occupiedSP}");
+                }
+                catch (Exception ex)
+                {
+                    Resolver.Log.Error($"ERROR: {ex.Message}");
+                }
 
-                await Task.Delay(TimeSpan.FromSeconds(5));
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
         }
     }
