@@ -1,18 +1,19 @@
 ﻿using Meadow;
 using Meadow.Foundation.Graphics;
+using Meadow.Units;
 
-namespace Simon
+namespace ModbusSample
 {
     public class ThermostatViewModel
     {
-        private double currentTemp;
-        private MicroGraphics graphics;
-        private bool isDirty;
-        private double currentSetpoint;
+        private Temperature _currentTemp;
+        private MicroGraphics _graphics;
+        private bool _isDirty;
+        private double _currentSetpoint;
 
         public ThermostatViewModel(IGraphicsDisplay display)
         {
-            graphics = new MicroGraphics(display)
+            _graphics = new MicroGraphics(display)
             {
                 Rotation = RotationType._90Degrees,
                 Stroke = 5,
@@ -20,28 +21,28 @@ namespace Simon
             };
         }
 
-        public double CurrentTemp
+        public Temperature CurrentTemp
         {
-            get => currentTemp;
+            get => _currentTemp;
             set
             {
                 if (value != CurrentTemp)
                 {
-                    currentTemp = value;
-                    isDirty = true;
+                    _currentTemp = value;
+                    _isDirty = true;
                 }
             }
         }
 
         public double CurrentSetpoint
         {
-            get => currentSetpoint;
+            get => _currentSetpoint;
             set
             {
                 if (value != CurrentSetpoint)
                 {
-                    currentSetpoint = value;
-                    isDirty = true;
+                    _currentSetpoint = value;
+                    _isDirty = true;
                 }
             }
         }
@@ -49,16 +50,16 @@ namespace Simon
         public void Update()
         {
             Resolver.Log.Info($"updating display");
-            if (isDirty)
+            if (_isDirty)
             {
-                graphics.Clear();
+                _graphics.Clear();
 
-                graphics.DrawText(this.graphics.Width / 2, 20, currentTemp.ToString("0.0"), alignment: TextAlignment.Center);
-                graphics.DrawText(this.graphics.Width / 2, 60, currentSetpoint.ToString("0.0"), alignment: TextAlignment.Center);
+                _graphics.DrawText(this._graphics.Width / 2, 20, _currentTemp.Fahrenheit.ToString("0.0"), alignmentH: HorizontalAlignment.Center);
+                _graphics.DrawText(this._graphics.Width / 2, 60, _currentSetpoint.ToString("0.0"), alignmentH: HorizontalAlignment.Center);
 
-                graphics.Show();
+                _graphics.Show();
             }
-            isDirty = false;
+            _isDirty = false;
         }
     }
 }
