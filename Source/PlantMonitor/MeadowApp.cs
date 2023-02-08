@@ -13,20 +13,19 @@ namespace PlantMonitor
     public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
         MoistureSensor moistureSensor;
         DisplayController displayController;
 
         public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
-                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.Create();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             DisplayController.Instance.Initialize(projLab.Display);
