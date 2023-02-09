@@ -20,16 +20,16 @@ namespace PlantMonitor
         public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
-                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.CreateProjectLab();
+            projLab = ProjectLab.Create();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            DisplayController.Instance.Initialize(projLab.Display);
+            displayController = DisplayController.Instance;
+            displayController.Initialize(projLab.Display);
 
             moistureSensor = new MoistureSensor(Device, Device.Pins.A01);
             var moistureSensorObserver = MoistureSensor.CreateObserver(

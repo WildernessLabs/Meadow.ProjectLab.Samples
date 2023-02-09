@@ -20,7 +20,7 @@ namespace MeadowConnectedSample
         {
             LedController.Instance.SetColor(Color.Red);
 
-            projLab = ProjectLab.CreateProjectLab();
+            projLab = ProjectLab.Create();
 
             DisplayController.Instance.Initialize(projLab.Display);
             DisplayController.Instance.ShowSplashScreen();
@@ -31,7 +31,7 @@ namespace MeadowConnectedSample
 
             if (useWiFi)
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                await DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
@@ -40,7 +40,7 @@ namespace MeadowConnectedSample
             }
             else
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                await DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
                 BluetoothServer.Instance.Initialize();
 

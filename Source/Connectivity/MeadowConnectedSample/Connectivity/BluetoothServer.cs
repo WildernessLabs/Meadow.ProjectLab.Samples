@@ -44,7 +44,7 @@ namespace MeadowConnectedSample.Connectivity
             }
             else
             {
-                DisplayController.Instance.StartConnectingAnimation(false);
+                _ = DisplayController.Instance.StartConnectingAnimation(false);
             }
         }
 
