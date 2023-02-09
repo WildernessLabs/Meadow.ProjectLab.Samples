@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Modbus", "..\..\Mead
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Foundation.Core", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj", "{6C3E7906-398A-4570-B9B1-AAFC3722BA93}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Units", "..\..\Meadow.Units\Source\Meadow.Units\Meadow.Units.csproj", "{1736E29F-6083-4104-ACE6-91F7169320EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_v1_ProjLab|Any CPU = Debug_v1_ProjLab|Any CPU
@@ -407,6 +409,24 @@ Global
 		{6C3E7906-398A-4570-B9B1-AAFC3722BA93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C3E7906-398A-4570-B9B1-AAFC3722BA93}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C3E7906-398A-4570-B9B1-AAFC3722BA93}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug_v1_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug_v2_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release_v1_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release_v2_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -424,6 +444,7 @@ Global
 		{A3E13996-9401-4378-AD69-52D2B4E9C5F3} = {DC32E935-D821-4FF0-9257-043284131194}
 		{3D5B2CF9-42AC-421F-B023-7EB38DC8B768} = {DC32E935-D821-4FF0-9257-043284131194}
 		{6C3E7906-398A-4570-B9B1-AAFC3722BA93} = {DC32E935-D821-4FF0-9257-043284131194}
+		{1736E29F-6083-4104-ACE6-91F7169320EE} = {DC32E935-D821-4FF0-9257-043284131194}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AD554B2-93F3-4B0A-9725-304A66FB780A}
