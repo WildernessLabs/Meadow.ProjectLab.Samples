@@ -18,7 +18,7 @@ namespace MagicEightMeadow
     public class MeadowApp : App<F7FeatherV2>
     {
         IPixelBuffer questionBuffer;
-        ProjectLab projectLab;
+        IProjectLabHardware projectLab;
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
         bool isAnswering = false;
@@ -28,13 +28,12 @@ namespace MagicEightMeadow
         public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
-                Device,
                 Device.Pins.OnboardLedRed,
                 Device.Pins.OnboardLedGreen,
                 Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projectLab = new ProjectLab();
+            projectLab = ProjectLab.Create();
 
             graphics = new MicroGraphics(projectLab.Display);
             graphics.Rotation = RotationType._90Degrees;

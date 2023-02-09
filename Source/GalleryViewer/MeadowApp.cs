@@ -24,13 +24,12 @@ namespace GalleryViewer
         public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
-                device: Device,
                 redPwmPin: Device.Pins.OnboardLedRed,
                 greenPwmPin: Device.Pins.OnboardLedGreen,
                 bluePwmPin: Device.Pins.OnboardLedBlue);
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.CreateProjectLab();
+            projLab = ProjectLab.Create();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
             projLab.RightButton.Clicked += ButtonRightClicked;
