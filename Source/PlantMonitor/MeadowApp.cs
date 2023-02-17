@@ -31,7 +31,7 @@ namespace PlantMonitor
             displayController = DisplayController.Instance;
             displayController.Initialize(projLab.Display);
 
-            moistureSensor = new MoistureSensor(Device, Device.Pins.A01);
+            moistureSensor = new MoistureSensor(Device.Pins.A01);
             var moistureSensorObserver = MoistureSensor.CreateObserver(
                 handler: result =>
                 {
