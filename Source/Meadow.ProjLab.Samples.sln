@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Foundation.Core", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Units", "..\..\Meadow.Units\Source\Meadow.Units\Meadow.Units.csproj", "{1736E29F-6083-4104-ACE6-91F7169320EE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotatingCube", "RotatingCube\RotatingCube.csproj", "{B07326E6-03B7-4C67-BF8F-E702B6379EA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_v1_ProjLab|Any CPU = Debug_v1_ProjLab|Any CPU
@@ -427,6 +429,24 @@ Global
 		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1736E29F-6083-4104-ACE6-91F7169320EE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug_v1_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug_v2_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release_v1_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release_v2_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B07326E6-03B7-4C67-BF8F-E702B6379EA7}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
