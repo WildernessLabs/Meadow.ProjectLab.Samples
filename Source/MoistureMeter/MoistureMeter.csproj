@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Meadow.Foundation.Grove\Source\MoistureSensor\Driver\MoistureSensor.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
+    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
