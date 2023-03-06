@@ -12,7 +12,7 @@ namespace MeadowConnectedSample
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
     public class MeadowApp : App<F7FeatherV2>
     {
-        ProjectLab projLab;
+        IProjectLabHardware projLab;
 
         bool useWiFi = true;
 
@@ -20,7 +20,7 @@ namespace MeadowConnectedSample
         {
             LedController.Instance.SetColor(Color.Red);
 
-            projLab = new ProjectLab();
+            projLab = ProjectLab.Create();
 
             DisplayController.Instance.Initialize(projLab.Display);
             DisplayController.Instance.ShowSplashScreen();
@@ -31,7 +31,7 @@ namespace MeadowConnectedSample
 
             if (useWiFi)
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                await DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
@@ -40,7 +40,7 @@ namespace MeadowConnectedSample
             }
             else
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                await DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
                 BluetoothServer.Instance.Initialize();
 

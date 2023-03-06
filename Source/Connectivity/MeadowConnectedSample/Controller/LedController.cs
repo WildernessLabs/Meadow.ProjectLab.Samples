@@ -21,7 +21,6 @@ namespace MeadowConnectedSample.Controller
         private void Initialize()
         {
             rgbPwmLed = new RgbPwmLed(
-                MeadowApp.Device,
                 MeadowApp.Device.Pins.OnboardLedRed,
                 MeadowApp.Device.Pins.OnboardLedGreen,
                 MeadowApp.Device.Pins.OnboardLedBlue
