@@ -32,7 +32,6 @@ namespace AnalogClockFace
 
             graphics = new MicroGraphics(projLab.Display);
             graphics.IgnoreOutOfBoundsPixels = true;
-            graphics.Rotation = RotationType._90Degrees;
 
             var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
             await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
