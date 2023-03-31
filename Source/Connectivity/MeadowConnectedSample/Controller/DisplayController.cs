@@ -31,7 +31,6 @@ namespace MeadowConnectedSample.Controller
             {
                 CurrentFont = new Font12x20(),
                 Stroke = 3,
-                Rotation = RotationType._90Degrees
             };
 
             graphics.Clear(true);
