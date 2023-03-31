@@ -31,7 +31,7 @@ namespace MeadowConnectedSample
 
             if (useWiFi)
             {
-                await DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
@@ -40,7 +40,7 @@ namespace MeadowConnectedSample
             }
             else
             {
-                await DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                DisplayController.Instance.StartConnectingAnimation(useWiFi);
 
                 BluetoothServer.Instance.Initialize();
 
