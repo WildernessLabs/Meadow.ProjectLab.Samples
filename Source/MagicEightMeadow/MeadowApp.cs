@@ -36,7 +36,6 @@ namespace MagicEightMeadow
             projectLab = ProjectLab.Create();
 
             graphics = new MicroGraphics(projectLab.Display);
-            graphics.Rotation = RotationType._90Degrees;
 
             questionBuffer = LoadJpeg(LoadResource(GetQuestionFilename));
 

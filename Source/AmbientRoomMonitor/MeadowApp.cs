@@ -44,7 +44,6 @@ namespace AmbientRoomMonitor
             {
                 IgnoreOutOfBoundsPixels = true
             };
-            graphics.Rotation = RotationType._90Degrees;
 
             onboardLed.SetColor(Color.Green);
 

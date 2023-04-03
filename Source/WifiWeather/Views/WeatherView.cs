@@ -23,7 +23,6 @@ namespace WifiWeather.Views
             {
                 Stroke = 1,
                 CurrentFont = new Font12x20(),
-                Rotation = RotationType._90Degrees
             };
 
             graphics.Clear();
