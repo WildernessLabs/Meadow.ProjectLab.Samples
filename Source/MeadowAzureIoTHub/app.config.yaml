@@ -11,4 +11,4 @@ Lifecycle:
 # Adjust the level of logging detail.
 Logging:
     LogLevel:
-        Default: "Trace"
+        Default: "Information"

@@ -22,7 +22,7 @@
     <PackageReference Include="Meadow.Foundation" Version="0.*" />
     <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
-    <PackageReference Include="AMQPNetLite" Version="2.*" />
+    <PackageReference Include="Meadow.AmqpNetLite" Version="*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
