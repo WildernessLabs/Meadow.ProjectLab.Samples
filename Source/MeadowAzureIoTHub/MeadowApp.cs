@@ -17,9 +17,8 @@ namespace MeadowAzureIoTHub
         IProjectLabHardware projectLab;
         AmqpController amqpController;
 
-        public override async Task Initialize()
+        public override Task Initialize()
         {
-            Console.WriteLine("Initializing...");
             onboardLed = new RgbPwmLed(
                 Device.Pins.OnboardLedRed,
                 Device.Pins.OnboardLedGreen,
@@ -38,29 +37,31 @@ namespace MeadowAzureIoTHub
 
                 DisplayController.Instance.Initialize(projectLab.Display);
                 DisplayController.Instance.ShowSplashScreen();
-                DisplayController.Instance.StartConnectingAnimation();
+                DisplayController.Instance.ShowConnectingAnimation();
             }
             catch (Exception ex)
             {
                 Resolver.Log.Error($"Failed to Connect: {ex.Message}");
             }
+
+            return Task.CompletedTask;
         }
 
         private async void NetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
         {
-            Console.WriteLine("Connected...");
-            DisplayController.Instance.StopConnectingAnimation();
+            DisplayController.Instance.ShowConnected();
 
             await amqpController.Initialize();
 
-            projectLab.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(5));
+            projectLab.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(15));
 
             onboardLed.SetColor(Color.Green);
         }
 
-        private void EnvironmentalSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> e)
+        private async void EnvironmentalSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> e)
         {
-            amqpController.SendEnvironmentalReading(e.New);
+            await amqpController.SendEnvironmentalReading(e.New);
+            await DisplayController.Instance.StartSyncCompletedAnimation(e.New);
         }
     }
 }
