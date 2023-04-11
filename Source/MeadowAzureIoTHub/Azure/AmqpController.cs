@@ -21,15 +21,12 @@ namespace MeadowAzureIoTHub.Azure
     /// </summary>
     public class AmqpController
     {
-        private static readonly Random rand = new Random();
-
         private const string HubName = Secrets.HUB_NAME;
         private const string SasToken = Secrets.SAS_TOKEN;
         private const string DeviceId = Secrets.DEVICE_ID;
 
         private Connection connection;
         private SenderLink sender;
-        private ReceiverLink receiver;
 
         public AmqpController() { }
 
@@ -38,7 +35,6 @@ namespace MeadowAzureIoTHub.Azure
             string hostName = HubName + ".azure-devices.net";
             string userName = DeviceId + "@sas." + HubName;
             string senderAddress = "devices/" + DeviceId + "/messages/events";
-            string receiverAddress = "devices/" + DeviceId + "/messages/deviceBound";
 
             Resolver.Log.Info("Create connection factory...");
             var factory = new ConnectionFactory();
@@ -51,10 +47,6 @@ namespace MeadowAzureIoTHub.Azure
 
             Resolver.Log.Info("Create SenderLink ...");
             sender = new SenderLink(session, "send-link", senderAddress);
-
-            Resolver.Log.Info("Create ReceiverLink ...");
-            receiver = new ReceiverLink(session, "receive-link", receiverAddress);
-            receiver.Start(100, OnMessage);
         }
 
         public Task SendEnvironmentalReading((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) reading)
@@ -81,22 +73,6 @@ namespace MeadowAzureIoTHub.Azure
             }
 
             return Task.CompletedTask;
-        }
-
-        private static void OnMessage(IReceiverLink receiver, Message message)
-        {
-            Resolver.Log.Info("Message received");
-
-            try
-            {
-                //double.TryParse((string)message.ApplicationProperties["setlat"], out latitude);
-                //double.TryParse((string)message.ApplicationProperties["setlon"], out longitude);
-                //Resolver.Log.Info($"== Received new Location setting: Lat - {latitude}, Lon - {longitude} ==");
-            }
-            catch (Exception ex)
-            {
-                Resolver.Log.Info($"-- C2D Error - {ex.Message} --");
-            }
         }
     }
 }

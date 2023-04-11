@@ -4,7 +4,7 @@
 
 Device:
     # Name of the device on the network.
-    Name: MeadowAzureIoTHub
+    Name: MeadowAzureServo
 
     # Uncomment if SD card hardware present on this hardware (e.g., Core-Compute module with SD add-on)? Optional; default value is `false`.
     SdStorageSupported: true
@@ -23,35 +23,35 @@ Coprocessor:
 
 # Network configuration.
 Network:
-#    Interfaces:
-#        - Name: Ethernet
-#          UseDHCP: false
-#          IPAddress: 192.168.1.60
-#          NetMask: 255.255.255.0
-#          Gateway: 192.168.1.254
-#        - Name: WiFi
-#          UseDHCP: true
-#          IPAddress:
-#          NetMask:
-#          Gateway:
+#   Interfaces:
+#       - Name: Ethernet
+#         UseDHCP: false
+#         IPAddress: 192.168.1.60
+#         NetMask: 255.255.255.0
+#         Gateway: 192.168.1.254
+#       - Name: WiFi
+#         UseDHCP: true
+#         IPAddress:
+#         NetMask:
+#         Gateway:
 
-    # Which interface should be used?
-    DefaultInterface: WiFi
+   # Which interface should be used?
+   DefaultInterface: WiFi
 
-    # Automatically attempt to get the time at startup?
-    GetNetworkTimeAtStartup: true
+   # Automatically attempt to get the time at startup?
+   GetNetworkTimeAtStartup: true
 
-    # Time synchronization period in seconds.
-    NtpRefreshPeriodSeconds: 600
+   # Time synchronization period in seconds.
+   NtpRefreshPeriodSeconds: 600
 
-    # Name of the NTP servers.
-    NtpServers:
-        - 0.pool.ntp.org
-        - 1.pool.ntp.org
-        - 2.pool.ntp.org
-        - 3.pool.ntp.org
+   # Name of the NTP servers.
+   NtpServers:
+       - 0.pool.ntp.org
+       - 1.pool.ntp.org
+       - 2.pool.ntp.org
+       - 3.pool.ntp.org
 
-    # IP addresses of the DNS servers.
-    DnsServers:
-        - 1.1.1.1
-        - 8.8.8.8
+   # IP addresses of the DNS servers.
+   DnsServers:
+       - 1.1.1.1
+       - 8.8.8.8
