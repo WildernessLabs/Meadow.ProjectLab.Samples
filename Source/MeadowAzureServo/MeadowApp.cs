@@ -16,7 +16,7 @@ namespace MeadowAzureServo
     public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
-        AmqpController amqpController;
+        IoTHubManager amqpController;
         IProjectLabHardware projectLab;
 
         public override Task Initialize()
@@ -30,7 +30,7 @@ namespace MeadowAzureServo
 
             try
             {
-                amqpController = new AmqpController();
+                amqpController = new IoTHubManager();
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += NetworkConnected;
@@ -69,7 +69,7 @@ namespace MeadowAzureServo
 
         private void RotateTo(object sender, RotateToEventArgs e)
         {
-            ServoController.Instance.RotateTo(new Angle(e.Angle));
+            ServoController.Instance.RotateTo(new Angle(e.AngleInDegrees));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace MeadowAzureServo.Azure
     /// --resource-group RESOURCE_GROUP 
     /// --login [Open Shared access policies -> Select iothubowner -> copy Primary connection string]
     /// </summary>
-    public class AmqpController
+    public class IoTHubManager
     {
         private const string HubName = Secrets.HUB_NAME;
         private const string SasToken = Secrets.SAS_TOKEN;
@@ -33,7 +33,7 @@ namespace MeadowAzureServo.Azure
 
         public event EventHandler<RotateToEventArgs> RotateTo = delegate { };
 
-        public AmqpController() { }
+        public IoTHubManager() { }
 
         public async Task Initialize()
         {

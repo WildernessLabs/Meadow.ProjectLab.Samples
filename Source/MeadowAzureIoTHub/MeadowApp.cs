@@ -15,7 +15,7 @@ namespace MeadowAzureIoTHub
     {
         RgbPwmLed onboardLed;
         IProjectLabHardware projectLab;
-        AmqpController amqpController;
+        IotHubManager amqpController;
 
         public override Task Initialize()
         {
@@ -27,7 +27,7 @@ namespace MeadowAzureIoTHub
 
             try
             {
-                amqpController = new AmqpController();
+                amqpController = new IotHubManager();
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += NetworkConnected;
