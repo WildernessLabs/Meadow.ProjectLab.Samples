@@ -20,10 +20,7 @@
   <ItemGroup>
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
     <PackageReference Include="Meadow.AmqpNetLite" Version="*" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Core\Meadow.Foundation.Core.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
+    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
