@@ -25,8 +25,8 @@
   <ItemGroup>
     <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="0.*" />
     <ProjectReference Include="..\..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
+    <ProjectReference Include="..\Connectivity.Common\Connectivity.Common.csproj" />
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />
   </ItemGroup>
-  <Import Project="..\CommonContracts\CommonContracts.projitems" Label="Shared" />
 </Project>
