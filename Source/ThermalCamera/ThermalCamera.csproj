@@ -6,19 +6,12 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="level_0.jpg" />
-    <EmbeddedResource Include="level_1.jpg" />
-    <EmbeddedResource Include="level_2.jpg" />
-    <EmbeddedResource Include="level_3.jpg" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Camera.Mlx90640\Driver\Sensors.Camera.Mlx90640.csproj" />
     <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.Foundation.Grove\Source\MoistureSensor\Driver\MoistureSensor.csproj" />
-    <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

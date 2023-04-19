@@ -28,9 +28,10 @@ namespace PlantMonitor
             projLab = ProjectLab.Create();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
 
-            DisplayController.Instance.Initialize(projLab.Display);
+            displayController = DisplayController.Instance;
+            displayController.Initialize(projLab.Display);
 
-            moistureSensor = new MoistureSensor(Device, Device.Pins.A01);
+            moistureSensor = new MoistureSensor(Device.Pins.A01);
             var moistureSensorObserver = MoistureSensor.CreateObserver(
                 handler: result =>
                 {

@@ -28,7 +28,6 @@ namespace MagicEightMeadow
         public override Task Initialize()
         {
             onboardLed = new RgbPwmLed(
-                Device,
                 Device.Pins.OnboardLedRed,
                 Device.Pins.OnboardLedGreen,
                 Device.Pins.OnboardLedBlue);
@@ -37,7 +36,6 @@ namespace MagicEightMeadow
             projectLab = ProjectLab.Create();
 
             graphics = new MicroGraphics(projectLab.Display);
-            graphics.Rotation = RotationType._90Degrees;
 
             questionBuffer = LoadJpeg(LoadResource(GetQuestionFilename));
 

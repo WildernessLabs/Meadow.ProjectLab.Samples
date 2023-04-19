@@ -9,8 +9,24 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
 <table>
     <tr>
         <td>
+            <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
+            Make a Magic Eight ball with a Project Lab</br>
+            <a href="Source/MagicEightMeadow/">Source Code</a>
+        </td>
+        <td>
+            <a href="Source/MeadowAzureIoTHub/"><img src="Design/MeadowAzureIoTHub.png"/></a><br/>
+            Send anvironmental data from a BME688 to Azure IoT Hub<br/>
+            <a href="Source/MeadowAzureIoTHub/">Source Code</a>
+        </td>
+        <td>
+            <a href="Source/MeadowAzureServo/"><img src="Design/MeadowAzureServo.png"/></a><br/>
+            Control a Grove Servo with Azure IoT Hub messages<br/>
+            <a href="Source/MeadowAzureServo/">Source Code</a>
+        </td>
+    </tr>
+        <td>
             <a href="Source/Connectivity/"><img src="Design/maple.png"/></a><br/>
-            Control a Project Lab Board over Wi-Fi with a Xamarin app</br>
+            Control a Project Lab Board over Wi-Fi with a MAUI app</br>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>

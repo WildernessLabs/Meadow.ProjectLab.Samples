@@ -29,7 +29,7 @@ namespace MoistureMeter
 
             DisplayController.Instance.Initialize(projLab.Display);
 
-            sensor = new MoistureSensor(Device, Device.Pins.A01);
+            sensor = new MoistureSensor(Device.Pins.A01);
 
             sensor.Updated += (sender, result) =>
             {

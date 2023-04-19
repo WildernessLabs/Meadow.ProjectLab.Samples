@@ -36,7 +36,6 @@ namespace GalleryViewer
             projLab.LeftButton.Clicked += ButtonLeftClicked;
 
             graphics = new MicroGraphics(projLab.Display);
-            graphics.Rotation = RotationType._90Degrees;
 
             onboardLed.SetColor(Color.Green);
 
