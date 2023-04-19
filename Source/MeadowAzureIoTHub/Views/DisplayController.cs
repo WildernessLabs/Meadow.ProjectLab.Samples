@@ -22,7 +22,7 @@ namespace MeadowAzureIoTHub.Views
 
         CancellationTokenSource token;
 
-        protected BufferRgb888 imgConnecting, imgConnected, imgRefreshing;
+        protected BufferRgb888 imgConnecting, imgConnected, imgRefreshing, imgRefreshed;
         protected MicroGraphics graphics;
 
         private DisplayController() { }
@@ -31,7 +31,8 @@ namespace MeadowAzureIoTHub.Views
         {
             imgConnected = LoadJpeg("img_wifi_connected.jpg");
             imgConnecting = LoadJpeg("img_wifi_connecting.jpg");
-            imgRefreshing = LoadJpeg("img_refresh.jpg");
+            imgRefreshing = LoadJpeg("img_refreshing.jpg");
+            imgRefreshed = LoadJpeg("img_refreshed.jpg");
 
             graphics = new MicroGraphics(display)
             {
@@ -101,15 +102,9 @@ namespace MeadowAzureIoTHub.Views
         public void ShowConnected()
         {
             token.Cancel();
-            graphics.DrawBuffer(
-                x: 204,
-                y: 6,
-                buffer: imgConnected);
+            graphics.DrawBuffer(204, 6, imgConnected);
 
-            graphics.DrawBuffer(
-                x: 6,
-                y: 6,
-                buffer: imgRefreshing);
+            graphics.DrawBuffer(6, 6, imgRefreshed);
 
             graphics.DrawRectangle(0, 32, 240, 208, backgroundColor, true);
 
@@ -140,7 +135,7 @@ namespace MeadowAzureIoTHub.Views
             graphics.DrawRectangle(133, 180, 90, 16, backgroundColor, true);
             graphics.DrawText(178, 180, $"{reading.Humidity.Value.Percent:N2}%", foregroundColor, alignmentH: HorizontalAlignment.Center);
 
-            graphics.DrawRectangle(6, 6, 26, 26, backgroundColor, true);
+            graphics.DrawBuffer(6, 6, imgRefreshed);
             graphics.Show();
         }
     }
