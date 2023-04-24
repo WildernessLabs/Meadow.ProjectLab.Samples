@@ -4,8 +4,10 @@ using Meadow.Foundation;
 using Meadow.Foundation.Web.Maple;
 using Meadow.Hardware;
 using MeadowConnectedSample.Connectivity;
+using MeadowConnectedSample.Controller;
 using MeadowConnectedSample.Models.Logical;
 using MeadowConnectedSample.Views;
+using System;
 using System.Threading.Tasks;
 
 namespace MeadowConnectedSample
@@ -17,23 +19,20 @@ namespace MeadowConnectedSample
 
         bool useWiFi = true;
 
-        public override async Task Initialize() 
+        public override async Task Initialize()
         {
             LedController.Instance.SetColor(Color.Red);
 
             projLab = ProjectLab.Create();
 
+            MainController.Instance.Initialize(projLab);
+
             DisplayView.Instance.Initialize(projLab.Display);
             DisplayView.Instance.ShowSplashScreen();
-
-            Bh1750Controller.Instance.Initialize(projLab.LightSensor);
-
-            Bme688Controller.Instance.Initialize(projLab.EnvironmentalSensor);
+            DisplayView.Instance.StartConnectingAnimation(useWiFi);
 
             if (useWiFi)
             {
-                DisplayView.Instance.StartConnectingAnimation(useWiFi);
-
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
 
@@ -41,8 +40,6 @@ namespace MeadowConnectedSample
             }
             else
             {
-                DisplayView.Instance.StartConnectingAnimation(useWiFi);
-
                 BluetoothServer.Instance.Initialize();
 
                 LedController.Instance.SetColor(Color.Green);
@@ -52,6 +49,8 @@ namespace MeadowConnectedSample
         private void WifiNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
         {
             DisplayView.Instance.StopConnectingAnimation();
+
+            MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
 
             var mapleServer = new MapleServer(sender.IpAddress, 5417, true, logger: Resolver.Log);
             mapleServer.Start();

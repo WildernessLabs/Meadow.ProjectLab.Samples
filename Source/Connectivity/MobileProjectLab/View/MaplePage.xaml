@@ -165,7 +165,8 @@
 
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" Opacity="0.5" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="BMI270 Accelerometer Sensor" TextColor="White" FontSize="Medium" />
+                                <Label Text="BMI270 Motion Sensor" TextColor="White" FontSize="Medium" />
+                                <Label Text="Acceleration 3D" TextColor="White" FontSize="Small" />
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <Label Grid.Column="0" TextColor="White">
                                         <Label.FormattedText>
@@ -187,6 +188,45 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Z: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <Label Text="Angular Velocity 3D" TextColor="White" FontSize="Small" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label Grid.Column="0" TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="X: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Y: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Z: " />
+                                                <Span Text="0.0" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                                <Label Text="Temperature" TextColor="White" FontSize="Small" />
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label Grid.Column="0" TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="X: " />
                                                 <Span Text="0.0" FontAttributes="Bold" />
                                             </FormattedString>
                                         </Label.FormattedText>

@@ -1,6 +1,8 @@
 ﻿using CommonContracts.Models;
+using Connectivity.Common.Models;
 using Meadow.Foundation.Web.Maple;
 using Meadow.Foundation.Web.Maple.Routing;
+using MeadowConnectedSample.Controller;
 using MeadowConnectedSample.Models.Logical;
 
 namespace MeadowConnectedSample.Connectivity
@@ -30,28 +32,47 @@ namespace MeadowConnectedSample.Connectivity
             return new OkResult();
         }
 
-        [HttpGet("/getbme688data")]
-        public IActionResult GetBme688Data()
+        [HttpGet("/getbh1750data")]
+        public IActionResult GetBh1750Data()
         {
-            var reading = Bme688Controller.Instance.AmbientReading;
-            var data = new ClimateModel() 
-            { 
-                Temperature = $"{(int)reading.Temperature.Value.Celsius}°C",
-                Humidity = $"{(int)reading.Humidity.Value.Percent}%",
-                Pressure = $"{(int)reading.Pressure.Value.Millibar}mbar"
+            var reading = MainController.Instance.IlluminanceReading;
+            var data = new IlluminanceModel()
+            {
+                Illuminance = $"{(int)reading?.Lux}lx"
             };
 
             Context.Response.ContentType = ContentTypes.Application_Json;
             return new JsonResult(data);
         }
 
-        [HttpGet("/getbh1750data")]
-        public IActionResult getBh1750Data()
+        [HttpGet("/getbmi270data")]
+        public IActionResult GetBmi270Data()
         {
-            var reading = Bh1750Controller.Instance.IlluminanceReading;
-            var data = new IlluminanceModel()
+            var reading = MainController.Instance.MotionReading;
+            var data = new MotionModel()
             {
-                Illuminance = $"{(int)reading?.Lux}lx"
+                Acceleration3D = $"({reading.acceleration3D.Value.X.CentimetersPerSecondSquared:N2}, " +
+                                 $"{reading.acceleration3D.Value.Y.CentimetersPerSecondSquared:N2}, " +
+                                 $"{reading.acceleration3D.Value.Z.CentimetersPerSecondSquared:N2})",
+                AngularVelocity3D = $"({reading.angularVelocity3D.Value.X.DegreesPerSecond:N2}, " +
+                                    $"{reading.angularVelocity3D.Value.Y.DegreesPerSecond:N2}, " +
+                                    $"{reading.angularVelocity3D.Value.Z.DegreesPerSecond:N2})",
+                Temperature = $"{reading.temperature.Value.Celsius:N2}°C"
+            };
+
+            Context.Response.ContentType = ContentTypes.Application_Json;
+            return new JsonResult(data);
+        }
+
+        [HttpGet("/getbme688data")]
+        public IActionResult GetBme688Data()
+        {
+            var reading = MainController.Instance.AmbientReading;
+            var data = new ClimateModel()
+            {
+                Temperature = $"{(int)reading.Temperature.Value.Celsius}°C",
+                Humidity = $"{(int)reading.Humidity.Value.Percent}%",
+                Pressure = $"{(int)reading.Pressure.Value.Millibar}mbar"
             };
 
             Context.Response.ContentType = ContentTypes.Application_Json;

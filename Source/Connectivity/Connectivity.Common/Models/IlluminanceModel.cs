@@ -2,6 +2,6 @@
 {
     public class IlluminanceModel
     {
-        public string Illuminance { get; set; }
+        public string? Illuminance { get; set; }
     }
 }

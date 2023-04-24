@@ -1,47 +1,56 @@
 ﻿using Meadow.Devices;
+using Meadow.Foundation.Sensors.Accelerometers;
+using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Foundation.Sensors.Light;
+using Meadow.Units;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeadowConnectedSample.Controller
 {
     public class MainController
     {
-        private TimeSpan UPDATE_INTERVAL = TimeSpan.FromMinutes(1);
-        private CancellationTokenSource? cancellationTokenSource;
+        private static readonly Lazy<MainController> instance =
+            new Lazy<MainController>(() => new MainController());
+        public static MainController Instance => instance.Value;
 
-        bool IsSampling = false;
-        IProjectLabHardware hardware;
+        private Bh1750 lightSensor;
 
-        public MainController(IProjectLabHardware hardware)
+        private Bmi270 motionSensor;
+
+        private Bme688 environmentalSensor;
+
+        public Illuminance? IlluminanceReading { get; private set; }
+
+        public (Acceleration3D? acceleration3D, AngularVelocity3D? angularVelocity3D, Temperature? temperature) MotionReading { get; private set; }
+
+        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) AmbientReading { get; private set; }
+
+        public MainController() { }
+
+        public void Initialize(IProjectLabHardware hardware)
         {
-            this.hardware = hardware;
-
-            //LastLocationInfo = new LocationModel();
-            //LastAtmosphericConditions = new AtmosphericModel();
-
-            //GnssController.GnssPositionInfoUpdated += GnssPositionInfoUpdated;
+            lightSensor = hardware.LightSensor;
+            motionSensor = hardware.MotionSensor;
+            environmentalSensor = hardware.EnvironmentalSensor;
         }
 
-        async Task StartUpdating(TimeSpan updateInterval, CancellationToken cancellationToken)
+        public Task StartUpdating(TimeSpan updateInterval)
         {
-            Console.WriteLine("ClimateMonitorAgent.StartUpdating()");
-
-            if (IsSampling)
-                return;
-            IsSampling = true;
-
-            while (true)
+            Task.Run(async () =>
             {
-                if (cancellationToken.IsCancellationRequested)
+
+                while (true)
                 {
-                    break;
+                    IlluminanceReading = await lightSensor.Read();
+                    MotionReading = await motionSensor.Read();
+                    AmbientReading = await environmentalSensor.Read();
+
+                    await Task.Delay(updateInterval);
                 }
+            });
 
-
-            }
+            return Task.CompletedTask;
         }
     }
 }
