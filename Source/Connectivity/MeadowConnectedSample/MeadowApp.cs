@@ -4,7 +4,8 @@ using Meadow.Foundation;
 using Meadow.Foundation.Web.Maple;
 using Meadow.Hardware;
 using MeadowConnectedSample.Connectivity;
-using MeadowConnectedSample.Controller;
+using MeadowConnectedSample.Models.Logical;
+using MeadowConnectedSample.Views;
 using System.Threading.Tasks;
 
 namespace MeadowConnectedSample
@@ -22,8 +23,8 @@ namespace MeadowConnectedSample
 
             projLab = ProjectLab.Create();
 
-            DisplayController.Instance.Initialize(projLab.Display);
-            DisplayController.Instance.ShowSplashScreen();
+            DisplayView.Instance.Initialize(projLab.Display);
+            DisplayView.Instance.ShowSplashScreen();
 
             Bh1750Controller.Instance.Initialize(projLab.LightSensor);
 
@@ -31,7 +32,7 @@ namespace MeadowConnectedSample
 
             if (useWiFi)
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                DisplayView.Instance.StartConnectingAnimation(useWiFi);
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
@@ -40,7 +41,7 @@ namespace MeadowConnectedSample
             }
             else
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
+                DisplayView.Instance.StartConnectingAnimation(useWiFi);
 
                 BluetoothServer.Instance.Initialize();
 
@@ -50,12 +51,12 @@ namespace MeadowConnectedSample
 
         private void WifiNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
         {
-            DisplayController.Instance.StopConnectingAnimation();
+            DisplayView.Instance.StopConnectingAnimation();
 
             var mapleServer = new MapleServer(sender.IpAddress, 5417, true, logger: Resolver.Log);
             mapleServer.Start();
 
-            DisplayController.Instance.ShowMapleReady(sender.IpAddress.ToString());
+            DisplayView.Instance.ShowMapleReady(sender.IpAddress.ToString());
 
             LedController.Instance.SetColor(Color.Green);
         }

@@ -1,7 +1,8 @@
 ﻿using CommonContracts.Bluetooth;
 using Meadow.Gateways.Bluetooth;
 using Meadow.Units;
-using MeadowConnectedSample.Controller;
+using MeadowConnectedSample.Models.Logical;
+using MeadowConnectedSample.Views;
 using System;
 
 namespace MeadowConnectedSample.Connectivity
@@ -40,11 +41,11 @@ namespace MeadowConnectedSample.Connectivity
         {
             if ((bool)data)
             {
-                DisplayController.Instance.ShowBluetoothPaired();
+                DisplayView.Instance.ShowBluetoothPaired();
             }
             else
             {
-                _ = DisplayController.Instance.StartConnectingAnimation(false);
+                _ = DisplayView.Instance.StartConnectingAnimation(false);
             }
         }
 

@@ -4,7 +4,7 @@ using Meadow.Units;
 using MeadowConnectedSample.Connectivity;
 using System;
 
-namespace MeadowConnectedSample.Controller
+namespace MeadowConnectedSample.Models.Logical
 {
     public class Bme688Controller
     {

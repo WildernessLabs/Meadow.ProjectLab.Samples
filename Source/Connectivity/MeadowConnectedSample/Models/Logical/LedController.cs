@@ -2,7 +2,7 @@
 using Meadow.Foundation.Leds;
 using System;
 
-namespace MeadowConnectedSample.Controller
+namespace MeadowConnectedSample.Models.Logical
 {
     public class LedController
     {
@@ -32,7 +32,7 @@ namespace MeadowConnectedSample.Controller
             rgbPwmLed.SetColor(color);
         }
 
-        public void Toggle() 
+        public void Toggle()
         {
             if (rgbPwmLed.IsOn || isAnimating)
             {

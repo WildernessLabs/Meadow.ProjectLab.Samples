@@ -1,7 +1,7 @@
 ﻿using CommonContracts.Models;
 using Meadow.Foundation.Web.Maple;
 using Meadow.Foundation.Web.Maple.Routing;
-using MeadowConnectedSample.Controller;
+using MeadowConnectedSample.Models.Logical;
 
 namespace MeadowConnectedSample.Connectivity
 {
