@@ -35,22 +35,21 @@ namespace MeadowConnectedSample.Controller
             environmentalSensor = hardware.EnvironmentalSensor;
         }
 
-        public Task StartUpdating(TimeSpan updateInterval)
+        public async Task StartUpdating(TimeSpan updateInterval)
         {
-            Task.Run(async () =>
+
+            while (true)
             {
+                Console.Write("Reading...");
 
-                while (true)
-                {
-                    IlluminanceReading = await lightSensor.Read();
-                    MotionReading = await motionSensor.Read();
-                    AmbientReading = await environmentalSensor.Read();
+                IlluminanceReading = lightSensor.Read().Result;
+                MotionReading = motionSensor.Read().Result;
+                AmbientReading = environmentalSensor.Read().Result;
 
-                    await Task.Delay(updateInterval);
-                }
-            });
+                Console.WriteLine("Done");
 
-            return Task.CompletedTask;
+                await Task.Delay(updateInterval);
+            }
         }
     }
 }
