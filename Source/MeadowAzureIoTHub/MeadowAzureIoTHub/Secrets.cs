@@ -15,6 +15,6 @@
         /// <summary>
         /// example "SharedAccessSignature sr=MeadowIoTHub ..... "
         /// </summary>
-        public const string SAS_TOKEN = "SharedAccessSignature ...";
+        public const string SAS_TOKEN = "SAS_TOKEN";
     }
 }

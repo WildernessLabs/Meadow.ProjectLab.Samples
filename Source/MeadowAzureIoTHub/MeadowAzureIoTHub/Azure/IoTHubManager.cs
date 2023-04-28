@@ -28,6 +28,8 @@ namespace MeadowAzureIoTHub.Azure
         private Connection connection;
         private SenderLink sender;
 
+        private int messageId = 0;
+
         public IotHubManager() { }
 
         public async Task Initialize()
@@ -54,9 +56,15 @@ namespace MeadowAzureIoTHub.Azure
             try
             {
                 Resolver.Log.Info("Create payload");
-                string messagePayload = $"{{\"Temperature\":{reading.Temperature.Value.Celsius}," +
-                    $"\"Humidity\":{reading.Humidity.Value.Percent}," +
-                    $"\"Pressure\":{reading.Pressure.Value.Millibar}}}";
+
+                string messagePayload = $"" +
+                        $"{{" +
+                        $"\"messageId\":{messageId++}," +
+                        $"\"deviceId\":\"meadow-device\"," +
+                        $"\"temperature\":{reading.Temperature.Value.Celsius}," +
+                        $"\"humidity\":{reading.Humidity.Value.Percent}," +
+                        $"\"pressure\":{reading.Pressure.Value.Millibar}" +
+                        $"}}";
 
                 Resolver.Log.Info("Create message");
                 var message = new Message(Encoding.UTF8.GetBytes(messagePayload));

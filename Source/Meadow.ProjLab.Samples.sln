@@ -69,7 +69,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICs.IOExpanders.Mcp23xxx", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{B72D3A65-B26C-4A6E-AEA6-7A280BA79847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureIoTHub", "MeadowAzureIoTHub\MeadowAzureIoTHub.csproj", "{853D4036-FA83-411A-981C-2CB4DE0DA4D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureIoTHub", "MeadowAzureIoTHub\MeadowAzureIoTHub\MeadowAzureIoTHub.csproj", "{853D4036-FA83-411A-981C-2CB4DE0DA4D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureServo", "MeadowAzureServo\MeadowAzureServo.csproj", "{A9061CEB-D584-4FD7-876F-7EA780095004}"
 EndProject
