@@ -32,8 +32,8 @@ namespace MeadowConnectedSample.Connectivity
             return new OkResult();
         }
 
-        [HttpGet("/getbh1750data")]
-        public IActionResult GetBh1750Data()
+        [HttpGet("/getLightData")]
+        public IActionResult GetLightData()
         {
             var reading = MainController.Instance.IlluminanceReading;
             var data = new IlluminanceModel()
@@ -45,8 +45,8 @@ namespace MeadowConnectedSample.Connectivity
             return new JsonResult(data);
         }
 
-        [HttpGet("/getbmi270data")]
-        public IActionResult GetBmi270Data()
+        [HttpGet("/getMotionData")]
+        public IActionResult GetMotionData()
         {
             var reading = MainController.Instance.MotionReading;
             var data = new MotionModel()
@@ -64,8 +64,8 @@ namespace MeadowConnectedSample.Connectivity
             return new JsonResult(data);
         }
 
-        [HttpGet("/getbme688data")]
-        public IActionResult GetBme688Data()
+        [HttpGet("/getEnvironmentalData")]
+        public IActionResult GetEnvironmentalData()
         {
             var reading = MainController.Instance.AmbientReading;
             var data = new ClimateModel()

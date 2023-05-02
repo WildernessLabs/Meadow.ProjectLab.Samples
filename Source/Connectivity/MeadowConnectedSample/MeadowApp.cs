@@ -35,8 +35,6 @@ namespace MeadowConnectedSample
             {
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
-
-                await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
             }
             else
             {
@@ -52,7 +50,7 @@ namespace MeadowConnectedSample
 
             _ = MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
 
-            var mapleServer = new MapleServer(sender.IpAddress, 5417, true, logger: Resolver.Log);
+            var mapleServer = new MapleServer(sender.IpAddress, 5417, logger: Resolver.Log);
             mapleServer.Start();
 
             DisplayView.Instance.ShowMapleReady(sender.IpAddress.ToString());
