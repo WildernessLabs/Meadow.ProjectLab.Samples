@@ -8,13 +8,13 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MeadowConnectedSample.Controller
+namespace MeadowConnectedSample.Views
 {
-    public class DisplayController
+    public class DisplayView
     {
-        private static readonly Lazy<DisplayController> instance =
-            new Lazy<DisplayController>(() => new DisplayController());
-        public static DisplayController Instance => instance.Value;
+        private static readonly Lazy<DisplayView> instance =
+            new Lazy<DisplayView>(() => new DisplayView());
+        public static DisplayView Instance => instance.Value;
 
         static Color backgroundColor = Color.FromHex("#23ABE3");
 
@@ -23,7 +23,7 @@ namespace MeadowConnectedSample.Controller
         protected BufferRgb888 imgConnecting, imgConnected;
         protected MicroGraphics graphics;
 
-        private DisplayController() { }
+        private DisplayView() { }
 
         public void Initialize(IGraphicsDisplay display)
         {
@@ -58,7 +58,7 @@ namespace MeadowConnectedSample.Controller
             graphics.DrawCircle(
                 centerX: graphics.Width / 2,
                 centerY: graphics.Height / 2,
-                radius: (graphics.Width / 2) - 10,
+                radius: graphics.Width / 2 - 10,
                 color: Color.Black,
                 filled: false);
         }
@@ -81,10 +81,10 @@ namespace MeadowConnectedSample.Controller
             return ms.ToArray();
         }
 
-        public async Task StartConnectingAnimation(bool isWiFi) 
-        {            
-            imgConnected = LoadJpeg(isWiFi? "img_wifi_connected.jpg" : "img_ble_paired.jpg");
-            imgConnecting = LoadJpeg(isWiFi? "img_wifi_connecting.jpg" : "img_ble_pairing.jpg");
+        public async Task StartConnectingAnimation(bool isWiFi)
+        {
+            imgConnected = LoadJpeg(isWiFi ? "img_wifi_connected.jpg" : "img_ble_paired.jpg");
+            imgConnecting = LoadJpeg(isWiFi ? "img_wifi_connecting.jpg" : "img_ble_pairing.jpg");
 
             token = new CancellationTokenSource();
 
@@ -106,12 +106,12 @@ namespace MeadowConnectedSample.Controller
             }
         }
 
-        public void StopConnectingAnimation() 
+        public void StopConnectingAnimation()
         {
             token.Cancel();
         }
 
-        public void ShowMapleReady(string ipAddress) 
+        public void ShowMapleReady(string ipAddress)
         {
             graphics.DrawRectangle(77, 134, 86, 74, backgroundColor, true);
 
@@ -125,7 +125,7 @@ namespace MeadowConnectedSample.Controller
             graphics.Show();
         }
 
-        public void ShowBluetoothPaired() 
+        public void ShowBluetoothPaired()
         {
             StopConnectingAnimation();
 

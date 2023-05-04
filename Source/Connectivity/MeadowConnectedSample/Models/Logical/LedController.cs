@@ -2,7 +2,7 @@
 using Meadow.Foundation.Leds;
 using System;
 
-namespace MeadowConnectedSample.Controller
+namespace MeadowConnectedSample.Models.Logical
 {
     public class LedController
     {
@@ -32,17 +32,17 @@ namespace MeadowConnectedSample.Controller
             rgbPwmLed.SetColor(color);
         }
 
-        public void Toggle() 
+        public void Toggle()
         {
             if (rgbPwmLed.IsOn || isAnimating)
             {
-                rgbPwmLed.Stop();
+                rgbPwmLed.StopAnimation();
                 rgbPwmLed.IsOn = false;
                 isAnimating = false;
             }
             else
             {
-                rgbPwmLed.Stop();
+                rgbPwmLed.StopAnimation();
                 rgbPwmLed.SetColor(GetRandomColor());
                 rgbPwmLed.IsOn = true;
             }
@@ -50,14 +50,14 @@ namespace MeadowConnectedSample.Controller
 
         public void StartBlink()
         {
-            rgbPwmLed.Stop();
+            rgbPwmLed.StopAnimation();
             rgbPwmLed.StartBlink(GetRandomColor());
             isAnimating = true;
         }
 
         public void StartPulse()
         {
-            rgbPwmLed.Stop();
+            rgbPwmLed.StopAnimation();
             rgbPwmLed.StartPulse(GetRandomColor());
             isAnimating = true;
         }
