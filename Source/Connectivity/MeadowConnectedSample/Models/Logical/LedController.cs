@@ -36,13 +36,13 @@ namespace MeadowConnectedSample.Models.Logical
         {
             if (rgbPwmLed.IsOn || isAnimating)
             {
-                rgbPwmLed.Stop();
+                rgbPwmLed.StopAnimation();
                 rgbPwmLed.IsOn = false;
                 isAnimating = false;
             }
             else
             {
-                rgbPwmLed.Stop();
+                rgbPwmLed.StopAnimation();
                 rgbPwmLed.SetColor(GetRandomColor());
                 rgbPwmLed.IsOn = true;
             }
@@ -50,14 +50,14 @@ namespace MeadowConnectedSample.Models.Logical
 
         public void StartBlink()
         {
-            rgbPwmLed.Stop();
+            rgbPwmLed.StopAnimation();
             rgbPwmLed.StartBlink(GetRandomColor());
             isAnimating = true;
         }
 
         public void StartPulse()
         {
-            rgbPwmLed.Stop();
+            rgbPwmLed.StopAnimation();
             rgbPwmLed.StartPulse(GetRandomColor());
             isAnimating = true;
         }
