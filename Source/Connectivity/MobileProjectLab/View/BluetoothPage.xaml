@@ -78,18 +78,18 @@
                 <ScrollView Grid.Row="1" >
                     <StackLayout Spacing="10">
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="Onboard RGB LED" TextColor="White" FontSize="Medium" />
-                                <StackLayout>
-                                    <Label TextColor="White">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Status: " />
-                                                <Span Text="{Binding LedStatus}" FontAttributes="Bold" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                </StackLayout>
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Meadow Onboard RGB LED" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
+                        
+                                <Label TextColor="White" FontSize="Medium">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Status: " />
+                                            <Span Text="{Binding LedStatus}" FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+ 
                                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                                     <Button Grid.Column="0" Text="On/off" Style="{StaticResource ButtonNavStyle}"
                                         Command="{Binding CmdSetOnboardLed}" CommandParameter="toggle"/>
@@ -102,132 +102,135 @@
                         </Frame>
 
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="BME688 Atmospheric Sensor" TextColor="White" FontSize="Medium" />
-                                <Grid ColumnDefinitions="Auto,*,Auto">
-                                    <Label Grid.Column="0" TextColor="White">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="BME688 Environmental Sensor" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
+
+                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="10">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Temp" TextColor="White" FontSize="Medium" HorizontalOptions="Start" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Humidity" TextColor="White" FontSize="Medium" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="2" Text="Pressure" TextColor="White" FontSize="Medium" HorizontalOptions="End" />
+
+                                    <Label Grid.Row="1" Grid.Column="0" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Temp: " />
-                                                <Span Text="{Binding Temperature}" FontAttributes="Bold" />
+                                                <Span Text="{Binding Temperature}" />
+                                                <Span Text=" °C" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
+                                    <Label Grid.Row="1" Grid.Column="1" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Humidity: " />
-                                                <Span Text="{Binding Humidity}" FontAttributes="Bold" />
+                                                <Span Text="{Binding Humidity}" />
+                                                <Span Text=" %" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
+                                    <Label Grid.Row="2" Grid.Column="2" TextColor="White" FontAttributes="Bold" HorizontalOptions="End" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Pressure: " />
-                                                <Span Text="{Binding Pressure}" FontAttributes="Bold" />
+                                                <Span Text="{Binding Pressure}" />
+                                                <Span Text=" Mbar" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor" Command="{Binding CmdGetBme688Data}"
+                                <Button Text="Read Environmental Sensor" Command="{Binding CmdEnvironmentData}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </VerticalStackLayout>
                         </Frame>
 
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="BH1750 Light Sensor" TextColor="White" FontSize="Medium" />
-                                <Grid ColumnDefinitions="Auto,*,Auto">
-                                    <Label TextColor="White">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="BH1750 Light Sensor" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
+
+                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="10">
+                                    <Label Grid.Row="0" Grid.ColumnSpan="3" Text="Luminance" TextColor="White" FontSize="Medium" />
+                                    <Label Grid.Row="1" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="Light: " />
-                                                <Span Text="{Binding Illuminance}" FontAttributes="Bold" />
+                                                <Span Text="{Binding Illuminance}" />
+                                                <Span Text=" Lx" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor" Command="{Binding CmdGetBh1750Data}"
+                                <Button Text="Read Light Sensor" Command="{Binding CmdGetLightData}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </VerticalStackLayout>
                         </Frame>
 
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" Opacity="0.5" CornerRadius="5" BorderColor="Transparent">
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="BMI270 Motion Sensor" TextColor="White" FontSize="Medium" />
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="BMI270 Motion Sensor" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
 
-                                <Label Text="Acceleration 3D" TextColor="White" FontSize="Small" />
-                                <Grid ColumnDefinitions="Auto,*,Auto">
-                                    <Label Grid.Column="0" TextColor="White">
+                                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="10">
+                                    <Label Grid.Row="0" Grid.ColumnSpan="3" Text="Acceleration 3D (cm/s²)" TextColor="White" FontSize="Medium" />
+                                    <Label Grid.Row="1" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="X: " />
-                                                <Span Text="0.0" FontAttributes="Bold" />
+                                                <Span Text="{Binding Acceleration3dX}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
+                                    <Label Grid.Row="1" Grid.Column="1" TextColor="White" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Y: " />
-                                                <Span Text="0.0" FontAttributes="Bold" />
+                                                <Span Text="{Binding Acceleration3dY}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
+                                    <Label Grid.Row="1" Grid.Column="2" TextColor="White" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="End">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Z: " />
-                                                <Span Text="0.0" FontAttributes="Bold" />
+                                                <Span Text="{Binding Acceleration3dZ}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                </Grid>
 
-                                <Label Text="Angular Velocity 3D" TextColor="White" FontSize="Small" />
-                                <Grid ColumnDefinitions="Auto,*,Auto">
-                                    <Label Grid.Column="0" TextColor="White">
+                                    <Label Grid.Row="2" Grid.ColumnSpan="3" Text="Angular Velocity 3D (°/s)" TextColor="White" FontSize="Medium" />
+                                    <Label Grid.Row="3" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="X: " />
-                                                <Span Text="0.0" FontAttributes="Bold" />
+                                                <Span Text="{Binding AngularVelocity3dX}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="1" TextColor="White" HorizontalOptions="Center">
+                                    <Label Grid.Row="3" Grid.Column="1" TextColor="White" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Y: " />
-                                                <Span Text="0.0" FontAttributes="Bold" />
+                                                <Span Text="{Binding AngularVelocity3dY}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <Label Grid.Column="2" TextColor="White" HorizontalOptions="End">
+                                    <Label Grid.Row="3" Grid.Column="2" TextColor="White" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="End">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Z: " />
-                                                <Span Text="0.0" FontAttributes="Bold" />
+                                                <Span Text="{Binding AngularVelocity3dZ}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                </Grid>
 
-                                <Label Text="Temperature" TextColor="White" FontSize="Small" />
-                                <Grid ColumnDefinitions="Auto,*,Auto">
-                                    <Label Grid.Column="0" TextColor="White">
+                                    <Label Grid.Row="4" Grid.ColumnSpan="3" Text="Temperature" TextColor="White" FontSize="Medium" />
+                                    <Label Grid.Row="5" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="X: " />
-                                                <Span Text="0.0" FontAttributes="Bold" />
+                                                <Span Text="{Binding MotionTemperature}" />
+                                                <Span Text=" °C" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor"
+                                <Button Text="Read Motion Sensor" Command="{Binding CmdGetMotionData}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </VerticalStackLayout>
                         </Frame>

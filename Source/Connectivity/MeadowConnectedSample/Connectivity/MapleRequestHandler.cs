@@ -4,6 +4,7 @@ using Meadow.Foundation.Web.Maple;
 using Meadow.Foundation.Web.Maple.Routing;
 using MeadowConnectedSample.Controller;
 using MeadowConnectedSample.Models.Logical;
+using System.Threading.Tasks;
 
 namespace MeadowConnectedSample.Connectivity
 {
@@ -12,30 +13,30 @@ namespace MeadowConnectedSample.Connectivity
         public MapleRequestHandler() { }
 
         [HttpPost("/toggle")]
-        public IActionResult Toggle()
+        public async Task<IActionResult> Toggle()
         {
-            LedController.Instance.Toggle();
+            await LedController.Instance.Toggle();
             return new OkResult();
         }
 
         [HttpPost("/blink")]
-        public IActionResult Blink()
+        public async Task<IActionResult> Blink()
         {
-            LedController.Instance.StartBlink();
+            await LedController.Instance.StartBlink();
             return new OkResult();
         }
 
         [HttpPost("/pulse")]
-        public IActionResult Pulse()
+        public async Task<IActionResult> Pulse()
         {
-            LedController.Instance.StartPulse();
+            await LedController.Instance.StartPulse();
             return new OkResult();
         }
 
         [HttpGet("/getLightData")]
         public IActionResult GetLightData()
         {
-            var reading = MainController.Instance.IlluminanceReading;
+            var reading = MainController.Instance.LightReading;
             var data = new IlluminanceModel()
             {
                 Illuminance = $"{(int)reading?.Lux}lx"
@@ -51,12 +52,12 @@ namespace MeadowConnectedSample.Connectivity
             var reading = MainController.Instance.MotionReading;
             var data = new MotionModel()
             {
-                Acceleration3D = $"({reading.acceleration3D.Value.X.CentimetersPerSecondSquared:N2}, " +
-                                 $"{reading.acceleration3D.Value.Y.CentimetersPerSecondSquared:N2}, " +
-                                 $"{reading.acceleration3D.Value.Z.CentimetersPerSecondSquared:N2})",
-                AngularVelocity3D = $"({reading.angularVelocity3D.Value.X.DegreesPerSecond:N2}, " +
-                                    $"{reading.angularVelocity3D.Value.Y.DegreesPerSecond:N2}, " +
-                                    $"{reading.angularVelocity3D.Value.Z.DegreesPerSecond:N2})",
+                Acceleration3dX = $"{reading.acceleration3D.Value.X.CentimetersPerSecondSquared:N2}",
+                Acceleration3dY = $"{reading.acceleration3D.Value.Y.CentimetersPerSecondSquared:N2}",
+                Acceleration3dZ = $"{reading.acceleration3D.Value.Z.CentimetersPerSecondSquared:N2}",
+                AngularVelocity3dX = $"{reading.angularVelocity3D.Value.X.DegreesPerSecond:N2}",
+                AngularVelocity3dY = $"{reading.angularVelocity3D.Value.Y.DegreesPerSecond:N2}",
+                AngularVelocity3dZ = $"{reading.angularVelocity3D.Value.Z.DegreesPerSecond:N2}",
                 Temperature = $"{reading.temperature.Value.Celsius:N2}°C"
             };
 
@@ -67,7 +68,7 @@ namespace MeadowConnectedSample.Connectivity
         [HttpGet("/getEnvironmentalData")]
         public IActionResult GetEnvironmentalData()
         {
-            var reading = MainController.Instance.AmbientReading;
+            var reading = MainController.Instance.EnvironmentalReading;
             var data = new ClimateModel()
             {
                 Temperature = $"{(int)reading.Temperature.Value.Celsius}°C",
