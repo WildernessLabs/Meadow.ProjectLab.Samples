@@ -41,6 +41,7 @@ namespace MeadowConnectedSample
             {
                 BluetoothServer.Instance.Initialize();
                 LedController.Instance.SetColor(Color.Green);
+                _ = MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
             }
         }
 

@@ -67,19 +67,32 @@ namespace MeadowConnectedSample.Connectivity
 
         public void SetEnvironmentalCharacteristicValue((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) value)
         {
-            string stringValue = $"{(int)value.Temperature?.Celsius};{(int)value.Humidity?.Percent};{(int)value.Pressure?.Millibar}";
+            string stringValue = $"" +
+                $"{(int)value.Temperature?.Celsius};" +
+                $"{(int)value.Humidity?.Percent};" +
+                $"{(int)value.Pressure?.Millibar}";
             Console.WriteLine(stringValue);
             environmentalDataCharacteristic.SetValue(stringValue);
         }
 
         public void SetLightCharacteristicValue(Illuminance? value)
         {
-            lightDataCharacteristic.SetValue($"{(int)value?.Lux}lx;");
+            lightDataCharacteristic.SetValue($"{(int)value?.Lux}");
         }
 
         public void SetMotionCharacteristicValue((Acceleration3D? acceleration3D, AngularVelocity3D? angularVelocity3D, Temperature? temperature) value)
         {
-            motionDataCharacteristic.SetValue($"{value.acceleration3D?.X}; {value.acceleration3D?.Y}; {value.acceleration3D?.Z}; {value.angularVelocity3D?.X}; {value.angularVelocity3D?.Y}; {value.angularVelocity3D?.Z}; {value.temperature}");
+            string stringValue = $"" +
+                $"{value.acceleration3D?.X.CentimetersPerSecondSquared:N2};" +
+                $"{value.acceleration3D?.Y.CentimetersPerSecondSquared:N2};" +
+                $"{value.acceleration3D?.Z.CentimetersPerSecondSquared:N2};" +
+                $"{value.angularVelocity3D?.X.DegreesPerSecond:N2};" +
+                $"{value.angularVelocity3D?.Y.DegreesPerSecond:N2};" +
+                $"{value.angularVelocity3D?.Z.DegreesPerSecond:N2};" +
+                $"{value.temperature?.Celsius:N2};";
+            Console.WriteLine(stringValue);
+            motionDataCharacteristic.SetValue(stringValue);
+            //motionDataCharacteristic.SetValue($"{value.acceleration3D?.X.CentimetersPerSecondSquared:0.#};{value.acceleration3D?.Y.CentimetersPerSecondSquared:0.#};{value.acceleration3D?.Z.CentimetersPerSecondSquared:0.#};{value.angularVelocity3D?.X.DegreesPerSecond:0.#};{value.angularVelocity3D?.Y.DegreesPerSecond:0.#};{value.angularVelocity3D?.Z.DegreesPerSecond:0.#};{value.temperature?.Celsius:0.#}");
         }
 
         Definition GetDefinition()
@@ -119,7 +132,7 @@ namespace MeadowConnectedSample.Connectivity
             motionDataCharacteristic = new CharacteristicString(
                 name: "MOTION_DATA",
                 uuid: CharacteristicsConstants.MOTION_DATA,
-                maxLength: 20,
+                maxLength: 50,
                 permissions: CharacteristicPermission.Read,
                 properties: CharacteristicProperty.Read);
 
