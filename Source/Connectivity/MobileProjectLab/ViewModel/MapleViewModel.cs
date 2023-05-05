@@ -1,4 +1,5 @@
 ﻿using CommonContracts.Models;
+using Connectivity.Common.Models;
 using Meadow.Foundation.Web.Maple;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -64,35 +65,80 @@ namespace MobileProjectLab.ViewModel
         }
         public ICommand CmdSetOnboardLed { get; private set; }
 
-        // BME688
-        string temperature;
+        // Environmental Sensor
         public string Temperature
         {
             get => temperature;
             set { temperature = value; OnPropertyChanged(nameof(Temperature)); }
         }
-        string humidity;
+        string temperature;
         public string Humidity
         {
             get => humidity;
             set { humidity = value; OnPropertyChanged(nameof(Humidity)); }
         }
-        string pressure;
+        string humidity;
         public string Pressure
         {
             get => pressure;
             set { pressure = value; OnPropertyChanged(nameof(Pressure)); }
         }
-        public ICommand CmdGetBme688Data { get; private set; }
+        string pressure;
+        public ICommand CmdEnvironmentData { get; private set; }
 
-        // BH1750
+        // Light Sensor
         string illuminance;
         public string Illuminance
         {
             get => illuminance;
             set { illuminance = value; OnPropertyChanged(nameof(Illuminance)); }
         }
-        public ICommand CmdGetBh1750Data { get; private set; }
+        public ICommand CmdGetLightData { get; private set; }
+
+        // Motion Sensor
+        public string Acceleration3dX
+        {
+            get => acceleration3dX;
+            set { acceleration3dX = value; OnPropertyChanged(nameof(Acceleration3dX)); }
+        }
+        string acceleration3dX;
+        public string Acceleration3dY
+        {
+            get => acceleration3dY;
+            set { acceleration3dY = value; OnPropertyChanged(nameof(Acceleration3dY)); }
+        }
+        string acceleration3dY;
+        public string Acceleration3dZ
+        {
+            get => acceleration3dZ;
+            set { acceleration3dZ = value; OnPropertyChanged(nameof(Acceleration3dZ)); }
+        }
+        string acceleration3dZ;
+        public string AngularVelocity3dX
+        {
+            get => angularVelocity3dX;
+            set { angularVelocity3dX = value; OnPropertyChanged(nameof(AngularVelocity3dX)); }
+        }
+        string angularVelocity3dX;
+        public string AngularVelocity3dY
+        {
+            get => angularVelocity3dY;
+            set { angularVelocity3dY = value; OnPropertyChanged(nameof(AngularVelocity3dY)); }
+        }
+        string angularVelocity3dY;
+        public string AngularVelocity3dZ
+        {
+            get => angularVelocity3dZ;
+            set { angularVelocity3dZ = value; OnPropertyChanged(nameof(AngularVelocity3dZ)); }
+        }
+        string angularVelocity3dZ;
+        public string MotionTemperature
+        {
+            get => motionTemperature;
+            set { motionTemperature = value; OnPropertyChanged(nameof(MotionTemperature)); }
+        }
+        string motionTemperature;
+        public ICommand CmdGetMotionData { get; private set; }
 
         public MapleViewModel()
         {
@@ -107,9 +153,11 @@ namespace MobileProjectLab.ViewModel
 
             CmdSetOnboardLed = new Command(async (obj) => await SetOnboardLed(obj as string));
 
-            CmdGetBme688Data = new Command(async () => await GetBme688Data());
+            CmdEnvironmentData = new Command(async () => await GetEnvironmentalData());
 
-            CmdGetBh1750Data = new Command(async () => await GetBh1750Data());
+            CmdGetLightData = new Command(async () => await GetLightData());
+
+            CmdGetMotionData = new Command(async () => await GetMotionData());
         }
 
         void ServersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -189,14 +237,66 @@ namespace MobileProjectLab.ViewModel
             }
         }
 
-        async Task GetBme688Data()
+        async Task GetLightData()
         {
             if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
                 return;
 
             try
             {
-                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getbme688data", null, null);
+                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getLightData");
+
+                if (response == null)
+                    return;
+
+                var value = System.Text.Json.JsonSerializer.Deserialize<IlluminanceModel>(response);
+
+                Illuminance = value.Illuminance;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        async Task GetMotionData()
+        {
+            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
+                return;
+
+            try
+            {
+                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getMotionData");
+
+                if (response == null)
+                {
+                    return;
+                }
+
+                var value = System.Text.Json.JsonSerializer.Deserialize<MotionModel>(response);
+
+                Acceleration3dX = value.Acceleration3dX;
+                Acceleration3dY = value.Acceleration3dY;
+                Acceleration3dZ = value.Acceleration3dZ;
+                AngularVelocity3dX = value.AngularVelocity3dX;
+                AngularVelocity3dY = value.AngularVelocity3dY;
+                AngularVelocity3dZ = value.AngularVelocity3dZ;
+                MotionTemperature = value.Temperature;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        async Task GetEnvironmentalData()
+        {
+            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
+                return;
+
+            try
+            {
+                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getEnvironmentalData");
 
                 if (response == null)
                 {
@@ -208,28 +308,6 @@ namespace MobileProjectLab.ViewModel
                 Temperature = value.Temperature;
                 Humidity = value.Humidity;
                 Pressure = value.Pressure;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        async Task GetBh1750Data()
-        {
-            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
-                return;
-
-            try
-            {
-                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getbh1750data", null, null);
-
-                if (response == null)
-                    return;
-
-                var value = System.Text.Json.JsonSerializer.Deserialize<IlluminanceModel>(response);
-
-                Illuminance = value.Illuminance;
             }
             catch (Exception ex)
             {

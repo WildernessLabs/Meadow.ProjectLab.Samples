@@ -1,6 +1,7 @@
 ﻿using Meadow.Foundation;
 using Meadow.Foundation.Leds;
 using System;
+using System.Threading.Tasks;
 
 namespace MeadowConnectedSample.Models.Logical
 {
@@ -32,33 +33,33 @@ namespace MeadowConnectedSample.Models.Logical
             rgbPwmLed.SetColor(color);
         }
 
-        public void Toggle()
+        public async Task Toggle()
         {
             if (rgbPwmLed.IsOn || isAnimating)
             {
-                rgbPwmLed.StopAnimation();
+                await rgbPwmLed.StopAnimation();
                 rgbPwmLed.IsOn = false;
                 isAnimating = false;
             }
             else
             {
-                rgbPwmLed.StopAnimation();
+                await rgbPwmLed.StopAnimation();
                 rgbPwmLed.SetColor(GetRandomColor());
                 rgbPwmLed.IsOn = true;
             }
         }
 
-        public void StartBlink()
+        public async Task StartBlink()
         {
-            rgbPwmLed.StopAnimation();
-            rgbPwmLed.StartBlink(GetRandomColor());
+            await rgbPwmLed.StopAnimation();
+            await rgbPwmLed.StartBlink(GetRandomColor());
             isAnimating = true;
         }
 
-        public void StartPulse()
+        public async Task StartPulse()
         {
-            rgbPwmLed.StopAnimation();
-            rgbPwmLed.StartPulse(GetRandomColor());
+            await rgbPwmLed.StopAnimation();
+            await rgbPwmLed.StartPulse(GetRandomColor());
             isAnimating = true;
         }
 

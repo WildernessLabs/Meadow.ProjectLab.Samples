@@ -1,14 +1,11 @@
-﻿using Plugin.BLE;
+﻿using CommonContracts.Bluetooth;
+using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
-using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using CommonContracts.Bluetooth;
 
 namespace MobileProjectLab.ViewModel
 {
@@ -25,8 +22,9 @@ namespace MobileProjectLab.ViewModel
         ICharacteristic ledToggleCharacteristic;
         ICharacteristic ledBlinkCharacteristic;
         ICharacteristic ledPulseCharacteristic;
-        ICharacteristic bme688DataCharacteristic;
-        ICharacteristic bh1750DataCharacteristic;
+        ICharacteristic environmentalDataCharacteristic;
+        ICharacteristic lightDataCharacteristic;
+        ICharacteristic motionDataCharacteristic;
 
         public ObservableCollection<IDevice> DeviceList { get; set; }
 
@@ -71,35 +69,80 @@ namespace MobileProjectLab.ViewModel
         }
         public ICommand CmdSetOnboardLed { get; private set; }
 
-        // BME688
-        string temperature;
+        // Environmental Sensor
         public string Temperature
         {
             get => temperature;
             set { temperature = value; OnPropertyChanged(nameof(Temperature)); }
         }
-        string humidity;
+        string temperature;
         public string Humidity
         {
             get => humidity;
             set { humidity = value; OnPropertyChanged(nameof(Humidity)); }
         }
-        string pressure;
+        string humidity;
         public string Pressure
         {
             get => pressure;
             set { pressure = value; OnPropertyChanged(nameof(Pressure)); }
         }
-        public ICommand CmdGetBme688Data { get; private set; }
+        string pressure;
+        public ICommand CmdEnvironmentData { get; private set; }
 
-        // BH1750
+        // Light Sensor
         string illuminance;
         public string Illuminance
         {
             get => illuminance;
             set { illuminance = value; OnPropertyChanged(nameof(Illuminance)); }
         }
-        public ICommand CmdGetBh1750Data { get; private set; }
+        public ICommand CmdGetLightData { get; private set; }
+
+        // Motion Sensor
+        public string Acceleration3dX
+        {
+            get => acceleration3dX;
+            set { acceleration3dX = value; OnPropertyChanged(nameof(Acceleration3dX)); }
+        }
+        string acceleration3dX;
+        public string Acceleration3dY
+        {
+            get => acceleration3dY;
+            set { acceleration3dY = value; OnPropertyChanged(nameof(Acceleration3dY)); }
+        }
+        string acceleration3dY;
+        public string Acceleration3dZ
+        {
+            get => acceleration3dZ;
+            set { acceleration3dZ = value; OnPropertyChanged(nameof(Acceleration3dZ)); }
+        }
+        string acceleration3dZ;
+        public string AngularVelocity3dX
+        {
+            get => angularVelocity3dX;
+            set { angularVelocity3dX = value; OnPropertyChanged(nameof(AngularVelocity3dX)); }
+        }
+        string angularVelocity3dX;
+        public string AngularVelocity3dY
+        {
+            get => angularVelocity3dY;
+            set { angularVelocity3dY = value; OnPropertyChanged(nameof(AngularVelocity3dY)); }
+        }
+        string angularVelocity3dY;
+        public string AngularVelocity3dZ
+        {
+            get => angularVelocity3dZ;
+            set { angularVelocity3dZ = value; OnPropertyChanged(nameof(AngularVelocity3dZ)); }
+        }
+        string angularVelocity3dZ;
+        public string MotionTemperature
+        {
+            get => motionTemperature;
+            set { motionTemperature = value; OnPropertyChanged(nameof(MotionTemperature)); }
+        }
+        string motionTemperature;
+        public ICommand CmdGetMotionData { get; private set; }
 
         public BluetoothViewModel()
         {
@@ -118,9 +161,11 @@ namespace MobileProjectLab.ViewModel
 
             CmdSetOnboardLed = new Command(async (obj) => await SetOnboardLed(obj as string));
 
-            CmdGetBme688Data = new Command(async () => await GetBme688Data());
+            CmdEnvironmentData = new Command(async () => await GetEnvironmentalData());
 
-            CmdGetBh1750Data = new Command(async () => await GetBh1750Data());
+            CmdGetLightData = new Command(async () => await GetLightData());
+
+            CmdGetMotionData = new Command(async () => await GetMotionData());
         }
 
         void AdapterDeviceDisconnected(object sender, DeviceEventArgs e)
@@ -148,8 +193,8 @@ namespace MobileProjectLab.ViewModel
             ledToggleCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_TOGGLE));
             ledBlinkCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_BLINK));
             ledPulseCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_PULSE));
-            bme688DataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BME688_DATA));
-            bh1750DataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BH1750_DATA));
+            environmentalDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BME688_DATA));
+            lightDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BH1750_DATA));
 
             SetPairingStatus();
         }
@@ -252,18 +297,23 @@ namespace MobileProjectLab.ViewModel
             }
         }
 
-        async Task GetBme688Data()
+        async Task GetEnvironmentalData()
         {
-            var value = System.Text.Encoding.Default.GetString(await bme688DataCharacteristic.ReadAsync()).Split(';');
+            var value = System.Text.Encoding.Default.GetString(await environmentalDataCharacteristic.ReadAsync()).Split(';');
 
             Temperature = value[0];
             Humidity = value[1];
             Pressure = value[2];
         }
 
-        async Task GetBh1750Data()
+        async Task GetLightData()
         {
-            Illuminance = System.Text.Encoding.Default.GetString(await bh1750DataCharacteristic.ReadAsync()).Split(';')[0];
+            Illuminance = System.Text.Encoding.Default.GetString(await lightDataCharacteristic.ReadAsync()).Split(';')[0];
+        }
+
+        async Task GetMotionData()
+        {
+
         }
 
         async Task SetPairingStatus()
