@@ -193,10 +193,11 @@ namespace MobileProjectLab.ViewModel
             ledToggleCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_TOGGLE));
             ledBlinkCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_BLINK));
             ledPulseCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_PULSE));
-            environmentalDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BME688_DATA));
-            lightDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.BH1750_DATA));
+            environmentalDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.ENVIRONMENTAL_DATA));
+            lightDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LIGHT_DATA));
+            motionDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.MOTION_DATA));
 
-            SetPairingStatus();
+            await SetPairingStatus();
         }
 
         async void AdapterDeviceDiscovered(object sender, DeviceEventArgs e)
@@ -313,7 +314,15 @@ namespace MobileProjectLab.ViewModel
 
         async Task GetMotionData()
         {
+            var value = System.Text.Encoding.Default.GetString(await motionDataCharacteristic.ReadAsync()).Split(';');
 
+            Acceleration3dX = value[0];
+            Acceleration3dY = value[1];
+            Acceleration3dZ = value[2];
+            AngularVelocity3dX = value[3];
+            AngularVelocity3dY = value[4];
+            AngularVelocity3dZ = value[5];
+            MotionTemperature = value[6];
         }
 
         async Task SetPairingStatus()

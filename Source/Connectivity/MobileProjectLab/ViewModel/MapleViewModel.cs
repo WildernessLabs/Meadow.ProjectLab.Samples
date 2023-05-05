@@ -237,6 +237,32 @@ namespace MobileProjectLab.ViewModel
             }
         }
 
+        async Task GetEnvironmentalData()
+        {
+            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
+                return;
+
+            try
+            {
+                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getEnvironmentalData");
+
+                if (response == null)
+                {
+                    return;
+                }
+
+                var value = System.Text.Json.JsonSerializer.Deserialize<ClimateModel>(response);
+
+                Temperature = value.Temperature;
+                Humidity = value.Humidity;
+                Pressure = value.Pressure;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         async Task GetLightData()
         {
             if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
@@ -282,32 +308,6 @@ namespace MobileProjectLab.ViewModel
                 AngularVelocity3dY = value.AngularVelocity3dY;
                 AngularVelocity3dZ = value.AngularVelocity3dZ;
                 MotionTemperature = value.Temperature;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        async Task GetEnvironmentalData()
-        {
-            if (SelectedServer == null && string.IsNullOrEmpty(IpAddress))
-                return;
-
-            try
-            {
-                var response = await client.GetAsync(SelectedServer != null ? SelectedServer.IpAddress : IpAddress, ServerPort, "getEnvironmentalData");
-
-                if (response == null)
-                {
-                    return;
-                }
-
-                var value = System.Text.Json.JsonSerializer.Deserialize<ClimateModel>(response);
-
-                Temperature = value.Temperature;
-                Humidity = value.Humidity;
-                Pressure = value.Pressure;
             }
             catch (Exception ex)
             {

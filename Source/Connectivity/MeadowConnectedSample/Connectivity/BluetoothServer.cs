@@ -14,12 +14,13 @@ namespace MeadowConnectedSample.Connectivity
         public static BluetoothServer Instance => instance.Value;
 
         Definition bleTreeDefinition;
-        CharacteristicBool   pairingCharacteristic;
-        CharacteristicBool   ledToggleCharacteristic;
-        CharacteristicBool   ledBlinkCharacteristic;
-        CharacteristicBool   ledPulseCharacteristic;
-        CharacteristicString bme688DataCharacteristic;
-        CharacteristicString bh1750DataCharacteristic;
+        CharacteristicBool pairingCharacteristic;
+        CharacteristicBool ledToggleCharacteristic;
+        CharacteristicBool ledBlinkCharacteristic;
+        CharacteristicBool ledPulseCharacteristic;
+        CharacteristicString environmentalDataCharacteristic;
+        CharacteristicString lightDataCharacteristic;
+        CharacteristicString motionDataCharacteristic;
 
         public bool IsInitialized { get; private set; }
 
@@ -49,29 +50,36 @@ namespace MeadowConnectedSample.Connectivity
             }
         }
 
-        private void LedToggleCharacteristicValueSet(ICharacteristic c, object data)
+        private async void LedToggleCharacteristicValueSet(ICharacteristic c, object data)
         {
-            LedController.Instance.Toggle();
+            await LedController.Instance.Toggle();
         }
 
-        private void LedBlinkCharacteristicValueSet(ICharacteristic c, object data)
+        private async void LedBlinkCharacteristicValueSet(ICharacteristic c, object data)
         {
-            LedController.Instance.StartBlink();
+            await LedController.Instance.StartBlink();
         }
 
-        private void LedPulseCharacteristicValueSet(ICharacteristic c, object data)
+        private async void LedPulseCharacteristicValueSet(ICharacteristic c, object data)
         {
-            LedController.Instance.StartPulse();
+            await LedController.Instance.StartPulse();
         }
 
-        public void SetBme688CharacteristicValue((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) value) 
+        public void SetEnvironmentalCharacteristicValue((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) value)
         {
-            bme688DataCharacteristic.SetValue($"{(int)value.Temperature?.Celsius}°C;{(int)value.Humidity?.Percent}%;{(int)value.Pressure?.Millibar}mbar; {value.GasResistance?.Ohms}ohms");
+            string stringValue = $"{(int)value.Temperature?.Celsius};{(int)value.Humidity?.Percent};{(int)value.Pressure?.Millibar}";
+            Console.WriteLine(stringValue);
+            environmentalDataCharacteristic.SetValue(stringValue);
         }
 
-        public void SetBh1750CharacteristicValue(Illuminance? value)
+        public void SetLightCharacteristicValue(Illuminance? value)
         {
-            bh1750DataCharacteristic.SetValue($"{(int)value?.Lux}lx;");
+            lightDataCharacteristic.SetValue($"{(int)value?.Lux}lx;");
+        }
+
+        public void SetMotionCharacteristicValue((Acceleration3D? acceleration3D, AngularVelocity3D? angularVelocity3D, Temperature? temperature) value)
+        {
+            motionDataCharacteristic.SetValue($"{value.acceleration3D?.X}; {value.acceleration3D?.Y}; {value.acceleration3D?.Z}; {value.angularVelocity3D?.X}; {value.angularVelocity3D?.Y}; {value.angularVelocity3D?.Z}; {value.temperature}");
         }
 
         Definition GetDefinition()
@@ -96,15 +104,21 @@ namespace MeadowConnectedSample.Connectivity
                 uuid: CharacteristicsConstants.LED_PULSE,
                 permissions: CharacteristicPermission.Read | CharacteristicPermission.Write,
                 properties: CharacteristicProperty.Read | CharacteristicProperty.Write);
-            bme688DataCharacteristic = new CharacteristicString(
-                name: "BME688_DATA",
-                uuid: CharacteristicsConstants.BME688_DATA,
+            environmentalDataCharacteristic = new CharacteristicString(
+                name: "ENVIRONMENTAL_DATA",
+                uuid: CharacteristicsConstants.ENVIRONMENTAL_DATA,
                 maxLength: 20,
                 permissions: CharacteristicPermission.Read,
                 properties: CharacteristicProperty.Read);
-            bh1750DataCharacteristic = new CharacteristicString(
-                name: "BH1750_DATA",
-                uuid: CharacteristicsConstants.BH1750_DATA,
+            lightDataCharacteristic = new CharacteristicString(
+                name: "LIGHT_DATA",
+                uuid: CharacteristicsConstants.LIGHT_DATA,
+                maxLength: 20,
+                permissions: CharacteristicPermission.Read,
+                properties: CharacteristicProperty.Read);
+            motionDataCharacteristic = new CharacteristicString(
+                name: "MOTION_DATA",
+                uuid: CharacteristicsConstants.MOTION_DATA,
                 maxLength: 20,
                 permissions: CharacteristicPermission.Read,
                 properties: CharacteristicProperty.Read);
@@ -116,8 +130,9 @@ namespace MeadowConnectedSample.Connectivity
                 ledToggleCharacteristic,
                 ledBlinkCharacteristic,
                 ledPulseCharacteristic,
-                bme688DataCharacteristic,
-                bh1750DataCharacteristic
+                environmentalDataCharacteristic,
+                lightDataCharacteristic,
+                motionDataCharacteristic
             );
 
             return new Definition("ProjectLab", service);

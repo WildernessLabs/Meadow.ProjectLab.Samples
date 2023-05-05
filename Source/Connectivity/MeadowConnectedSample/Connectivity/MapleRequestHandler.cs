@@ -36,7 +36,7 @@ namespace MeadowConnectedSample.Connectivity
         [HttpGet("/getLightData")]
         public IActionResult GetLightData()
         {
-            var reading = MainController.Instance.IlluminanceReading;
+            var reading = MainController.Instance.LightReading;
             var data = new IlluminanceModel()
             {
                 Illuminance = $"{(int)reading?.Lux}lx"
@@ -68,7 +68,7 @@ namespace MeadowConnectedSample.Connectivity
         [HttpGet("/getEnvironmentalData")]
         public IActionResult GetEnvironmentalData()
         {
-            var reading = MainController.Instance.AmbientReading;
+            var reading = MainController.Instance.EnvironmentalReading;
             var data = new ClimateModel()
             {
                 Temperature = $"{(int)reading.Temperature.Value.Celsius}°C",

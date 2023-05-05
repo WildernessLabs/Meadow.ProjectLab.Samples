@@ -3,6 +3,7 @@ using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Light;
 using Meadow.Units;
+using MeadowConnectedSample.Connectivity;
 using System;
 using System.Threading.Tasks;
 
@@ -14,17 +15,19 @@ namespace MeadowConnectedSample.Controller
             new Lazy<MainController>(() => new MainController());
         public static MainController Instance => instance.Value;
 
+        private Bme688 environmentalSensor;
+
         private Bh1750 lightSensor;
 
         private Bmi270 motionSensor;
 
-        private Bme688 environmentalSensor;
+        public bool UseWiFi { get; set; } = true;
 
-        public Illuminance? IlluminanceReading { get; private set; }
+        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) EnvironmentalReading { get; private set; }
+
+        public Illuminance? LightReading { get; private set; }
 
         public (Acceleration3D? acceleration3D, AngularVelocity3D? angularVelocity3D, Temperature? temperature) MotionReading { get; private set; }
-
-        public (Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) AmbientReading { get; private set; }
 
         public MainController() { }
 
@@ -37,14 +40,22 @@ namespace MeadowConnectedSample.Controller
 
         public async Task StartUpdating(TimeSpan updateInterval)
         {
-
             while (true)
             {
                 Console.Write("Reading...");
 
-                IlluminanceReading = lightSensor.Read().Result;
+                EnvironmentalReading = environmentalSensor.Read().Result;
+                LightReading = lightSensor.Read().Result;
                 MotionReading = motionSensor.Read().Result;
-                AmbientReading = environmentalSensor.Read().Result;
+
+                if (!UseWiFi)
+                {
+                    BluetoothServer.Instance.SetEnvironmentalCharacteristicValue(EnvironmentalReading);
+                    BluetoothServer.Instance.SetLightCharacteristicValue(LightReading);
+                    BluetoothServer.Instance.SetMotionCharacteristicValue(MotionReading);
+
+                    Console.WriteLine("BLE - Done");
+                }
 
                 Console.WriteLine("Done");
 
