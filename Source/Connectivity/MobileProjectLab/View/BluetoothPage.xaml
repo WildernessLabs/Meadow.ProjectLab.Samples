@@ -78,7 +78,7 @@
                 <ScrollView Grid.Row="1" >
                     <StackLayout Spacing="10">
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
-                            <VerticalStackLayout Spacing="5">
+                            <VerticalStackLayout Spacing="10">
                                 <Label Text="Meadow Onboard RGB LED" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
                         
                                 <Label TextColor="White" FontSize="Medium">
