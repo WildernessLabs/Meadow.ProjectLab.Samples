@@ -53,8 +53,6 @@ namespace MeadowConnectedSample.Controller
                     BluetoothServer.Instance.SetEnvironmentalCharacteristicValue(EnvironmentalReading);
                     BluetoothServer.Instance.SetLightCharacteristicValue(LightReading);
                     BluetoothServer.Instance.SetMotionCharacteristicValue(MotionReading);
-
-                    Console.WriteLine("BLE - Done");
                 }
 
                 Console.WriteLine("Done");

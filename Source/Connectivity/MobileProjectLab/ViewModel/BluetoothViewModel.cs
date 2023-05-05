@@ -24,7 +24,9 @@ namespace MobileProjectLab.ViewModel
         ICharacteristic ledPulseCharacteristic;
         ICharacteristic environmentalDataCharacteristic;
         ICharacteristic lightDataCharacteristic;
-        ICharacteristic motionDataCharacteristic;
+        ICharacteristic motionAccelerationDataCharacteristic;
+        ICharacteristic motionAngularVelocityDataCharacteristic;
+        ICharacteristic motionTemperatureDataCharacteristic;
 
         public ObservableCollection<IDevice> DeviceList { get; set; }
 
@@ -75,28 +77,29 @@ namespace MobileProjectLab.ViewModel
             get => temperature;
             set { temperature = value; OnPropertyChanged(nameof(Temperature)); }
         }
-        string temperature;
+        string temperature = "0";
         public string Humidity
         {
             get => humidity;
             set { humidity = value; OnPropertyChanged(nameof(Humidity)); }
         }
-        string humidity;
+        string humidity = "0";
         public string Pressure
         {
             get => pressure;
             set { pressure = value; OnPropertyChanged(nameof(Pressure)); }
         }
-        string pressure;
+        string pressure = "0";
         public ICommand CmdEnvironmentData { get; private set; }
 
         // Light Sensor
-        string illuminance;
+
         public string Illuminance
         {
             get => illuminance;
             set { illuminance = value; OnPropertyChanged(nameof(Illuminance)); }
         }
+        string illuminance = "0";
         public ICommand CmdGetLightData { get; private set; }
 
         // Motion Sensor
@@ -105,43 +108,43 @@ namespace MobileProjectLab.ViewModel
             get => acceleration3dX;
             set { acceleration3dX = value; OnPropertyChanged(nameof(Acceleration3dX)); }
         }
-        string acceleration3dX;
+        string acceleration3dX = "0";
         public string Acceleration3dY
         {
             get => acceleration3dY;
             set { acceleration3dY = value; OnPropertyChanged(nameof(Acceleration3dY)); }
         }
-        string acceleration3dY;
+        string acceleration3dY = "0";
         public string Acceleration3dZ
         {
             get => acceleration3dZ;
             set { acceleration3dZ = value; OnPropertyChanged(nameof(Acceleration3dZ)); }
         }
-        string acceleration3dZ;
+        string acceleration3dZ = "0";
         public string AngularVelocity3dX
         {
             get => angularVelocity3dX;
             set { angularVelocity3dX = value; OnPropertyChanged(nameof(AngularVelocity3dX)); }
         }
-        string angularVelocity3dX;
+        string angularVelocity3dX = "0";
         public string AngularVelocity3dY
         {
             get => angularVelocity3dY;
             set { angularVelocity3dY = value; OnPropertyChanged(nameof(AngularVelocity3dY)); }
         }
-        string angularVelocity3dY;
+        string angularVelocity3dY = "0";
         public string AngularVelocity3dZ
         {
             get => angularVelocity3dZ;
             set { angularVelocity3dZ = value; OnPropertyChanged(nameof(AngularVelocity3dZ)); }
         }
-        string angularVelocity3dZ;
+        string angularVelocity3dZ = "0";
         public string MotionTemperature
         {
             get => motionTemperature;
             set { motionTemperature = value; OnPropertyChanged(nameof(MotionTemperature)); }
         }
-        string motionTemperature;
+        string motionTemperature = "0";
         public ICommand CmdGetMotionData { get; private set; }
 
         public BluetoothViewModel()
@@ -195,9 +198,14 @@ namespace MobileProjectLab.ViewModel
             ledPulseCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LED_PULSE));
             environmentalDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.ENVIRONMENTAL_DATA));
             lightDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.LIGHT_DATA));
-            motionDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.MOTION_DATA));
+            motionAccelerationDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.MOTION_ACCELERATION));
+            motionAngularVelocityDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.MOTION_ANGULAR_VELOCITY));
+            motionTemperatureDataCharacteristic = await service.GetCharacteristicAsync(Guid.Parse(CharacteristicsConstants.MOTION_TEMPERATURE));
 
             await SetPairingStatus();
+            await GetEnvironmentalData();
+            await GetLightData();
+            await GetMotionData();
         }
 
         async void AdapterDeviceDiscovered(object sender, DeviceEventArgs e)
@@ -314,15 +322,18 @@ namespace MobileProjectLab.ViewModel
 
         async Task GetMotionData()
         {
-            var value = System.Text.Encoding.Default.GetString(await motionDataCharacteristic.ReadAsync()).Split(';');
+            var accelerationValue = System.Text.Encoding.Default.GetString(await motionAccelerationDataCharacteristic.ReadAsync()).Split(';');
+            Acceleration3dX = accelerationValue[0];
+            Acceleration3dY = accelerationValue[1];
+            Acceleration3dZ = accelerationValue[2];
 
-            Acceleration3dX = value[0];
-            Acceleration3dY = value[1];
-            Acceleration3dZ = value[2];
-            AngularVelocity3dX = value[3];
-            AngularVelocity3dY = value[4];
-            AngularVelocity3dZ = value[5];
-            MotionTemperature = value[6];
+            var angularVelocityValue = System.Text.Encoding.Default.GetString(await motionAngularVelocityDataCharacteristic.ReadAsync()).Split(';');
+            AngularVelocity3dX = angularVelocityValue[0];
+            AngularVelocity3dY = angularVelocityValue[1];
+            AngularVelocity3dZ = angularVelocityValue[2];
+
+            var temperatureValue = System.Text.Encoding.Default.GetString(await motionTemperatureDataCharacteristic.ReadAsync()).Split(';');
+            MotionTemperature = temperatureValue[0];
         }
 
         async Task SetPairingStatus()

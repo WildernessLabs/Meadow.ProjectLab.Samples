@@ -66,7 +66,7 @@ namespace MeadowConnectedSample.Models.Logical
         protected Color GetRandomColor()
         {
             var random = new Random();
-            return Color.FromHsba(random.NextDouble(), 1, 1);
+            return new Color(random.Next(256), random.Next(256), random.Next(256));
         }
     }
 }

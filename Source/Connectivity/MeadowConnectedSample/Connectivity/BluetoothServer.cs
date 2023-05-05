@@ -14,13 +14,15 @@ namespace MeadowConnectedSample.Connectivity
         public static BluetoothServer Instance => instance.Value;
 
         Definition bleTreeDefinition;
-        CharacteristicBool pairingCharacteristic;
-        CharacteristicBool ledToggleCharacteristic;
-        CharacteristicBool ledBlinkCharacteristic;
-        CharacteristicBool ledPulseCharacteristic;
-        CharacteristicString environmentalDataCharacteristic;
-        CharacteristicString lightDataCharacteristic;
-        CharacteristicString motionDataCharacteristic;
+        ICharacteristic pairingCharacteristic;
+        ICharacteristic ledToggleCharacteristic;
+        ICharacteristic ledBlinkCharacteristic;
+        ICharacteristic ledPulseCharacteristic;
+        ICharacteristic environmentalDataCharacteristic;
+        ICharacteristic lightDataCharacteristic;
+        ICharacteristic motionAccelerationDataCharacteristic;
+        ICharacteristic motionAngularVelocityDataCharacteristic;
+        ICharacteristic motionTemperatureDataCharacteristic;
 
         public bool IsInitialized { get; private set; }
 
@@ -82,17 +84,20 @@ namespace MeadowConnectedSample.Connectivity
 
         public void SetMotionCharacteristicValue((Acceleration3D? acceleration3D, AngularVelocity3D? angularVelocity3D, Temperature? temperature) value)
         {
-            string stringValue = $"" +
+            string accelerationValue = $"" +
                 $"{value.acceleration3D?.X.CentimetersPerSecondSquared:N2};" +
                 $"{value.acceleration3D?.Y.CentimetersPerSecondSquared:N2};" +
-                $"{value.acceleration3D?.Z.CentimetersPerSecondSquared:N2};" +
+                $"{value.acceleration3D?.Z.CentimetersPerSecondSquared:N2}";
+            motionAccelerationDataCharacteristic.SetValue(accelerationValue);
+
+            string angularVelocityValue = $"" +
                 $"{value.angularVelocity3D?.X.DegreesPerSecond:N2};" +
                 $"{value.angularVelocity3D?.Y.DegreesPerSecond:N2};" +
-                $"{value.angularVelocity3D?.Z.DegreesPerSecond:N2};" +
-                $"{value.temperature?.Celsius:N2};";
-            Console.WriteLine(stringValue);
-            motionDataCharacteristic.SetValue(stringValue);
-            //motionDataCharacteristic.SetValue($"{value.acceleration3D?.X.CentimetersPerSecondSquared:0.#};{value.acceleration3D?.Y.CentimetersPerSecondSquared:0.#};{value.acceleration3D?.Z.CentimetersPerSecondSquared:0.#};{value.angularVelocity3D?.X.DegreesPerSecond:0.#};{value.angularVelocity3D?.Y.DegreesPerSecond:0.#};{value.angularVelocity3D?.Z.DegreesPerSecond:0.#};{value.temperature?.Celsius:0.#}");
+                $"{value.angularVelocity3D?.Z.DegreesPerSecond:N2}";
+            motionAngularVelocityDataCharacteristic.SetValue(angularVelocityValue);
+
+            string temperatureValue = $"{value.temperature?.Celsius:N2}";
+            motionTemperatureDataCharacteristic.SetValue(temperatureValue);
         }
 
         Definition GetDefinition()
@@ -129,10 +134,22 @@ namespace MeadowConnectedSample.Connectivity
                 maxLength: 20,
                 permissions: CharacteristicPermission.Read,
                 properties: CharacteristicProperty.Read);
-            motionDataCharacteristic = new CharacteristicString(
-                name: "MOTION_DATA",
-                uuid: CharacteristicsConstants.MOTION_DATA,
-                maxLength: 50,
+            motionAccelerationDataCharacteristic = new CharacteristicString(
+                name: "MOTION_ACCELERATION",
+                uuid: CharacteristicsConstants.MOTION_ACCELERATION,
+                maxLength: 20,
+                permissions: CharacteristicPermission.Read,
+                properties: CharacteristicProperty.Read);
+            motionAngularVelocityDataCharacteristic = new CharacteristicString(
+                name: "MOTION_ANGULAR_VELOCITY",
+                uuid: CharacteristicsConstants.MOTION_ANGULAR_VELOCITY,
+                maxLength: 20,
+                permissions: CharacteristicPermission.Read,
+                properties: CharacteristicProperty.Read);
+            motionTemperatureDataCharacteristic = new CharacteristicString(
+                name: "MOTION_TEMPERATURE",
+                uuid: CharacteristicsConstants.MOTION_TEMPERATURE,
+                maxLength: 20,
                 permissions: CharacteristicPermission.Read,
                 properties: CharacteristicProperty.Read);
 
@@ -145,7 +162,9 @@ namespace MeadowConnectedSample.Connectivity
                 ledPulseCharacteristic,
                 environmentalDataCharacteristic,
                 lightDataCharacteristic,
-                motionDataCharacteristic
+                motionAccelerationDataCharacteristic,
+                motionAngularVelocityDataCharacteristic,
+                motionTemperatureDataCharacteristic
             );
 
             return new Definition("ProjectLab", service);
