@@ -8,12 +8,6 @@
   <ItemGroup>
     <None Remove="img_ble_paired.jpg" />
     <None Remove="img_ble_pairing.jpg" />
-    <None Remove="meadow.config.yaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="meadow.config.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="img_ble_paired.jpg" />
@@ -23,10 +17,18 @@
     <EmbeddedResource Include="img_wifi_connecting.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="0.96.0" />
     <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
-    <ProjectReference Include="..\Connectivity.Common\Connectivity.Common.csproj" />
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="meadow.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="wifi.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="..\Connectivity.Common\CommonContracts.projitems" Label="Shared" />
 </Project>

@@ -9,20 +9,26 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
 <table>
     <tr>
         <td>
-            <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
+            <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo"><img src="Design/GettingStarted.png"/></a><br/>
             Make a Magic Eight ball with a Project Lab</br>
-            <a href="Source/MagicEightMeadow/">Source Code</a>
+            <a href="https://www.hackster.io/wilderness-labs/getting-started-with-meadow-s-project-lab-eeb569">Hackster</a> | <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo">Source Code</a>
         </td>
         <td>
             <a href="Source/MeadowAzureIoTHub/"><img src="Design/MeadowAzureIoTHub.png"/></a><br/>
             Send anvironmental data from a BME688 to Azure IoT Hub<br/>
+            <a href="https://www.hackster.io/wildernesslabs/send-environmental-data-from-projectlab-to-azure-w-iot-hub-7d3d07">Hackster</a> | 
             <a href="Source/MeadowAzureIoTHub/">Source Code</a>
         </td>
         <td>
+            <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
+            Make a Magic Eight ball with a Project Lab</br>
+            <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
+        </td>
+        <!-- <td>
             <a href="Source/MeadowAzureServo/"><img src="Design/MeadowAzureServo.png"/></a><br/>
             Control a Grove Servo with Azure IoT Hub messages<br/>
             <a href="Source/MeadowAzureServo/">Source Code</a>
-        </td>
+        </td> -->
     </tr>
         <td>
             <a href="Source/Connectivity/"><img src="Design/maple.png"/></a><br/>
@@ -97,33 +103,52 @@ Project Lab boards come with an Enable/Disable switch onboard so you can reset t
 
 ## Hardware
 
-The Project Lab Board includes the following hardware:
-* **ST7789** - SPI 240x240 color display
-* **BMI270** - I2C motion and acceleration sensor
-* **BH1750** - I2C light sensor
-* **BME680** - I2C atmospheric sensor
-* **Push Button** - 4 momentary buttons
-
-## Connectivity
-
-The Project Lab Board includes the following expansion connection options:
-* **MikroBUS** - 2 sets of MikroBUS pin headers
-* **Qwiic** - Stemma QT I2C connector
-* **Grove** - analog header
-* **Grove** - GPIO/serial header
-* **RS-485** - serial 
-
-As well as connectors to 5V, 3.3V, ground, one analog port and 2 GPIO ports.
+<table>
+    <tr>
+        <th>Onboard Peripherals</th>
+        <th>Connectivity</th>
+    </tr>
+    <tr>
+        <td><strong>ST7789</strong> - SPI 240x240 color display</li></td>
+        <td><strong>MikroBUS</strong> - Two sets of MikroBUS pin headers</td>
+    </tr>
+    <tr>
+        <td><strong>BMI270</strong> - I2C motion and acceleration sensor</td>
+        <td><strong>Qwiic</strong> - Stemma QT I2C connector</td>
+    </tr>
+    <tr>
+        <td><strong>BH1750</strong> - I2C light sensor</td>
+        <td><strong>Grove</strong> - Analog header</td>
+    </tr>
+    <tr>
+        <td><strong>BME688</strong> - I2C atmospheric sensor</td>
+        <td><strong>Grove</strong> - GPIO/serial header</td>
+    </tr>
+    <tr>
+        <td><strong>Push Button</strong> - 4 momentary buttons</td>
+        <td><strong>RS-485</strong> - Serial</td>
+    </tr>
+    <tr>
+        <td><strong>Magnetic Audio Transducer</strong> - High quality piezo speaker</td>
+        <td><strong>Ports</strong> - 3.3V, 5V, ground, one analog and two GPIO ports</td>
+    </tr>
+</table>
 
 ## Pinout Diagram
 
-Check the diagram below to see what pins on the Meadow are connected to every peripheral on board:
+Check the diagrams below to see what pins on the Meadow are connected to every peripheral on board and its connectors:
 &nbsp;
 
-![](/Design/PinoutV1.png)
+### Project Lab v2.e
+
+<img src="Design/PinoutV2.jpg" style="margin-top:10px;margin-bottom:10px" />
+
+### Project Lab v1.e
+
+<img src="Design/PinoutV1.jpg" style="margin-top:10px;margin-bottom:10px" />
 
 ## License
-Copyright 2022, Wilderness Labs Inc.
+Copyright 2023, Wilderness Labs Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -27,19 +27,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileProjectLab", "Connect
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicEightMeadow", "MagicEightMeadow\MagicEightMeadow.csproj", "{5FD110C7-3D9B-44CA-8F58-569B037C7299}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_External", "_External", "{DC32E935-D821-4FF0-9257-043284131194}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotatingCube", "RotatingCube\RotatingCube.csproj", "{B07326E6-03B7-4C67-BF8F-E702B6379EA7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThermalCamera", "ThermalCamera\ThermalCamera.csproj", "{0ADF1EE0-3DF8-4859-8C9C-BBF5E5883183}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{B72D3A65-B26C-4A6E-AEA6-7A280BA79847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureIoTHub", "MeadowAzureIoTHub\MeadowAzureIoTHub.csproj", "{853D4036-FA83-411A-981C-2CB4DE0DA4D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureIoTHub", "MeadowAzureIoTHub\MeadowAzureIoTHub\MeadowAzureIoTHub.csproj", "{853D4036-FA83-411A-981C-2CB4DE0DA4D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureServo", "MeadowAzureServo\MeadowAzureServo.csproj", "{A9061CEB-D584-4FD7-876F-7EA780095004}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Connectivity.Common", "Connectivity\Connectivity.Common\Connectivity.Common.csproj", "{92132FCA-3396-4256-AA64-5DF10CA54A25}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Connectivity.Common", "Connectivity\Connectivity.Common\Connectivity.Common.shproj", "{5E32A8F6-1EC5-46BA-AE3D-E3E376FD82D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -321,18 +319,6 @@ Global
 		{A9061CEB-D584-4FD7-876F-7EA780095004}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9061CEB-D584-4FD7-876F-7EA780095004}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9061CEB-D584-4FD7-876F-7EA780095004}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92132FCA-3396-4256-AA64-5DF10CA54A25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -342,9 +328,14 @@ Global
 		{3F9471F1-6C04-4645-802A-66C7314CA75A} = {E4B23E5C-A52A-4543-AE88-CB2ED9F57297}
 		{853D4036-FA83-411A-981C-2CB4DE0DA4D1} = {B72D3A65-B26C-4A6E-AEA6-7A280BA79847}
 		{A9061CEB-D584-4FD7-876F-7EA780095004} = {B72D3A65-B26C-4A6E-AEA6-7A280BA79847}
-		{92132FCA-3396-4256-AA64-5DF10CA54A25} = {E4B23E5C-A52A-4543-AE88-CB2ED9F57297}
+		{5E32A8F6-1EC5-46BA-AE3D-E3E376FD82D0} = {E4B23E5C-A52A-4543-AE88-CB2ED9F57297}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AD554B2-93F3-4B0A-9725-304A66FB780A}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Connectivity\Connectivity.Common\CommonContracts.projitems*{3f9471f1-6c04-4645-802a-66c7314ca75a}*SharedItemsImports = 5
+		Connectivity\Connectivity.Common\CommonContracts.projitems*{5e32a8f6-1ec5-46ba-ae3d-e3e376fd82d0}*SharedItemsImports = 13
+		Connectivity\Connectivity.Common\CommonContracts.projitems*{a36c7d57-8484-4bc3-bf3a-5a44b6e5ce42}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,9 @@
 ﻿using Meadow.Foundation;
 using Meadow.Foundation.Leds;
 using System;
+using System.Threading.Tasks;
 
-namespace MeadowConnectedSample.Controller
+namespace MeadowConnectedSample.Models.Logical
 {
     public class LedController
     {
@@ -32,40 +33,40 @@ namespace MeadowConnectedSample.Controller
             rgbPwmLed.SetColor(color);
         }
 
-        public void Toggle() 
+        public async Task Toggle()
         {
             if (rgbPwmLed.IsOn || isAnimating)
             {
-                rgbPwmLed.Stop();
+                await rgbPwmLed.StopAnimation();
                 rgbPwmLed.IsOn = false;
                 isAnimating = false;
             }
             else
             {
-                rgbPwmLed.Stop();
+                await rgbPwmLed.StopAnimation();
                 rgbPwmLed.SetColor(GetRandomColor());
                 rgbPwmLed.IsOn = true;
             }
         }
 
-        public void StartBlink()
+        public async Task StartBlink()
         {
-            rgbPwmLed.Stop();
-            rgbPwmLed.StartBlink(GetRandomColor());
+            await rgbPwmLed.StopAnimation();
+            await rgbPwmLed.StartBlink(GetRandomColor());
             isAnimating = true;
         }
 
-        public void StartPulse()
+        public async Task StartPulse()
         {
-            rgbPwmLed.Stop();
-            rgbPwmLed.StartPulse(GetRandomColor());
+            await rgbPwmLed.StopAnimation();
+            await rgbPwmLed.StartPulse(GetRandomColor());
             isAnimating = true;
         }
 
         protected Color GetRandomColor()
         {
             var random = new Random();
-            return Color.FromHsba(random.NextDouble(), 1, 1);
+            return new Color(random.Next(256), random.Next(256), random.Next(256));
         }
     }
 }
