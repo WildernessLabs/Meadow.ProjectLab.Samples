@@ -39,7 +39,7 @@ namespace MeadowConnectedSample.Connectivity
             var reading = MainController.Instance.LightReading;
             var data = new IlluminanceModel()
             {
-                Illuminance = $"{(int)reading?.Lux}lx"
+                Illuminance = $"{(int)reading?.Lux}"
             };
 
             Context.Response.ContentType = ContentTypes.Application_Json;
@@ -58,7 +58,7 @@ namespace MeadowConnectedSample.Connectivity
                 AngularVelocity3dX = $"{reading.angularVelocity3D.Value.X.DegreesPerSecond:N2}",
                 AngularVelocity3dY = $"{reading.angularVelocity3D.Value.Y.DegreesPerSecond:N2}",
                 AngularVelocity3dZ = $"{reading.angularVelocity3D.Value.Z.DegreesPerSecond:N2}",
-                Temperature = $"{reading.temperature.Value.Celsius:N2}°C"
+                Temperature = $"{reading.temperature.Value.Celsius:N2}"
             };
 
             Context.Response.ContentType = ContentTypes.Application_Json;
@@ -71,9 +71,9 @@ namespace MeadowConnectedSample.Connectivity
             var reading = MainController.Instance.EnvironmentalReading;
             var data = new ClimateModel()
             {
-                Temperature = $"{(int)reading.Temperature.Value.Celsius}°C",
-                Humidity = $"{(int)reading.Humidity.Value.Percent}%",
-                Pressure = $"{(int)reading.Pressure.Value.Millibar}mbar"
+                Temperature = $"{(int)reading.Temperature.Value.Celsius}",
+                Humidity = $"{(int)reading.Humidity.Value.Percent}",
+                Pressure = $"{(int)reading.Pressure.Value.Millibar}"
             };
 
             Context.Response.ContentType = ContentTypes.Application_Json;

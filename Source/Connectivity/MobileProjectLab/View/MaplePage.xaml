@@ -86,18 +86,18 @@
                 <ScrollView Grid.Row="2" >
                     <VerticalStackLayout Spacing="10">
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
-                            <StackLayout Spacing="5">
-                                <Label Text="Onboard RGB LED" TextColor="White" FontSize="Medium" />
-                                <StackLayout>
-                                    <Label TextColor="White">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="LED Status: " />
-                                                <Span Text="{Binding LedStatus}" FontAttributes="Bold" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                </StackLayout>
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Meadow Onboard RGB LED" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
+
+                                <Label TextColor="White" FontSize="Medium">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Status: " />
+                                            <Span Text="{Binding LedStatus}" FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
                                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                                     <Button Grid.Column="0" Text="On/off" Style="{StaticResource ButtonNavStyle}"
                                         Command="{Binding CmdSetOnboardLed}" CommandParameter="toggle"/>
@@ -106,38 +106,66 @@
                                     <Button Grid.Column="2" Text="Pulse" Style="{StaticResource ButtonNavStyle}"
                                         Command="{Binding CmdSetOnboardLed}" CommandParameter="pulse"/>
                                 </Grid>
-                            </StackLayout>
+                            </VerticalStackLayout>
                         </Frame>
 
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="10">
-                                <Label Text="BME688 Atmospheric Sensor" TextColor="White" FontSize="Medium" />
+                                <Label Text="BME688 Environmental Sensor" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
 
-                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="7">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="Temperature" TextColor="White" HorizontalOptions="Start" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="Humidity" TextColor="White" HorizontalOptions="Center" />
-                                    <Label Grid.Row="0" Grid.Column="2" Text="Pressure" TextColor="White" HorizontalOptions="End" />
+                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="10">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Temp" TextColor="White" FontSize="Medium" HorizontalOptions="Start" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Humidity" TextColor="White" FontSize="Medium" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="2" Text="Pressure" TextColor="White" FontSize="Medium" HorizontalOptions="End" />
 
-                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding Temperature}" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Medium" />
-                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Humidity}"    TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="Medium" />
-                                    <Label Grid.Row="2" Grid.Column="2" Text="{Binding Pressure}"    TextColor="White" FontAttributes="Bold" HorizontalOptions="End" FontSize="Medium" />
+                                    <Label Grid.Row="1" Grid.Column="0" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Medium">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Temperature}" />
+                                                <Span Text=" °C" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="1" Grid.Column="1" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="Medium">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Humidity}" />
+                                                <Span Text=" %" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="2" Grid.Column="2" TextColor="White" FontAttributes="Bold" HorizontalOptions="End" FontSize="Medium">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Pressure}" />
+                                                <Span Text=" Mbar" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor" Command="{Binding CmdEnvironmentData}"
+                                <Button Text="Read Environmental Sensor" Command="{Binding CmdEnvironmentData}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </VerticalStackLayout>
                         </Frame>
 
                         <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="10">
-                                <Label Text="BH1750 Light Sensor" TextColor="White" FontSize="Medium" />
+                                <Label Text="BH1750 Light Sensor" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
 
-                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="7">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="Luminance" TextColor="White" HorizontalOptions="Start" />
-                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding Illuminance}" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start" FontSize="Medium" />
+                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="10">
+                                    <Label Grid.Row="0" Grid.ColumnSpan="3" Text="Luminance" TextColor="White" FontSize="Medium" />
+                                    <Label Grid.Row="1" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Illuminance}" />
+                                                <Span Text=" Lx" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor" Command="{Binding CmdGetLightData}"
+                                <Button Text="Read Light Sensor" Command="{Binding CmdGetLightData}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </VerticalStackLayout>
                         </Frame>
@@ -146,8 +174,8 @@
                             <VerticalStackLayout Spacing="10">
                                 <Label Text="BMI270 Motion Sensor" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
 
-                                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="7">
-                                    <Label Grid.Row="0" Grid.ColumnSpan="3" Text="Acceleration 3D (cm/s²)" TextColor="White" />
+                                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*,*,*" RowSpacing="10">
+                                    <Label Grid.Row="0" Grid.ColumnSpan="3" Text="Acceleration 3D (cm/s²)" TextColor="White" FontSize="Medium" />
                                     <Label Grid.Row="1" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
@@ -173,7 +201,7 @@
                                         </Label.FormattedText>
                                     </Label>
 
-                                    <Label Grid.Row="2" Grid.ColumnSpan="3" Text="Angular Velocity 3D (°/s)" TextColor="White" />
+                                    <Label Grid.Row="2" Grid.ColumnSpan="3" Text="Angular Velocity 3D (°/s)" TextColor="White" FontSize="Medium" />
                                     <Label Grid.Row="3" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
                                         <Label.FormattedText>
                                             <FormattedString>
@@ -199,11 +227,18 @@
                                         </Label.FormattedText>
                                     </Label>
 
-                                    <Label Grid.Row="4" Text="Temperature" TextColor="White" />
-                                    <Label Grid.Row="5" Grid.Column="0" Text="{Binding MotionTemperature}" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
+                                    <Label Grid.Row="4" Grid.ColumnSpan="3" Text="Temperature" TextColor="White" FontSize="Medium" />
+                                    <Label Grid.Row="5" Grid.Column="0" TextColor="White" FontAttributes="Bold" FontSize="Medium">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding MotionTemperature}" />
+                                                <Span Text=" °C" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
                                 </Grid>
 
-                                <Button Text="Read Sensor" Command="{Binding CmdGetMotionData}"
+                                <Button Text="Read Motion Sensor" Command="{Binding CmdGetMotionData}"
                                     VerticalOptions="FillAndExpand" Style="{StaticResource ButtonNavStyle}" />
                             </VerticalStackLayout>
                         </Frame>

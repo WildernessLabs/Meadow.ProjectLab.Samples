@@ -93,7 +93,6 @@ namespace MobileProjectLab.ViewModel
         public ICommand CmdEnvironmentData { get; private set; }
 
         // Light Sensor
-
         public string Illuminance
         {
             get => illuminance;

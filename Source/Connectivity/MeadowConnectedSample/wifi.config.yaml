@@ -4,5 +4,5 @@
 
  # To enable automatically connecting to a default network, make sure to enable the Coprocessor > AutomaticallyStartNetwork value in meadow.config.yaml.
  Credentials:
-     Ssid: Pneuma
-     Password: 25115A020963
+     Ssid: SSID
+     Password: PASSWORD

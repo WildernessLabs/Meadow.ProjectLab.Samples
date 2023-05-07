@@ -71,28 +71,28 @@ namespace MobileProjectLab.ViewModel
             get => temperature;
             set { temperature = value; OnPropertyChanged(nameof(Temperature)); }
         }
-        string temperature;
+        string temperature = "0";
         public string Humidity
         {
             get => humidity;
             set { humidity = value; OnPropertyChanged(nameof(Humidity)); }
         }
-        string humidity;
+        string humidity = "0";
         public string Pressure
         {
             get => pressure;
             set { pressure = value; OnPropertyChanged(nameof(Pressure)); }
         }
-        string pressure;
+        string pressure = "0";
         public ICommand CmdEnvironmentData { get; private set; }
 
         // Light Sensor
-        string illuminance;
         public string Illuminance
         {
             get => illuminance;
             set { illuminance = value; OnPropertyChanged(nameof(Illuminance)); }
         }
+        string illuminance = "0";
         public ICommand CmdGetLightData { get; private set; }
 
         // Motion Sensor
@@ -101,43 +101,43 @@ namespace MobileProjectLab.ViewModel
             get => acceleration3dX;
             set { acceleration3dX = value; OnPropertyChanged(nameof(Acceleration3dX)); }
         }
-        string acceleration3dX;
+        string acceleration3dX = "0";
         public string Acceleration3dY
         {
             get => acceleration3dY;
             set { acceleration3dY = value; OnPropertyChanged(nameof(Acceleration3dY)); }
         }
-        string acceleration3dY;
+        string acceleration3dY = "0";
         public string Acceleration3dZ
         {
             get => acceleration3dZ;
             set { acceleration3dZ = value; OnPropertyChanged(nameof(Acceleration3dZ)); }
         }
-        string acceleration3dZ;
+        string acceleration3dZ = "0";
         public string AngularVelocity3dX
         {
             get => angularVelocity3dX;
             set { angularVelocity3dX = value; OnPropertyChanged(nameof(AngularVelocity3dX)); }
         }
-        string angularVelocity3dX;
+        string angularVelocity3dX = "0";
         public string AngularVelocity3dY
         {
             get => angularVelocity3dY;
             set { angularVelocity3dY = value; OnPropertyChanged(nameof(AngularVelocity3dY)); }
         }
-        string angularVelocity3dY;
+        string angularVelocity3dY = "0";
         public string AngularVelocity3dZ
         {
             get => angularVelocity3dZ;
             set { angularVelocity3dZ = value; OnPropertyChanged(nameof(AngularVelocity3dZ)); }
         }
-        string angularVelocity3dZ;
+        string angularVelocity3dZ = "0";
         public string MotionTemperature
         {
             get => motionTemperature;
             set { motionTemperature = value; OnPropertyChanged(nameof(MotionTemperature)); }
         }
-        string motionTemperature;
+        string motionTemperature = "0";
         public ICommand CmdGetMotionData { get; private set; }
 
         public MapleViewModel()
