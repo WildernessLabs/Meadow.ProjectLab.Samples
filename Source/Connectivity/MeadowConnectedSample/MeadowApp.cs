@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace MeadowConnectedSample
 {
     // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         bool useWifi = true;
 
@@ -21,15 +21,17 @@ namespace MeadowConnectedSample
 
         public override Task Initialize()
         {
-            LedController.Instance.SetColor(Color.Red);
-
             projLab = ProjectLab.Create();
+
+            LedController.Instance.Initialize(projLab.RgbLed);
+            LedController.Instance.SetColor(Color.Red);
 
             MainController.Instance.Initialize(projLab);
             MainController.Instance.UseWiFi = useWifi;
 
             DisplayView.Instance.Initialize(projLab.Display);
             DisplayView.Instance.ShowSplashScreen();
+
             _ = DisplayView.Instance.StartConnectingAnimation(useWifi);
 
             if (useWifi)
