@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace MorseCodeTrainer
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
         Dictionary<string, string> morseCode;
