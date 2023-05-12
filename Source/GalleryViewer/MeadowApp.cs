@@ -2,6 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Graphics.Buffers;
 using Meadow.Foundation.Leds;
 using SimpleJpegDecoder;
 using System;
@@ -11,31 +12,33 @@ using System.Threading.Tasks;
 
 namespace GalleryViewer
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        int selectedIndex;
-        string[] images = new string[3] { "image1.jpg", "image2.jpg", "image3.jpg" };
+        int selectedIndex = 0;
+        string[] images = new string[3] { "GalleryViewer.image1.jpg", "GalleryViewer.image2.jpg", "GalleryViewer.image3.jpg" };
 
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
+            projectLab.RightButton.Clicked += ButtonRightClicked;
+            projectLab.LeftButton.Clicked += ButtonLeftClicked;
 
-            projLab.RightButton.Clicked += ButtonRightClicked;
-            projLab.LeftButton.Clicked += ButtonLeftClicked;
-
-            graphics = new MicroGraphics(projLab.Display);
+            graphics = new MicroGraphics(projectLab.Display)
+            {
+                IgnoreOutOfBoundsPixels = true
+            };
 
             onboardLed.SetColor(Color.Green);
 
@@ -51,7 +54,7 @@ namespace GalleryViewer
             else
                 selectedIndex++;
 
-            DisplayJPG();
+            DrawImage();
 
             onboardLed.SetColor(Color.Green);
         }
@@ -65,46 +68,24 @@ namespace GalleryViewer
             else
                 selectedIndex--;
 
-            DisplayJPG();
+            DrawImage();
 
             onboardLed.SetColor(Color.Green);
         }
 
-        void DisplayJPG()
+        IPixelBuffer LoadJpeg(byte[] jpgData)
         {
-            var jpgData = LoadResource(images[selectedIndex]);
             var decoder = new JpegDecoder();
             var jpg = decoder.DecodeJpeg(jpgData);
 
-            int x = 0;
-            int y = 0;
-            byte r, g, b;
-
-            for (int i = 0; i < jpg.Length; i += 3)
-            {
-                r = jpg[i];
-                g = jpg[i + 1];
-                b = jpg[i + 2];
-
-                graphics.DrawPixel(x, y, Color.FromRgb(r, g, b));
-
-                x++;
-                if (x % decoder.Width == 0)
-                {
-                    y++;
-                    x = 0;
-                }
-            }
-
-            graphics.Show();
+            return new BufferRgb888(decoder.Width, decoder.Height, jpg);
         }
 
-        byte[] LoadResource(string filename)
+        byte[] LoadResource(string fileName)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"GalleryViewer.{filename}";
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (Stream stream = assembly.GetManifestResourceStream(fileName))
             {
                 using (var ms = new MemoryStream())
                 {
@@ -114,9 +95,16 @@ namespace GalleryViewer
             }
         }
 
+        void DrawImage()
+        {
+            var buffer = LoadJpeg(LoadResource(images[selectedIndex]));
+            graphics.DrawBuffer((graphics.Width - buffer.Width) / 2, 0, buffer);
+            graphics.Show();
+        }
+
         public override Task Run()
         {
-            DisplayJPG();
+            DrawImage();
 
             return base.Run();
         }
