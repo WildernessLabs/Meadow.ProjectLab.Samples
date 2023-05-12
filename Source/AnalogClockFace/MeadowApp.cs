@@ -16,21 +16,20 @@ namespace AnalogClockFace
 
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
         int tick;
 
         public override async Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
-            graphics = new MicroGraphics(projLab.Display);
+            graphics = new MicroGraphics(projectLab.Display);
             graphics.IgnoreOutOfBoundsPixels = true;
 
             var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();

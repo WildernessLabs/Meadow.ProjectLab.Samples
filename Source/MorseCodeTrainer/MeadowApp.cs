@@ -24,23 +24,22 @@ namespace MorseCodeTrainer
         string answer;
         string question;
 
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
+            DisplayController.Instance.Initialize(projectLab.Display);
 
-            DisplayController.Instance.Initialize(projLab.Display);
-
-            projLab.RightButton.PressStarted += ButtonPressStarted;
-            projLab.RightButton.PressEnded += ButtonPressEnded;
+            projectLab.RightButton.PressStarted += ButtonPressStarted;
+            projectLab.RightButton.PressEnded += ButtonPressEnded;
 
             stopWatch = new Stopwatch();
 
@@ -122,7 +121,7 @@ namespace MorseCodeTrainer
 
         async void ButtonPressStarted(object sender, EventArgs e)
         {
-            await projLab.Speaker.PlayTone(new Meadow.Units.Frequency(440));
+            await projectLab.Speaker.PlayTone(new Meadow.Units.Frequency(440));
             stopWatch.Reset();
             stopWatch.Start();
             timer.Stop();
@@ -130,7 +129,7 @@ namespace MorseCodeTrainer
 
         void ButtonPressEnded(object sender, EventArgs e)
         {
-            projLab.Speaker.StopTone();
+            projectLab.Speaker.StopTone();
             stopWatch.Stop();
 
             if (stopWatch.ElapsedMilliseconds < 200)

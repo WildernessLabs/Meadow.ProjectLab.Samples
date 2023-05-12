@@ -27,13 +27,13 @@ namespace MagicEightMeadow
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                Device.Pins.OnboardLedRed,
-                Device.Pins.OnboardLedGreen,
-                Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            Resolver.Log.Info("Initialize...");
 
             projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
+            onboardLed.SetColor(Color.Red);
 
             graphics = new MicroGraphics(projectLab.Display);
 
@@ -49,7 +49,7 @@ namespace MagicEightMeadow
             return base.Initialize();
         }
 
-        private async void MotionSensorHandler (IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
+        private async void MotionSensorHandler(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
         {
             if (isAnswering)
                 return;
@@ -68,7 +68,7 @@ namespace MagicEightMeadow
             isAnswering = false;
         }
 
-        private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e) 
+        private bool MotionSensorFilter(IChangeResult<(Acceleration3D? a3D, AngularVelocity3D? v3D, Temperature? t)> e)
         {
             return e.New.v3D.Value.Y.DegreesPerSecond > 0.75;
         }
@@ -79,13 +79,13 @@ namespace MagicEightMeadow
             graphics.Show();
         }
 
-        void DisplayAnswer() 
+        void DisplayAnswer()
         {
             var rand = new Random();
 
-            var buffer = LoadJpeg(LoadResource(GetAnswerFilename(rand.Next(1,21))));
+            var buffer = LoadJpeg(LoadResource(GetAnswerFilename(rand.Next(1, 21))));
 
-            graphics.DrawBuffer(0, 0,buffer);
+            graphics.DrawBuffer(0, 0, buffer);
             graphics.Show();
         }
 

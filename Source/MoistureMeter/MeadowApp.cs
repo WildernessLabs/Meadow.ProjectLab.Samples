@@ -14,20 +14,19 @@ namespace MoistureMeter
     {
         RgbPwmLed onboardLed;
         MoistureSensor sensor;
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
-            DisplayController.Instance.Initialize(projLab.Display);
+            DisplayController.Instance.Initialize(projectLab.Display);
 
             sensor = new MoistureSensor(Device.Pins.A01);
 

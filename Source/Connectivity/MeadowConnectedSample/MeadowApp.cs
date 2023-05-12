@@ -17,19 +17,22 @@ namespace MeadowConnectedSample
     {
         bool useWifi = true;
 
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
-            projLab = ProjectLab.Create();
+            Resolver.Log.Info("Initialize...");
 
-            LedController.Instance.Initialize(projLab.RgbLed);
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            LedController.Instance.Initialize(projectLab.RgbLed);
             LedController.Instance.SetColor(Color.Red);
 
-            MainController.Instance.Initialize(projLab);
+            MainController.Instance.Initialize(projectLab);
             MainController.Instance.UseWiFi = useWifi;
 
-            DisplayView.Instance.Initialize(projLab.Display);
+            DisplayView.Instance.Initialize(projectLab.Display);
             DisplayView.Instance.ShowSplashScreen();
 
             _ = DisplayView.Instance.StartConnectingAnimation(useWifi);

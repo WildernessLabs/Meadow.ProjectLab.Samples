@@ -4,7 +4,6 @@ using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Buttons;
-using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -27,19 +26,18 @@ namespace Simon
 
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
         PushButton[] buttons;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            Resolver.Log.Info("Initialize...");
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
+            onboardLed.SetColor(Color.Red);
 
             notes = new Frequency[]
             {
@@ -51,7 +49,7 @@ namespace Simon
 
             game = new SimonGame();
 
-            graphics = new MicroGraphics(projLab.Display)
+            graphics = new MicroGraphics(projectLab.Display)
             {
                 Rotation = RotationType._90Degrees,
                 Stroke = 5
@@ -59,13 +57,13 @@ namespace Simon
             graphics.Clear();
 
             buttons = new PushButton[4];
-            buttons[0] = projLab.UpButton;
+            buttons[0] = projectLab.UpButton;
             buttons[0].Clicked += ButtonUpClicked;
-            buttons[2] = projLab.DownButton;
+            buttons[2] = projectLab.DownButton;
             buttons[2].Clicked += ButtonDownClicked;
-            buttons[3] = projLab.LeftButton;
+            buttons[3] = projectLab.LeftButton;
             buttons[3].Clicked += ButtonLeftClicked;
-            buttons[1] = projLab.RightButton;
+            buttons[1] = projectLab.RightButton;
             buttons[1].Clicked += ButtonRightClicked;
 
             onboardLed.SetColor(Color.Green);
@@ -129,7 +127,7 @@ namespace Simon
         async Task DrawDotFilled(int index, int duration = 400)
         {
             DrawDot(index, true);
-            await projLab.Speaker.PlayTone(notes[index], TimeSpan.FromMilliseconds(duration));
+            await projectLab.Speaker.PlayTone(notes[index], TimeSpan.FromMilliseconds(duration));
             DrawDot(index, false);
         }
 
@@ -203,7 +201,7 @@ namespace Simon
             isAnimating = true;
 
             //await Task.Delay(750);
-            await projLab.Speaker.PlayTone(new Frequency(123.47f), TimeSpan.FromMilliseconds(750));
+            await projectLab.Speaker.PlayTone(new Frequency(123.47f), TimeSpan.FromMilliseconds(750));
 
             for (int i = 0; i < 20; i++)
             {

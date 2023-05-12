@@ -3,7 +3,6 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
-using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -23,24 +22,23 @@ namespace AmbientRoomMonitor
 
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
+            projectLab.EnvironmentalSensor.Updated += EnvironmentalSensor_Updated;
 
-            projLab.EnvironmentalSensor.Updated += EnvironmentalSensor_Updated;
+            projectLab.LightSensor.Updated += LightSensor_Updated;
 
-            projLab.LightSensor.Updated += LightSensor_Updated;
-
-            graphics = new MicroGraphics(projLab.Display)
+            graphics = new MicroGraphics(projectLab.Display)
             {
                 IgnoreOutOfBoundsPixels = true
             };
@@ -109,8 +107,8 @@ namespace AmbientRoomMonitor
         {
             LoadScreen();
 
-            projLab.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(5));
-            projLab.LightSensor.StartUpdating(TimeSpan.FromSeconds(5));
+            projectLab.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(5));
+            projectLab.LightSensor.StartUpdating(TimeSpan.FromSeconds(5));
 
             return base.Run();
         }
