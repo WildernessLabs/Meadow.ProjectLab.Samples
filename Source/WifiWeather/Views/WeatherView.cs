@@ -12,10 +12,9 @@ namespace WifiWeather.Views
     public class WeatherView
     {
         MicroGraphics graphics;
+        int x_padding = 5;
 
-        public WeatherView()
-        {
-        }
+        public WeatherView() { }
 
         public void Initialize(IGraphicsDisplay display)
         {
@@ -25,40 +24,35 @@ namespace WifiWeather.Views
                 CurrentFont = new Font12x20(),
             };
 
+            x_padding = display.Width > 240 ? 30 : 5;
+
             graphics.Clear();
-        }
-
-        public void UpdateDisplay(WeatherViewModel model)
-        {
-            graphics.Clear();
-
-            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height, Color.White, true);
-
-            DisplayJPG(model.WeatherCode, 5, 5);
-
-            graphics.DrawText(134, 143, "Outdoor", Color.Black);
-
-            string outdoorTemp = model.OutdoorTemperature.ToString("00°C");
-            graphics.DrawText(128, 178, outdoorTemp, Color.Black, ScaleFactor.X2);
-
-            graphics.DrawText(23, 143, "Indoor", Color.Black);
-
-            string indoorTemp = model.IndoorTemperature.ToString("00°C");
-            graphics.DrawText(11, 178, indoorTemp, Color.Black, ScaleFactor.X2);
-
-            graphics.Show();
         }
 
         public void UpdateDateTime()
         {
-            int TimeZoneOffSet = -8; // PST
+            int TimeZoneOffSet = -7; // PST
             var today = DateTime.Now.AddHours(TimeZoneOffSet);
 
-            graphics.DrawRectangle(116, 24, 120, 82, Color.White, true);
+            graphics.DrawRectangle(graphics.Width / 2, 24, graphics.Width, 82, Color.White, true);
 
-            graphics.DrawText(128, 24, today.ToString("MM/dd/yy"), color: Color.Black);
+            graphics.DrawText(graphics.Width - x_padding - 10, 25, today.ToString("MM/dd/yy"), Color.Black, alignmentH: HorizontalAlignment.Right);
+            graphics.DrawText(graphics.Width - x_padding, 60, today.ToString("hh:mm"), Color.Black, ScaleFactor.X2, alignmentH: HorizontalAlignment.Right);
 
-            graphics.DrawText(116, 66, today.ToString("hh:mm"), Color.Black, ScaleFactor.X2);
+            graphics.Show();
+        }
+
+        public void UpdateDisplay(WeatherViewModel model)
+        {
+            graphics.Clear(Color.White);
+
+            DisplayJPG(model.WeatherCode, x_padding, 15);
+
+            graphics.DrawText(graphics.Width - x_padding - 5, 140, "Outdoor", Color.Black, alignmentH: HorizontalAlignment.Right);
+            graphics.DrawText(graphics.Width - x_padding, 175, $"{model.OutdoorTemperature}°C", Color.Black, ScaleFactor.X2, alignmentH: HorizontalAlignment.Right);
+
+            graphics.DrawText(x_padding + 10, 140, "Indoor", Color.Black);
+            graphics.DrawText(x_padding, 175, $"{model.IndoorTemperature}°C", Color.Black, ScaleFactor.X2);
 
             graphics.Show();
         }
