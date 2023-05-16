@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AmbientRoomMonitor
 {
     // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         Color[] colors = new Color[4]
         {
@@ -19,6 +19,8 @@ namespace AmbientRoomMonitor
             Color.FromHex("#269926"),
             Color.FromHex("#008500")
         };
+
+        int padding = 10;
 
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
@@ -48,34 +50,14 @@ namespace AmbientRoomMonitor
             return base.Initialize();
         }
 
-        private void LightSensor_Updated(object sender, IChangeResult<Illuminance> e)
-        {
-            graphics.DrawText(162, 121, $"{(int)e.New.Lux:000}lux", Color.White);
-        }
-
-        private void EnvironmentalSensor_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
-        {
-            graphics.DrawRectangle(
-                x: 150, y: 145,
-                width: 84,
-                height: 68,
-                color: colors[colors.Length - 1],
-                filled: true);
-
-            graphics.DrawText(186, 145, $"{(int)e.New.Temperature.Value.Celsius}°C", Color.White);
-            graphics.DrawText(150, 168, $"{(int)e.New.Pressure.Value.Millibar}mbar", Color.White);
-            graphics.DrawText(198, 193, $"{(int)e.New.Humidity.Value.Percent}%", Color.White);
-
-            graphics.Show();
-        }
-
         void LoadScreen()
         {
             graphics.Clear(true);
 
-            int radius = 225;
+            int radius = (int)(graphics.Width / 2) + 175;
             int originX = graphics.Width / 2;
-            int originY = graphics.Height / 2 + 130;
+            int originYOffset = graphics.Width == 240 ? 85 : 105;
+            int originY = graphics.Height + originYOffset;
 
             graphics.Stroke = 3;
             for (int i = 1; i < 5; i++)
@@ -91,14 +73,44 @@ namespace AmbientRoomMonitor
                 radius -= 20;
             }
 
-            graphics.DrawLine(0, 220, 239, 220, Color.White);
-            graphics.DrawLine(0, 230, 239, 230, Color.White);
-
             graphics.CurrentFont = new Font12x20();
-            graphics.DrawText(6, 121, "LIGHT", Color.White);
-            graphics.DrawText(6, 145, "TEMPERATURE", Color.White);
-            graphics.DrawText(6, 169, "PRESSURE", Color.White);
-            graphics.DrawText(6, 193, "HUMIDITY", Color.White);
+            graphics.DrawText(padding, 120, "LIGHT", Color.White);
+            graphics.DrawText(padding, 145, "TEMPERATURE", Color.White);
+            graphics.DrawText(padding, 170, "PRESSURE", Color.White);
+            graphics.DrawText(padding, 195, "HUMIDITY", Color.White);
+
+            graphics.DrawLine(0, 220, graphics.Width - 1, 220, Color.White);
+            graphics.DrawLine(0, 230, graphics.Width - 1, 230, Color.White);
+
+            graphics.Show();
+        }
+
+        private void LightSensor_Updated(object sender, IChangeResult<Illuminance> e)
+        {
+            graphics.DrawRectangle(
+                x: graphics.Width * 2 / 3,
+                y: 121,
+                width: (graphics.Width / 3) - 1,
+                height: 20,
+                color: colors[colors.Length - 1],
+                filled: true);
+
+            graphics.DrawText((graphics.Width - 1) - padding, 120, $"{(int)e.New.Lux} Lx", Color.White, alignmentH: HorizontalAlignment.Right);
+        }
+
+        private void EnvironmentalSensor_Updated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
+        {
+            graphics.DrawRectangle(
+                x: graphics.Width * 2 / 3,
+                y: 145,
+                width: (graphics.Width / 3) - 1,
+                height: 68,
+                color: colors[colors.Length - 1],
+                filled: true);
+
+            graphics.DrawText((graphics.Width - 1) - padding, 145, $"{(int)e.New.Temperature.Value.Celsius} °C", Color.White, alignmentH: HorizontalAlignment.Right);
+            graphics.DrawText((graphics.Width - 1) - padding, 170, $"{(int)e.New.Pressure.Value.Millibar} Mb", Color.White, alignmentH: HorizontalAlignment.Right);
+            graphics.DrawText((graphics.Width - 1) - padding, 195, $"{(int)e.New.Humidity.Value.Percent}  %", Color.White, alignmentH: HorizontalAlignment.Right);
 
             graphics.Show();
         }
