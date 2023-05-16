@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AnalogClockFace
 {
     // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         readonly Color WatchBackgroundColor = Color.White;
 
@@ -29,8 +29,12 @@ namespace AnalogClockFace
             onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            graphics = new MicroGraphics(projectLab.Display);
-            graphics.IgnoreOutOfBoundsPixels = true;
+            graphics = new MicroGraphics(projectLab.Display)
+            {
+                IgnoreOutOfBoundsPixels = true,
+                CurrentFont = new Font12x20(),
+                Stroke = 3
+            };
 
             var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
             await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
@@ -49,7 +53,6 @@ namespace AnalogClockFace
             graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height, Color.White);
             graphics.DrawRectangle(5, 5, graphics.Width - 10, graphics.Height - 10, Color.White);
 
-            graphics.CurrentFont = new Font12x20();
             graphics.DrawCircle(xCenter, yCenter, 100, WatchBackgroundColor, true);
             for (int i = 0; i < 60; i++)
             {
@@ -70,7 +73,7 @@ namespace AnalogClockFace
             int xCenter = graphics.Width / 2;
             int yCenter = graphics.Height / 2;
 
-            int TimeZoneOffSet = -8; // PST
+            int TimeZoneOffSet = -7; // PST
             var today = DateTime.Now.AddHours(TimeZoneOffSet);
             int minute = today.Minute;
             int hour = today.Hour > 12 ? today.Hour - 12 : today.Hour;
@@ -90,8 +93,6 @@ namespace AnalogClockFace
                     }
                 }
             }
-
-            graphics.Stroke = 3;
 
             //remove previous hour
             int previousHour = (hour - 1) < -1 ? 11 : (hour - 1);
