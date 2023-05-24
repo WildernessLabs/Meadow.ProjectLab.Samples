@@ -16,6 +16,9 @@
     <ProjectReference Include="..\..\..\Meadow.Foundation.Grove\Source\MoistureSensor\Driver\MoistureSensor.csproj" />
     <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
+  <PropertyGroup>
+    <LangVersion>10.0</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
