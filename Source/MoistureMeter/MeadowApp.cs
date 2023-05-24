@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace MoistureMeter
 {
-    // Change F7MicroV2 to F7Micro for V1.x boards
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         RgbPwmLed onboardLed;
         MoistureSensor sensor;
@@ -34,7 +34,7 @@ namespace MoistureMeter
             {
                 var percentage = (int)ExtensionMethods.Map(result.New.Millivolts, 0, 1750, 0, 100);
 
-                DisplayController.Instance.UpdatePercentage(percentage > 100 ? 100 : percentage);
+                DisplayController.Instance.UpdatePercentage(Math.Clamp(percentage, 0, 100));
             };
 
             sensor.StartUpdating(TimeSpan.FromMilliseconds(1000));
