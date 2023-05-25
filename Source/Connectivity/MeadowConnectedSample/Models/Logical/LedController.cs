@@ -14,18 +14,11 @@ namespace MeadowConnectedSample.Models.Logical
         RgbPwmLed rgbPwmLed;
         bool isAnimating;
 
-        private LedController()
-        {
-            Initialize();
-        }
+        private LedController() { }
 
-        private void Initialize()
+        public void Initialize(RgbPwmLed rgbPwmLed)
         {
-            rgbPwmLed = new RgbPwmLed(
-                MeadowApp.Device.Pins.OnboardLedRed,
-                MeadowApp.Device.Pins.OnboardLedGreen,
-                MeadowApp.Device.Pins.OnboardLedBlue
-            );
+            this.rgbPwmLed = rgbPwmLed;
         }
 
         public void SetColor(Color color)

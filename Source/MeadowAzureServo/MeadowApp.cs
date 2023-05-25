@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MeadowAzureServo
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
@@ -21,11 +21,12 @@ namespace MeadowAzureServo
 
         public override Task Initialize()
         {
-            Console.WriteLine("Initialize...");
-            onboardLed = new RgbPwmLed(
-                Device.Pins.OnboardLedRed,
-                Device.Pins.OnboardLedGreen,
-                Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
             try
@@ -34,8 +35,6 @@ namespace MeadowAzureServo
 
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += NetworkConnected;
-
-                projectLab = ProjectLab.Create();
             }
             catch (Exception ex)
             {

@@ -11,6 +11,7 @@ namespace MoistureMeter.Controllers
         public static DisplayController Instance => instance.Value;
 
         MicroGraphics graphics;
+        int padding = 12;
 
         private DisplayController() { }
 
@@ -19,49 +20,46 @@ namespace MoistureMeter.Controllers
             graphics = new MicroGraphics(display)
             {
                 Stroke = 1,
-                CurrentFont = new Font12x20(),
-                Rotation = RotationType._90Degrees
+                CurrentFont = new Font12x20()
             };
             graphics.Clear();
         }
 
         public void UpdatePercentage(int percentage)
         {
+            int barWidth = 100;
+            int barCompleteHeight = 218;
+            int barSingleHeight = 20;
+            int barSpacing = 2;
+            int x = (graphics.Width * 2) / 3 - barWidth / 2 + padding;
+            int y = 0;
+
             graphics.Clear();
 
-            Color color = Color.FromHex("004B6B");
+            var barColor = Color.FromHex("004B6B");
 
-            graphics.DrawRectangle(12, 12, 100, 218, color, true);
+            graphics.DrawRectangle(x, y + padding, barWidth, barCompleteHeight, barColor, true);
 
-            int percentageGraph = (int)(percentage == 100 ? 9 : percentage / 10);
-            for (int i = percentageGraph; i >= 0; i--)
+            int percentageGraph = (percentage == 100 ? 9 : percentage / 10);
+            for (int barIndex = percentageGraph; barIndex >= 0; barIndex--)
             {
-                switch (i)
-                {
-                    case 0:
-                    case 1:
-                        color = Color.FromHex("FF3535");
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                        color = Color.FromHex("FF8251");
-                        break;
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                        color = Color.FromHex("35FF3D");
-                        break;
-                    case 9:
-                        color = Color.FromHex("475AFF");
-                        break;
-                }
-
-                graphics.DrawRectangle(12, 222 - (22 * i + 12), 100, 20, color, true);
+                graphics.DrawRectangle(
+                    x: x,
+                    y: graphics.Height - padding - ((barSingleHeight + barSpacing) * barIndex) - 18,
+                    width: barWidth,
+                    height: barSingleHeight,
+                    color: barIndex switch
+                    {
+                        >= 0 and <= 1 => Color.FromHex("FF3535"),
+                        >= 2 and <= 4 => Color.FromHex("FF8251"),
+                        >= 5 and <= 8 => Color.FromHex("35FF3D"),
+                        >= 9 => Color.FromHex("475AFF"),
+                        _ => throw new NotImplementedException(),
+                    },
+                    filled: true);
             }
 
-            graphics.DrawText(174, 105, $"{percentage}%", ScaleFactor.X2, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawText(graphics.Width / 3 - padding, (graphics.Height - graphics.CurrentFont.Height) / 2, $"{percentage}%", ScaleFactor.X2, alignmentH: HorizontalAlignment.Center);
 
             graphics.Show();
         }
