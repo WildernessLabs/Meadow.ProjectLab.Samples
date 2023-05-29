@@ -12,10 +12,13 @@
     <EmbeddedResource Include="level_3.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
-    <PackageReference Include="Meadow.Foundation.Grove.Sensors.Moisture.MoistureSensor" Version="0.*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
+    <PackageReference Include="Meadow.Foundation.Grove.Sensors.Moisture.MoistureSensor" Version="1.*" />
     <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
+  <PropertyGroup>
+    <LangVersion>10.0</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

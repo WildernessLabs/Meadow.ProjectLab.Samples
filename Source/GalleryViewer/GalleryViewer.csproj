@@ -11,7 +11,7 @@
     <EmbeddedResource Include="image3.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
     <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
   <ItemGroup>

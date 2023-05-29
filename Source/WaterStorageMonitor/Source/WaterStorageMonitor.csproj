@@ -6,9 +6,9 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Sensors.Distance.MaxBotix" Version="0.*" />
-    <PackageReference Include="Meadow.Foundation.Sensors.Distance.Vl53l0x" Version="0.*" />
-    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Distance.MaxBotix" Version="1.*" />
+    <PackageReference Include="Meadow.Foundation.Sensors.Distance.Vl53l0x" Version="1.*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">

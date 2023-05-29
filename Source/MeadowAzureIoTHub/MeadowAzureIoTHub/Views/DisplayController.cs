@@ -36,7 +36,7 @@ namespace MeadowAzureIoTHub.Views
 
             graphics = new MicroGraphics(display)
             {
-                CurrentFont = new Font12x16(),
+                CurrentFont = new Font8x12(),
                 Stroke = 3,
             };
 
@@ -87,12 +87,14 @@ namespace MeadowAzureIoTHub.Views
         {
             token = new CancellationTokenSource();
 
+            UpdateStatus("Connecting");
+
             bool alternateImg = false;
             while (!token.IsCancellationRequested)
             {
                 alternateImg = !alternateImg;
 
-                graphics.DrawBuffer(204, 6, alternateImg ? imgConnecting : imgConnected);
+                graphics.DrawBuffer(graphics.Width - imgConnected.Width - 10, 17, alternateImg ? imgConnecting : imgConnected);
                 graphics.Show();
 
                 await Task.Delay(500);
@@ -102,41 +104,49 @@ namespace MeadowAzureIoTHub.Views
         public void ShowConnected()
         {
             token.Cancel();
-            graphics.DrawBuffer(204, 6, imgConnected);
 
-            graphics.DrawBuffer(6, 6, imgRefreshed);
+            graphics.Clear(backgroundColor);
 
-            graphics.DrawRectangle(0, 32, 240, 208, backgroundColor, true);
+            graphics.DrawBuffer(graphics.Width - imgConnected.Width - 10, 17, imgConnected);
 
-            graphics.DrawCircle(120, 75, 50, foregroundColor);
-            graphics.DrawText(120, 59, "Temp", foregroundColor, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawBuffer(10, 17, imgRefreshed);
 
-            graphics.DrawCircle(62, 177, 50, foregroundColor);
-            graphics.DrawText(62, 161, "Pres", foregroundColor, alignmentH: HorizontalAlignment.Center);
+            UpdateStatus("Connected");
 
-            graphics.DrawCircle(178, 177, 50, foregroundColor);
-            graphics.DrawText(178, 161, "Hum", foregroundColor, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawText(10, 78, "TEMP.", foregroundColor, ScaleFactor.X2, HorizontalAlignment.Left);
+
+            graphics.DrawText(10, 138, "HUMID.", foregroundColor, ScaleFactor.X2, HorizontalAlignment.Left);
+
+            graphics.DrawText(10, 198, "PRESS.", foregroundColor, ScaleFactor.X2, HorizontalAlignment.Left);
 
             graphics.Show();
         }
 
         public async Task StartSyncCompletedAnimation((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) reading)
         {
-            graphics.DrawBuffer(6, 6, imgRefreshing);
+            UpdateStatus("Syncing");
+            graphics.DrawBuffer(10, 18, imgRefreshing);
             graphics.Show();
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            graphics.DrawRectangle(75, 78, 90, 16, backgroundColor, true);
-            graphics.DrawText(120, 78, $"{reading.Temperature.Value.Celsius:N1}°C", foregroundColor, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawRectangle(graphics.Width / 2, 78, graphics.Width / 2, 24, backgroundColor, true);
+            graphics.DrawText(graphics.Width - 10, 78, $"{reading.Temperature.Value.Celsius:N1}°C", foregroundColor, ScaleFactor.X2, HorizontalAlignment.Right);
 
-            graphics.DrawRectangle(17, 180, 90, 16, backgroundColor, true);
-            graphics.DrawText(62, 180, $"{reading.Pressure.Value.StandardAtmosphere:N1}atm", foregroundColor, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawRectangle(graphics.Width / 2, 138, graphics.Width / 2, 24, backgroundColor, true);
+            graphics.DrawText(graphics.Width - 10, 138, $"{reading.Humidity.Value.Percent:N2}%", foregroundColor, ScaleFactor.X2, HorizontalAlignment.Right);
 
-            graphics.DrawRectangle(133, 180, 90, 16, backgroundColor, true);
-            graphics.DrawText(178, 180, $"{reading.Humidity.Value.Percent:N2}%", foregroundColor, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawRectangle(graphics.Width / 2, 198, graphics.Width / 2, 24, backgroundColor, true);
+            graphics.DrawText(graphics.Width - 10, 198, $"{reading.Pressure.Value.StandardAtmosphere:N1}Atm", foregroundColor, ScaleFactor.X2, HorizontalAlignment.Right);
 
-            graphics.DrawBuffer(6, 6, imgRefreshed);
+            UpdateStatus("Done");
+            graphics.DrawBuffer(10, 18, imgRefreshed);
             graphics.Show();
+        }
+
+        protected void UpdateStatus(string status)
+        {
+            graphics.DrawRectangle((graphics.Width - 150) / 2, 18, 150, 24, backgroundColor, true);
+            graphics.DrawText(graphics.Width / 2, 18, $"{status}", foregroundColor, ScaleFactor.X2, HorizontalAlignment.Center);
         }
     }
 }

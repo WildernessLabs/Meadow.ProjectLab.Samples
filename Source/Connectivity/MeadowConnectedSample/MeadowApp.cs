@@ -12,24 +12,29 @@ using System.Threading.Tasks;
 
 namespace MeadowConnectedSample
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
         bool useWifi = true;
 
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            LedController.Instance.Initialize(projectLab.RgbLed);
             LedController.Instance.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-
-            MainController.Instance.Initialize(projLab);
+            MainController.Instance.Initialize(projectLab);
             MainController.Instance.UseWiFi = useWifi;
 
-            DisplayView.Instance.Initialize(projLab.Display);
+            DisplayView.Instance.Initialize(projectLab.Display);
             DisplayView.Instance.ShowSplashScreen();
+
             _ = DisplayView.Instance.StartConnectingAnimation(useWifi);
 
             if (useWifi)

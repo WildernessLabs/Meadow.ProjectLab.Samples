@@ -9,27 +9,26 @@ using System.Threading.Tasks;
 
 namespace PlantMonitor
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
         MoistureSensor moistureSensor;
         DisplayController displayController;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
             displayController = DisplayController.Instance;
-            displayController.Initialize(projLab.Display);
+            displayController.Initialize(projectLab.Display);
 
             moistureSensor = new MoistureSensor(Device.Pins.A01);
             var moistureSensorObserver = MoistureSensor.CreateObserver(

@@ -6,9 +6,12 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Grove.Sensors.Moisture.MoistureSensor" Version="0.*" />
-    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Grove.Sensors.Moisture.MoistureSensor" Version="1.*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
   </ItemGroup>
+  <PropertyGroup>
+    <LangVersion>10.0</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

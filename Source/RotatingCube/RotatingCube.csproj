@@ -6,7 +6,7 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.ProjectLab" Version="0.*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
