@@ -21,7 +21,7 @@ namespace RotatingCube
         readonly Angle ButtonStep = new Angle(1);
         readonly TimeSpan motionUpdateInterval = TimeSpan.FromMilliseconds(250);
         readonly int cubeSize = 60;
-        readonly Color initalColor = Color.Cyan;
+        readonly Color initialColor = Color.Cyan;
 
         public override Task Initialize()
         {
@@ -33,7 +33,10 @@ namespace RotatingCube
             onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            graphics = new MicroGraphics(projectLab.Display);
+            graphics = new MicroGraphics(projectLab.Display)
+            {
+                Stroke = 3
+            };
 
             projectLab.RightButton.Clicked += RightButton_Clicked;
             projectLab.LeftButton.Clicked += LeftButton_Clicked;
@@ -55,18 +58,21 @@ namespace RotatingCube
 
         public void Show3dCube()
         {
-            while (true)
+            Task.Run(() =>
             {
-                graphics.Clear();
+                while (true)
+                {
+                    graphics.Clear();
 
-                cube.Update();
+                    cube.Update();
 
-                DrawWireframe(cubeColor);
+                    DrawWireframe(cubeColor);
 
-                graphics.Show();
+                    graphics.Show();
 
-                cubeColor = cubeColor.WithHue(cubeColor.Hue + 0.001);
-            }
+                    cubeColor = cubeColor.WithHue(cubeColor.Hue + 0.001);
+                }
+            });
         }
 
         void DrawWireframe(Color color)
@@ -150,7 +156,7 @@ namespace RotatingCube
             projectLab.MotionSensor.StartUpdating(motionUpdateInterval);
 
             cube = new Cube3d(graphics.Width / 2, graphics.Height / 2, cubeSize);
-            cubeColor = initalColor;
+            cubeColor = initialColor;
 
             Show3dCube();
 
