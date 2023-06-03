@@ -24,7 +24,7 @@
     <PackageReference Include="Meadow.AmqpNetLite" Version="*" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
+    <ProjectReference Include="..\..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
