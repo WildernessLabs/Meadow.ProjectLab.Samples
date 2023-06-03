@@ -55,7 +55,7 @@
     <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
+    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">

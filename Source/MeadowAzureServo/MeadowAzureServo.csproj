@@ -9,8 +9,8 @@
     <PackageReference Include="Meadow.AmqpNetLite" Version="*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Meadow.Foundation.Grove\Source\Servo\Driver\Servo.csproj" />
-    <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
+    <PackageReference Include="Meadow.Foundation.Grove.Servos.Servo" Version="1.*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="meadow.config.yaml">
