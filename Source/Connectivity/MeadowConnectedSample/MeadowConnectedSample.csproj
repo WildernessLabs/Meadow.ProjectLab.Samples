@@ -17,7 +17,7 @@
     <EmbeddedResource Include="img_wifi_connecting.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="0.*" />
+    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="1.*" />
     <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />
