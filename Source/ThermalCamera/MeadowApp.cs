@@ -2,6 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Camera;
 using System;
 using System.Threading;
@@ -9,14 +10,32 @@ using System.Threading.Tasks;
 
 namespace ThermalCamera
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
-        IProjectLabHardware projLab;
-
+        RgbPwmLed onboardLed;
+        IProjectLabHardware projectLab;
         Mlx90640 thermalCamera;
-
         MicroGraphics graphics;
+
+        public override Task Initialize()
+        {
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
+            onboardLed.SetColor(Color.Red);
+
+            graphics = new MicroGraphics(projectLab.Display);
+
+            thermalCamera = new Mlx90640(projectLab.I2cBus);
+
+            onboardLed.SetColor(Color.Green);
+
+            return base.Initialize();
+        }
 
         public override Task Run()
         {
@@ -56,20 +75,6 @@ namespace ThermalCamera
 
                 Thread.Sleep(100);
             }
-        }
-
-        public override Task Initialize()
-        {
-            Console.WriteLine("Initialize...");
-
-            projLab = ProjectLab.Create();
-
-            graphics = new MicroGraphics(projLab.Display);
-
-            thermalCamera = new Mlx90640(projLab.I2cBus);
-
-            Console.WriteLine("Init complete");
-            return base.Initialize();
         }
     }
 }

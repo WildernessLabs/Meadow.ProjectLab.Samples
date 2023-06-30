@@ -1,5 +1,6 @@
 ﻿using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Graphics.Buffers;
 using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
@@ -14,7 +15,10 @@ namespace PlantMonitor.Controllers
             new Lazy<DisplayController>(() => new DisplayController());
         public static DisplayController Instance => instance.Value;
 
+        int padding = 5;
+
         MicroGraphics graphics;
+        IPixelBuffer image;
 
         private DisplayController() { }
 
@@ -23,7 +27,6 @@ namespace PlantMonitor.Controllers
             graphics = new MicroGraphics(display)
             {
                 IgnoreOutOfBoundsPixels = true,
-                Rotation = RotationType._90Degrees,
                 CurrentFont = new Font12x20(),
                 Stroke = 3,
             };
@@ -33,77 +36,36 @@ namespace PlantMonitor.Controllers
             string plant = "Plant";
             string monitor = "Monitor";
             graphics.CurrentFont = new Font12x16();
-            graphics.DrawText((240 - plant.Length * 24) / 2, 80, plant, Color.Black, ScaleFactor.X2);
-            graphics.DrawText((240 - monitor.Length * 24) / 2, 130, monitor, Color.Black, ScaleFactor.X2);
+            graphics.DrawText(graphics.Width / 2, 80, plant, Color.Black, ScaleFactor.X2, HorizontalAlignment.Center);
+            graphics.DrawText(graphics.Width / 2, 130, monitor, Color.Black, ScaleFactor.X2, HorizontalAlignment.Center);
             graphics.Show();
         }
 
-        void RefreshMoistureImage(int percentage)
-        {
-            if (percentage >= 0 && percentage <= 25)
-            {
-                DrawImage(0, 42, 10);
-            }
-            else if (percentage > 25 && percentage <= 50)
-            {
-                DrawImage(1, 28, 4);
-            }
-            else if (percentage > 50 && percentage <= 75)
-            {
-                DrawImage(2, 31, 5);
-            }
-            else if (percentage > 75)
-            {
-                DrawImage(3, 35, 5);
-            }
 
+
+        void DrawImage(int index, int xOffSet = 0, int yOffSet = 0)
+        {
+            image = LoadJpeg(LoadResource($"PlantMonitor.level_{index}.jpg"));
+            graphics.DrawBuffer(
+                x: (graphics.Width - image.Width) / 2 + xOffSet,
+                y: (graphics.Height - image.Height) / 2 + yOffSet,
+                buffer: image);
             graphics.Show();
         }
 
-        void RefreshMoisturePercentage(int percentage)
+        IPixelBuffer LoadJpeg(byte[] jpgData)
         {
-            graphics.DrawRectangle(0, 208, 96, 32, Color.White, true);
-            graphics.DrawText(0, 208, $"{percentage}%", Color.Black, ScaleFactor.X2);
-            graphics.Show();
-        }
-
-        void DrawImage(int index, int xOffSet, int yOffSet)
-        {
-            var jpgData = LoadResource($"level_{index}.jpg");
             var decoder = new JpegDecoder();
             var jpg = decoder.DecodeJpeg(jpgData);
 
-            int x = 0;
-            int y = 0;
-            byte r, g, b;
-
-            graphics.DrawRectangle(0, 0, 240, 208, Color.White, true);
-
-            for (int i = 0; i < jpg.Length; i += 3)
-            {
-                r = jpg[i];
-                g = jpg[i + 1];
-                b = jpg[i + 2];
-
-                graphics.DrawPixel(x + xOffSet, y + yOffSet, Color.FromRgb(r, g, b));
-
-                x++;
-                if (x % decoder.Width == 0)
-                {
-                    y++;
-                    x = 0;
-                }
-            }
-
-            graphics.Show();
+            return new BufferRgb888(decoder.Width, decoder.Height, jpg);
         }
 
-        byte[] LoadResource(string filename)
+        byte[] LoadResource(string fileName)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"PlantMonitor.{filename}";
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (Stream stream = assembly.GetManifestResourceStream(fileName))
             {
                 using (var ms = new MemoryStream())
                 {
@@ -117,17 +79,38 @@ namespace PlantMonitor.Controllers
         {
             RefreshMoistureImage(percentage);
             RefreshMoisturePercentage(percentage);
-        }
-
-        public void UpdateTemperatureValue(Temperature newValue, Temperature oldValue)
-        {
-            string t = $"{(int)oldValue.Celsius}C";
-            graphics.DrawText(240 - t.Length * 24, 208, t, Color.White, ScaleFactor.X2);
-
-            t = $"{(int)newValue.Celsius}C";
-            graphics.DrawText(240 - t.Length * 24, 208, t, Color.Black, ScaleFactor.X2);
 
             graphics.Show();
+        }
+
+        void RefreshMoistureImage(int percentage)
+        {
+            switch (percentage)
+            {
+                case >= 0 and <= 25: DrawImage(0, 5); break;
+                case > 25 and <= 50: DrawImage(1, 5); break;
+                case > 50 and <= 75: DrawImage(2, 5); break;
+                case > 75: DrawImage(3, 5); break;
+            }
+        }
+
+        int previousPercentage = 0;
+        void RefreshMoisturePercentage(int percentage)
+        {
+            graphics.DrawText(padding, 208, $"{previousPercentage}%", Color.White, ScaleFactor.X2);
+            graphics.DrawText(padding, 208, $"{percentage}%", Color.FromHex("#555555"), ScaleFactor.X2);
+
+            previousPercentage = percentage;
+        }
+
+        string previousTemperature = string.Empty;
+        public void UpdateTemperatureValue(Temperature newValue)
+        {
+            graphics.DrawText(graphics.Width - padding, 208, previousTemperature, Color.White, ScaleFactor.X2);
+            string tempFormatted = $"{(int)newValue.Celsius}C";
+            graphics.DrawText(graphics.Width - padding, 208, tempFormatted, Color.FromHex("#555555"), ScaleFactor.X2, HorizontalAlignment.Right);
+
+            previousTemperature = $"{(int)newValue.Celsius}C";
         }
     }
 }

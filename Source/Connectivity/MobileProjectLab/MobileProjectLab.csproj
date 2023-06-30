@@ -55,6 +55,6 @@
         <PackageReference Include="Plugin.BLE" Version="2.1.3" />
 	</ItemGroup>
 
-	<Import Project="..\CommonContracts\CommonContracts.projitems" Label="Shared" />
+	<Import Project="..\Connectivity.Common\CommonContracts.projitems" Label="Shared" />
 
 </Project>

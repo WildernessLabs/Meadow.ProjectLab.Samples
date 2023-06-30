@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MagicEightMeadow
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
         IPixelBuffer questionBuffer;
@@ -27,15 +27,16 @@ namespace MagicEightMeadow
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                Device.Pins.OnboardLedRed,
-                Device.Pins.OnboardLedGreen,
-                Device.Pins.OnboardLedBlue);
-            onboardLed.SetColor(Color.Red);
+            Resolver.Log.Info("Initialize...");
 
             projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
+            onboardLed.SetColor(Color.Red);
 
             graphics = new MicroGraphics(projectLab.Display);
+            graphics.Clear(Color.FromHex("#00000C"));
 
             questionBuffer = LoadJpeg(LoadResource(GetQuestionFilename));
 
@@ -75,7 +76,7 @@ namespace MagicEightMeadow
 
         void DisplayQuestion()
         {
-            graphics.DrawBuffer(0, 0, questionBuffer);
+            graphics.DrawBuffer((graphics.Width - questionBuffer.Width) / 2, 0, questionBuffer);
             graphics.Show();
         }
 
@@ -85,7 +86,7 @@ namespace MagicEightMeadow
 
             var buffer = LoadJpeg(LoadResource(GetAnswerFilename(rand.Next(1, 21))));
 
-            graphics.DrawBuffer(0, 0, buffer);
+            graphics.DrawBuffer((graphics.Width - questionBuffer.Width) / 2, 0, buffer);
             graphics.Show();
         }
 

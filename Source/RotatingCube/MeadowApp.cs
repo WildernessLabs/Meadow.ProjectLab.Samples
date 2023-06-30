@@ -2,79 +2,77 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Leds;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
 
 namespace RotatingCube
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
-        IProjectLabHardware projLab;
-
+        RgbPwmLed onboardLed;
+        IProjectLabHardware projectLab;
         MicroGraphics graphics;
-
         Cube3d cube;
-
         Color cubeColor;
 
         readonly Angle ButtonStep = new Angle(1);
         readonly TimeSpan motionUpdateInterval = TimeSpan.FromMilliseconds(250);
         readonly int cubeSize = 60;
-        readonly Color initalColor = Color.Cyan;
-
-        public override Task Run()
-        {
-            projLab.MotionSensor.StartUpdating(motionUpdateInterval);
-
-            cube = new Cube3d(graphics.Width / 2, graphics.Height / 2, cubeSize);
-            cubeColor = initalColor;
-
-            Show3dCube();
-
-            return base.Run();
-        }
+        readonly Color initialColor = Color.Cyan;
 
         public override Task Initialize()
         {
-            Console.WriteLine("Initialize...");
+            Resolver.Log.Info("Initialize...");
 
-            projLab = ProjectLab.Create();
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
 
-            graphics = new MicroGraphics(projLab.Display);
+            onboardLed = projectLab.RgbLed;
+            onboardLed.SetColor(Color.Red);
 
-            projLab.RightButton.Clicked += RightButton_Clicked;
-            projLab.LeftButton.Clicked += LeftButton_Clicked;
-            projLab.UpButton.Clicked += UpButton_Clicked;
-            projLab.DownButton.Clicked += DownButton_Clicked;
+            graphics = new MicroGraphics(projectLab.Display)
+            {
+                Stroke = 3
+            };
 
-            projLab.UpButton.LongClickedThreshold = TimeSpan.FromMilliseconds(500);
-            projLab.UpButton.LongClicked += UpButton_LongClicked;
+            projectLab.RightButton.Clicked += RightButton_Clicked;
+            projectLab.LeftButton.Clicked += LeftButton_Clicked;
+            projectLab.UpButton.Clicked += UpButton_Clicked;
+            projectLab.DownButton.Clicked += DownButton_Clicked;
 
-            projLab.DownButton.LongClickedThreshold = TimeSpan.FromMilliseconds(500);
-            projLab.DownButton.LongClicked += DownButton_LongClicked;
+            projectLab.UpButton.LongClickedThreshold = TimeSpan.FromMilliseconds(500);
+            projectLab.UpButton.LongClicked += UpButton_LongClicked;
 
-            projLab.MotionSensor.Updated += MotionSensor_Updated;
+            projectLab.DownButton.LongClickedThreshold = TimeSpan.FromMilliseconds(500);
+            projectLab.DownButton.LongClicked += DownButton_LongClicked;
 
-            Console.WriteLine("Init complete");
+            projectLab.MotionSensor.Updated += MotionSensor_Updated;
+
+            onboardLed.SetColor(Color.Green);
+
             return base.Initialize();
         }
 
         public void Show3dCube()
         {
-            while (true)
+            Task.Run(() =>
             {
-                graphics.Clear();
+                while (true)
+                {
+                    graphics.Clear();
 
-                cube.Update();
+                    cube.Update();
 
-                DrawWireframe(cubeColor);
+                    DrawWireframe(cubeColor);
 
-                graphics.Show();
+                    graphics.Show();
 
-                cubeColor = cubeColor.WithHue(cubeColor.Hue + 0.001);
-            }
+                    cubeColor = cubeColor.WithHue(cubeColor.Hue + 0.001);
+                }
+            });
         }
 
         void DrawWireframe(Color color)
@@ -151,6 +149,18 @@ namespace RotatingCube
             {
                 cube.YVelocity += ButtonStep;
             }
+        }
+
+        public override Task Run()
+        {
+            projectLab.MotionSensor.StartUpdating(motionUpdateInterval);
+
+            cube = new Cube3d(graphics.Width / 2, graphics.Height / 2, cubeSize);
+            cubeColor = initialColor;
+
+            Show3dCube();
+
+            return base.Run();
         }
     }
 }

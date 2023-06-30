@@ -5,57 +5,63 @@ using Meadow.Foundation.Web.Maple;
 using Meadow.Hardware;
 using MeadowConnectedSample.Connectivity;
 using MeadowConnectedSample.Controller;
+using MeadowConnectedSample.Models.Logical;
+using MeadowConnectedSample.Views;
+using System;
 using System.Threading.Tasks;
 
 namespace MeadowConnectedSample
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
-        IProjectLabHardware projLab;
+        bool useWifi = true;
 
-        bool useWiFi = true;
+        IProjectLabHardware projectLab;
 
-        public override async Task Initialize()
+        public override Task Initialize()
         {
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            LedController.Instance.Initialize(projectLab.RgbLed);
             LedController.Instance.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
+            MainController.Instance.Initialize(projectLab);
+            MainController.Instance.UseWiFi = useWifi;
 
-            DisplayController.Instance.Initialize(projLab.Display);
-            DisplayController.Instance.ShowSplashScreen();
+            DisplayView.Instance.Initialize(projectLab.Display);
+            DisplayView.Instance.ShowSplashScreen();
 
-            Bh1750Controller.Instance.Initialize(projLab.LightSensor);
+            _ = DisplayView.Instance.StartConnectingAnimation(useWifi);
 
-            Bme688Controller.Instance.Initialize(projLab.EnvironmentalSensor);
-
-            if (useWiFi)
+            if (useWifi)
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
-
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
-
-                await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
             }
             else
             {
-                DisplayController.Instance.StartConnectingAnimation(useWiFi);
-
                 BluetoothServer.Instance.Initialize();
-
                 LedController.Instance.SetColor(Color.Green);
+                _ = MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
             }
+
+            return Task.CompletedTask;
         }
 
         private void WifiNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
         {
-            DisplayController.Instance.StopConnectingAnimation();
+            DisplayView.Instance.StopConnectingAnimation();
 
-            var mapleServer = new MapleServer(sender.IpAddress, 5417, true, logger: Resolver.Log);
+            _ = MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
+
+            var mapleServer = new MapleServer(sender.IpAddress, 5417, logger: Resolver.Log);
             mapleServer.Start();
 
-            DisplayController.Instance.ShowMapleReady(sender.IpAddress.ToString());
+            DisplayView.Instance.ShowMapleReady(sender.IpAddress.ToString());
 
             LedController.Instance.SetColor(Color.Green);
         }

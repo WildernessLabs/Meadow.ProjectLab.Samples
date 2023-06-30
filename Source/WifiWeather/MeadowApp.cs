@@ -11,31 +11,30 @@ using WifiWeather.Views;
 
 namespace WifiWeather
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
         RgbPwmLed onboardLed;
         WeatherView displayController;
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override async Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
-
             displayController = new WeatherView();
-            displayController.Initialize(projLab.Display);
+            displayController.Initialize(projectLab.Display);
 
             var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
             await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
 
-            onboardLed.StartPulse(Color.Green);
+            onboardLed.SetColor(Color.Green);
         }
 
         async Task GetTemperature()
@@ -43,7 +42,7 @@ namespace WifiWeather
             onboardLed.StartPulse(Color.Magenta);
 
             // Get indoor conditions
-            var conditions = await projLab.EnvironmentalSensor.Read();
+            var conditions = await projectLab.EnvironmentalSensor.Read();
 
             // Get outdoor conditions
             var outdoorConditions = await WeatherService.GetWeatherForecast();

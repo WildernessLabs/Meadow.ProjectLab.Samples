@@ -8,44 +8,42 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace MorseCodeTrainer
 {
-    // Change F7FeatherV2 to F7FeatherV1 for V1.x boards
+    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
     public class MeadowApp : App<F7FeatherV2>
     {
         Dictionary<string, string> morseCode;
 
         RgbPwmLed onboardLed;
 
-        Timer timer;
         Stopwatch stopWatch;
         string answer;
         string question;
 
-        IProjectLabHardware projLab;
+        IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
-            onboardLed = new RgbPwmLed(
-                redPwmPin: Device.Pins.OnboardLedRed,
-                greenPwmPin: Device.Pins.OnboardLedGreen,
-                bluePwmPin: Device.Pins.OnboardLedBlue);
+            Resolver.Log.Info("Initialize...");
+
+            projectLab = ProjectLab.Create();
+            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+
+            onboardLed = projectLab.RgbLed;
             onboardLed.SetColor(Color.Red);
 
-            projLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projLab.RevisionString}");
+            DisplayController.Instance.Initialize(projectLab.Display, projectLab.Speaker);
 
-            DisplayController.Instance.Initialize(projLab.Display);
+            projectLab.RightButton.PressStarted += ButtonPressStarted;
+            projectLab.RightButton.PressEnded += ButtonPressEnded;
 
-            projLab.RightButton.PressStarted += ButtonPressStarted;
-            projLab.RightButton.PressEnded += ButtonPressEnded;
+            projectLab.LeftButton.Clicked += BackSpaceButtonClicked;
+
+            projectLab.DownButton.Clicked += SubmitButtonClicked;
 
             stopWatch = new Stopwatch();
-
-            timer = new Timer(2000);
-            timer.Elapsed += TimerElapsed;
 
             LoadMorseCode();
 
@@ -56,50 +54,58 @@ namespace MorseCodeTrainer
 
         void LoadMorseCode()
         {
-            morseCode = new Dictionary<string, string>();
-            morseCode.Add("O-", "A");
-            morseCode.Add("-OOO", "B");
-            morseCode.Add("-O-O", "C");
-            morseCode.Add("-OO", "D");
-            morseCode.Add("O", "E");
-            morseCode.Add("OO-O", "F");
-            morseCode.Add("--O", "G");
-            morseCode.Add("OOOO", "H");
-            morseCode.Add("OO", "I");
-            morseCode.Add("O---", "J");
-            morseCode.Add("-O-", "K");
-            morseCode.Add("O-OO", "L");
-            morseCode.Add("--", "M");
-            morseCode.Add("-O", "N");
-            morseCode.Add("---", "O");
-            morseCode.Add("O--O", "P");
-            morseCode.Add("--O-", "Q");
-            morseCode.Add("O-O", "R");
-            morseCode.Add("OOO", "S");
-            morseCode.Add("-", "T");
-            morseCode.Add("OO-", "U");
-            morseCode.Add("OOO-", "V");
-            morseCode.Add("O--", "W");
-            morseCode.Add("-OO-", "X");
-            morseCode.Add("-O--", "Y");
-            morseCode.Add("--OO", "Z");
-            morseCode.Add("-----", "0");
-            morseCode.Add("O----", "1");
-            morseCode.Add("OO---", "2");
-            morseCode.Add("OOO--", "3");
-            morseCode.Add("OOOO-", "4");
-            morseCode.Add("OOOOO", "5");
-            morseCode.Add("-OOOO", "6");
-            morseCode.Add("--OOO", "7");
-            morseCode.Add("---OO", "8");
-            morseCode.Add("----O", "9");
+            morseCode = new Dictionary<string, string>
+            {
+                { "O-", "A" },
+                { "-OOO", "B" },
+                { "-O-O", "C" },
+                { "-OO", "D" },
+                { "O", "E" },
+                { "OO-O", "F" },
+                { "--O", "G" },
+                { "OOOO", "H" },
+                { "OO", "I" },
+                { "O---", "J" },
+                { "-O-", "K" },
+                { "O-OO", "L" },
+                { "--", "M" },
+                { "-O", "N" },
+                { "---", "O" },
+                { "O--O", "P" },
+                { "--O-", "Q" },
+                { "O-O", "R" },
+                { "OOO", "S" },
+                { "-", "T" },
+                { "OO-", "U" },
+                { "OOO-", "V" },
+                { "O--", "W" },
+                { "-OO-", "X" },
+                { "-O--", "Y" },
+                { "--OO", "Z" },
+                { "-----", "0" },
+                { "O----", "1" },
+                { "OO---", "2" },
+                { "OOO--", "3" },
+                { "OOOO-", "4" },
+                { "OOOOO", "5" },
+                { "-OOOO", "6" },
+                { "--OOO", "7" },
+                { "---OO", "8" },
+                { "----O", "9" }
+            };
         }
 
-        async void TimerElapsed(object sender, ElapsedEventArgs e)
+        private void BackSpaceButtonClicked(object sender, EventArgs e)
         {
-            if (!morseCode.ContainsKey(answer)) { return; }
+            if (answer.Length == 0) { return; }
 
-            timer.Stop();
+            answer = answer.Substring(0, answer.Length - 1);
+            DisplayController.Instance.UpdateAnswer(answer, Color.White);
+        }
+
+        private async void SubmitButtonClicked(object sender, EventArgs e)
+        {
+            if (answer.Length == 0) { return; }
 
             bool isCorrect = morseCode[answer] == question;
 
@@ -116,21 +122,18 @@ namespace MorseCodeTrainer
                 answer = string.Empty;
                 DisplayController.Instance.ShowLetterQuestion(question);
             }
-
-            timer.Start();
         }
 
         async void ButtonPressStarted(object sender, EventArgs e)
         {
-            await projLab.Speaker.PlayTone(new Meadow.Units.Frequency(440));
+            await projectLab.Speaker.PlayTone(new Meadow.Units.Frequency(440));
             stopWatch.Reset();
             stopWatch.Start();
-            timer.Stop();
         }
 
         void ButtonPressEnded(object sender, EventArgs e)
         {
-            projLab.Speaker.StopTone();
+            projectLab.Speaker.StopTone();
             stopWatch.Stop();
 
             if (stopWatch.ElapsedMilliseconds < 200)
@@ -143,7 +146,6 @@ namespace MorseCodeTrainer
             }
 
             DisplayController.Instance.UpdateAnswer(answer, Color.White);
-            timer.Start();
         }
 
         void ShowLetterQuestion()

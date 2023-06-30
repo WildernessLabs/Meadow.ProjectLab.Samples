@@ -1,5 +1,7 @@
 ﻿using Meadow.Foundation;
+using Meadow.Foundation.Audio;
 using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Speakers;
 using System;
 
 namespace MorseCodeTrainer.Controllers
@@ -11,22 +13,25 @@ namespace MorseCodeTrainer.Controllers
         public static DisplayController Instance => instance.Value;
 
         MicroGraphics graphics;
+        MicroAudio audio;
+        int padding = 12;
 
         private DisplayController() { }
 
-        public void Initialize(IGraphicsDisplay display)
+        public void Initialize(IGraphicsDisplay display, IToneGenerator piezoSpeaker)
         {
+            audio = new MicroAudio(piezoSpeaker);
+
             graphics = new MicroGraphics(display)
             {
                 Stroke = 1,
                 CurrentFont = new Font12x20(),
-                Rotation = RotationType._90Degrees
             };
 
             graphics.Clear();
-            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height);
-            graphics.DrawText(24, 15, "Morse Code Coach");
-            graphics.DrawHorizontalLine(24, 41, 196, Color.White);
+            graphics.DrawRectangle(0, 0, graphics.Width, graphics.Height - 1);
+            graphics.DrawText(graphics.Width / 2, 15, "Morse Code Coach", alignmentH: HorizontalAlignment.Center);
+            graphics.DrawHorizontalLine((graphics.Width - 196) / 2, 41, 196, Color.White);
             graphics.Show();
         }
 
@@ -34,41 +39,38 @@ namespace MorseCodeTrainer.Controllers
         {
             Color color = isCorrect ? Color.GreenYellow : Color.Red;
 
-            graphics.DrawText(120, 65, question, color, ScaleFactor.X3, alignmentH: HorizontalAlignment.Center);
+            _ = isCorrect
+                ? audio.PlayGameSound(GameSoundEffect.LevelComplete)
+                : audio.PlayGameSound(GameSoundEffect.Explosion);
+
+            graphics.DrawText(graphics.Width / 2, 65, question, color, ScaleFactor.X3, alignmentH: HorizontalAlignment.Center);
             UpdateAnswer(answer, color);
-            graphics.DrawText(120, 190, isCorrect ? "Correct!" : "Try again!", color, ScaleFactor.X1, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawText(graphics.Width / 2, 190, isCorrect ? "Correct!" : "Try again!", color, ScaleFactor.X1, alignmentH: HorizontalAlignment.Center);
             graphics.Show();
         }
 
         public void ShowLetterQuestion(string question)
         {
-            graphics.DrawRectangle(2, 65, 236, 60, Color.Black, true);
-            graphics.DrawText(120, 65, question, Color.White, ScaleFactor.X3, alignmentH: HorizontalAlignment.Center);
-            graphics.DrawRectangle(5, 120, 230, 110, Color.Black, true);
+            graphics.DrawRectangle(padding, 60, graphics.Width - padding * 2, 60, Color.Black, true);
+            graphics.DrawText(graphics.Width / 2, 65, question, Color.White, ScaleFactor.X3, alignmentH: HorizontalAlignment.Center);
+            graphics.DrawRectangle(5, 120, graphics.Width - padding * 2, graphics.Height / 2 - padding, Color.Black, true);
             graphics.Show();
         }
 
         public void UpdateAnswer(string answer, Color color)
         {
-            int x = 0;
-            int y = 143;
+            int symbolSize = 20;
+            int symbolSpacing = 8;
 
-            switch (answer.Length)
-            {
-                case 1: x = 109; break;
-                case 2: x = 96; break;
-                case 3: x = 83; break;
-                case 4: x = 71; break;
-                case 5: x = 57; break;
-                default: return;
-            }
+            int x = (graphics.Width - ((symbolSize + symbolSpacing) * (answer.Length - 1))) / 2;
+            int y = 155;
 
-            graphics.DrawRectangle(24, y, 200, 30, Color.Black, true);
+            graphics.DrawRectangle(padding, y - (symbolSize + symbolSpacing) / 2, graphics.Width - padding * 2, 30, Color.Black, true);
 
             foreach (var ch in answer)
             {
                 DrawDashOrDot(x, y, ch == '-', color);
-                x += 26;
+                x += symbolSize + symbolSpacing;
             }
 
             graphics.Show();
@@ -78,11 +80,11 @@ namespace MorseCodeTrainer.Controllers
         {
             if (isDash)
             {
-                graphics.DrawRectangle(x + 3, y + 6, 20, 8, color, true);
+                graphics.DrawRectangle(x - 10, y - 3, 20, 8, color, true);
             }
             else
             {
-                graphics.DrawCircle(x + 11, y + 10, 10, color, true);
+                graphics.DrawCircle(x, y, 10, color, true);
             }
 
             graphics.Show();
