@@ -3,7 +3,7 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Buttons;
+using Meadow.Peripherals.Sensors.Buttons;
 using Meadow.Units;
 using System;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ namespace Simon
         RgbPwmLed onboardLed;
         MicroGraphics graphics;
         IProjectLabHardware projectLab;
-        PushButton[] buttons;
+        IButton[] buttons;
 
         public override Task Initialize()
         {
@@ -56,7 +56,7 @@ namespace Simon
             };
             graphics.Clear();
 
-            buttons = new PushButton[4];
+            buttons = new IButton[4];
             buttons[0] = projectLab.UpButton;
             buttons[0].Clicked += ButtonUpClicked;
             buttons[2] = projectLab.DownButton;
