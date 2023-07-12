@@ -1,5 +1,6 @@
 ﻿
 using Meadow.Foundation.Grove.Servos;
+using Meadow.Hardware;
 using Meadow.Units;
 using System;
 using System.Threading;
@@ -13,10 +14,9 @@ namespace MeadowAzureServo.Views
             new Lazy<ServoController>(() => new ServoController());
         public static ServoController Instance => instance.Value;
 
-        Servo servo;
-
-        Task animationTask = null;
-        CancellationTokenSource cancellationTokenSource = null;
+        private Servo servo;
+        private Task animationTask = null;
+        private CancellationTokenSource cancellationTokenSource = null;
 
         protected int _rotationAngle;
 
@@ -27,7 +27,7 @@ namespace MeadowAzureServo.Views
 
         private void Initialize()
         {
-            servo = new Servo(MeadowApp.Device.Pins.D12);
+            servo = new Servo(MeadowApp.Device.Pins.D12.CreatePwmPort(new Frequency(100)));
         }
 
         public void RotateTo(Angle angle)
