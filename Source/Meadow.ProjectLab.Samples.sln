@@ -81,6 +81,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoistureSensor", "..\..\Mea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors.Camera.Mlx90640", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Sensors.Camera.Mlx90640\Driver\Sensors.Camera.Mlx90640.csproj", "{0EE32BE4-6512-4385-9BF3-776DFAFB0BE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Cloud_Update", "Meadow.Cloud_Update\Meadow.Cloud_Update.csproj", "{86F59281-E4A7-4CB2-880B-B61B49044232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICs.IOExpanders.Sc16is7x2", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\ICs.IOExpanders.Sc16is7x2\Driver\ICs.IOExpanders.Sc16is7x2.csproj", "{383C5B0F-536D-4147-8894-3DACD37209F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_v1_ProjLab|Any CPU = Debug_v1_ProjLab|Any CPU
@@ -703,6 +707,30 @@ Global
 		{0EE32BE4-6512-4385-9BF3-776DFAFB0BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EE32BE4-6512-4385-9BF3-776DFAFB0BE5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0EE32BE4-6512-4385-9BF3-776DFAFB0BE5}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F59281-E4A7-4CB2-880B-B61B49044232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{383C5B0F-536D-4147-8894-3DACD37209F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -733,6 +761,7 @@ Global
 		{E13F8286-26E9-4A27-B4F3-718E4C655577} = {0F1F10EF-6400-4280-8449-F7914CD90AF0}
 		{FE4561F2-9AE4-4594-9CC3-58A38D260FD3} = {0F1F10EF-6400-4280-8449-F7914CD90AF0}
 		{0EE32BE4-6512-4385-9BF3-776DFAFB0BE5} = {0F1F10EF-6400-4280-8449-F7914CD90AF0}
+		{383C5B0F-536D-4147-8894-3DACD37209F6} = {0F1F10EF-6400-4280-8449-F7914CD90AF0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AD554B2-93F3-4B0A-9725-304A66FB780A}
