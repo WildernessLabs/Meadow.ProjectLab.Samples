@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace ThermalCamera
 {
-    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         RgbPwmLed onboardLed;
         IProjectLabHardware projectLab;

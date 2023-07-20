@@ -3,12 +3,12 @@
 # http://developer.wildernesslabs.co/Meadow/Meadow.OS/Configuration/Application_Settings_Configuration/
 
 Lifecycle:
-    # Control whether Meadow will restart when an unhandled app exception occurs. Combine with Lifecycle > AppFailureRestartDelaySeconds to control restart timing.
-    RestartOnAppFailure: false
-    # When app set to restart automatically on app failure, 
-    # AppFailureRestartDelaySeconds: 15
+  # Control whether Meadow will restart when an unhandled app exception occurs. Combine with Lifecycle > AppFailureRestartDelaySeconds to control restart timing.
+  RestartOnAppFailure: false
+  # When app set to restart automatically on app failure, 
+  # AppFailureRestartDelaySeconds: 15
 
 # Adjust the level of logging detail.
 Logging:
-    LogLevel:
-        Default: "Information"
+  LogLevel:
+    Default: Information

@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace AmbientRoomMonitor
 {
-    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         Color[] colors = new Color[4]
         {
