@@ -1,4 +1,5 @@
 ﻿using Amqp;
+using Amqp.Framing;
 using Meadow;
 using Meadow.Units;
 using System;
@@ -67,11 +68,13 @@ namespace MeadowAzureIoTHub.Azure
                         $"}}";
 
                 Resolver.Log.Info("Create message");
-                var message = new Message(Encoding.UTF8.GetBytes(messagePayload));
-                message.ApplicationProperties = new Amqp.Framing.ApplicationProperties();
+                var payloadBytes = Encoding.UTF8.GetBytes(messagePayload);
+                var message = new Message()
+                {
+                    BodySection = new Data() { Binary = payloadBytes }
+                };
 
-                Resolver.Log.Info("Send message");
-                sender.Send(message, null, null);
+                sender.SendAsync(message);
 
                 Resolver.Log.Info($"*** DATA SENT - Temperature - {reading.Temperature.Value.Celsius}, Humidity - {reading.Humidity.Value.Percent}, Pressure - {reading.Pressure.Value.Millibar} ***");
             }
