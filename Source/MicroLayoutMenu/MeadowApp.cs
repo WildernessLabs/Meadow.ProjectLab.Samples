@@ -24,7 +24,9 @@ namespace MicroLayoutMenu
                 };
 
             var projLab = ProjectLab.Create();
+
             _screen = new DisplayScreen(projLab.Display, Meadow.Foundation.Graphics.RotationType._270Degrees);
+
             _menu = new Menu(menuItems, _screen);
 
             projLab.UpButton.Clicked += (s, e) => _menu.Up();
