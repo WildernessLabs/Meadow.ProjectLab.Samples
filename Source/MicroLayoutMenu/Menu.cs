@@ -47,7 +47,6 @@ namespace MicroLayoutMenu
                     Text = items[i],
                     Font = MenuFont,
                     BackColor = Color.Transparent,
-                    // BackColor = (i % 2 == 0) ? Color.Red : Color.Transparent,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
 
@@ -62,6 +61,7 @@ namespace MicroLayoutMenu
                 }
 
                 screen.Controls.Add(_labels[i]);
+
 
                 y += height;
             }
