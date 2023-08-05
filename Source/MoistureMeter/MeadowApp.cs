@@ -3,18 +3,19 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
+using Meadow.Hardware;
 using MoistureMeter.Controllers;
 using System;
 using System.Threading.Tasks;
 
 namespace MoistureMeter
 {
-    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
+    public class MeadowApp : App<F7CoreComputeV2>
     {
-        RgbPwmLed onboardLed;
-        MoistureSensor sensor;
-        IProjectLabHardware projectLab;
+        private RgbPwmLed onboardLed;
+        private MoistureSensor sensor;
+        private IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
@@ -28,7 +29,7 @@ namespace MoistureMeter
 
             DisplayController.Instance.Initialize(projectLab.Display);
 
-            sensor = new MoistureSensor(Device.Pins.A01);
+            sensor = new MoistureSensor(Device.Pins.A01.CreateAnalogInputPort(1));
 
             sensor.Updated += (sender, result) =>
             {

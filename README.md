@@ -1,8 +1,19 @@
-<img src="Design/banner.jpg" style="margin-bottom:10px" />
+<img src="Design/meadow-projectlab-samples.jpg" style="margin-bottom:10px" />
 
 # Meadow.ProjectLab.Samples
 
 This repo contains code samples for the Wilderness Labs Meadow [Project Lab](https://github.com/WildernessLabs/Meadow.Project.Lab) board. Project Lab is a hardware development and prototyping board designed to enable rapid prototyping and IoT software development with [Meadow](http://developer.wildernesslabs.co/Meadow/) and [Meadow.Foundation](http://developer.wildernesslabs.co/Meadow/Meadow.Foundation/).
+
+
+## Contents
+* [Project Samples](#project-samples)
+* [Hardware Specifications](#hardware-specifications)
+* [Pinout Diagram](#pinout-diagram)
+  * [Project Lab v3.e](#project-lab-v3e)
+  * [Project Lab v2.e](#project-lab-v2e)
+  * [Project Lab v1.e](#project-lab-v1e)
+* [License](#license)
+* [Support](#support)
 
 ## Project Samples
 
@@ -93,15 +104,9 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
     </tr>
 </table>
 
-## Onboard On/Off switch
+## Hardware Specifications
 
-Project Lab boards come with an Enable/Disable switch onboard so you can reset the board by flipping the switch off and on. Make sure the switch is set to ENABLE when intending to work on your project, otherwise it will remain off and it wont be detected on your computer.
-
-<p align="center">
-    <img src="Design/EnableDisable.png" width="50%" />
-</p>
-
-## Hardware
+<img src="Design/project-lab-specs.jpg" alt="project-lab, specs, iot, dotnet" style="margin-top:10px;margin-bottom:10px" />
 
 <table>
     <tr>
@@ -109,7 +114,7 @@ Project Lab boards come with an Enable/Disable switch onboard so you can reset t
         <th>Connectivity</th>
     </tr>
     <tr>
-        <td><strong>ST7789</strong> - SPI 240x240 color display</li></td>
+        <td><strong>ILI9341</strong> - SPI 320x240 color display</li></td>
         <td><strong>MikroBUS</strong> - Two sets of MikroBUS pin headers</td>
     </tr>
     <tr>
@@ -139,13 +144,17 @@ Project Lab boards come with an Enable/Disable switch onboard so you can reset t
 Check the diagrams below to see what pins on the Meadow are connected to every peripheral on board and its connectors:
 &nbsp;
 
+### Project Lab v3.e
+
+<img src="Design/projectlab-pinout-v3.jpg" alt="project-lab-v3, pinout, iot, dotnet" style="margin-top:10px;margin-bottom:10px" />
+
 ### Project Lab v2.e
 
-<img src="Design/PinoutV2.jpg" style="margin-top:10px;margin-bottom:10px" />
+<img src="Design/projectlab-pinout-v2.jpg" alt="project-lab-v2, specs, iot, dotnet" style="margin-top:10px;margin-bottom:10px" />
 
 ### Project Lab v1.e
 
-<img src="Design/PinoutV1.jpg" style="margin-top:10px;margin-bottom:10px" />
+<img src="Design/projectlab-pinout-v1.jpg" alt="project-lab-v1, specs, iot, dotnet" style="margin-top:10px;margin-bottom:10px" />
 
 ## License
 Copyright 2023, Wilderness Labs Inc.
@@ -161,3 +170,9 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+## Support
+
+Having trouble building/running these projects? 
+* File an [issue](https://github.com/WildernessLabs/Meadow.Desktop.Samples/issues) with a repro case to investigate, and/or
+* Join our [public Slack](http://slackinvite.wildernesslabs.co/), where we have an awesome community helping, sharing and building amazing things using Meadow.

@@ -24,7 +24,7 @@
     <EmbeddedResource Include="w_storm.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />
     <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace MeadowAzureIoTHub
 {
-    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
+    public class MeadowApp : App<F7CoreComputeV2>
     {
         RgbPwmLed onboardLed;
         IProjectLabHardware projectLab;
@@ -20,6 +20,9 @@ namespace MeadowAzureIoTHub
         public override Task Initialize()
         {
             Resolver.Log.Info("Initialize...");
+
+            var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
+            wifi.NetworkConnected += NetworkConnected;
 
             projectLab = ProjectLab.Create();
             Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
@@ -30,9 +33,6 @@ namespace MeadowAzureIoTHub
             try
             {
                 amqpController = new IotHubManager();
-
-                var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
-                wifi.NetworkConnected += NetworkConnected;
 
                 projectLab.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;
 

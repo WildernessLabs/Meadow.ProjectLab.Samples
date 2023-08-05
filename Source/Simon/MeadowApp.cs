@@ -10,24 +10,21 @@ using System.Threading.Tasks;
 
 namespace Simon
 {
-    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
+    public class MeadowApp : App<F7CoreComputeV2>
     {
-        int ANIMATION_DELAY = 50;
-        const int DOT_UP = 0;
-        const int DOT_DOWN = 1;
-        const int DOT_LEFT = 2;
-        const int DOT_RIGHT = 3;
-
-        bool isAnimating;
-        Frequency[] notes;
-
-        SimonGame game;
-
-        RgbPwmLed onboardLed;
-        MicroGraphics graphics;
-        IProjectLabHardware projectLab;
-        IButton[] buttons;
+        private int ANIMATION_DELAY = 50;
+        private const int DOT_UP = 0;
+        private const int DOT_DOWN = 1;
+        private const int DOT_LEFT = 2;
+        private const int DOT_RIGHT = 3;
+        private bool isAnimating;
+        private Frequency[] notes;
+        private SimonGame game;
+        private RgbPwmLed onboardLed;
+        private MicroGraphics graphics;
+        private IProjectLabHardware projectLab;
+        private IButton[] buttons;
 
         public override Task Initialize()
         {
@@ -71,27 +68,27 @@ namespace Simon
             return base.Initialize();
         }
 
-        async void ButtonUpClicked(object sender, EventArgs e)
+        private async void ButtonUpClicked(object sender, EventArgs e)
         {
             await OnButton(DOT_UP);
         }
 
-        async void ButtonDownClicked(object sender, EventArgs e)
+        private async void ButtonDownClicked(object sender, EventArgs e)
         {
             await OnButton(DOT_DOWN);
         }
 
-        async void ButtonLeftClicked(object sender, EventArgs e)
+        private async void ButtonLeftClicked(object sender, EventArgs e)
         {
             await OnButton(DOT_LEFT);
         }
 
-        async void ButtonRightClicked(object sender, EventArgs e)
+        private async void ButtonRightClicked(object sender, EventArgs e)
         {
             await OnButton(DOT_RIGHT);
         }
 
-        async Task OnButton(int buttonIndex)
+        private async Task OnButton(int buttonIndex)
         {
             if (isAnimating == false)
             {
@@ -100,7 +97,7 @@ namespace Simon
             }
         }
 
-        void OnGameStateChanged(object sender, SimonEventArgs e)
+        private void OnGameStateChanged(object sender, SimonEventArgs e)
         {
             Task.Run(async () =>
             {
@@ -124,14 +121,14 @@ namespace Simon
             });
         }
 
-        async Task DrawDotFilled(int index, int duration = 400)
+        private async Task DrawDotFilled(int index, int duration = 400)
         {
             DrawDot(index, true);
             await projectLab.Speaker.PlayTone(notes[index], TimeSpan.FromMilliseconds(duration));
             DrawDot(index, false);
         }
 
-        void DrawAllDots(bool isOn)
+        private void DrawAllDots(bool isOn)
         {
             DrawDot(DOT_UP, isOn, false);
             DrawDot(DOT_DOWN, isOn, false);
@@ -140,7 +137,7 @@ namespace Simon
             graphics.Show();
         }
 
-        async Task ShowStartAnimation()
+        private async Task ShowStartAnimation()
         {
             if (isAnimating)
                 return;
@@ -159,7 +156,7 @@ namespace Simon
             isAnimating = false;
         }
 
-        async Task ShowNextLevelAnimation(int level)
+        private async Task ShowNextLevelAnimation(int level)
         {
             if (isAnimating)
                 return;
@@ -177,7 +174,7 @@ namespace Simon
             isAnimating = false;
         }
 
-        async Task ShowSequenceAnimation(int level)
+        private async Task ShowSequenceAnimation(int level)
         {
             if (isAnimating)
                 return;
@@ -194,7 +191,7 @@ namespace Simon
             isAnimating = false;
         }
 
-        async Task ShowGameOverAnimation()
+        private async Task ShowGameOverAnimation()
         {
             if (isAnimating)
                 return;
@@ -214,7 +211,7 @@ namespace Simon
             isAnimating = false;
         }
 
-        async Task ShowGameWonAnimation()
+        private async Task ShowGameWonAnimation()
         {
             await ShowStartAnimation();
             await ShowStartAnimation();
@@ -222,7 +219,7 @@ namespace Simon
             await ShowStartAnimation();
         }
 
-        void DrawDot(int index, bool isFilled, bool update = true)
+        private void DrawDot(int index, bool isFilled, bool update = true)
         {
             switch (index)
             {

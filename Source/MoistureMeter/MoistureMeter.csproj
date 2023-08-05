@@ -6,8 +6,8 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Grove.Sensors.Moisture.MoistureSensor" Version="1.*" />
-    <PackageReference Include="Meadow.ProjectLab" Version="1.*" />
+    <PackageReference Include="Meadow.Foundation.Grove.Sensors.Moisture.MoistureSensor" Version="*" />
+    <PackageReference Include="Meadow.ProjectLab" Version="*" />
   </ItemGroup>
   <PropertyGroup>
     <LangVersion>10.0</LangVersion>

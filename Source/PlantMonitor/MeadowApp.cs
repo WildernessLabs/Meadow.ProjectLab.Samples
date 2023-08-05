@@ -3,19 +3,20 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
+using Meadow.Hardware;
 using PlantMonitor.Controllers;
 using System;
 using System.Threading.Tasks;
 
 namespace PlantMonitor
 {
-    // Change F7FeatherV2 to F7CoreComputeV2 for ProjectLab v3
-    public class MeadowApp : App<F7FeatherV2>
+    // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
+    public class MeadowApp : App<F7CoreComputeV2>
     {
-        RgbPwmLed onboardLed;
-        IProjectLabHardware projectLab;
-        MoistureSensor moistureSensor;
-        DisplayController displayController;
+        private RgbPwmLed onboardLed;
+        private IProjectLabHardware projectLab;
+        private MoistureSensor moistureSensor;
+        private DisplayController displayController;
 
         public override Task Initialize()
         {
@@ -30,7 +31,7 @@ namespace PlantMonitor
             displayController = DisplayController.Instance;
             displayController.Initialize(projectLab.Display);
 
-            moistureSensor = new MoistureSensor(Device.Pins.A01);
+            moistureSensor = new MoistureSensor(Device.Pins.A01.CreateAnalogInputPort(1));
             var moistureSensorObserver = MoistureSensor.CreateObserver(
                 handler: result =>
                 {
