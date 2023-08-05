@@ -1,7 +1,7 @@
 ﻿using Meadow;
 using Meadow.Foundation;
-using Meadow.Foundation.Displays.UI;
 using Meadow.Foundation.Graphics;
+using Meadow.Foundation.Graphics.MicroLayout;
 
 namespace MicroLayoutMenu
 {
