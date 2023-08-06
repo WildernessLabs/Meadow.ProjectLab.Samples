@@ -32,7 +32,7 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
         </td>
         <td>
             <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
-            Make a Magic Eight ball with MicroGraphics and accelerometer sensor.</br>
+            Make a Magic Eight ball with MicroGraphics and BMI270 sensor</br>
             <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
         <!-- <td>
