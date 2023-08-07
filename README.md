@@ -21,7 +21,7 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
     <tr>
         <td>
             <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo"><img src="Design/GettingStarted.png"/></a><br/>
-            Make a Magic Eight ball with a Project Lab</br>
+            Getting started with Project Lab running a diagnostics app.</br>
             <a href="https://www.hackster.io/wilderness-labs/getting-started-with-meadow-s-project-lab-eeb569">Hackster</a> | <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo">Source Code</a>
         </td>
         <td>
@@ -32,7 +32,7 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
         </td>
         <td>
             <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
-            Make a Magic Eight ball with a Project Lab</br>
+            Make a Magic Eight ball with MicroGraphics and BMI270 sensor</br>
             <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
         <!-- <td>
