@@ -20,22 +20,28 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
 <table>
     <tr>
         <td>
-            <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo"><img src="Design/GettingStarted.png"/></a><br/>
-            Getting started with Project Lab running a diagnostics app.</br>
+            <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo"><img src="Design/wildernesslabs-projectlab-getting-started.png"/></a><br/>
+            Getting started with Project Lab running a diagnostics app</br>
             <a href="https://www.hackster.io/wilderness-labs/getting-started-with-meadow-s-project-lab-eeb569">Hackster</a> | <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo">Source Code</a>
         </td>
         <td>
-            <a href="Source/MeadowAzureIoTHub/"><img src="Design/MeadowAzureIoTHub.png"/></a><br/>
+            <a href="Source/MeadowAzureIoTHub/"><img src="Design/wildernesslabs-projectlab-azure-iot-hub.png"/></a><br/>
             Send anvironmental data from a BME688 to Azure IoT Hub<br/>
             <a href="https://www.hackster.io/wildernesslabs/send-environmental-data-from-projectlab-to-azure-w-iot-hub-7d3d07">Hackster</a> | 
             <a href="Source/MeadowAzureIoTHub/">Source Code</a>
         </td>
         <td>
+            <a href="Source/MeadowAzureIoTHub/WebAzureIoTHub/"><img src="Design/wildernesslabs-projectlab-azure-iot-hub-web.png"/></a><br/>
+            Visualize environmental data on a Web App from Azure IoT Hub</br>
+            <a href="https://www.hackster.io/wilderness-labs/visualize-azure-iot-hub-data-with-a-net-web-app-6288e3">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
+        </td>
+        <!-- 
+        <td>
             <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
             Make a Magic Eight ball with MicroGraphics and BMI270 sensor</br>
             <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
-        <!-- <td>
+        <td>
             <a href="Source/MeadowAzureServo/"><img src="Design/MeadowAzureServo.png"/></a><br/>
             Control a Grove Servo with Azure IoT Hub messages<br/>
             <a href="Source/MeadowAzureServo/">Source Code</a>
