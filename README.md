@@ -36,16 +36,24 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
             <a href="https://www.hackster.io/wilderness-labs/visualize-azure-iot-hub-data-with-a-net-web-app-6288e3">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
         <!-- 
+        -->
+    </tr>
         <td>
-            <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
-            Make a Magic Eight ball with MicroGraphics and BMI270 sensor</br>
-            <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
+            <a href="Source/MicroLayoutMenu/"><img src="Design/wildernesslabs-projectlab-microlayout-menu.png"/></a><br/>
+            Build HMI screens with MicroLayout for your Meadow applications</br>
+            <a href="Source/MicroLayoutMenu/">Source Code</a>
+        </td>
+        <td>
+            <a href="Source/MoistureMeter/"><img src="Design/wildernesslabs-projectlab-grove-moisture-meter.png"/></a><br/>
+            Use a Grove Soil Moisture sensor and graph its value on the display<br/>
+            <a href="Source/MoistureMeter/">Source Code</a>
         </td>
         <td>
             <a href="Source/MeadowAzureServo/"><img src="Design/MeadowAzureServo.png"/></a><br/>
-            Control a Grove Servo with Azure IoT Hub messages<br/>
+            Control a Grove Servo motor with Azure using IoT Hub messages<br/>
             <a href="Source/MeadowAzureServo/">Source Code</a>
-        </td> -->
+        </td> 
+    </tr>
     </tr>
         <td>
             <a href="Source/Connectivity/"><img src="Design/maple.png"/></a><br/>
@@ -58,25 +66,25 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
-            <a href="Source/MoistureMeter/"><img src="Design/MoistureMeter.png"/></a><br/>
-            Use a Grove Soil Moisture sensor and graph its value on the display<br/>
-            <a href="Source/MoistureMeter/">Source Code</a>
+            <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
+            Make a Magic Eight ball with MicroGraphics and BMI270 sensor</br>
+            <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
     </tr>
     <tr>
         <td>
             <a href="Source/GalleryViewer/"><img src="Design/GalleryViewer.png"/></a><br/>
-            Make an Image Gallery with a ST7789 Display and Meadow.<br/>
+            Run an Image Gallery with a Project Lab v3 using MicroGraphics<br/>
             <a href="Source/GalleryViewer/">Source Code</a>
         </td>
         <td>
             <a href="Source/WifiWeather/"><img src="Design/WifiWeather.png"/></a><br/>
-            Weather Station using public web service on a Project Lab Board<br/>
+            Weather Station using public web service on a Project Lab v3<br/>
             <a href="Source/WifiWeather/">Source Code</a>
         </td>
         <td>
             <a href="Source/AnalogClockFace/"><img src="Design/MeadowClockGraphics.png"/></a><br/>
-            Draw an analog clock watch face on using MicroGraphics<br/>
+            Draw a working analog clock watch face using MicroGraphics<br/>
             <a href="Source/AnalogClockFace/">Source Code</a>
         </td>
     </tr>
