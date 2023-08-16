@@ -17,7 +17,7 @@ namespace MeadowAzureIoTHub
         IProjectLabHardware projectLab;
         IotHubManager amqpController;
 
-        public override Task Initialize()
+        public override async Task Initialize()
         {
             Resolver.Log.Info("Initialize...");
 
@@ -39,13 +39,13 @@ namespace MeadowAzureIoTHub
                 DisplayController.Instance.Initialize(projectLab.Display);
                 DisplayController.Instance.ShowSplashScreen();
                 DisplayController.Instance.ShowConnectingAnimation();
+
+                await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
             }
             catch (Exception ex)
             {
                 Resolver.Log.Error($"Failed to Connect: {ex.Message}");
             }
-
-            return Task.CompletedTask;
         }
 
         private async void NetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
