@@ -14,7 +14,7 @@ namespace MeadowAzureIoTHub.Azure
     /// And then generate a SAS token - this can be done via the Azure CLI 
     /// </summary>
     /*
-     az iot hub generate-sas-token --hub-name tank-iot-hub --device-id meadow-project-lab --resource-group tank-resource-group --login HostName=tank-iot-hub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=dLQrcFokPCx0NSNcWXK+CqCBRpytAWZWGCMz7zi09pE=
+     az iot hub generate-sas-token --hub-name HUB_NAME --device-id DEVICE_ID --resource-group RESOURCE_GROUP --login [Open Shared access policies -> Select iothubowner -> copy Primary connection string]
     */
     public class IotHubManager
     {
