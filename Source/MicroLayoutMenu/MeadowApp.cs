@@ -57,6 +57,7 @@ namespace MicroLayoutMenu
                 {
                     Text = "Button 2",
                     TextColor = Color.White,
+                    ForeColor = Color.Red,
                     ShadowColor = Color.FromHex("#555555"),
                     Font = new Font12x20(),
                 });
