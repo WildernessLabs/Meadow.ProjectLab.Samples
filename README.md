@@ -22,7 +22,8 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
         <td>
             <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo"><img src="Design/wildernesslabs-projectlab-getting-started.png"/></a><br/>
             Getting started with Project Lab running a diagnostics app</br>
-            <a href="https://www.hackster.io/wilderness-labs/getting-started-with-meadow-s-project-lab-eeb569">Hackster</a> | <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo">Source Code</a>
+            <a href="https://www.hackster.io/wilderness-labs/getting-started-with-meadow-s-project-lab-eeb569">Hackster</a> | 
+            <a href="https://github.com/WildernessLabs/Meadow.ProjectLab/tree/main/Source/ProjectLab_Demo">Source Code</a>
         </td>
         <td>
             <a href="Source/MeadowAzureIoTHub/"><img src="Design/wildernesslabs-projectlab-azure-iot-hub.png"/></a><br/>
@@ -33,7 +34,8 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
         <td>
             <a href="Source/MeadowAzureIoTHub/WebAzureIoTHub/"><img src="Design/wildernesslabs-projectlab-azure-iot-hub-web.png"/></a><br/>
             Visualize environmental data on a Web App from Azure IoT Hub</br>
-            <a href="https://www.hackster.io/wilderness-labs/visualize-azure-iot-hub-data-with-a-net-web-app-6288e3">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
+            <a href="https://www.hackster.io/wilderness-labs/visualize-azure-iot-hub-data-with-a-net-web-app-6288e3">Hackster</a> | 
+            <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
         <!-- 
         -->
@@ -67,24 +69,24 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
-            <a href="Source/MagicEightMeadow/"><img src="Design/MagicEightMeadow.png"/></a><br/>
+            <a href="Source/MagicEightMeadow/"><img src="Design/wildernesslabs-projectlab-magic-eight-meadow.png"/></a><br/>
             Make a Magic Eight ball with MicroGraphics and BMI270 sensor</br>
             <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Source/GalleryViewer/"><img src="Design/GalleryViewer.png"/></a><br/>
+            <a href="Source/GalleryViewer/"><img src="Design/wildernesslabs-projectlab-galleryviewer.png"/></a><br/>
             Run an Image Gallery with a Project Lab v3 using MicroGraphics<br/>
             <a href="Source/GalleryViewer/">Source Code</a>
         </td>
         <td>
-            <a href="Source/WifiWeather/"><img src="Design/WifiWeather.png"/></a><br/>
+            <a href="Source/WifiWeather/"><img src="Design/wildernesslabs-projectlab-wifiweather.png"/></a><br/>
             Weather Station using public web service on a Project Lab v3<br/>
             <a href="Source/WifiWeather/">Source Code</a>
         </td>
         <td>
-            <a href="Source/AnalogClockFace/"><img src="Design/MeadowClockGraphics.png"/></a><br/>
+            <a href="Source/AnalogClockFace/"><img src="Design/wildernesslabs-projectlab-micrographics.png"/></a><br/>
             Draw a working analog clock watch face using MicroGraphics<br/>
             <a href="Source/AnalogClockFace/">Source Code</a>
         </td>
