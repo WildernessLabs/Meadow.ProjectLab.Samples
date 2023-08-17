@@ -93,17 +93,17 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
     </tr>
     <tr>
         <td>
-            <a href="Source/AmbientRoomMonitor/"><img src="Design/TemperatureMonitor.png"/></a><br/>
-            Room ambient monitor with a BME688 on a Project Lab Board<br/>
+            <a href="Source/AmbientRoomMonitor/"><img src="Design/wildernesslabs-projectlab-ambient-room-monitor.png"/></a><br/>
+            Room ambient monitor with a BME688 on a Project Lab<br/>
             <a href="Source/AmbientRoomMonitor/">Source Code</a>
         </td>
         <td>
-            <a href="Source/Simon/"><img src="Design/Simon.png"/></a><br/>
+            <a href="Source/Simon/"><img src="Design/wildernesslabs-projectlab-simon.png"/></a><br/>
             Run a Simon Game on a display and push button d-pad</br>
             <a href="Source/Simon/">Source Code</a>
         </td>
         <td>
-            <a href="Source/MorseCodeTrainer/"><img src="Design/MorseCodeTrainer.png"/></a><br/>
+            <a href="Source/MorseCodeTrainer/"><img src="Design/wildernesslabs-projectlab-morse-code-trainer.png"/></a><br/>
             Train your Morse Code spelling skills with Meadow<br/>
             <a href="Source/MorseCodeTrainer/">Source Code</a>
         </td>
