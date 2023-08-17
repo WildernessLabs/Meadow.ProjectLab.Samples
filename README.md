@@ -59,18 +59,18 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
     </tr>
     </tr>
         <td>
-            <a href="Source/Connectivity/"><img src="Design/maple.png"/></a><br/>
-            Control a Project Lab Board over Wi-Fi with a MAUI app</br>
+            <a href="Source/Connectivity/"><img src="Design/wildernesslabs-projectlab-maple.png"/></a><br/>
+            Control a Project Lab over Wi-Fi with a MAUI app</br>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
-            <a href="Source/Connectivity/"><img src="Design/bluetooth.png"/></a><br/>
-            Control a Project Lab Board over Bluetooth with a companion app<br/>
+            <a href="Source/Connectivity/"><img src="Design/wildernesslabs-projectlab-bluetooth.png"/></a><br/>
+            Control a Project Lab over Bluetooth with a MAUI app<br/>
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
             <a href="Source/MagicEightMeadow/"><img src="Design/wildernesslabs-projectlab-magic-eight-meadow.png"/></a><br/>
-            Make a Magic Eight ball with MicroGraphics and BMI270 sensor</br>
+            Make a Magic Eight ball with Project Lab</br>
             <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
     </tr>
