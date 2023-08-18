@@ -48,7 +48,6 @@ namespace Simon
 
             graphics = new MicroGraphics(projectLab.Display)
             {
-                Rotation = RotationType._90Degrees,
                 Stroke = 5
             };
             graphics.Clear();
@@ -224,20 +223,20 @@ namespace Simon
             switch (index)
             {
                 case DOT_UP:
-                    graphics.DrawCircle(120, 55, 40, Color.Black, true);
-                    graphics.DrawCircle(120, 55, 40, Color.Red, isFilled);
+                    graphics.DrawCircle(graphics.Width / 2, 55, 40, Color.Black, true);
+                    graphics.DrawCircle(graphics.Width / 2, 55, 40, Color.Red, isFilled);
                     break;
                 case DOT_DOWN:
-                    graphics.DrawCircle(120, 185, 40, Color.Black, true);
-                    graphics.DrawCircle(120, 185, 40, Color.Yellow, isFilled);
+                    graphics.DrawCircle(graphics.Width / 2, 185, 40, Color.Black, true);
+                    graphics.DrawCircle(graphics.Width / 2, 185, 40, Color.Yellow, isFilled);
                     break;
                 case DOT_LEFT:
-                    graphics.DrawCircle(55, 120, 40, Color.Black, true);
-                    graphics.DrawCircle(55, 120, 40, Color.Green, isFilled);
+                    graphics.DrawCircle((graphics.Width / 2) - 65, 120, 40, Color.Black, true);
+                    graphics.DrawCircle((graphics.Width / 2) - 65, 120, 40, Color.Green, isFilled);
                     break;
                 case DOT_RIGHT:
-                    graphics.DrawCircle(185, 120, 40, Color.Black, true);
-                    graphics.DrawCircle(185, 120, 40, Color.Blue, isFilled);
+                    graphics.DrawCircle((graphics.Width / 2) + 65, 120, 40, Color.Black, true);
+                    graphics.DrawCircle((graphics.Width / 2) + 65, 120, 40, Color.Blue, isFilled);
                     break;
             }
 
