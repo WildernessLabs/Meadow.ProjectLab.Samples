@@ -42,7 +42,7 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
     </tr>
         <td>
             <a href="Source/MicroLayoutMenu/"><img src="Design/wildernesslabs-projectlab-microlayout-menu.png"/></a><br/>
-            Build HMI screens with MicroLayout for your Meadow applications</br>
+            Build HMI screens with MicroLayout for Meadow</br>
             <a href="https://www.hackster.io/wilderness-labs/build-hmi-screens-with-microlayout-for-your-meadow-apps-b87702">Hackster</a> |
             <a href="Source/MicroLayoutMenu/">Source Code</a>
         </td>
@@ -52,7 +52,7 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
             <a href="Source/MoistureMeter/">Source Code</a>
         </td>
         <td>
-            <a href="Source/MeadowAzureServo/"><img src="Design/MeadowAzureServo.png"/></a><br/>
+            <a href="Source/MeadowAzureServo/"><img src="Design/wildernesslabs-projectlab-azure-servo.png"/></a><br/>
             Control a Grove Servo motor with Azure using IoT Hub messages<br/>
             <a href="Source/MeadowAzureServo/">Source Code</a>
         </td> 
