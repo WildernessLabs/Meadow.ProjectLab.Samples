@@ -49,6 +49,7 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
         <td>
             <a href="Source/MoistureMeter/"><img src="Design/wildernesslabs-projectlab-grove-moisture-meter.png"/></a><br/>
             Use a Grove Soil Moisture sensor and graph its value on the display<br/>
+            <a href="https://www.hackster.io/wilderness-labs/moisturemeter-with-projectlab-and-grove-soil-moisture-sensor-d478fd">Hackster</a> |
             <a href="Source/MoistureMeter/">Source Code</a>
         </td>
         <td>
