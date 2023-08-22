@@ -52,9 +52,9 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
             <a href="Source/MoistureMeter/">Source Code</a>
         </td>
         <td>
-            <a href="Source/MeadowAzureServo/"><img src="Design/wildernesslabs-projectlab-azure-servo.png"/></a><br/>
-            Control a Grove Servo motor with Azure using IoT Hub messages<br/>
-            <a href="Source/MeadowAzureServo/">Source Code</a>
+            <a href="Source/MagicEightMeadow/"><img src="Design/wildernesslabs-projectlab-magic-eight-meadow.png"/></a><br/>
+            Make a Magic Eight ball with Project Lab</br>
+            <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
         </td> 
     </tr>
     </tr>
@@ -69,9 +69,9 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
             <a href="Source/Connectivity/">Source Code</a>
         </td>
         <td>
-            <a href="Source/MagicEightMeadow/"><img src="Design/wildernesslabs-projectlab-magic-eight-meadow.png"/></a><br/>
-            Make a Magic Eight ball with Project Lab</br>
-            <a href="https://www.hackster.io/wilderness-labs/build-your-own-magic-eight-ball-with-a-projectlab-28044f">Hackster</a> | <a href="Source/MagicEightMeadow/">Source Code</a>
+            <a href="Source/MeadowAzureServo/"><img src="Design/wildernesslabs-projectlab-azure-servo.png"/></a><br/>
+            Control a Grove Servo motor with Azure using IoT Hub messages<br/>
+            <a href="Source/MeadowAzureServo/">Source Code</a>
         </td>
     </tr>
     <tr>
