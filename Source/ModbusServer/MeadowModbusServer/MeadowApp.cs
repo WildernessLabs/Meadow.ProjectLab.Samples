@@ -10,7 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace ModbusServer;
+namespace MeadowModbusServer;
 
 public class MeadowApp : App<F7CoreComputeV2>
 {

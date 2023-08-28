@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModbusServer;
+namespace MeadowModbusServer;
 
 internal class RegisterBank
 {

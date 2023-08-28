@@ -3,7 +3,6 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
-using Meadow.Hardware;
 using MoistureMeter.Controllers;
 using System;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace MoistureMeter
 
             DisplayController.Instance.Initialize(projectLab.Display);
 
-            sensor = new MoistureSensor(projectLab.GroveAnalog.Pins.D0.CreateAnalogInputPort(1));
+            sensor = new MoistureSensor(projectLab.GroveAnalog.Pins.D0);
 
             sensor.Updated += (sender, result) =>
             {
