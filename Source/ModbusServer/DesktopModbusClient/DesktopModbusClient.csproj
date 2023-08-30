@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Meadow.Modbus" Version="1.3.0" />
+    <ProjectReference Include="..\..\..\..\Meadow.Modbus\src\Meadow.Modbus\Meadow.Modbus.csproj" />
   </ItemGroup>
 
 </Project>
