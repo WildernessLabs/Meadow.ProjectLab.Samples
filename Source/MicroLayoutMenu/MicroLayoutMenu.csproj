@@ -6,6 +6,12 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="img_meadow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="img_meadow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="*" />
     <PackageReference Include="Meadow.ProjectLab" Version="*" />
   </ItemGroup>

@@ -17,18 +17,10 @@
     <EmbeddedResource Include="img_wifi_connecting.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="1.2.0" />
+    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="1.3.0" />
     <PackageReference Include="Meadow.ProjectLab" Version="*" />
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="meadow.config.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="wifi.config.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="..\Connectivity.Common\CommonContracts.projitems" Label="Shared" />
 </Project>
