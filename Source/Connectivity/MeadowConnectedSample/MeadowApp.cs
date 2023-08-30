@@ -19,7 +19,7 @@ namespace MeadowConnectedSample
 
         IProjectLabHardware projectLab;
 
-        public override Task Initialize()
+        public override async Task Initialize()
         {
             Resolver.Log.Info("Initialize...");
 
@@ -41,6 +41,7 @@ namespace MeadowConnectedSample
             {
                 var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
                 wifi.NetworkConnected += WifiNetworkConnected;
+                await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD);
             }
             else
             {
@@ -48,8 +49,6 @@ namespace MeadowConnectedSample
                 LedController.Instance.SetColor(Color.Green);
                 _ = MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
             }
-
-            return Task.CompletedTask;
         }
 
         private void WifiNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
