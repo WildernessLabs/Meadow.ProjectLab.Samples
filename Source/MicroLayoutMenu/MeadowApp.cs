@@ -28,11 +28,11 @@ namespace MicroLayoutMenu
             var image = Image.LoadFromResource("MicroLayoutMenu.img_meadow.bmp");
 
             _screen.Controls.Add(
-                new DisplayBox(0, 0, _screen.Width, _screen.Height)
+                new Box(0, 0, _screen.Width, _screen.Height)
                 {
                     ForeColor = Color.White
                 },
-                new DisplayLabel(15, 20, 290, 40)
+                new Label(15, 20, 290, 40)
                 {
                     Text = "Welcome to MicroLayout!",
                     TextColor = Color.Black,
@@ -41,19 +41,19 @@ namespace MicroLayoutMenu
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 },
-                new DisplayImage(90, 74, 140, 90, image)
+                new Picture(90, 74, 140, 90, image)
                 {
                     BackColor = Color.FromHex("#23ABE3"),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                 },
-                new DisplayButton(30, 178, 120, 40)
+                new Button(30, 178, 120, 40)
                 {
                     Text = "Button 1",
                     TextColor = Color.Black,
                     Font = new Font12x20(),
                 },
-                new DisplayButton(170, 178, 120, 40)
+                new Button(170, 178, 120, 40)
                 {
                     Text = "Button 2",
                     TextColor = Color.White,

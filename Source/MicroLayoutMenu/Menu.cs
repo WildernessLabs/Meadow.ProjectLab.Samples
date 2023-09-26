@@ -7,8 +7,8 @@ namespace MicroLayoutMenu
 {
     public class Menu
     {
-        private DisplayLabel[] _labels;
-        private DisplayBox _highlightBox;
+        private Label[] _labels;
+        private Box _highlightBox;
 
         private const int ItemHeight = 30;
 
@@ -21,14 +21,14 @@ namespace MicroLayoutMenu
 
         public Menu(string[] items, DisplayScreen screen)
         {
-            _labels = new DisplayLabel[items.Length];
+            _labels = new Label[items.Length];
 
             var x = 2;
             var y = 0;
             var height = ItemHeight;
 
             // we compose the screen from the back forward, so put the box on first
-            _highlightBox = new DisplayBox(0, -1, screen.Width, ItemHeight + 2)
+            _highlightBox = new Box(0, -1, screen.Width, ItemHeight + 2)
             {
                 ForeColor = SelectionColor,
                 Filled = true,
@@ -38,7 +38,7 @@ namespace MicroLayoutMenu
 
             for (var i = 0; i < items.Length; i++)
             {
-                _labels[i] = new DisplayLabel(
+                _labels[i] = new Label(
                     left: x,
                     top: i * height,
                     width: screen.Width,
