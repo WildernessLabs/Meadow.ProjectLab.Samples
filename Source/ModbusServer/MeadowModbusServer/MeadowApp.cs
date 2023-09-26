@@ -18,8 +18,8 @@ public class MeadowApp : App<F7CoreComputeV2>
     private ModbusTcpServer modbusServer;
     private RegisterBank registers;
     private DisplayScreen screen;
-    private DisplayLabel addressLabel;
-    private DisplayLabel telemetryLabel;
+    private Label addressLabel;
+    private Label telemetryLabel;
 
     public override Task Initialize()
     {
@@ -54,11 +54,11 @@ public class MeadowApp : App<F7CoreComputeV2>
 
         screen = new DisplayScreen(projectLab.Display, RotationType._270Degrees, theme: theme);
 
-        var header = new DisplayLabel(10, 10, screen.Width, 20);
+        var header = new Label(10, 10, screen.Width, 20);
         header.Text = "Meadow Modbus Server";
-        addressLabel = new DisplayLabel(10, 40, screen.Width, 20);
+        addressLabel = new Label(10, 40, screen.Width, 20);
         addressLabel.Text = "Connecting...";
-        telemetryLabel = new DisplayLabel(10, 70, screen.Width, 20);
+        telemetryLabel = new Label(10, 70, screen.Width, 20);
         telemetryLabel.Font = new Font8x16();
 
         screen.Controls.Add(header, addressLabel, telemetryLabel);
@@ -79,6 +79,34 @@ public class MeadowApp : App<F7CoreComputeV2>
         modbusServer.Start();
     }
 
+    private IModbusResult OnModbusServerReadInputRegisterRequest(byte modbusAddress, ushort startRegister, short length)
+    {
+        Resolver.Log.Info($"Read request for {length} registers starting at {startRegister}");
+
+        try
+        {
+            if (!Enum.IsDefined(typeof(RegisterBank.Registers), startRegister))
+            {
+                Resolver.Log.Info($"Illegal address");
+                return new ModbusErrorResult(ModbusErrorCode.IllegalDataAddress);
+            }
+
+            var r = registers.GetRegisters(startRegister, length);
+            if (r == null)
+            {
+                Resolver.Log.Info($"Illegal offset");
+                return new ModbusErrorResult(ModbusErrorCode.InvalidOffset);
+            }
+
+            return new ModbusReadResult(r);
+        }
+        catch (Exception ex)
+        {
+            Resolver.Log.Info($"{ex.Message}");
+            return new ModbusErrorResult(ModbusErrorCode.IllegalFunction);
+        }
+    }
+
     private void OnClientConnected(object sender, EndPoint e)
     {
         Resolver.Log.Info($"Client connected from {e}");
@@ -93,34 +121,6 @@ public class MeadowApp : App<F7CoreComputeV2>
     {
         telemetryLabel.Text = string.Join("  ",
             telemetry.Select(t => $"{t.Key}={t.Value:0.0}"));
-    }
-
-    private IModbusResult OnModbusServerReadInputRegisterRequest(ushort startAddress, short length)
-    {
-        Resolver.Log.Info($"Read request for {length} registers starting at {startAddress}");
-
-        try
-        {
-            if (!Enum.IsDefined(typeof(RegisterBank.Registers), startAddress))
-            {
-                Resolver.Log.Info($"Illegal address");
-                return new ModbusErrorResult(ModbusErrorCode.IllegalDataAddress);
-            }
-
-            var r = registers.GetRegisters(startAddress, length);
-            if (r == null)
-            {
-                Resolver.Log.Info($"Illegal offset");
-                return new ModbusErrorResult(ModbusErrorCode.InvalidOffset);
-            }
-
-            return new ModbusReadResult(r);
-        }
-        catch (Exception ex)
-        {
-            Resolver.Log.Info($"{ex.Message}");
-            return new ModbusErrorResult(ModbusErrorCode.IllegalFunction);
-        }
     }
 
     private void OnEnvironmentalSensorUpdated(object sender, IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> e)
