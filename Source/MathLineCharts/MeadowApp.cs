@@ -21,7 +21,7 @@ namespace MathLineCharts
 
             _screen.BackgroundColor = Color.AntiqueWhite;
 
-            var chart1 = new DisplayLineChart(0, 0, _screen.Width, _screen.Height / 2)
+            var chart1 = new LineChart(0, 0, _screen.Width, _screen.Height / 2)
             {
                 BackgroundColor = Color.FromHex("111111"),
                 ShowYAxisLabels = true
@@ -31,7 +31,7 @@ namespace MathLineCharts
                 GetSineSeries(),
                 GetCosineSeries(4, 4.2, 0));
 
-            var chart2 = new DisplayLineChart(0, _screen.Height / 2, _screen.Width, _screen.Height / 2)
+            var chart2 = new LineChart(0, _screen.Height / 2, _screen.Width, _screen.Height / 2)
             {
                 BackgroundColor = Color.FromHex("222222"),
                 ShowYAxisLabels = true
@@ -54,7 +54,7 @@ namespace MathLineCharts
             {
                 LineColor = Color.Red,
                 PointColor = Color.Green,
-                LineWidth = 1,
+                LineStroke = 1,
                 PointSize = 2,
                 ShowLines = true,
                 ShowPoints = true,
@@ -74,7 +74,7 @@ namespace MathLineCharts
             {
                 LineColor = Color.DarkBlue,
                 PointColor = Color.DarkGreen,
-                LineWidth = 2,
+                LineStroke = 2,
                 PointSize = 3,
                 ShowLines = true,
                 ShowPoints = true,
