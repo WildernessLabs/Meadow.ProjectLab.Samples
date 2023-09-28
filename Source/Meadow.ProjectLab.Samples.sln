@@ -96,7 +96,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopModbusClient", "Modb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servos.ServoCore", "..\..\Meadow.Foundation\Source\Meadow.Foundation.Peripherals\Servos.ServoCore\Driver\Servos.ServoCore.csproj", "{C1838709-3BD5-47C2-8F52-DCF822CB81AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathLineCharts", "MathLineCharts\MathLineCharts.csproj", "{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathLineCharts", "MathLineCharts\MathLineCharts.csproj", "{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeadowAzureFunction", "MeadowAzureFunction\MeadowAzureFunction.csproj", "{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -840,6 +842,18 @@ Global
 		{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -875,6 +889,7 @@ Global
 		{ED974FE8-DC3C-4EF5-9F1A-62E045379778} = {91CF7813-4612-402E-8E39-78745A2D42B1}
 		{59295DD7-6A9E-4D1E-8812-6B234D4686EE} = {91CF7813-4612-402E-8E39-78745A2D42B1}
 		{C1838709-3BD5-47C2-8F52-DCF822CB81AB} = {0F1F10EF-6400-4280-8449-F7914CD90AF0}
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C} = {B72D3A65-B26C-4A6E-AEA6-7A280BA79847}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AD554B2-93F3-4B0A-9725-304A66FB780A}
