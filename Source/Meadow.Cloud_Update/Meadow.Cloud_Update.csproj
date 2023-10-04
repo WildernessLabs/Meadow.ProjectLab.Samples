@@ -21,6 +21,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.ProjectLab" Version="*" />
+    <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
   </ItemGroup>
 </Project>
