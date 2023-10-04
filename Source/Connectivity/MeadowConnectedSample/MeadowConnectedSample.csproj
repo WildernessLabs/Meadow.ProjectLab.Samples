@@ -1,4 +1,4 @@
-<Project Sdk="Meadow.Sdk/1.1.0">
+﻿<Project Sdk="Meadow.Sdk/1.1.0">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -17,7 +17,7 @@
     <EmbeddedResource Include="img_wifi_connecting.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="1.3.4" />
+    <PackageReference Include="Meadow.Foundation.Web.Maple.Server" Version="*" />
     <PackageReference Include="Meadow.ProjectLab" Version="*" />
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />

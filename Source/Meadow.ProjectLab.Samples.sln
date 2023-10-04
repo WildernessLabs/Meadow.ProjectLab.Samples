@@ -50,6 +50,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopModbusClient", "Modb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathLineCharts", "MathLineCharts\MathLineCharts.csproj", "{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureFunction", "MeadowAzureFunction\MeadowAzureFunction.csproj", "{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_v1_ProjLab|Any CPU = Debug_v1_ProjLab|Any CPU
@@ -408,6 +410,18 @@ Global
 		{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72D8B6DE-B1C0-4674-83A5-17970ED59B6D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -420,6 +434,7 @@ Global
 		{5E32A8F6-1EC5-46BA-AE3D-E3E376FD82D0} = {E4B23E5C-A52A-4543-AE88-CB2ED9F57297}
 		{ED974FE8-DC3C-4EF5-9F1A-62E045379778} = {91CF7813-4612-402E-8E39-78745A2D42B1}
 		{59295DD7-6A9E-4D1E-8812-6B234D4686EE} = {91CF7813-4612-402E-8E39-78745A2D42B1}
+		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C} = {B72D3A65-B26C-4A6E-AEA6-7A280BA79847}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AD554B2-93F3-4B0A-9725-304A66FB780A}
