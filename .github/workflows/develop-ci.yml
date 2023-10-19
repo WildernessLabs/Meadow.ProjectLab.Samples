@@ -102,10 +102,10 @@ jobs:
         path: Meadow.ProjectLab.Samples
         
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version:
-          6.0.x
+          7.x
 
     - name: Install MAUI Workload
       run: dotnet workload install maui --ignore-failed-sources
