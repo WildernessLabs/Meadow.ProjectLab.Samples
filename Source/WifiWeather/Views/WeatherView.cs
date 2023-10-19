@@ -29,11 +29,8 @@ namespace WifiWeather.Views
             graphics.Clear();
         }
 
-        public void UpdateDateTime()
+        public void UpdateDateTime(DateTime today)
         {
-            int TimeZoneOffSet = -7; // PST
-            var today = DateTime.Now.AddHours(TimeZoneOffSet);
-
             graphics.DrawRectangle(graphics.Width / 2, 24, graphics.Width, 82, Color.White, true);
 
             graphics.DrawText(graphics.Width - x_padding - 10, 25, today.ToString("MM/dd/yy"), Color.Black, alignmentH: HorizontalAlignment.Right);
