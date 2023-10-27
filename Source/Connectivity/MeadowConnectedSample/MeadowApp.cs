@@ -55,9 +55,9 @@ namespace MeadowConnectedSample
         {
             DisplayView.Instance.StopConnectingAnimation();
 
-            _ = MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
+            MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
 
-            var mapleServer = new MapleServer(sender.IpAddress, 5417, logger: Resolver.Log);
+            var mapleServer = new MapleServer(sender.IpAddress, 5417, advertise: true, logger: Resolver.Log);
             mapleServer.Start();
 
             DisplayView.Instance.ShowMapleReady(sender.IpAddress.ToString());

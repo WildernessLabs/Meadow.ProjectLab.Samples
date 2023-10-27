@@ -170,7 +170,7 @@
                             </VerticalStackLayout>
                         </Frame>
 
-                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" Opacity="0.5" CornerRadius="5" BorderColor="Transparent">
+                        <Frame BackgroundColor="#23ABE3" HasShadow="False" Padding="10" CornerRadius="5" BorderColor="Transparent">
                             <VerticalStackLayout Spacing="10">
                                 <Label Text="BMI270 Motion Sensor" TextColor="White" FontAttributes="Bold" FontSize="Medium" />
 
