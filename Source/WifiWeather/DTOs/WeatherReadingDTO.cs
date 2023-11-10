@@ -1,6 +1,6 @@
-﻿namespace WifiWeather.Models
+﻿namespace WifiWeather.DTOs
 {
-    public class WeatherReading
+    public class WeatherReadingDTO
     {
         public Coordinates coord { get; set; }
         public Weather[] weather { get; set; }
