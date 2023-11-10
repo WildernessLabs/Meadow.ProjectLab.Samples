@@ -1,4 +1,5 @@
-﻿using Meadow.Foundation.Graphics;
+﻿using Meadow.Foundation;
+using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using System;
 
@@ -20,8 +21,8 @@ namespace WifiWeather.Services
 
         protected Label OutdoorTemperature { get; set; }
 
-        Meadow.Foundation.Color backgroundColor = Meadow.Foundation.Color.FromHex("#F3F7FA");
-        Meadow.Foundation.Color foregroundColor = Meadow.Foundation.Color.Black;
+        Color backgroundColor = Color.FromHex("#F3F7FA");
+        Color foregroundColor = Color.Black;
 
         Font12x20 font12X20 = new Font12x20();
 
@@ -35,7 +36,7 @@ namespace WifiWeather.Services
             Weather = new Picture(30, 15, 100, 100, weatherIcon);
             DisplayScreen.Controls.Add(Weather);
 
-            Date = new Label(DisplayScreen.Width / 2, 25, DisplayScreen.Width / 2, font12X20.Height * 2)
+            Date = new Label(DisplayScreen.Width / 2, 25, DisplayScreen.Width / 2, font12X20.Height)
             {
                 Text = $"--/--/--",
                 TextColor = foregroundColor,
@@ -58,7 +59,7 @@ namespace WifiWeather.Services
             };
             DisplayScreen.Controls.Add(Time);
 
-            DisplayScreen.Controls.Add(new Label(0, 140, DisplayScreen.Width / 2, font12X20.Height * 2)
+            DisplayScreen.Controls.Add(new Label(0, 140, DisplayScreen.Width / 2, font12X20.Height)
             {
                 Text = $"Indoor",
                 TextColor = foregroundColor,
@@ -79,7 +80,7 @@ namespace WifiWeather.Services
             };
             DisplayScreen.Controls.Add(IndoorTemperature);
 
-            DisplayScreen.Controls.Add(new Label(DisplayScreen.Width / 2, 140, DisplayScreen.Width / 2, font12X20.Height * 2)
+            DisplayScreen.Controls.Add(new Label(DisplayScreen.Width / 2, 140, DisplayScreen.Width / 2, font12X20.Height)
             {
                 Text = $"Outdoor",
                 TextColor = foregroundColor,
