@@ -23,7 +23,7 @@ namespace MagicEightMeadow
         MicroGraphics graphics;
         bool isAnswering = false;
 
-        string GetQuestionFilename => "MagicEightMeadow.m8b_question.jpg";
+        string GetQuestionFilename => "MagicEightMeadow.Resources.m8b_question.jpg";
 
         public override Task Initialize()
         {
@@ -90,7 +90,7 @@ namespace MagicEightMeadow
             graphics.Show();
         }
 
-        string GetAnswerFilename(int answerNumber) => $"MagicEightMeadow.m8b_{answerNumber.ToString("00")}.jpg";
+        string GetAnswerFilename(int answerNumber) => $"MagicEightMeadow.Resources.m8b_{answerNumber.ToString("00")}.jpg";
 
         byte[] LoadResource(string fileName)
         {
