@@ -1,50 +1,45 @@
 ﻿using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
+using System;
 
 namespace MagicEightMeadow.Services
 {
     internal class DisplayService
     {
-        Image simonQuestion = Image.LoadFromResource("MagicEightMeadow.Resources.m8b_question.bmp");
+        private Random random;
 
-        protected DisplayScreen DisplayScreen { get; set; }
+        private Image simonQuestion;
 
-        protected Picture SimonImage { get; set; }
+        private DisplayScreen displayScreen;
 
-        Color backgroundColor = Color.FromHex("#F3F7FA");
-        Color foregroundColor = Color.Black;
+        private Picture simonImage;
+
+        Color backgroundColor = Color.FromHex("#00000C");
 
         public DisplayService(IGraphicsDisplay display)
         {
-            DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
+            random = new Random();
+
+            displayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {
                 BackgroundColor = backgroundColor
             };
 
-            SimonImage = new Picture((DisplayScreen.Width - DisplayScreen.Width) / 2, 0, DisplayScreen.Width, DisplayScreen.Height, simonQuestion);
-            DisplayScreen.Controls.Add(SimonImage);
+            simonQuestion = Image.LoadFromResource("MagicEightMeadow.Resources.m8b_question.bmp");
+            simonImage = new Picture((displayScreen.Width - displayScreen.Width) / 2, 0, displayScreen.Width, displayScreen.Height, simonQuestion);
+            displayScreen.Controls.Add(simonImage);
         }
 
-        //public void UpdateWeatherIcon(string icon)
-        //{
-        //    simonQuestion = Image.LoadFromResource(icon);
-        //    SimonImage.Image = simonQuestion;
-        //}
-
-        void DisplayQuestion()
+        public void ShowQuestion()
         {
-            SimonImage.Image = simonQuestion;
+            simonImage.Image = simonQuestion;
         }
 
-        void DisplayAnswer()
+        public void ShowAnswer()
         {
-            //var rand = new Random();
-
-            //var buffer = LoadJpeg(LoadResource(GetAnswerFilename(rand.Next(1, 21))));
-
-            //graphics.DrawBuffer((graphics.Width - questionBuffer.Width) / 2, 0, buffer);
-            //graphics.Show();
+            var simonAnswer = Image.LoadFromResource($"MagicEightMeadow.Resources.m8b_{random.Next(1, 21).ToString("00")}.bmp");
+            simonImage.Image = simonAnswer;
         }
     }
 }

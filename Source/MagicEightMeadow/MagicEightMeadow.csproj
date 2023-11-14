@@ -6,26 +6,6 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="m8b_01.jpg" />
-    <None Remove="m8b_02.jpg" />
-    <None Remove="m8b_03.jpg" />
-    <None Remove="m8b_04.jpg" />
-    <None Remove="m8b_05.jpg" />
-    <None Remove="m8b_06.jpg" />
-    <None Remove="m8b_07.jpg" />
-    <None Remove="m8b_08.jpg" />
-    <None Remove="m8b_09.jpg" />
-    <None Remove="m8b_10.jpg" />
-    <None Remove="m8b_11.jpg" />
-    <None Remove="m8b_12.jpg" />
-    <None Remove="m8b_13.jpg" />
-    <None Remove="m8b_14.jpg" />
-    <None Remove="m8b_15.jpg" />
-    <None Remove="m8b_16.jpg" />
-    <None Remove="m8b_17.jpg" />
-    <None Remove="m8b_18.jpg" />
-    <None Remove="m8b_19.jpg" />
-    <None Remove="m8b_20.jpg" />
     <None Remove="m8b_question.jpg" />
     <None Remove="Resources\m8b_01.bmp" />
     <None Remove="Resources\m8b_02.bmp" />
@@ -71,9 +51,6 @@
     <EmbeddedResource Include="Resources\m8b_19.bmp" />
     <EmbeddedResource Include="Resources\m8b_20.bmp" />
     <EmbeddedResource Include="Resources\m8b_question.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroLayout\Driver\Graphics.MicroLayout.csproj" />
