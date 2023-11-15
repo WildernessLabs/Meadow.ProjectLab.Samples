@@ -7,7 +7,7 @@ namespace MagicEightMeadow
 {
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        MagicEightMeadowCoordinator magicEightMeadow;
+        MainCoordinator coordinator;
 
         public override Task Initialize()
         {
@@ -15,8 +15,8 @@ namespace MagicEightMeadow
 
             var hardware = new MagicEightMeadowHardware();
 
-            magicEightMeadow = new MagicEightMeadowCoordinator(hardware);
-            magicEightMeadow.Initialize();
+            coordinator = new MainCoordinator(hardware);
+            coordinator.Initialize();
 
             return Task.CompletedTask;
         }
@@ -25,7 +25,7 @@ namespace MagicEightMeadow
         {
             Resolver.Log.Info("Run...");
 
-            magicEightMeadow.Run();
+            coordinator.Run();
 
             return Task.CompletedTask;
         }

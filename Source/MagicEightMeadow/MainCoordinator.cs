@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MagicEightMeadow
 {
-    internal class MagicEightMeadowCoordinator
+    internal class MainCoordinator
     {
         bool isAnswering;
 
@@ -17,7 +17,7 @@ namespace MagicEightMeadow
 
         DisplayService displayService;
 
-        public MagicEightMeadowCoordinator(IMagicEightMeadowHardware hardware)
+        public MainCoordinator(IMagicEightMeadowHardware hardware)
         {
             this.hardware = hardware;
         }

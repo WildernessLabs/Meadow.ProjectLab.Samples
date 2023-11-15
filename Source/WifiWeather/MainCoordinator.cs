@@ -6,14 +6,14 @@ using WifiWeather.Services;
 
 namespace WifiWeather
 {
-    internal class WifiWeatherCoordinator
+    internal class MainCoordinator
     {
         IWifiWeatherHardware hardware;
         INetworkAdapter network;
         DisplayService displayService;
         WeatherService weatherService;
 
-        public WifiWeatherCoordinator(IWifiWeatherHardware hardware, INetworkAdapter network)
+        public MainCoordinator(IWifiWeatherHardware hardware, INetworkAdapter network)
         {
             this.hardware = hardware;
             this.network = network;
