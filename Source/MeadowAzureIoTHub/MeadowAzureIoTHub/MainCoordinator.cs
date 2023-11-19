@@ -1,5 +1,6 @@
 ﻿using Meadow.Foundation;
 using Meadow.Hardware;
+using Meadow.Units;
 using MeadowAzureIoTHub.Hardware;
 using MeadowAzureIoTHub.Services;
 using System;
@@ -21,7 +22,7 @@ namespace MeadowAzureIoTHub
             this.network = network;
         }
 
-        public async Task Initialize()
+        public void Initialize()
         {
             hardware.Initialize();
 
@@ -32,51 +33,55 @@ namespace MeadowAzureIoTHub
 
             iotHubService = new IoTHubService();
 
-            if (network.IsConnected)
-            {
-                displayService.UpdateWiFiStatus(network.IsConnected);
-                displayService.UpdateStatus("Authenticating...");
-                bool authenticated = await iotHubService.Initialize();
-                displayService.UpdateStatus(authenticated
-                    ? "Authenticated"
-                    : "Not Authenticated");
-            }
-            else
-            {
-                network.NetworkConnected += NetworkConnected;
-            }
-
             hardware.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;
         }
 
-        private async void NetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
-        {
-            displayService.UpdateWiFiStatus(network.IsConnected);
-            displayService.UpdateStatus("-Authenticating...");
-            bool authenticated = await iotHubService.Initialize();
-            displayService.UpdateStatus(authenticated
-                ? "-Authenticated"
-                : "-Not Authenticated");
-        }
-
-        private void EnvironmentalSensorUpdated(object sender, Meadow.IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> e)
+        private async void EnvironmentalSensorUpdated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             hardware.RgbPwmLed.StartBlink(Color.Orange);
+
+            displayService.UpdateWiFiStatus(network.IsConnected);
 
             displayService.UpdateAtmosphericConditions(
                 pressure: $"{e.New.Pressure.Value.Millibar:N0}",
                 humidity: $"{e.New.Humidity.Value.Percent:N0}",
                 temperature: $"{e.New.Temperature.Value.Celsius:N0}");
 
-            if (network != null && network.IsConnected && iotHubService.isInitialized)
+            if (network.IsConnected)
             {
-                displayService.UpdateStatus("Syncing...");
-                displayService.UpdateWiFiStatus(network.IsConnected);
-                //    iotHubService.SendEnvironmentalReading(e.New);
-                displayService.UpdateStatus("Done!");
+                if (iotHubService.isInitialized)
+                {
+                    await SendDataToIoTHub(e.New);
+                }
+                else
+                {
+                    await InitializeIoTHub();
+                }
             }
 
             hardware.RgbPwmLed.StartBlink(Color.Green);
+        }
+
+        private async Task InitializeIoTHub()
+        {
+            displayService.UpdateStatus("Authenticating...");
+
+            bool authenticated = await iotHubService.Initialize();
+
+            displayService.UpdateStatus(authenticated
+                ? "Authenticated"
+                : "Not Authenticated");
+        }
+
+        private async Task SendDataToIoTHub((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) data)
+        {
+            displayService.UpdateSyncStatus(true);
+            displayService.UpdateStatus("Sending data...");
+
+            await iotHubService.SendEnvironmentalReading(data);
+
+            displayService.UpdateSyncStatus(false);
+            displayService.UpdateStatus("Data sent!");
         }
 
         public void Run()

@@ -11,7 +11,7 @@ namespace MeadowAzureIoTHub
     {
         MainCoordinator coordinator;
 
-        public override async Task Initialize()
+        public override Task Initialize()
         {
             Resolver.Log.Info("Initialize...");
 
@@ -19,7 +19,9 @@ namespace MeadowAzureIoTHub
             var network = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
 
             coordinator = new MainCoordinator(hardware, network);
-            await coordinator.Initialize();
+            coordinator.Initialize();
+
+            return Task.CompletedTask;
         }
 
         public override Task Run()

@@ -190,6 +190,14 @@ namespace MeadowAzureIoTHub.Services
             Status.Text = status;
         }
 
+        public void UpdateSyncStatus(bool isSyncing)
+        {
+            var imageSync = isSyncing
+                ? Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshing.bmp")
+                : Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshed.bmp");
+            SyncStatus.Image = imageSync;
+        }
+
         public void UpdateWiFiStatus(bool isConnected)
         {
             var imageWiFi = isConnected
