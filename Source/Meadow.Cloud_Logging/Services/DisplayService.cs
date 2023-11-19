@@ -96,7 +96,6 @@ namespace Meadow.Cloud_Logging.Services
             };
             DataLayout.Controls.Add(WifiStatus);
 
-
             var syncImage = Image.LoadFromResource("Meadow.Cloud_Logging.Resources.img_refreshed.bmp");
             SyncStatus = new Picture(DisplayScreen.Width - syncImage.Width - wifiImage.Width - 10 - rowMargin, 0, syncImage.Width, rowHeight, syncImage)
             {

@@ -11,11 +11,11 @@ namespace Meadow.Cloud_Logging
 {
     internal class MainCoordinator
     {
-        IMeadowCloudLogginHardware hardware;
+        IMeadowCloudLoggingHardware hardware;
         IWiFiNetworkAdapter network;
         DisplayService displayService;
 
-        public MainCoordinator(IMeadowCloudLogginHardware hardware, IWiFiNetworkAdapter network)
+        public MainCoordinator(IMeadowCloudLoggingHardware hardware, IWiFiNetworkAdapter network)
         {
             this.hardware = hardware;
             this.network = network;

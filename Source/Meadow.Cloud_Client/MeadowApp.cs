@@ -1,9 +1,9 @@
-﻿using Meadow.Cloud_Logging.Hardware;
+﻿using Meadow.Cloud_Client.Hardware;
 using Meadow.Devices;
 using Meadow.Hardware;
 using System.Threading.Tasks;
 
-namespace Meadow.Cloud_Logging
+namespace Meadow.Cloud_Client
 {
     // Change F7CoreComputeV2 to F7FeatherV2 (or F7FeatherV1) for Feather boards
     public class MeadowApp : App<F7CoreComputeV2>
@@ -14,7 +14,7 @@ namespace Meadow.Cloud_Logging
         {
             Resolver.Log.Info("Initialize...");
 
-            var hardware = new MeadowCloudLoggingHardware();
+            var hardware = new MeadowCloudClientHardware();
             var network = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
 
             coordinator = new MainCoordinator(hardware, network);

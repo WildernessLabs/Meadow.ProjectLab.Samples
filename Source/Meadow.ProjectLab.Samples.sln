@@ -106,6 +106,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Cloud_Logging", "Mea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meadow.Logging.LogProviders", "..\..\Meadow.Logging\Source\Meadow.Logging.LogProviders\Driver\Meadow.Logging.LogProviders.csproj", "{622565AC-D9A7-4E0B-AF11-E35D18F58894}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meadow.Cloud_Client", "Meadow.Cloud_Client\Meadow.Cloud_Client.csproj", "{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_v1_ProjLab|Any CPU = Debug_v1_ProjLab|Any CPU
@@ -896,6 +898,24 @@ Global
 		{622565AC-D9A7-4E0B-AF11-E35D18F58894}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{622565AC-D9A7-4E0B-AF11-E35D18F58894}.Release|Any CPU.Build.0 = Release|Any CPU
 		{622565AC-D9A7-4E0B-AF11-E35D18F58894}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug_v1_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug_v2_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release_v1_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release_v2_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -935,6 +955,7 @@ Global
 		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C} = {B72D3A65-B26C-4A6E-AEA6-7A280BA79847}
 		{0E90E5A6-63F3-4300-9B49-FDB228DED444} = {D78E2994-3F1F-4008-A53F-85A08C13F578}
 		{622565AC-D9A7-4E0B-AF11-E35D18F58894} = {0F1F10EF-6400-4280-8449-F7914CD90AF0}
+		{E50E29E3-F5E3-420F-9F19-EAB2DFAAB6D6} = {D78E2994-3F1F-4008-A53F-85A08C13F578}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AD554B2-93F3-4B0A-9725-304A66FB780A}

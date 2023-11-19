@@ -4,7 +4,7 @@ using Meadow.Foundation.Sensors.Atmospheric;
 
 namespace Meadow.Cloud_Logging.Hardware
 {
-    internal interface IMeadowCloudLogginHardware
+    internal interface IMeadowCloudLoggingHardware
     {
         public IGraphicsDisplay Display { get; }
 

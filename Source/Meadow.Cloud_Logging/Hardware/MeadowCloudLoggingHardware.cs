@@ -5,7 +5,7 @@ using Meadow.Foundation.Sensors.Atmospheric;
 
 namespace Meadow.Cloud_Logging.Hardware
 {
-    internal class MeadowCloudLogginHardware : IMeadowCloudLogginHardware
+    internal class MeadowCloudLoggingHardware : IMeadowCloudLoggingHardware
     {
         protected IProjectLabHardware ProjLab { get; private set; }
 
