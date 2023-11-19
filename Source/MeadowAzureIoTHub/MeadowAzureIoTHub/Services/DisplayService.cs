@@ -71,6 +71,23 @@ namespace MeadowAzureIoTHub.Services
                 Visible = false
             };
 
+            var wifiImage = Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_wifi_connecting.bmp");
+            WifiStatus = new Picture(DisplayScreen.Width - wifiImage.Width - rowMargin, 0, wifiImage.Width, rowHeight, wifiImage)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            DataLayout.Controls.Add(WifiStatus);
+
+
+            var syncImage = Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshed.bmp");
+            SyncStatus = new Picture(DisplayScreen.Width - syncImage.Width - wifiImage.Width - 10 - rowMargin, 0, syncImage.Width, rowHeight, syncImage)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            DataLayout.Controls.Add(SyncStatus);
+
             DataLayout.Controls.Add(new Box(0, 0, DisplayScreen.Width, rowHeight)
             {
                 ForeColor = Color.FromHex("#F39E6C")
@@ -88,24 +105,15 @@ namespace MeadowAzureIoTHub.Services
                 ForeColor = Color.FromHex("#FFD6BE")
             });
 
-            var wifiImage = Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_wifi_connecting.bmp");
-            WifiStatus = new Picture(DisplayScreen.Width - wifiImage.Width - rowMargin, 0, wifiImage.Width, rowHeight, wifiImage)
+            Status = new Label(rowMargin, 0, DisplayScreen.Width / 2, rowHeight)
             {
-                //BackColor = Color.FromHex("#D7E465"),
-                HorizontalAlignment = HorizontalAlignment.Center,
+                Text = $"-",
+                TextColor = foregroundColor,
+                Font = font12X20,
                 VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left
             };
-            DataLayout.Controls.Add(WifiStatus);
-
-
-            var syncImage = Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshed.bmp");
-            SyncStatus = new Picture(DisplayScreen.Width - syncImage.Width - wifiImage.Width - 10 - rowMargin, 0, syncImage.Width, rowHeight, syncImage)
-            {
-                //BackColor = Color.FromHex("#D7E465"),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            DataLayout.Controls.Add(SyncStatus);
+            DataLayout.Controls.Add(Status);
 
             DataLayout.Controls.Add(new Label(rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
             {
@@ -131,16 +139,6 @@ namespace MeadowAzureIoTHub.Services
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             });
-
-            Status = new Label(rowMargin, 0, DisplayScreen.Width / 2, rowHeight)
-            {
-                Text = $"-",
-                TextColor = foregroundColor,
-                Font = font12X20,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            };
-            DataLayout.Controls.Add(Status);
 
             Pressure = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
             {

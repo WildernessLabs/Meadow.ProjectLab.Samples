@@ -3,6 +3,7 @@ using Meadow.Cloud_Logging.Services;
 using Meadow.Foundation;
 using Meadow.Hardware;
 using Meadow.Logging;
+using Meadow.Units;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -37,7 +38,7 @@ namespace Meadow.Cloud_Logging
             hardware.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;
         }
 
-        private void EnvironmentalSensorUpdated(object sender, Meadow.IChangeResult<(Meadow.Units.Temperature? Temperature, Meadow.Units.RelativeHumidity? Humidity, Meadow.Units.Pressure? Pressure, Meadow.Units.Resistance? GasResistance)> e)
+        private void EnvironmentalSensorUpdated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             hardware.RgbPwmLed.StartBlink(Color.Orange);
 
@@ -46,12 +47,12 @@ namespace Meadow.Cloud_Logging
                 humidity: $"{e.New.Humidity.Value.Percent:N0}",
                 temperature: $"{e.New.Temperature.Value.Celsius:N0}");
 
-            if (network != null && network.IsConnected)
+            if (network.IsConnected)
             {
                 displayService.UpdateWiFiStatus(network.IsConnected);
 
-                displayService.UpdateStatus("Syncing...");
                 displayService.UpdateSyncStatus(true);
+                displayService.UpdateStatus("Sending data...");
 
                 var cloudLogger = Resolver.Services.Get<CloudLogger>();
                 cloudLogger.LogEvent(1000, "environment reading", new Dictionary<string, object>()
@@ -61,8 +62,8 @@ namespace Meadow.Cloud_Logging
                     { "temperature", $"{e.New.Temperature.Value.Celsius:N0}" }
                 });
 
-                displayService.UpdateStatus("Synced!");
                 displayService.UpdateSyncStatus(false);
+                displayService.UpdateStatus("Data sent!");
             }
 
             hardware.RgbPwmLed.StartBlink(Color.Green);

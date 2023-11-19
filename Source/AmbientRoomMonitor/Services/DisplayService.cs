@@ -50,7 +50,7 @@ namespace AmbientRoomMonitor.Services
 
             DisplayScreen.Controls.Add(new Label(rowMargin, 0, DisplayScreen.Width / 2, rowHeight)
             {
-                Text = $"LIGHT",
+                Text = $"LUMINANCE",
                 TextColor = foregroundColor,
                 Font = font12X20,
                 VerticalAlignment = VerticalAlignment.Center,
