@@ -2,6 +2,7 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using System;
+using System.Collections.Generic;
 
 namespace Meadow.Cloud_Client.Services
 {
@@ -16,6 +17,10 @@ namespace Meadow.Cloud_Client.Services
         protected AbsoluteLayout SplashLayout { get; set; }
 
         protected AbsoluteLayout DataLayout { get; set; }
+
+        protected LineChartSeries TemperatureSeries { get; set; }
+
+        protected LineChart TemperatureLineChart { get; set; }
 
         protected Picture WifiStatus { get; set; }
 
@@ -99,21 +104,14 @@ namespace Meadow.Cloud_Client.Services
             };
             DataLayout.Controls.Add(SyncStatus);
 
-            var TemperatureLineChart = new LineChart(margin * 2, rowHeight + margin, DisplayScreen.Width - margin * 4, DisplayScreen.Height - rowHeight - margin * 2)
+            TemperatureLineChart = new LineChart(margin * 2, rowHeight + margin, DisplayScreen.Width - margin * 4, DisplayScreen.Height - rowHeight - margin * 2)
             {
                 BackgroundColor = Color.FromHex("#14607F"),
                 AxisColor = foregroundColor,
                 ShowYAxisLabels = true
             };
-            TemperatureLineChart.Series.Add(GetTemperatureData());
-            DataLayout.Controls.Add(TemperatureLineChart);
-        }
-
-        private LineChartSeries GetTemperatureData(double xScale = 4, double yScale = 1.5, double yOffset = 1.5)
-        {
-            var series = new LineChartSeries()
+            TemperatureSeries = new LineChartSeries()
             {
-
                 LineColor = Color.LightBlue,
                 PointColor = Color.Cyan,
                 LineStroke = 1,
@@ -121,15 +119,21 @@ namespace Meadow.Cloud_Client.Services
                 ShowLines = true,
                 ShowPoints = true,
             };
+            TemperatureLineChart.Series.Add(TemperatureSeries);
 
-            var rand = new Random();
+            DataLayout.Controls.Add(TemperatureLineChart);
+        }
 
-            for (var p = 0; p < PointsPerSeries; p++)
+        public void GraphData(List<double> readings) 
+        {
+            TemperatureSeries.Points = new LineSeriesPointCollection();
+
+            for (var p = 0; p < readings.Count; p++)
             {
-                series.Points.Add(p * 2, rand.Next(25, 35));
+                TemperatureSeries.Points.Add(p * 2, readings[p]);
             }
 
-            return series;
+            Resolver.Log.Info($"Graphed! Count: {TemperatureSeries.Points.Count}");
         }
 
         public void ShowSplashScreen()

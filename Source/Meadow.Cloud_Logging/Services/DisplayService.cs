@@ -71,22 +71,6 @@ namespace Meadow.Cloud_Logging.Services
                 Visible = false
             };
 
-            var wifiImage = Image.LoadFromResource("Meadow.Cloud_Logging.Resources.img_wifi_connecting.bmp");
-            WifiStatus = new Picture(DisplayScreen.Width - wifiImage.Width - rowMargin, 0, wifiImage.Width, rowHeight, wifiImage)
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            DataLayout.Controls.Add(WifiStatus);
-
-            var syncImage = Image.LoadFromResource("Meadow.Cloud_Logging.Resources.img_refreshed.bmp");
-            SyncStatus = new Picture(DisplayScreen.Width - syncImage.Width - wifiImage.Width - 10 - rowMargin, 0, syncImage.Width, rowHeight, syncImage)
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-            DataLayout.Controls.Add(SyncStatus);
-
             DataLayout.Controls.Add(new Box(0, 0, DisplayScreen.Width, rowHeight)
             {
                 ForeColor = Color.FromHex("#CADC32")
@@ -103,6 +87,22 @@ namespace Meadow.Cloud_Logging.Services
             {
                 ForeColor = Color.FromHex("#E5EE9B")
             });
+
+            var wifiImage = Image.LoadFromResource("Meadow.Cloud_Logging.Resources.img_wifi_connecting.bmp");
+            WifiStatus = new Picture(DisplayScreen.Width - wifiImage.Width - rowMargin, 0, wifiImage.Width, rowHeight, wifiImage)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            DataLayout.Controls.Add(WifiStatus);
+
+            var syncImage = Image.LoadFromResource("Meadow.Cloud_Logging.Resources.img_refreshed.bmp");
+            SyncStatus = new Picture(DisplayScreen.Width - syncImage.Width - wifiImage.Width - 10 - rowMargin, 0, syncImage.Width, rowHeight, syncImage)
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            DataLayout.Controls.Add(SyncStatus);
 
             Status = new Label(rowMargin, 0, DisplayScreen.Width / 2, rowHeight)
             {

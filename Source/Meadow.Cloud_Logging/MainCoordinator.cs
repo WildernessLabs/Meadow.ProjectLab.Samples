@@ -40,6 +40,8 @@ namespace Meadow.Cloud_Logging
 
         private void EnvironmentalSensorUpdated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
+            displayService.UpdateWiFiStatus(network.IsConnected);
+
             hardware.RgbPwmLed.StartBlink(Color.Orange);
 
             displayService.UpdateAtmosphericConditions(
@@ -49,17 +51,15 @@ namespace Meadow.Cloud_Logging
 
             if (network.IsConnected)
             {
-                displayService.UpdateWiFiStatus(network.IsConnected);
-
                 displayService.UpdateSyncStatus(true);
                 displayService.UpdateStatus("Sending data...");
 
                 var cloudLogger = Resolver.Services.Get<CloudLogger>();
                 cloudLogger.LogEvent(1000, "environment reading", new Dictionary<string, object>()
                 {
-                    { "pressure", $"{e.New.Pressure.Value.Millibar:N0}" },
-                    { "humidity", $"{e.New.Humidity.Value.Percent:N0}" },
-                    { "temperature", $"{e.New.Temperature.Value.Celsius:N0}" }
+                    { "pressure", $"{e.New.Pressure.Value.Millibar:N2}" },
+                    { "humidity", $"{e.New.Humidity.Value.Percent:N2}" },
+                    { "temperature", $"{e.New.Temperature.Value.Celsius:N2}" }
                 });
 
                 displayService.UpdateSyncStatus(false);
