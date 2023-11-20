@@ -1,6 +1,7 @@
 ﻿using Meadow.Devices;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Sensors.Buttons;
 
 namespace Meadow.Cloud_Client.Hardware
 {
@@ -10,6 +11,10 @@ namespace Meadow.Cloud_Client.Hardware
 
         public IGraphicsDisplay Display { get; set; }
 
+        public IButton RightButton { get; set; }
+
+        public IButton LeftButton { get; set; }
+
         public RgbPwmLed RgbPwmLed { get; set; }
 
         public void Initialize()
@@ -17,6 +22,10 @@ namespace Meadow.Cloud_Client.Hardware
             ProjLab = ProjectLab.Create();
 
             Display = ProjLab.Display;
+
+            RightButton = ProjLab.RightButton;
+
+            LeftButton = ProjLab.LeftButton;
 
             RgbPwmLed = ProjLab.RgbLed;
         }

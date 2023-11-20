@@ -1,15 +1,13 @@
-﻿using Meadow.Foundation;
-using Meadow.Foundation.Graphics;
+﻿using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
-using System;
 using System.Collections.Generic;
 
 namespace Meadow.Cloud_Client.Services
 {
     internal class DisplayService
     {
-        const int PointsPerSeries = 50;
         int rowHeight = 40;
+        int graphHeight = 150;
         int margin = 15;
 
         protected DisplayScreen DisplayScreen { get; set; }
@@ -18,9 +16,9 @@ namespace Meadow.Cloud_Client.Services
 
         protected AbsoluteLayout DataLayout { get; set; }
 
-        protected LineChartSeries TemperatureSeries { get; set; }
+        public LineChartSeries LineChartSeries { get; set; }
 
-        protected LineChart TemperatureLineChart { get; set; }
+        protected LineChart LineChart { get; set; }
 
         protected Picture WifiStatus { get; set; }
 
@@ -28,8 +26,14 @@ namespace Meadow.Cloud_Client.Services
 
         protected Label Status { get; set; }
 
-        Color backgroundColor = Color.FromHex("#14607F");
-        Color foregroundColor = Color.White;
+        protected Label Temperature { get; set; }
+
+        protected Label Pressure { get; set; }
+
+        protected Label Humidity { get; set; }
+
+        Meadow.Foundation.Color backgroundColor = Meadow.Foundation.Color.FromHex("#14607F");
+        Meadow.Foundation.Color foregroundColor = Meadow.Foundation.Color.White;
 
         Font12x20 font12X20 = new Font12x20();
 
@@ -57,7 +61,7 @@ namespace Meadow.Cloud_Client.Services
             var image = Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_meadow.bmp");
             var displayImage = new Picture(0, 0, DisplayScreen.Width, DisplayScreen.Height, image)
             {
-                BackColor = Color.FromHex("#14607F"),
+                BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -69,13 +73,13 @@ namespace Meadow.Cloud_Client.Services
         {
             DataLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height)
             {
-                BackgroundColor = Color.FromHex("#14607F"),
+                BackgroundColor = Meadow.Foundation.Color.FromHex("#14607F"),
                 Visible = false
             };
 
             DataLayout.Controls.Add(new Box(0, 0, DisplayScreen.Width, rowHeight)
             {
-                ForeColor = Color.FromHex("#10485E")
+                ForeColor = Meadow.Foundation.Color.FromHex("#10485E")
             });
 
             Status = new Label(margin, 0, DisplayScreen.Width / 2, rowHeight)
@@ -104,36 +108,61 @@ namespace Meadow.Cloud_Client.Services
             };
             DataLayout.Controls.Add(SyncStatus);
 
-            TemperatureLineChart = new LineChart(margin * 2, rowHeight + margin, DisplayScreen.Width - margin * 4, DisplayScreen.Height - rowHeight - margin * 2)
+            LineChart = new LineChart(
+                margin,
+                rowHeight + margin,
+                DisplayScreen.Width - margin * 2,
+                graphHeight)
             {
-                BackgroundColor = Color.FromHex("#14607F"),
+                BackgroundColor = Meadow.Foundation.Color.FromHex("#10485E"),
                 AxisColor = foregroundColor,
-                ShowYAxisLabels = true
+                ShowYAxisLabels = true,
+                Visible = false
             };
-            TemperatureSeries = new LineChartSeries()
+            LineChartSeries = new LineChartSeries()
             {
-                LineColor = Color.LightBlue,
-                PointColor = Color.Cyan,
+                LineColor = Meadow.Foundation.Color.FromHex("EF7D3B"),
+                PointColor = Meadow.Foundation.Color.FromHex("EF7D3B"),
                 LineStroke = 1,
                 PointSize = 2,
                 ShowLines = true,
                 ShowPoints = true,
             };
-            TemperatureLineChart.Series.Add(TemperatureSeries);
+            LineChart.Series.Add(LineChartSeries);
+            DataLayout.Controls.Add(LineChart);
 
-            DataLayout.Controls.Add(TemperatureLineChart);
-        }
-
-        public void GraphData(List<double> readings) 
-        {
-            TemperatureSeries.Points = new LineSeriesPointCollection();
-
-            for (var p = 0; p < readings.Count; p++)
+            Temperature = new Label(15, 205, 115, 20)
             {
-                TemperatureSeries.Points.Add(p * 2, readings[p]);
-            }
+                Text = $"TEMPERATURE",
+                TextColor = foregroundColor,
+                BackColor = Meadow.Foundation.Color.FromHex("#10485E"),
+                Font = new Font8x12(),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            DataLayout.Controls.Add(Temperature);
 
-            Resolver.Log.Info($"Graphed! Count: {TemperatureSeries.Points.Count}");
+            Pressure = new Label(130, 205, 89, 20)
+            {
+                Text = $"PRESSURE",
+                TextColor = foregroundColor,
+                BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
+                Font = new Font8x12(),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            DataLayout.Controls.Add(Pressure);
+
+            Humidity = new Label(219, 205, 86, 20)
+            {
+                Text = $"HUMIDITY",
+                TextColor = foregroundColor,
+                BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
+                Font = new Font8x12(),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            DataLayout.Controls.Add(Humidity);
         }
 
         public void ShowSplashScreen()
@@ -151,6 +180,35 @@ namespace Meadow.Cloud_Client.Services
         public void UpdateStatus(string status)
         {
             Status.Text = status;
+        }
+
+        public void UpdateGraph(int currentGraphType, List<double> readings)
+        {
+            Temperature.BackColor = Meadow.Foundation.Color.FromHex("14607F");
+            Pressure.BackColor = Meadow.Foundation.Color.FromHex("14607F");
+            Humidity.BackColor = Meadow.Foundation.Color.FromHex("14607F");
+
+            switch (currentGraphType)
+            {
+                case 0:
+                    Temperature.BackColor = Meadow.Foundation.Color.FromHex("10485E");
+                    break;
+                case 1:
+                    Pressure.BackColor = Meadow.Foundation.Color.FromHex("10485E");
+                    break;
+                case 2:
+                    Humidity.BackColor = Meadow.Foundation.Color.FromHex("10485E");
+                    break;
+            }
+
+            LineChartSeries.Points.Clear();
+
+            for (var p = 0; p < readings.Count; p++)
+            {
+                LineChartSeries.Points.Add(p * 2, readings[p]);
+            }
+
+            Resolver.Log.Info($"Count: {LineChartSeries.Points.Count}");
         }
 
         public void UpdateWiFiStatus(bool isConnected)
