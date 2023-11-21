@@ -2,18 +2,17 @@
 using Meadow.Foundation.Leds;
 using Meadow.Peripherals.Sensors.Buttons;
 
-namespace Meadow.Cloud_Client.Hardware
+namespace Meadow.Cloud_Client.Hardware;
+
+internal interface IMeadowCloudClientHardware
 {
-    internal interface IMeadowCloudClientHardware
-    {
-        public IGraphicsDisplay Display { get; }
+    public IGraphicsDisplay Display { get; }
 
-        public IButton RightButton { get; }
+    public IButton RightButton { get; }
 
-        public IButton LeftButton { get; }
+    public IButton LeftButton { get; }
 
-        public RgbPwmLed RgbPwmLed { get; }
+    public RgbPwmLed RgbPwmLed { get; }
 
-        public void Initialize();
-    }
+    public void Initialize();
 }

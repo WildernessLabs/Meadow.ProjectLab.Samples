@@ -168,11 +168,15 @@ internal class DisplayService
         };
         DataLayout.Controls.Add(Humidity);
 
-        ConnectionErrorLabel = new Label((int)(DisplayScreen.Width * 0.16), DisplayScreen.Height / 2, (int)(DisplayScreen.Width * 0.66), 20)
+        ConnectionErrorLabel = new Label(
+            (int)(DisplayScreen.Width * 0.25),
+            DisplayScreen.Height / 2,
+            (int)(DisplayScreen.Width * 0.60),
+            20)
         {
-            Text = "[no network connection]",
+            Text = "NO NETWORK CONNECTION",
             TextColor = foregroundColor,
-            BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
+            BackColor = Meadow.Foundation.Color.FromHex("#10485E"),
             Font = labelFont,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center

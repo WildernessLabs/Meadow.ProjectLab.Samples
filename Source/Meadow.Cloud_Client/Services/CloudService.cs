@@ -18,14 +18,21 @@ internal class CloudService
                 client.DefaultRequestHeaders.Add("Authorization", $"apikey {Secrets.API_KEY}");
                 client.Timeout = new TimeSpan(0, 5, 0);
 
-                HttpResponseMessage response = await client.GetAsync($"{Secrets.MEADOW_CLOUD_URL}/api/orgs/{Secrets.ORGANIZATION_ID}/search/source:event deviceId:{Secrets.DEVICE_ID} eventId:1000 size:10");
+                Resolver.Log.Trace($"Requesting data...");
+
+                HttpResponseMessage response = await client.GetAsync($"{Secrets.MEADOW_CLOUD_URL}/api/orgs/{Secrets.ORGANIZATION_ID}/search/source:event deviceId:{Secrets.DEVICE_ID} eventId:1000 size:100 sortby:timestamp sortorder:desc");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    //Resolver.Log.Info("Response Content: " + jsonString);
+                    Resolver.Log.Trace($"Request complete!");
 
+                    string jsonString = await response.Content.ReadAsStringAsync();
+                    Resolver.Log.Trace("Response: " + jsonString);
+
+                    Resolver.Log.Trace($"Serializing response...");
                     var root = JsonSerializer.Deserialize<Root>(jsonString);
+
+                    Resolver.Log.Trace($"Serializing complete!");
 
                     return root?.data?.queryResponses;
                 }

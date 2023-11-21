@@ -3,111 +3,129 @@ using Meadow.Cloud_Client.Services;
 using Meadow.Hardware;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Meadow.Cloud_Client
+namespace Meadow.Cloud_Client;
+
+internal class MainCoordinator
 {
-    internal class MainCoordinator
+    private IMeadowCloudClientHardware hardware;
+    private IWiFiNetworkAdapter network;
+    private CloudService cloudService;
+    private DisplayService displayService;
+
+    private int currentGraphType = 0;
+
+    private List<double> temperatureReadings = new List<double>();
+    private List<double> pressureReadings = new List<double>();
+    private List<double> humidityReadings = new List<double>();
+
+    public MainCoordinator(IMeadowCloudClientHardware hardware, IWiFiNetworkAdapter network)
     {
-        private IMeadowCloudClientHardware hardware;
-        private IWiFiNetworkAdapter network;
-        private CloudService cloudService;
-        private DisplayService displayService;
+        this.hardware = hardware;
+        this.network = network;
+    }
 
-        private int currentGraphType = 0;
+    public void Initialize()
+    {
+        hardware.Initialize();
 
-        private List<double> temperatureReadings = new List<double>();
-        private List<double> pressureReadings = new List<double>();
-        private List<double> humidityReadings = new List<double>();
+        hardware.RightButton.Clicked += RightButtonClicked;
 
-        public MainCoordinator(IMeadowCloudClientHardware hardware, IWiFiNetworkAdapter network)
+        hardware.LeftButton.Clicked += LeftButtonClicked;
+
+        cloudService = new CloudService();
+        displayService = new DisplayService(hardware.Display);
+
+        displayService.ShowSplashScreen();
+        Thread.Sleep(3000);
+        displayService.ShowDataScreen();
+    }
+
+    private void RightButtonClicked(object sender, EventArgs e)
+    {
+        currentGraphType = currentGraphType + 1 > 2 ? 0 : currentGraphType + 1;
+
+        UpdateGraph();
+    }
+
+    private void LeftButtonClicked(object sender, EventArgs e)
+    {
+        currentGraphType = currentGraphType - 1 < 0 ? 2 : currentGraphType - 1;
+
+        UpdateGraph();
+    }
+
+    private void UpdateGraph()
+    {
+        switch (currentGraphType)
         {
-            this.hardware = hardware;
-            this.network = network;
+            case 0:
+                displayService.UpdateGraph(currentGraphType, temperatureReadings);
+                break;
+            case 1:
+                displayService.UpdateGraph(currentGraphType, pressureReadings);
+                break;
+            case 2:
+                displayService.UpdateGraph(currentGraphType, humidityReadings);
+                break;
         }
+    }
 
-        public void Initialize()
+    public async Task Run()
+    {
+        int TIMEZONE_OFFSET = -8; // UTC-8
+
+        while (true)
         {
-            hardware.Initialize();
+            displayService.UpdateWiFiStatus(network.IsConnected);
 
-            hardware.RightButton.Clicked += RightButtonClicked;
-
-            hardware.LeftButton.Clicked += LeftButtonClicked;
-
-            cloudService = new CloudService();
-            displayService = new DisplayService(hardware.Display);
-
-            displayService.ShowSplashScreen();
-            Thread.Sleep(3000);
-            displayService.ShowDataScreen();
-        }
-
-        private void RightButtonClicked(object sender, EventArgs e)
-        {
-            currentGraphType = currentGraphType + 1 > 2 ? 0 : currentGraphType + 1;
-
-            UpdateGraph();
-        }
-
-        private void LeftButtonClicked(object sender, EventArgs e)
-        {
-            currentGraphType = currentGraphType - 1 < 0 ? 2 : currentGraphType - 1;
-
-            UpdateGraph();
-        }
-
-        private void UpdateGraph()
-        {
-            switch (currentGraphType)
+            if (network.IsConnected)
             {
-                case 0:
-                    displayService.UpdateGraph(currentGraphType, temperatureReadings);
-                    break;
-                case 1:
-                    displayService.UpdateGraph(currentGraphType, pressureReadings);
-                    break;
-                case 2:
-                    displayService.UpdateGraph(currentGraphType, humidityReadings);
-                    break;
-            }
-        }
-
-        public async Task Run()
-        {
-            int TIMEZONE_OFFSET = -8; // UTC-8
-
-            while (true)
-            {
-                displayService.UpdateWiFiStatus(network.IsConnected);
                 displayService.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("dd/MM/yy hh:mm tt"));
+                displayService.UpdateSyncStatus(true);
 
-                if (network.IsConnected)
+                var readings = await cloudService.GetSensorReadings();
+
+                if (readings != null && readings.Count > 0)
                 {
-                    displayService.UpdateSyncStatus(true);
+                    temperatureReadings.Clear();
+                    pressureReadings.Clear();
+                    humidityReadings.Clear();
 
-                    var readings = await cloudService.GetSensorReadings();
 
-                    if (readings != null && readings.Count > 0)
+                    // Massage data to get a record per hour
+                    var formattedData = readings.GroupBy(item => new { item.record.timestamp.Year, item.record.timestamp.Month, item.record.timestamp.Day, item.record.timestamp.Hour })
+                        .Select(group => group.First())
+                        .Reverse()
+                        .ToList();
+
+                    Resolver.Log.Info($"========================================================================================");
+
+                    foreach (var reading in formattedData)
                     {
-                        temperatureReadings.Clear();
-                        pressureReadings.Clear();
-                        humidityReadings.Clear();
+                        Resolver.Log.Info($"Record: {reading.record.timestamp} | T: {reading.record.measurements.temperature}");
 
-                        foreach (var reading in readings)
-                        {
-                            temperatureReadings.Add(reading.record.measurements.temperature);
-                            pressureReadings.Add(reading.record.measurements.pressure);
-                            humidityReadings.Add(reading.record.measurements.humidity);
-                        }
-
-                        UpdateGraph();
+                        temperatureReadings.Add(double.Parse(reading.record.measurements.temperature));
+                        pressureReadings.Add(double.Parse(reading.record.measurements.pressure));
+                        humidityReadings.Add(double.Parse(reading.record.measurements.humidity));
                     }
+
+                    UpdateGraph();
                 }
 
                 displayService.UpdateSyncStatus(false);
 
                 await Task.Delay(TimeSpan.FromMinutes(1));
+            }
+            else
+            {
+                displayService.UpdateStatus("Offline...");
+                displayService.UpdateSyncStatus(true);
+
+                await Task.Delay(TimeSpan.FromSeconds(10));
             }
         }
     }
