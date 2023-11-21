@@ -2,9 +2,9 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 
-namespace Meadow.Cloud_Logging.Services
+namespace Meadow.Cloud_Logging.Controllers
 {
-    internal class DisplayService
+    internal class DisplayController
     {
         int rowHeight = 60;
         int rowMargin = 15;
@@ -32,7 +32,7 @@ namespace Meadow.Cloud_Logging.Services
 
         Font12x20 font12X20 = new Font12x20();
 
-        public DisplayService(IGraphicsDisplay display)
+        public DisplayController(IGraphicsDisplay display)
         {
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {

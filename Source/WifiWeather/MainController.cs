@@ -1,19 +1,19 @@
 ﻿using Meadow.Hardware;
 using System;
 using System.Threading.Tasks;
+using WifiWeather.Controllers;
 using WifiWeather.Hardware;
-using WifiWeather.Services;
 
 namespace WifiWeather
 {
-    internal class MainCoordinator
+    internal class MainController
     {
         IWifiWeatherHardware hardware;
         INetworkAdapter network;
-        DisplayService displayService;
-        WeatherService weatherService;
+        DisplayController displayController;
+        RestClientController restClientController;
 
-        public MainCoordinator(IWifiWeatherHardware hardware, INetworkAdapter network)
+        public MainController(IWifiWeatherHardware hardware, INetworkAdapter network)
         {
             this.hardware = hardware;
             this.network = network;
@@ -23,8 +23,8 @@ namespace WifiWeather
         {
             hardware.Initialize();
 
-            displayService = new DisplayService(hardware.Display);
-            weatherService = new WeatherService();
+            displayController = new DisplayController(hardware.Display);
+            restClientController = new RestClientController();
 
             hardware.TemperatureSensor.TemperatureUpdated += TemperatureUpdated;
             hardware.TemperatureSensor.StartUpdating(TimeSpan.FromMinutes(10));
@@ -32,14 +32,14 @@ namespace WifiWeather
 
         void TemperatureUpdated(object sender, Meadow.IChangeResult<Meadow.Units.Temperature> e)
         {
-            displayService.UpdateIndoorTemperature((int)e.New.Celsius);
+            displayController.UpdateIndoorTemperature((int)e.New.Celsius);
         }
 
         async Task UpdateOutdoorValues()
         {
-            var outdoorConditions = await weatherService.GetWeatherForecast();
-            displayService.UpdateOutdoorTemperature(outdoorConditions.Value.Item1);
-            displayService.UpdateWeatherIcon(outdoorConditions.Value.Item2);
+            var outdoorConditions = await restClientController.GetWeatherForecast();
+            displayController.UpdateOutdoorTemperature(outdoorConditions.Value.Item1);
+            displayController.UpdateWeatherIcon(outdoorConditions.Value.Item2);
         }
 
         public async Task Run()
@@ -55,7 +55,7 @@ namespace WifiWeather
 
                 int TimeZoneOffSet = -8; // PST
                 var today = DateTime.Now.AddHours(TimeZoneOffSet);
-                displayService.UpdateDateTime(today);
+                displayController.UpdateDateTime(today);
 
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }

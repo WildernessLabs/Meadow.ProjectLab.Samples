@@ -8,7 +8,7 @@ namespace Meadow.Cloud_Client;
 // Change F7CoreComputeV2 to F7FeatherV2 (or F7FeatherV1) for Feather boards
 public class MeadowApp : App<F7CoreComputeV2>
 {
-    MainCoordinator coordinator;
+    MainController mainController;
 
     public override Task Initialize()
     {
@@ -17,8 +17,8 @@ public class MeadowApp : App<F7CoreComputeV2>
         var hardware = new MeadowCloudClientHardware();
         var network = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
 
-        coordinator = new MainCoordinator(hardware, network);
-        coordinator.Initialize();
+        mainController = new MainController(hardware, network);
+        mainController.Initialize();
 
         return Task.CompletedTask;
     }
@@ -27,7 +27,7 @@ public class MeadowApp : App<F7CoreComputeV2>
     {
         Resolver.Log.Info("Run...");
 
-        coordinator.Run();
+        mainController.Run();
 
         return Task.CompletedTask;
     }

@@ -3,9 +3,9 @@ using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using System;
 
-namespace WifiWeather.Services
+namespace WifiWeather.Controllers
 {
-    internal class DisplayService
+    internal class DisplayController
     {
         Image weatherIcon = Image.LoadFromResource("WifiWeather.Resources.w_misc.bmp");
 
@@ -26,7 +26,7 @@ namespace WifiWeather.Services
 
         Font12x20 font12X20 = new Font12x20();
 
-        public DisplayService(IGraphicsDisplay display)
+        public DisplayController(IGraphicsDisplay display)
         {
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {

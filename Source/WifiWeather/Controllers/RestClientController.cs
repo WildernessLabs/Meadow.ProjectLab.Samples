@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using WifiWeather.DTOs;
 using WifiWeather.Models;
 
-namespace WifiWeather.Services
+namespace WifiWeather.Controllers
 {
-    internal class WeatherService
+    internal class RestClientController
     {
         string climateDataUri = "http://api.openweathermap.org/data/2.5/weather";
 

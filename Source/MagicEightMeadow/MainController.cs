@@ -1,5 +1,5 @@
-﻿using MagicEightMeadow.Hardware;
-using MagicEightMeadow.Services;
+﻿using MagicEightMeadow.Controllers;
+using MagicEightMeadow.Hardware;
 using Meadow;
 using Meadow.Foundation;
 using Meadow.Foundation.Sensors.Accelerometers;
@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace MagicEightMeadow
 {
-    internal class MainCoordinator
+    internal class MainController
     {
         bool isAnswering;
 
         IMagicEightMeadowHardware hardware;
 
-        DisplayService displayService;
+        DisplayController displayController;
 
-        public MainCoordinator(IMagicEightMeadowHardware hardware)
+        public MainController(IMagicEightMeadowHardware hardware)
         {
             this.hardware = hardware;
         }
@@ -26,7 +26,7 @@ namespace MagicEightMeadow
         {
             hardware.Initialize();
 
-            displayService = new DisplayService(hardware.Display);
+            displayController = new DisplayController(hardware.Display);
 
             var consumer = Bmi270.CreateObserver(
                 handler: result => MotionSensorHandler(result),
@@ -42,11 +42,11 @@ namespace MagicEightMeadow
 
             hardware.RgbPwmLed.SetColor(Color.Orange);
 
-            displayService.ShowAnswer();
+            displayController.ShowAnswer();
 
             await Task.Delay(TimeSpan.FromSeconds(5));
 
-            displayService.ShowQuestion();
+            displayController.ShowQuestion();
 
             hardware.RgbPwmLed.SetColor(Color.Green);
 
@@ -60,7 +60,7 @@ namespace MagicEightMeadow
 
         public void Run()
         {
-            displayService.ShowQuestion();
+            displayController.ShowQuestion();
 
             hardware.MotionSensor.StartUpdating(TimeSpan.FromSeconds(1));
         }

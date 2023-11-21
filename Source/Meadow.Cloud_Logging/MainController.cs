@@ -1,5 +1,5 @@
-﻿using Meadow.Cloud_Logging.Hardware;
-using Meadow.Cloud_Logging.Services;
+﻿using Meadow.Cloud_Logging.Controllers;
+using Meadow.Cloud_Logging.Hardware;
 using Meadow.Foundation;
 using Meadow.Hardware;
 using Meadow.Logging;
@@ -10,13 +10,13 @@ using System.Threading;
 
 namespace Meadow.Cloud_Logging
 {
-    internal class MainCoordinator
+    internal class MainController
     {
         IMeadowCloudLoggingHardware hardware;
         IWiFiNetworkAdapter network;
-        DisplayService displayService;
+        DisplayController displayController;
 
-        public MainCoordinator(IMeadowCloudLoggingHardware hardware, IWiFiNetworkAdapter network)
+        public MainController(IMeadowCloudLoggingHardware hardware, IWiFiNetworkAdapter network)
         {
             this.hardware = hardware;
             this.network = network;
@@ -30,29 +30,29 @@ namespace Meadow.Cloud_Logging
             Resolver.Log.AddProvider(cloudLogger);
             Resolver.Services.Add(cloudLogger);
 
-            displayService = new DisplayService(hardware.Display);
-            displayService.ShowSplashScreen();
+            displayController = new DisplayController(hardware.Display);
+            displayController.ShowSplashScreen();
             Thread.Sleep(3000);
-            displayService.ShowDataScreen();
+            displayController.ShowDataScreen();
 
             hardware.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;
         }
 
         private void EnvironmentalSensorUpdated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
-            displayService.UpdateWiFiStatus(network.IsConnected);
+            displayController.UpdateWiFiStatus(network.IsConnected);
 
             hardware.RgbPwmLed.StartBlink(Color.Orange);
 
-            displayService.UpdateAtmosphericConditions(
+            displayController.UpdateAtmosphericConditions(
                 pressure: $"{e.New.Pressure.Value.Millibar:N0}",
                 humidity: $"{e.New.Humidity.Value.Percent:N0}",
                 temperature: $"{e.New.Temperature.Value.Celsius:N0}");
 
             if (network.IsConnected)
             {
-                displayService.UpdateSyncStatus(true);
-                displayService.UpdateStatus("Sending data...");
+                displayController.UpdateSyncStatus(true);
+                displayController.UpdateStatus("Sending data...");
 
                 var cloudLogger = Resolver.Services.Get<CloudLogger>();
                 cloudLogger.LogEvent(1000, "environment reading", new Dictionary<string, object>()
@@ -62,8 +62,8 @@ namespace Meadow.Cloud_Logging
                     { "temperature", $"{e.New.Temperature.Value.Celsius:N2}" }
                 });
 
-                displayService.UpdateSyncStatus(false);
-                displayService.UpdateStatus("Data sent!");
+                displayController.UpdateSyncStatus(false);
+                displayController.UpdateStatus("Data sent!");
             }
 
             hardware.RgbPwmLed.StartBlink(Color.Green);
@@ -71,7 +71,7 @@ namespace Meadow.Cloud_Logging
 
         public void Run()
         {
-            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(20));
+            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(30));
         }
     }
 }
