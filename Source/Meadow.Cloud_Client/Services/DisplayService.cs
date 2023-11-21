@@ -207,8 +207,6 @@ namespace Meadow.Cloud_Client.Services
             {
                 LineChartSeries.Points.Add(p * 2, readings[p]);
             }
-
-            Resolver.Log.Info($"Count: {LineChartSeries.Points.Count}");
         }
 
         public void UpdateWiFiStatus(bool isConnected)

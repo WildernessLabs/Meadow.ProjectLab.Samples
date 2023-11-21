@@ -45,22 +45,20 @@ namespace Meadow.Cloud_Client
 
         private void RightButtonClicked(object sender, EventArgs e)
         {
-            currentGraphType = currentGraphType > 2 ? 0 : currentGraphType + 1;
+            currentGraphType = currentGraphType + 1 > 2 ? 0 : currentGraphType + 1;
 
             UpdateGraph();
         }
 
         private void LeftButtonClicked(object sender, EventArgs e)
         {
-            currentGraphType = currentGraphType < 0 ? 2 : currentGraphType - 1;
+            currentGraphType = currentGraphType - 1 < 0 ? 2 : currentGraphType - 1;
 
             UpdateGraph();
         }
 
         private void UpdateGraph()
         {
-            Resolver.Log.Info($"UpdateGraph() - {currentGraphType}");
-
             switch (currentGraphType)
             {
                 case 0:
