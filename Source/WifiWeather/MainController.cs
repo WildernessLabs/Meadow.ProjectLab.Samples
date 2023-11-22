@@ -1,4 +1,5 @@
-﻿using Meadow.Hardware;
+﻿using Meadow;
+using Meadow.Hardware;
 using System;
 using System.Threading.Tasks;
 using WifiWeather.Controllers;
@@ -8,6 +9,8 @@ namespace WifiWeather
 {
     internal class MainController
     {
+        bool firstWeatherForecast = true;
+
         IWifiWeatherHardware hardware;
         INetworkAdapter network;
         DisplayController displayController;
@@ -38,26 +41,44 @@ namespace WifiWeather
         async Task UpdateOutdoorValues()
         {
             var outdoorConditions = await restClientController.GetWeatherForecast();
-            displayController.UpdateOutdoorTemperature(outdoorConditions.Value.Item1);
-            displayController.UpdateWeatherIcon(outdoorConditions.Value.Item2);
+
+            if (outdoorConditions != null)
+            {
+                firstWeatherForecast = false;
+                displayController.UpdateOutdoorTemperature(outdoorConditions.Value.Item1);
+                displayController.UpdateWeatherIcon(outdoorConditions.Value.Item2);
+            }
         }
 
         public async Task Run()
         {
-            await UpdateOutdoorValues();
-
             while (true)
             {
-                if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0 && network.IsConnected)
+                if (network.IsConnected)
                 {
-                    await UpdateOutdoorValues();
+                    Resolver.Log.Trace("Connected!");
+
+                    if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0 || firstWeatherForecast)
+                    {
+                        Resolver.Log.Trace("Getting forecast values...");
+
+                        await UpdateOutdoorValues();
+
+                        Resolver.Log.Trace("Forecast acquired...");
+                    }
+
+                    int TimeZoneOffSet = -8; // PST
+                    var today = DateTime.Now.AddHours(TimeZoneOffSet);
+                    displayController.UpdateDateTime(today);
+
+                    await Task.Delay(TimeSpan.FromMinutes(1));
                 }
+                else
+                {
+                    Resolver.Log.Trace("Not connected, checking in 10s");
 
-                int TimeZoneOffSet = -8; // PST
-                var today = DateTime.Now.AddHours(TimeZoneOffSet);
-                displayController.UpdateDateTime(today);
-
-                await Task.Delay(TimeSpan.FromMinutes(1));
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                }
             }
         }
     }
