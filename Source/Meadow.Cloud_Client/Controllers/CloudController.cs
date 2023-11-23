@@ -20,7 +20,7 @@ internal class CloudController
 
                 Resolver.Log.Trace($"Request sent...");
 
-                HttpResponseMessage response = await client.GetAsync($"{Secrets.MEADOW_CLOUD_URL}/api/orgs/{Secrets.ORGANIZATION_ID}/search/source:event deviceId:{Secrets.DEVICE_ID} eventId:1000 size:100 sortby:timestamp sortorder:desc");
+                HttpResponseMessage response = await client.GetAsync($"{Secrets.MEADOW_CLOUD_URL}/api/orgs/{Secrets.ORGANIZATION_ID}/search/source:event deviceId:{Secrets.DEVICE_ID} eventId:1000 size:50 sortby:timestamp sortorder:desc");
 
                 if (response.IsSuccessStatusCode)
                 {

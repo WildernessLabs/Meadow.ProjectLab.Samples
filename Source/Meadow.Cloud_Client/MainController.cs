@@ -84,7 +84,7 @@ internal class MainController
 
             if (network.IsConnected)
             {
-                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy "));
+                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
                 displayController.UpdateSyncStatus(true);
 
                 var readings = await cloudController.GetSensorReadings();
@@ -97,15 +97,20 @@ internal class MainController
 
                     if (readings.Count > 10)
                     {
-                        readings = readings.Take(10).ToList();
+                        readings = readings.Take(10)
+                            .ToList();
                     }
+
+                    readings.Reverse();
+
+                    displayController.UpdateLatestReading(readings.Last().record.timestamp.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
 
                     Resolver.Log.Trace($"====================================================================================");
 
                     foreach (var reading in readings)
                     {
                         Resolver.Log.Trace(
-                            $"Record: {reading.record.timestamp.AddHours(-8)} | " +
+                            $"Record: {reading.record.timestamp.AddHours(TIMEZONE_OFFSET)} | " +
                             $"Temperature: {reading.record.measurements.temperature} | " +
                             $"Pressure: {reading.record.measurements.pressure} | " +
                             $"Humidity: {reading.record.measurements.humidity}");

@@ -7,6 +7,7 @@ using Meadow.Units;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Meadow.Cloud_Logging
 {
@@ -42,14 +43,12 @@ namespace Meadow.Cloud_Logging
 
         private void EnvironmentalSensorUpdated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
-            displayController.UpdateWiFiStatus(network.IsConnected);
-
             hardware.RgbPwmLed.StartBlink(Color.Orange);
 
             displayController.UpdateAtmosphericConditions(
+                temperature: $"{e.New.Temperature.Value.Celsius:N0}",
                 pressure: $"{e.New.Pressure.Value.Millibar:N0}",
-                humidity: $"{e.New.Humidity.Value.Percent:N0}",
-                temperature: $"{e.New.Temperature.Value.Celsius:N0}");
+                humidity: $"{e.New.Humidity.Value.Percent:N0}");
 
             if (network.IsConnected)
             {
@@ -68,8 +67,9 @@ namespace Meadow.Cloud_Logging
                 displayController.UpdateSyncStatus(false);
                 displayController.UpdateStatus("Data sent!");
                 Thread.Sleep(2000);
+                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
 
-                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("dd/MM/yy hh:mm tt"));
+                displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
             }
             else
             {
@@ -79,9 +79,27 @@ namespace Meadow.Cloud_Logging
             hardware.RgbPwmLed.StartBlink(Color.Green);
         }
 
-        public void Run()
+        public async Task Run()
         {
             hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromMinutes(30));
+
+            while (true)
+            {
+                displayController.UpdateWiFiStatus(network.IsConnected);
+
+                if (network.IsConnected)
+                {
+                    displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+
+                    await Task.Delay(TimeSpan.FromMinutes(1));
+                }
+                else
+                {
+                    displayController.UpdateStatus("Offline...");
+
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                }
+            }
         }
     }
 }

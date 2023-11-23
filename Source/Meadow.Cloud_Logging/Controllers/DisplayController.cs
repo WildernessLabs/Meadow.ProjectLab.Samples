@@ -6,8 +6,14 @@ namespace Meadow.Cloud_Logging.Controllers
 {
     internal class DisplayController
     {
-        int rowHeight = 60;
-        int rowMargin = 15;
+        private readonly int rowHeight = 60;
+        private readonly int rowMargin = 15;
+
+        private Color backgroundColor = Color.FromHex("#F3F7FA");
+        private Color foregroundColor = Color.Black;
+
+        private Font12x20 font12X20 = new Font12x20();
+        private Font6x8 font6x8 = new Font6x8();
 
         protected DisplayScreen DisplayScreen { get; set; }
 
@@ -21,16 +27,13 @@ namespace Meadow.Cloud_Logging.Controllers
 
         protected Label Status { get; set; }
 
-        protected Label Pressure { get; set; }
-
-        protected Label Humidity { get; set; }
+        protected Label LastUpdated { get; set; }
 
         protected Label Temperature { get; set; }
 
-        Color backgroundColor = Color.FromHex("#F3F7FA");
-        Color foregroundColor = Color.Black;
+        protected Label Pressure { get; set; }
 
-        Font12x20 font12X20 = new Font12x20();
+        protected Label Humidity { get; set; }
 
         public DisplayController(IGraphicsDisplay display)
         {
@@ -104,33 +107,25 @@ namespace Meadow.Cloud_Logging.Controllers
             };
             DataLayout.Controls.Add(SyncStatus);
 
-            Status = new Label(rowMargin, 0, DisplayScreen.Width / 2, rowHeight)
+            Status = new Label(rowMargin, 15, DisplayScreen.Width / 2, 20)
             {
-                Text = $"-",
+                Text = $"--:-- -- --/--/--",
                 TextColor = foregroundColor,
                 Font = font12X20,
-                VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
             DataLayout.Controls.Add(Status);
 
+            LastUpdated = new Label(rowMargin, 37, DisplayScreen.Width / 2, 8)
+            {
+                Text = $"Last updated: --:-- -- --/--/--",
+                TextColor = foregroundColor,
+                Font = font6x8,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            DataLayout.Controls.Add(LastUpdated);
+
             DataLayout.Controls.Add(new Label(rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
-            {
-                Text = $"PRESSURE",
-                TextColor = foregroundColor,
-                Font = font12X20,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            });
-            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
-            {
-                Text = $"HUMIDITY",
-                TextColor = foregroundColor,
-                Font = font12X20,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            });
-            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
             {
                 Text = $"TEMPERATURE",
                 TextColor = foregroundColor,
@@ -138,28 +133,24 @@ namespace Meadow.Cloud_Logging.Controllers
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             });
-
-            Pressure = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
+            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
             {
-                Text = $"- Mb",
+                Text = $"PRESSURE",
                 TextColor = foregroundColor,
                 Font = font12X20,
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Right
-            };
-            DataLayout.Controls.Add(Pressure);
-
-            Humidity = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
+                HorizontalAlignment = HorizontalAlignment.Left
+            });
+            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
             {
-                Text = $"- % ",
+                Text = $"HUMIDITY",
                 TextColor = foregroundColor,
                 Font = font12X20,
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Right
-            };
-            DataLayout.Controls.Add(Humidity);
+                HorizontalAlignment = HorizontalAlignment.Left
+            });
 
-            Temperature = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
+            Temperature = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
             {
                 Text = $"- °C",
                 TextColor = foregroundColor,
@@ -168,6 +159,26 @@ namespace Meadow.Cloud_Logging.Controllers
                 HorizontalAlignment = HorizontalAlignment.Right
             };
             DataLayout.Controls.Add(Temperature);
+
+            Pressure = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
+            {
+                Text = $"- mb",
+                TextColor = foregroundColor,
+                Font = font12X20,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right
+            };
+            DataLayout.Controls.Add(Pressure);
+
+            Humidity = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
+            {
+                Text = $"- % ",
+                TextColor = foregroundColor,
+                Font = font12X20,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right
+            };
+            DataLayout.Controls.Add(Humidity);
         }
 
         public void ShowSplashScreen()
@@ -187,6 +198,11 @@ namespace Meadow.Cloud_Logging.Controllers
             Status.Text = status;
         }
 
+        public void UpdateLastUpdated(string lastUpdated)
+        {
+            LastUpdated.Text = $"Last Updated: {lastUpdated}";
+        }
+
         public void UpdateWiFiStatus(bool isConnected)
         {
             var imageWiFi = isConnected
@@ -203,13 +219,13 @@ namespace Meadow.Cloud_Logging.Controllers
             SyncStatus.Image = imageSync;
         }
 
-        public void UpdateAtmosphericConditions(string pressure, string humidity, string temperature)
+        public void UpdateAtmosphericConditions(string temperature, string pressure, string humidity)
         {
             DisplayScreen.BeginUpdate();
 
+            Temperature.Text = $"{temperature} °C";
             Pressure.Text = $"{pressure} mb";
             Humidity.Text = $"{humidity} % ";
-            Temperature.Text = $"{temperature} °C";
 
             DisplayScreen.EndUpdate();
         }

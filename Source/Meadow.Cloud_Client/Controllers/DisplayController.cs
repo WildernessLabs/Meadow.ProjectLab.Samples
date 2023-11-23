@@ -7,8 +7,8 @@ namespace Meadow.Cloud_Client.Controllers;
 
 internal class DisplayController
 {
-    private readonly int rowHeight = 40;
-    private readonly int graphHeight = 135;
+    private readonly int rowHeight = 60;
+    private readonly int graphHeight = 115;
     private readonly int axisLabelsHeight = 15;
     private readonly int margin = 15;
 
@@ -36,6 +36,8 @@ internal class DisplayController
     protected Picture SyncStatus { get; set; }
 
     protected Label Status { get; set; }
+
+    protected Label LatestReading { get; set; }
 
     protected Label AxisLabels { get; set; }
 
@@ -92,15 +94,23 @@ internal class DisplayController
             ForeColor = foregroundColor
         });
 
-        Status = new Label(margin, 0, DisplayScreen.Width / 2, rowHeight)
+        Status = new Label(margin, 15, DisplayScreen.Width / 2, 20)
         {
-            Text = $"-",
+            Text = $"--:-- -- --/--/--",
             TextColor = TextColor,
             Font = font12X20,
-            VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Left
         };
         DataLayout.Controls.Add(Status);
+
+        LatestReading = new Label(margin, 37, DisplayScreen.Width / 2, 8)
+        {
+            Text = $"Latest Reading: --:-- -- --/--/--",
+            TextColor = TextColor,
+            Font = font6x8,
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+        DataLayout.Controls.Add(LatestReading);
 
         var wifiImage = Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_wifi_connecting.bmp");
         WifiStatus = new Picture(DisplayScreen.Width - wifiImage.Width - margin, 0, wifiImage.Width, rowHeight, wifiImage)
@@ -230,6 +240,11 @@ internal class DisplayController
     public void UpdateStatus(string status)
     {
         Status.Text = status;
+    }
+
+    public void UpdateLatestReading(string latestUpdate)
+    {
+        LatestReading.Text = $"Latest reading: {latestUpdate}";
     }
 
     public void UpdateGraph(int graphType, List<double> readings)
