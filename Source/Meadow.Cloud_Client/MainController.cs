@@ -107,8 +107,8 @@ internal class MainController
                         Resolver.Log.Trace(
                             $"Record: {reading.record.timestamp.AddHours(-8)} | " +
                             $"Temperature: {reading.record.measurements.temperature} | " +
-                            $"Humidity: {reading.record.measurements.humidity} | " +
-                            $"Pressure: {reading.record.measurements.pressure}");
+                            $"Pressure: {reading.record.measurements.pressure} | " +
+                            $"Humidity: {reading.record.measurements.humidity}");
 
                         temperatureReadings.Add(double.Parse(reading.record.measurements.temperature));
                         pressureReadings.Add(double.Parse(reading.record.measurements.pressure));

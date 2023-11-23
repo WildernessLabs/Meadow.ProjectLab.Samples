@@ -7,7 +7,7 @@ namespace Meadow.Cloud_Client.Controllers;
 internal class DisplayController
 {
     private readonly int rowHeight = 40;
-    private readonly int graphHeight = 150;
+    private readonly int graphHeight = 135;
     private readonly int margin = 15;
 
     protected DisplayScreen DisplayScreen { get; set; }
@@ -16,7 +16,7 @@ internal class DisplayController
 
     protected AbsoluteLayout DataLayout { get; set; }
 
-    public LineChartSeries LineChartSeries { get; set; }
+    protected LineChartSeries LineChartSeries { get; set; }
 
     protected LineChart LineChart { get; set; }
 
@@ -34,9 +34,10 @@ internal class DisplayController
 
     protected Label ConnectionErrorLabel { get; set; }
 
-    private Meadow.Foundation.Color backgroundColor = Meadow.Foundation.Color.FromHex("#14607F");
+    private Meadow.Foundation.Color backgroundColor = Meadow.Foundation.Color.FromHex("14607F");
     private Meadow.Foundation.Color foregroundColor = Meadow.Foundation.Color.White;
     private Font12x20 font12X20 = new Font12x20();
+    private Font8x12 font8x12 = new Font8x12();
 
     public DisplayController(IGraphicsDisplay display)
     {
@@ -62,7 +63,7 @@ internal class DisplayController
         var image = Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_meadow.bmp");
         var displayImage = new Picture(0, 0, DisplayScreen.Width, DisplayScreen.Height, image)
         {
-            BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
+            BackColor = Meadow.Foundation.Color.FromHex("14607F"),
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
         };
@@ -74,13 +75,13 @@ internal class DisplayController
     {
         DataLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height)
         {
-            BackgroundColor = Meadow.Foundation.Color.FromHex("#14607F"),
+            BackgroundColor = Meadow.Foundation.Color.FromHex("14607F"),
             Visible = false
         };
 
         DataLayout.Controls.Add(new Box(0, 0, DisplayScreen.Width, rowHeight)
         {
-            ForeColor = Meadow.Foundation.Color.FromHex("#10485E")
+            ForeColor = Meadow.Foundation.Color.FromHex("10485E")
         });
 
         Status = new Label(margin, 0, DisplayScreen.Width / 2, rowHeight)
@@ -115,7 +116,7 @@ internal class DisplayController
             DisplayScreen.Width - margin * 2,
             graphHeight)
         {
-            BackgroundColor = Meadow.Foundation.Color.FromHex("#10485E"),
+            BackgroundColor = Meadow.Foundation.Color.FromHex("10485E"),
             AxisColor = foregroundColor,
             ShowYAxisLabels = true,
             Visible = false,
@@ -133,14 +134,26 @@ internal class DisplayController
         LineChart.Series.Add(LineChartSeries);
         DataLayout.Controls.Add(LineChart);
 
-        var labelFont = new Font8x12();
+        DataLayout.Controls.Add(new Label(
+            margin,
+            margin + rowHeight + graphHeight,
+            DisplayScreen.Width - margin * 2,
+            15)
+        {
+            Text = $"Interval: Every 30 minutes",
+            TextColor = foregroundColor,
+            BackColor = Meadow.Foundation.Color.FromHex("10485E"),
+            Font = new Font6x8(),
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
 
         Temperature = new Label(15, 205, 115, 20)
         {
             Text = $"TEMPERATURE",
             TextColor = foregroundColor,
-            BackColor = Meadow.Foundation.Color.FromHex("#10485E"),
-            Font = labelFont,
+            BackColor = Meadow.Foundation.Color.FromHex("10485E"),
+            Font = font8x12,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
@@ -150,8 +163,8 @@ internal class DisplayController
         {
             Text = $"PRESSURE",
             TextColor = foregroundColor,
-            BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
-            Font = labelFont,
+            BackColor = Meadow.Foundation.Color.FromHex("14607F"),
+            Font = font8x12,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
@@ -161,8 +174,8 @@ internal class DisplayController
         {
             Text = $"HUMIDITY",
             TextColor = foregroundColor,
-            BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
-            Font = labelFont,
+            BackColor = Meadow.Foundation.Color.FromHex("14607F"),
+            Font = font8x12,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
@@ -176,8 +189,8 @@ internal class DisplayController
         {
             Text = "NO NETWORK CONNECTION",
             TextColor = foregroundColor,
-            BackColor = Meadow.Foundation.Color.FromHex("#10485E"),
-            Font = labelFont,
+            BackColor = Meadow.Foundation.Color.FromHex("10485E"),
+            Font = font8x12,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center
         };
