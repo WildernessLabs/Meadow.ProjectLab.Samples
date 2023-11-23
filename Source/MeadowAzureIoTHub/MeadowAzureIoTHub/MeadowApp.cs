@@ -9,7 +9,7 @@ namespace MeadowAzureIoTHub
     // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        MainCoordinator coordinator;
+        MainController mainController;
 
         public override Task Initialize()
         {
@@ -18,8 +18,8 @@ namespace MeadowAzureIoTHub
             var hardware = new MeadowAzureIoTHubHardware();
             var network = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
 
-            coordinator = new MainCoordinator(hardware, network);
-            coordinator.Initialize();
+            mainController = new MainController(hardware, network);
+            mainController.Initialize();
 
             return Task.CompletedTask;
         }
@@ -28,7 +28,7 @@ namespace MeadowAzureIoTHub
         {
             Resolver.Log.Info("Run...");
 
-            coordinator.Run();
+            mainController.Run();
 
             return Task.CompletedTask;
         }

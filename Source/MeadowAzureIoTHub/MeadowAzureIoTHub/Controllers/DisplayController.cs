@@ -2,12 +2,18 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 
-namespace MeadowAzureIoTHub.Services
+namespace MeadowAzureIoTHub.Controllers
 {
-    internal class DisplayService
+    internal class DisplayController
     {
-        int rowHeight = 60;
-        int rowMargin = 15;
+        private readonly int rowHeight = 60;
+        private readonly int rowMargin = 15;
+
+        private Color backgroundColor = Color.FromHex("F3F7FA");
+        private Color foregroundColor = Color.Black;
+
+        private Font12x20 font12X20 = new Font12x20();
+        private Font6x8 font6x8 = new Font6x8();
 
         protected DisplayScreen DisplayScreen { get; set; }
 
@@ -21,18 +27,15 @@ namespace MeadowAzureIoTHub.Services
 
         protected Label Status { get; set; }
 
+        protected Label LastUpdated { get; set; }
+
+        protected Label Temperature { get; set; }
+
         protected Label Pressure { get; set; }
 
         protected Label Humidity { get; set; }
 
-        protected Label Temperature { get; set; }
-
-        Color backgroundColor = Color.FromHex("#F3F7FA");
-        Color foregroundColor = Color.Black;
-
-        Font12x20 font12X20 = new Font12x20();
-
-        public DisplayService(IGraphicsDisplay display)
+        public DisplayController(IGraphicsDisplay display)
         {
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {
@@ -56,7 +59,7 @@ namespace MeadowAzureIoTHub.Services
             var image = Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_meadow.bmp");
             var displayImage = new Picture(0, 0, DisplayScreen.Width, DisplayScreen.Height, image)
             {
-                BackColor = Color.FromHex("#F39E6C"),
+                BackColor = Color.FromHex("F39E6C"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -71,6 +74,23 @@ namespace MeadowAzureIoTHub.Services
                 Visible = false
             };
 
+            DataLayout.Controls.Add(new Box(0, 0, DisplayScreen.Width, rowHeight)
+            {
+                ForeColor = Color.FromHex("F39E6C")
+            });
+            DataLayout.Controls.Add(new Box(0, rowHeight, DisplayScreen.Width, rowHeight)
+            {
+                ForeColor = Color.FromHex("F6B691")
+            });
+            DataLayout.Controls.Add(new Box(0, rowHeight * 2, DisplayScreen.Width, rowHeight)
+            {
+                ForeColor = Color.FromHex("FCC5A6")
+            });
+            DataLayout.Controls.Add(new Box(0, rowHeight * 3, DisplayScreen.Width, rowHeight)
+            {
+                ForeColor = Color.FromHex("FFD6BE")
+            });
+
             var wifiImage = Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_wifi_connecting.bmp");
             WifiStatus = new Picture(DisplayScreen.Width - wifiImage.Width - rowMargin, 0, wifiImage.Width, rowHeight, wifiImage)
             {
@@ -78,7 +98,6 @@ namespace MeadowAzureIoTHub.Services
                 VerticalAlignment = VerticalAlignment.Center,
             };
             DataLayout.Controls.Add(WifiStatus);
-
 
             var syncImage = Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshed.bmp");
             SyncStatus = new Picture(DisplayScreen.Width - syncImage.Width - wifiImage.Width - 10 - rowMargin, 0, syncImage.Width, rowHeight, syncImage)
@@ -88,50 +107,25 @@ namespace MeadowAzureIoTHub.Services
             };
             DataLayout.Controls.Add(SyncStatus);
 
-            DataLayout.Controls.Add(new Box(0, 0, DisplayScreen.Width, rowHeight)
+            Status = new Label(rowMargin, 15, DisplayScreen.Width / 2, 20)
             {
-                ForeColor = Color.FromHex("#F39E6C")
-            });
-            DataLayout.Controls.Add(new Box(0, rowHeight, DisplayScreen.Width, rowHeight)
-            {
-                ForeColor = Color.FromHex("#F6B691")
-            });
-            DataLayout.Controls.Add(new Box(0, rowHeight * 2, DisplayScreen.Width, rowHeight)
-            {
-                ForeColor = Color.FromHex("#FCC5A6")
-            });
-            DataLayout.Controls.Add(new Box(0, rowHeight * 3, DisplayScreen.Width, rowHeight)
-            {
-                ForeColor = Color.FromHex("#FFD6BE")
-            });
-
-            Status = new Label(rowMargin, 0, DisplayScreen.Width / 2, rowHeight)
-            {
-                Text = $"-",
+                Text = $"--:-- -- --/--/--",
                 TextColor = foregroundColor,
                 Font = font12X20,
-                VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
             DataLayout.Controls.Add(Status);
 
+            LastUpdated = new Label(rowMargin, 37, DisplayScreen.Width / 2, 8)
+            {
+                Text = $"Last updated: --:-- -- --/--/--",
+                TextColor = foregroundColor,
+                Font = font6x8,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            DataLayout.Controls.Add(LastUpdated);
+
             DataLayout.Controls.Add(new Label(rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
-            {
-                Text = $"PRESSURE",
-                TextColor = foregroundColor,
-                Font = font12X20,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            });
-            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
-            {
-                Text = $"HUMIDITY",
-                TextColor = foregroundColor,
-                Font = font12X20,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left
-            });
-            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
             {
                 Text = $"TEMPERATURE",
                 TextColor = foregroundColor,
@@ -139,28 +133,24 @@ namespace MeadowAzureIoTHub.Services
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Left
             });
-
-            Pressure = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
+            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
             {
-                Text = $"- Mb",
+                Text = $"PRESSURE",
                 TextColor = foregroundColor,
                 Font = font12X20,
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Right
-            };
-            DataLayout.Controls.Add(Pressure);
-
-            Humidity = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
+                HorizontalAlignment = HorizontalAlignment.Left
+            });
+            DataLayout.Controls.Add(new Label(rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
             {
-                Text = $"- % ",
+                Text = $"HUMIDITY",
                 TextColor = foregroundColor,
                 Font = font12X20,
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Right
-            };
-            DataLayout.Controls.Add(Humidity);
+                HorizontalAlignment = HorizontalAlignment.Left
+            });
 
-            Temperature = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
+            Temperature = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight, DisplayScreen.Width / 2, rowHeight)
             {
                 Text = $"- °C",
                 TextColor = foregroundColor,
@@ -169,6 +159,26 @@ namespace MeadowAzureIoTHub.Services
                 HorizontalAlignment = HorizontalAlignment.Right
             };
             DataLayout.Controls.Add(Temperature);
+
+            Pressure = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 2, DisplayScreen.Width / 2, rowHeight)
+            {
+                Text = $"- mb",
+                TextColor = foregroundColor,
+                Font = font12X20,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right
+            };
+            DataLayout.Controls.Add(Pressure);
+
+            Humidity = new Label(DisplayScreen.Width / 2 - rowMargin, rowHeight * 3, DisplayScreen.Width / 2, rowHeight)
+            {
+                Text = $"- % ",
+                TextColor = foregroundColor,
+                Font = font12X20,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right
+            };
+            DataLayout.Controls.Add(Humidity);
         }
 
         public void ShowSplashScreen()
@@ -188,12 +198,9 @@ namespace MeadowAzureIoTHub.Services
             Status.Text = status;
         }
 
-        public void UpdateSyncStatus(bool isSyncing)
+        public void UpdateLastUpdated(string lastUpdated)
         {
-            var imageSync = isSyncing
-                ? Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshing.bmp")
-                : Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshed.bmp");
-            SyncStatus.Image = imageSync;
+            LastUpdated.Text = $"Last Updated: {lastUpdated}";
         }
 
         public void UpdateWiFiStatus(bool isConnected)
@@ -204,13 +211,21 @@ namespace MeadowAzureIoTHub.Services
             WifiStatus.Image = imageWiFi;
         }
 
-        public void UpdateAtmosphericConditions(string pressure, string humidity, string temperature)
+        public void UpdateSyncStatus(bool isSyncing)
+        {
+            var imageSync = isSyncing
+                ? Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshing.bmp")
+                : Image.LoadFromResource("MeadowAzureIoTHub.Resources.img_refreshed.bmp");
+            SyncStatus.Image = imageSync;
+        }
+
+        public void UpdateAtmosphericConditions(string temperature, string pressure, string humidity)
         {
             DisplayScreen.BeginUpdate();
 
+            Temperature.Text = $"{temperature} °C";
             Pressure.Text = $"{pressure} mb";
             Humidity.Text = $"{humidity} % ";
-            Temperature.Text = $"{temperature} °C";
 
             DisplayScreen.EndUpdate();
         }

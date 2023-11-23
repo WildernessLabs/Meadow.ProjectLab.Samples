@@ -6,27 +6,27 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeadowAzureIoTHub.Services
+namespace MeadowAzureIoTHub.Controllers
 {
     /// <summary>
     /// You'll need to create an IoT Hub - https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-create-through-portal
     /// Create a device within your IoT Hub
     /// And then generate a SAS token - this can be done via the Azure CLI 
     /// </summary>
-    public class IoTHubService
+    public class IoTHubController
     {
         private const string HubName = Secrets.HUB_NAME;
         private const string SasToken = Secrets.SAS_TOKEN;
         private const string DeviceId = Secrets.DEVICE_ID;
 
-        public bool isInitialized { get; private set; }
+        public bool isAuthenticated { get; private set; }
 
         private Connection connection;
         private SenderLink sender;
 
         private int messageId = 0;
 
-        public IoTHubService() { }
+        public IoTHubController() { }
 
         public async Task<bool> Initialize()
         {
@@ -48,13 +48,13 @@ namespace MeadowAzureIoTHub.Services
                 Resolver.Log.Info("Create SenderLink ...");
                 sender = new SenderLink(session, "send-link", senderAddress);
 
-                isInitialized = true;
+                isAuthenticated = true;
                 return true;
             }
             catch (Exception ex)
             {
                 Resolver.Log.Info($"{ex.Message}");
-                isInitialized = false;
+                isAuthenticated = false;
                 return false;
             }
         }
