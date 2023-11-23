@@ -84,7 +84,7 @@ internal class MainController
 
             if (network.IsConnected)
             {
-                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("dd/MM/yy hh:mm tt"));
+                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy "));
                 displayController.UpdateSyncStatus(true);
 
                 var readings = await cloudController.GetSensorReadings();
