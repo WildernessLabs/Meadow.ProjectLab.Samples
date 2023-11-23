@@ -12,6 +12,8 @@ namespace Meadow.Cloud_Logging
 {
     internal class MainController
     {
+        int TIMEZONE_OFFSET = -8; // UTC-8
+
         IMeadowCloudLoggingHardware hardware;
         IWiFiNetworkAdapter network;
         DisplayController displayController;
@@ -53,6 +55,7 @@ namespace Meadow.Cloud_Logging
             {
                 displayController.UpdateSyncStatus(true);
                 displayController.UpdateStatus("Sending data...");
+                Thread.Sleep(2000);
 
                 var cloudLogger = Resolver.Services.Get<CloudLogger>();
                 cloudLogger.LogEvent(1000, "environment reading", new Dictionary<string, object>()
@@ -64,6 +67,13 @@ namespace Meadow.Cloud_Logging
 
                 displayController.UpdateSyncStatus(false);
                 displayController.UpdateStatus("Data sent!");
+                Thread.Sleep(2000);
+
+                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("dd/MM/yy hh:mm tt"));
+            }
+            else
+            {
+                displayController.UpdateStatus("Offline...");
             }
 
             hardware.RgbPwmLed.StartBlink(Color.Green);
@@ -71,7 +81,7 @@ namespace Meadow.Cloud_Logging
 
         public void Run()
         {
-            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(30));
+            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromMinutes(30));
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Meadow.Cloud_Client;
 
 internal class MainController
 {
+    int TIMEZONE_OFFSET = -8; // UTC-8
+
     private IMeadowCloudClientHardware hardware;
     private IWiFiNetworkAdapter network;
     private CloudController cloudController;
@@ -76,8 +78,6 @@ internal class MainController
 
     public async Task Run()
     {
-        int TIMEZONE_OFFSET = -8; // UTC-8
-
         while (true)
         {
             displayController.UpdateWiFiStatus(network.IsConnected);
@@ -95,18 +95,20 @@ internal class MainController
                     pressureReadings.Clear();
                     humidityReadings.Clear();
 
-
-                    // Massage data to get a record per hour
-                    var formattedData = readings.GroupBy(item => new { item.record.timestamp.Year, item.record.timestamp.Month, item.record.timestamp.Day, item.record.timestamp.Hour })
-                        .Select(group => group.First())
-                        .Reverse()
-                        .ToList();
-
-                    Resolver.Log.Info($"========================================================================================");
-
-                    foreach (var reading in formattedData)
+                    if (readings.Count > 10)
                     {
-                        Resolver.Log.Info($"Record: {reading.record.timestamp} | T: {reading.record.measurements.temperature}");
+                        readings = readings.Take(10).ToList();
+                    }
+
+                    Resolver.Log.Trace($"====================================================================================");
+
+                    foreach (var reading in readings)
+                    {
+                        Resolver.Log.Trace(
+                            $"Record: {reading.record.timestamp.AddHours(-8)} | " +
+                            $"Temperature: {reading.record.measurements.temperature} | " +
+                            $"Humidity: {reading.record.measurements.humidity} | " +
+                            $"Pressure: {reading.record.measurements.pressure}");
 
                         temperatureReadings.Add(double.Parse(reading.record.measurements.temperature));
                         pressureReadings.Add(double.Parse(reading.record.measurements.pressure));
@@ -123,7 +125,6 @@ internal class MainController
             else
             {
                 displayController.UpdateStatus("Offline...");
-                displayController.UpdateSyncStatus(true);
 
                 await Task.Delay(TimeSpan.FromSeconds(10));
             }

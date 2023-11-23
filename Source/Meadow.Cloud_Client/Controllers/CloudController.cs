@@ -27,7 +27,7 @@ internal class CloudController
                     Resolver.Log.Trace($"Request complete!");
 
                     string jsonString = await response.Content.ReadAsStringAsync();
-                    Resolver.Log.Trace("Response: " + jsonString);
+                    //Resolver.Log.Trace("Response: " + jsonString);
 
                     Resolver.Log.Trace($"Serializing response...");
                     var root = JsonSerializer.Deserialize<Root>(jsonString);
