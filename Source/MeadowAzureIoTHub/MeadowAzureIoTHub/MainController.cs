@@ -1,5 +1,4 @@
-﻿using Meadow;
-using Meadow.Foundation;
+﻿using Meadow.Foundation;
 using Meadow.Hardware;
 using Meadow.Units;
 using MeadowAzureIoTHub.Controllers;
@@ -63,23 +62,24 @@ namespace MeadowAzureIoTHub
 
         private async Task SendDataToIoTHub((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) data)
         {
-            displayController.UpdateSyncStatus(true);
-            displayController.UpdateStatus("Sending data...");
+            if (network.IsConnected && iotHubService.isAuthenticated)
+            {
+                displayController.UpdateSyncStatus(true);
+                displayController.UpdateStatus("Sending data...");
 
-            await iotHubService.SendEnvironmentalReading(data);
+                await iotHubService.SendEnvironmentalReading(data);
 
-            displayController.UpdateSyncStatus(false);
-            displayController.UpdateStatus("Data sent!");
-            Thread.Sleep(2000);
-            displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                displayController.UpdateSyncStatus(false);
+                displayController.UpdateStatus("Data sent!");
+                Thread.Sleep(2000);
+                displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
 
-            displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+            }
         }
 
         private async void EnvironmentalSensorUpdated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
-            Resolver.Log.Trace("EnvironmentalSensorUpdated...");
-
             hardware.RgbPwmLed.StartBlink(Color.Orange);
 
             displayController.UpdateAtmosphericConditions(
@@ -87,17 +87,14 @@ namespace MeadowAzureIoTHub
                 pressure: $"{e.New.Pressure.Value.Millibar:N0}",
                 humidity: $"{e.New.Humidity.Value.Percent:N0}");
 
-            if (network.IsConnected && iotHubService.isAuthenticated)
-            {
-                await SendDataToIoTHub(e.New);
-            }
+            await SendDataToIoTHub(e.New);
 
             hardware.RgbPwmLed.StartBlink(Color.Green);
         }
 
         public async Task Run()
         {
-            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromMinutes(5));
+            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromMinutes(10));
 
             while (true)
             {

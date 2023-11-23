@@ -11,7 +11,7 @@ namespace MeadowAzureIoTHub
     {
         MainController mainController;
 
-        public override Task Initialize()
+        public override async Task Initialize()
         {
             Resolver.Log.Info("Initialize...");
 
@@ -19,18 +19,14 @@ namespace MeadowAzureIoTHub
             var network = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
 
             mainController = new MainController(hardware, network);
-            mainController.Initialize();
-
-            return Task.CompletedTask;
+            await mainController.Initialize();
         }
 
-        public override Task Run()
+        public override async Task Run()
         {
             Resolver.Log.Info("Run...");
 
-            mainController.Run();
-
-            return Task.CompletedTask;
+            await mainController.Run();
         }
     }
 }
