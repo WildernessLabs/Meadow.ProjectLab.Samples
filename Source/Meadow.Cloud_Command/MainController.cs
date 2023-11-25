@@ -1,5 +1,8 @@
-﻿using Meadow.Hardware;
+﻿using Meadow.Cloud_Command.Hardware;
+using Meadow.Cloud_Command.Controllers;
+using Meadow.Hardware;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Meadow.Cloud_Command
 {
@@ -11,7 +14,7 @@ namespace Meadow.Cloud_Command
         private IWiFiNetworkAdapter network;
         private DisplayController displayController;
 
-        public MainController(IMeadowCloudClientHardware hardware, IWiFiNetworkAdapter network)
+        public MainController(IMeadowCloudCommandHardware hardware, IWiFiNetworkAdapter network)
         {
             this.hardware = hardware;
             this.network = network;
@@ -21,6 +24,9 @@ namespace Meadow.Cloud_Command
         {
             hardware.Initialize();
 
+            displayController = new DisplayController(hardware.Display);
+            displayController.ShowSplashScreen();
+            Thread.Sleep(3000);
             displayController.ShowDataScreen();
         }
 

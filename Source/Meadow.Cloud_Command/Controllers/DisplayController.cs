@@ -55,7 +55,7 @@ namespace Meadow.Cloud_Command.Controllers
                 BackgroundColor = backgroundColor
             };
 
-            //LoadSplashLayout();
+            LoadSplashLayout();
 
             LoadDataLayout();
 
@@ -69,7 +69,7 @@ namespace Meadow.Cloud_Command.Controllers
                 Visible = false
             };
 
-            var image = Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_meadow.bmp");
+            var image = Image.LoadFromResource("Meadow.Cloud_Command.Resources.img_meadow.bmp");
             var displayImage = new Picture(0, 0, DisplayScreen.Width, DisplayScreen.Height, image)
             {
                 BackColor = Meadow.Foundation.Color.FromHex("14607F"),
@@ -89,16 +89,14 @@ namespace Meadow.Cloud_Command.Controllers
             };
 
             DataLayout.Controls.Add(new Box(
-                0,
-                0,
-                DisplayScreen.Width,
-                DisplayScreen.Height)
+                1,
+                1,
+                DisplayScreen.Width - 2,
+                DisplayScreen.Height - 2)
             {
                 ForeColor = Meadow.Foundation.Color.Red,
                 Filled = false
             });
-
-
         }
 
         public void ShowSplashScreen()
@@ -126,16 +124,16 @@ namespace Meadow.Cloud_Command.Controllers
         public void UpdateWiFiStatus(bool isConnected)
         {
             var imageWiFi = isConnected
-                ? Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_wifi_connected.bmp")
-                : Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_wifi_connecting.bmp");
+                ? Image.LoadFromResource("Meadow.Cloud_Command.Resources.img_wifi_connected.bmp")
+                : Image.LoadFromResource("Meadow.Cloud_Command.Resources.img_wifi_connecting.bmp");
             WifiStatus.Image = imageWiFi;
         }
 
         public void UpdateSyncStatus(bool isSyncing)
         {
             var imageSync = isSyncing
-                ? Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_refreshing.bmp")
-                : Image.LoadFromResource("Meadow.Cloud_Client.Resources.img_refreshed.bmp");
+                ? Image.LoadFromResource("Meadow.Cloud_Command.Resources.img_refreshing.bmp")
+                : Image.LoadFromResource("Meadow.Cloud_Command.Resources.img_refreshed.bmp");
             SyncStatus.Image = imageSync;
         }
     }
