@@ -154,7 +154,7 @@ namespace Meadow.Cloud_Command.Controllers
                 rowHeight + margin + smallMargin * 2,
                 relayWidth,
                 relayHeight,
-                relayOn)
+                relayOff)
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -187,7 +187,7 @@ namespace Meadow.Cloud_Command.Controllers
                 rowHeight + margin + smallMargin * 2,
                 relayWidth,
                 relayHeight,
-                relayOn)
+                relayOff)
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -220,7 +220,7 @@ namespace Meadow.Cloud_Command.Controllers
                 rowHeight + margin + smallMargin * 2,
                 relayWidth,
                 relayHeight,
-                relayOn)
+                relayOff)
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -253,7 +253,7 @@ namespace Meadow.Cloud_Command.Controllers
                 rowHeight + margin + smallMargin * 2,
                 relayWidth,
                 relayHeight,
-                relayOn)
+                relayOff)
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -280,7 +280,7 @@ namespace Meadow.Cloud_Command.Controllers
 
         public void UpdateLastUpdated(string lastUpdated)
         {
-            LastUpdated.Text = $"Last Updated: {lastUpdated}";
+            LastUpdated.Text = $"Last command: {lastUpdated}";
         }
 
         public void UpdateWiFiStatus(bool isConnected)
@@ -301,7 +301,8 @@ namespace Meadow.Cloud_Command.Controllers
 
         public void UpdateRelayStatus(int relay, bool isOn)
         {
-            var relayStatus = isOn ? relayOn : relayOff;
+            var relayStatus = isOn
+                ? relayOn : relayOff;
 
             switch (relay)
             {

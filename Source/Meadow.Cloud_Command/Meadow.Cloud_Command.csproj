@@ -18,8 +18,8 @@
     <EmbeddedResource Include="Resources\img_meadow.bmp" />
     <EmbeddedResource Include="Resources\img_refreshed.bmp" />
     <EmbeddedResource Include="Resources\img_refreshing.bmp" />
-    <EmbeddedResource Include="Resources\img_relay_off.bmp" />
     <EmbeddedResource Include="Resources\img_relay_on.bmp" />
+    <EmbeddedResource Include="Resources\img_relay_off.bmp" />
     <EmbeddedResource Include="Resources\img_wifi_connected.bmp" />
     <EmbeddedResource Include="Resources\img_wifi_connecting.bmp" />
   </ItemGroup>
@@ -35,6 +35,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Meadow.Foundation.Grove\Source\4-ChannelSpdtRelay\Driver\4-ChannelSpdtRelay.csproj" />
     <ProjectReference Include="..\..\..\Meadow.Foundation\Source\Meadow.Foundation.Libraries_and_Frameworks\Graphics.MicroLayout\Driver\Graphics.MicroLayout.csproj" />
     <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Meadow.Cloud_Command.Controllers;
+﻿using Meadow.Cloud_Command.Commands;
+using Meadow.Cloud_Command.Controllers;
 using Meadow.Cloud_Command.Hardware;
 using Meadow.Hardware;
 using System;
@@ -29,6 +30,24 @@ namespace Meadow.Cloud_Command
             displayController.ShowSplashScreen();
             Thread.Sleep(3000);
             displayController.ShowDataScreen();
+
+            Resolver.CommandService.Subscribe<ToggleRelayCommand>(command =>
+            {
+                displayController.UpdateStatus($"Command received!");
+                displayController.UpdateSyncStatus(true);
+
+                Resolver.Log.Trace($"Received ToggleRelayCommand command to relay {command.Relay} : {command.IsOn}");
+
+                displayController.UpdateRelayStatus(command.Relay, command.IsOn);
+                displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+
+                hardware.FourChannelRelay.Relays[command.Relay].IsOn = command.IsOn;
+
+                Thread.Sleep(2000);
+
+                displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                displayController.UpdateSyncStatus(false);
+            });
         }
 
         public async Task Run()

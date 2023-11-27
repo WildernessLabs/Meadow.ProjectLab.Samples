@@ -12,3 +12,6 @@ Lifecycle:
 Logging:
   LogLevel:
     Default: Trace
+
+Update:
+  Enabled: true
