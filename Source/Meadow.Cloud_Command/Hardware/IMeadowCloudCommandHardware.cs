@@ -1,6 +1,6 @@
 ﻿using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Grove.Relays;
-using Meadow.Peripherals.Leds;
+using Meadow.Foundation.Leds;
 
 namespace Meadow.Cloud_Command.Hardware
 {
@@ -8,7 +8,7 @@ namespace Meadow.Cloud_Command.Hardware
     {
         public IGraphicsDisplay Display { get; }
 
-        public IRgbPwmLed RgbPwmLed { get; }
+        public RgbPwmLed RgbPwmLed { get; }
 
         public FourChannelSpdtRelay FourChannelRelay { get; }
 

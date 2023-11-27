@@ -1,6 +1,7 @@
 ﻿using Meadow.Cloud_Command.Commands;
 using Meadow.Cloud_Command.Controllers;
 using Meadow.Cloud_Command.Hardware;
+using Meadow.Foundation;
 using Meadow.Hardware;
 using System;
 using System.Threading;
@@ -26,10 +27,20 @@ namespace Meadow.Cloud_Command
         {
             hardware.Initialize();
 
+            hardware.RgbPwmLed.SetColor(Color.Red);
+
             displayController = new DisplayController(hardware.Display);
             displayController.ShowSplashScreen();
             Thread.Sleep(3000);
             displayController.ShowDataScreen();
+
+            Resolver.UpdateService.OnStateChanged += (sender, state) =>
+            {
+                if (state.ToString().ToLower() == "idle")
+                {
+                    hardware.RgbPwmLed.StartBlink(Color.Green);
+                }
+            };
 
             Resolver.CommandService.Subscribe<ToggleRelayCommand>(command =>
             {
