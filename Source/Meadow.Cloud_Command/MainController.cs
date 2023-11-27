@@ -1,8 +1,9 @@
-﻿using Meadow.Cloud_Command.Hardware;
-using Meadow.Cloud_Command.Controllers;
+﻿using Meadow.Cloud_Command.Controllers;
+using Meadow.Cloud_Command.Hardware;
 using Meadow.Hardware;
-using System.Threading.Tasks;
+using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Meadow.Cloud_Command
 {
@@ -30,14 +31,25 @@ namespace Meadow.Cloud_Command
             displayController.ShowDataScreen();
         }
 
-        public Task Run()
+        public async Task Run()
         {
-            //while (true)
-            //{
+            while (true)
+            {
+                displayController.UpdateWiFiStatus(network.IsConnected);
 
-            //}
+                if (network.IsConnected)
+                {
+                    displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
 
-            return Task.CompletedTask;
+                    await Task.Delay(TimeSpan.FromMinutes(1));
+                }
+                else
+                {
+                    displayController.UpdateStatus("Offline...");
+
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                }
+            }
         }
     }
 }

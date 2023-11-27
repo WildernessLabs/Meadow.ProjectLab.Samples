@@ -9,6 +9,8 @@
     <None Remove="Resources\img_meadow.bmp" />
     <None Remove="Resources\img_refreshed.bmp" />
     <None Remove="Resources\img_refreshing.bmp" />
+    <None Remove="Resources\img_relay_off.bmp" />
+    <None Remove="Resources\img_relay_on.bmp" />
     <None Remove="Resources\img_wifi_connected.bmp" />
     <None Remove="Resources\img_wifi_connecting.bmp" />
   </ItemGroup>
@@ -16,6 +18,8 @@
     <EmbeddedResource Include="Resources\img_meadow.bmp" />
     <EmbeddedResource Include="Resources\img_refreshed.bmp" />
     <EmbeddedResource Include="Resources\img_refreshing.bmp" />
+    <EmbeddedResource Include="Resources\img_relay_off.bmp" />
+    <EmbeddedResource Include="Resources\img_relay_on.bmp" />
     <EmbeddedResource Include="Resources\img_wifi_connected.bmp" />
     <EmbeddedResource Include="Resources\img_wifi_connecting.bmp" />
   </ItemGroup>
