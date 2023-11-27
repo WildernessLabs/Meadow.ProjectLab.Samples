@@ -44,15 +44,38 @@ namespace Meadow.Cloud_Command
 
             Resolver.CommandService.Subscribe<ToggleRelayCommand>(command =>
             {
+                if (command.Relay < 0 || command.Relay > 4)
+                {
+                    displayController.UpdateStatus($"Command invalid!");
+                    Thread.Sleep(2000);
+                    displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                    return;
+                }
+
                 displayController.UpdateStatus($"Command received!");
                 displayController.UpdateSyncStatus(true);
 
                 Resolver.Log.Trace($"Received ToggleRelayCommand command to relay {command.Relay} : {command.IsOn}");
 
+                switch (command.Relay)
+                {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        hardware.FourChannelRelay.Relays[command.Relay].IsOn = command.IsOn;
+                        break;
+                    case 4:
+                        if (command.IsOn)
+                            hardware.FourChannelRelay.SetAllOn();
+                        else
+                            hardware.FourChannelRelay.SetAllOff();
+                        break;
+
+                }
+
                 displayController.UpdateRelayStatus(command.Relay, command.IsOn);
                 displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
-
-                hardware.FourChannelRelay.Relays[command.Relay].IsOn = command.IsOn;
 
                 Thread.Sleep(2000);
 

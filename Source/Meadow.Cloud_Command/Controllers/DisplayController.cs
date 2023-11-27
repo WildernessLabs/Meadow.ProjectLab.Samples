@@ -301,8 +301,7 @@ namespace Meadow.Cloud_Command.Controllers
 
         public void UpdateRelayStatus(int relay, bool isOn)
         {
-            var relayStatus = isOn
-                ? relayOn : relayOff;
+            var relayStatus = isOn ? relayOn : relayOff;
 
             switch (relay)
             {
@@ -316,6 +315,12 @@ namespace Meadow.Cloud_Command.Controllers
                     RelayStatus2.Image = relayStatus;
                     break;
                 case 3:
+                    RelayStatus3.Image = relayStatus;
+                    break;
+                case 4:
+                    RelayStatus0.Image = relayStatus;
+                    RelayStatus1.Image = relayStatus;
+                    RelayStatus2.Image = relayStatus;
                     RelayStatus3.Image = relayStatus;
                     break;
             }
