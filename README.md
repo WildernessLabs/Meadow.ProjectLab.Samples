@@ -37,9 +37,25 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
             <a href="https://www.hackster.io/wilderness-labs/visualize-azure-iot-hub-data-with-a-net-web-app-6288e3">Hackster</a> | 
             <a href="Source/MagicEightMeadow/">Source Code</a>
         </td>
-        <!-- 
-        -->
     </tr>
+        <tr>
+        <td>
+            <a href="Source/Meadow.Cloud_Logging/"><img src="Design/wildernesslabs-projectlab-meadow-cloud-logging.jpg"/></a><br/>
+            Send environmental data to Meadow.Cloud using Log Event</br>
+            <a href="Source/Meadow.Cloud_Logging/">Source Code</a>
+        </td>
+        <td>
+            <a href="Source/Meadow.Cloud_Client/"><img src="Design/wildernesslabs-projectlab-meadow-cloud-client.png"/></a><br/>
+            Get log event data from Meadow.Cloud using its client API<br/>
+            <a href="Source/Meadow.Cloud_Client/">Source Code</a>
+        </td>
+        <td>
+            <a href="Source/Meadow.Cloud_Command/"><img src="Design/wildernesslabs-projectlab-meadow-cloud-relay-command.png"/></a><br/>
+            Use commands from Meadow.Cloud to control a four channel relay</br>
+            <a href="Source/Meadow.Cloud_Command/">Source Code</a>
+        </td> 
+    </tr>
+    <tr>
         <td>
             <a href="Source/MicroLayoutMenu/"><img src="Design/wildernesslabs-projectlab-microlayout-menu.png"/></a><br/>
             Build HMI screens with MicroLayout for Meadow</br>
