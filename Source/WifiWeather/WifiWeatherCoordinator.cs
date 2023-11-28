@@ -4,61 +4,60 @@ using System.Threading.Tasks;
 using WifiWeather.Hardware;
 using WifiWeather.Services;
 
-namespace WifiWeather
+namespace WifiWeather;
+
+internal class WifiWeatherCoordinator
 {
-    internal class WifiWeatherCoordinator
+    private IWifiWeatherHardware hardware;
+    private INetworkAdapter network;
+    private DisplayService displayService;
+    private WeatherService weatherService;
+
+    public WifiWeatherCoordinator(IWifiWeatherHardware hardware, INetworkAdapter network)
     {
-        IWifiWeatherHardware hardware;
-        INetworkAdapter network;
-        DisplayService displayService;
-        WeatherService weatherService;
+        this.hardware = hardware;
+        this.network = network;
+    }
 
-        public WifiWeatherCoordinator(IWifiWeatherHardware hardware, INetworkAdapter network)
+    public void Initialize()
+    {
+        hardware.Initialize();
+
+        displayService = new DisplayService(hardware.Display);
+        weatherService = new WeatherService();
+
+        hardware.TemperatureSensor.Updated += TemperatureUpdated;
+        hardware.TemperatureSensor.StartUpdating(TimeSpan.FromMinutes(10));
+    }
+
+    private void TemperatureUpdated(object sender, Meadow.IChangeResult<Meadow.Units.Temperature> e)
+    {
+        displayService.UpdateIndoorTemperature((int)e.New.Celsius);
+    }
+
+    private async Task UpdateOutdoorValues()
+    {
+        var outdoorConditions = await weatherService.GetWeatherForecast();
+        displayService.UpdateOutdoorTemperature(outdoorConditions.Value.Item1);
+        displayService.UpdateWeatherIcon(outdoorConditions.Value.Item2);
+    }
+
+    public async Task Run()
+    {
+        await UpdateOutdoorValues();
+
+        while (true)
         {
-            this.hardware = hardware;
-            this.network = network;
-        }
-
-        public void Initialize()
-        {
-            hardware.Initialize();
-
-            displayService = new DisplayService(hardware.Display);
-            weatherService = new WeatherService();
-
-            hardware.TemperatureSensor.TemperatureUpdated += TemperatureUpdated;
-            hardware.TemperatureSensor.StartUpdating(TimeSpan.FromMinutes(10));
-        }
-
-        void TemperatureUpdated(object sender, Meadow.IChangeResult<Meadow.Units.Temperature> e)
-        {
-            displayService.UpdateIndoorTemperature((int)e.New.Celsius);
-        }
-
-        async Task UpdateOutdoorValues()
-        {
-            var outdoorConditions = await weatherService.GetWeatherForecast();
-            displayService.UpdateOutdoorTemperature(outdoorConditions.Value.Item1);
-            displayService.UpdateWeatherIcon(outdoorConditions.Value.Item2);
-        }
-
-        public async Task Run()
-        {
-            await UpdateOutdoorValues();
-
-            while (true)
+            if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0 && network.IsConnected)
             {
-                if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0 && network.IsConnected)
-                {
-                    await UpdateOutdoorValues();
-                }
-
-                int TimeZoneOffSet = -8; // PST
-                var today = DateTime.Now.AddHours(TimeZoneOffSet);
-                displayService.UpdateDateTime(today);
-
-                await Task.Delay(TimeSpan.FromMinutes(1));
+                await UpdateOutdoorValues();
             }
+
+            int TimeZoneOffSet = -8; // PST
+            var today = DateTime.Now.AddHours(TimeZoneOffSet);
+            displayService.UpdateDateTime(today);
+
+            await Task.Delay(TimeSpan.FromMinutes(1));
         }
     }
 }
