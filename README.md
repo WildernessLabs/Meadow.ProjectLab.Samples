@@ -51,7 +51,7 @@ This repo contains code samples for the Wilderness Labs Meadow [Project Lab](htt
         </td>
         <td>
             <a href="Source/Meadow.Cloud_Command/"><img src="Design/wildernesslabs-projectlab-meadow-cloud-relay-command.png"/></a><br/>
-            Use commands from Meadow.Cloud to control a four channel relay</br>
+            Use Meadow.Cloud commands to control a four channel relay</br>
             <a href="Source/Meadow.Cloud_Command/">Source Code</a>
         </td> 
     </tr>
