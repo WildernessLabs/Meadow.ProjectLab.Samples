@@ -8,7 +8,7 @@ namespace AmbientRoomMonitor
     // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        MainCoordinator coordinator;
+        MainController mainController;
 
         public override Task Initialize()
         {
@@ -16,8 +16,8 @@ namespace AmbientRoomMonitor
 
             var hardware = new AmbientRoomMonitorHardware();
 
-            coordinator = new MainCoordinator(hardware);
-            coordinator.Initialize();
+            mainController = new MainController(hardware);
+            mainController.Initialize();
 
             return Task.CompletedTask;
         }
@@ -26,7 +26,7 @@ namespace AmbientRoomMonitor
         {
             Resolver.Log.Info("Run...");
 
-            coordinator.Run();
+            mainController.Run();
 
             return Task.CompletedTask;
         }

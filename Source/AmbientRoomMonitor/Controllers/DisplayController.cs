@@ -4,7 +4,7 @@ using Meadow.Foundation.Graphics.MicroLayout;
 
 namespace AmbientRoomMonitor.Services
 {
-    internal class DisplayService
+    internal class DisplayController
     {
         int rowHeight = 60;
         int rowMargin = 15;
@@ -24,7 +24,7 @@ namespace AmbientRoomMonitor.Services
 
         Font12x20 font12X20 = new Font12x20();
 
-        public DisplayService(IGraphicsDisplay display)
+        public DisplayController(IGraphicsDisplay display)
         {
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {

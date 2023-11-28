@@ -5,13 +5,13 @@ using System;
 
 namespace AmbientRoomMonitor
 {
-    internal class MainCoordinator
+    internal class MainController
     {
         IAmbientRoomMonitorHardware hardware;
 
-        DisplayService displayService;
+        DisplayController displayService;
 
-        public MainCoordinator(IAmbientRoomMonitorHardware hardware)
+        public MainController(IAmbientRoomMonitorHardware hardware)
         {
             this.hardware = hardware;
         }
@@ -20,7 +20,7 @@ namespace AmbientRoomMonitor
         {
             hardware.Initialize();
 
-            displayService = new DisplayService(hardware.Display);
+            displayService = new DisplayController(hardware.Display);
 
             hardware.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;
         }
