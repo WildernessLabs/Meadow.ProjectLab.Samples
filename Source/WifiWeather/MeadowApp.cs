@@ -8,7 +8,7 @@ namespace WifiWeather
 {
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        WifiWeatherCoordinator wifiWeather;
+        MainController mainController;
 
         public override Task Initialize()
         {
@@ -17,8 +17,8 @@ namespace WifiWeather
             var hardware = new WifiWeatherHardware();
             var network = Device.NetworkAdapters.Primary<INetworkAdapter>();
 
-            wifiWeather = new WifiWeatherCoordinator(hardware, network);
-            wifiWeather.Initialize();
+            mainController = new MainController(hardware, network);
+            mainController.Initialize();
 
             return Task.CompletedTask;
         }
@@ -27,7 +27,7 @@ namespace WifiWeather
         {
             Resolver.Log.Info("Run...");
 
-            await wifiWeather.Run();
+            await mainController.Run();
         }
     }
 }

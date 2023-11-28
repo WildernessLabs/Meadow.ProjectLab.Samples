@@ -22,5 +22,16 @@
     <PackageReference Include="SimpleJpegDecoder" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="app.config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="meadow.config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="wifi.config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="..\Connectivity.Common\CommonContracts.projitems" Label="Shared" />
 </Project>
