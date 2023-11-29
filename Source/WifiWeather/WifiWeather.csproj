@@ -6,30 +6,37 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="w_clear.jpg" />
-    <None Remove="w_cloudy.jpg" />
-    <None Remove="w_drizzle.jpg" />
-    <None Remove="w_misc.jpg" />
-    <None Remove="w_rain.jpg" />
-    <None Remove="w_snow.jpg" />
-    <None Remove="w_storm.jpg" />
+    <None Remove="w_clear.bmp" />
+    <None Remove="w_cloudy.bmp" />
+    <None Remove="w_drizzle.bmp" />
+    <None Remove="w_misc.bmp" />
+    <None Remove="w_rain.bmp" />
+    <None Remove="w_snow.bmp" />
+    <None Remove="w_storm.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="w_drizzle.jpg" />
-    <EmbeddedResource Include="w_clear.jpg" />
-    <EmbeddedResource Include="w_cloudy.jpg" />
-    <EmbeddedResource Include="w_misc.jpg" />
-    <EmbeddedResource Include="w_rain.jpg" />
-    <EmbeddedResource Include="w_snow.jpg" />
-    <EmbeddedResource Include="w_storm.jpg" />
+    <EmbeddedResource Include="Resources\w_clear.bmp" />
+    <EmbeddedResource Include="Resources\w_cloudy.bmp" />
+    <EmbeddedResource Include="Resources\w_drizzle.bmp" />
+    <EmbeddedResource Include="Resources\w_misc.bmp" />
+    <EmbeddedResource Include="Resources\w_rain.bmp" />
+    <EmbeddedResource Include="Resources\w_snow.bmp" />
+    <EmbeddedResource Include="Resources\w_storm.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Meadow.Foundation.Graphics.MicroLayout" Version="*" />
     <PackageReference Include="Meadow.ProjectLab" Version="*" />
     <PackageReference Include="System.Text.Json" Version="*" />
     <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="app.config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="meadow.config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="wifi.config.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

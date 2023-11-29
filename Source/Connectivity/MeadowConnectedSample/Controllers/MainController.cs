@@ -1,4 +1,5 @@
-﻿using Meadow.Devices;
+﻿using Meadow;
+using Meadow.Devices;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Foundation.Sensors.Light;
@@ -42,11 +43,11 @@ namespace MeadowConnectedSample.Controller
         {
             while (true)
             {
-                Console.Write("Reading...");
+                EnvironmentalReading = await environmentalSensor.Read();
+                LightReading = await lightSensor.Read();
+                MotionReading = await motionSensor.Read();
 
-                EnvironmentalReading = environmentalSensor.Read().Result;
-                LightReading = lightSensor.Read().Result;
-                MotionReading = motionSensor.Read().Result;
+                Resolver.Log.Info($"Temperature: {EnvironmentalReading.Temperature.Value.Celsius} | Light: {LightReading.Value.Lux} | Motion: ({MotionReading.angularVelocity3D.Value.X},{MotionReading.angularVelocity3D.Value.Y},{MotionReading.angularVelocity3D.Value.Z}) ");
 
                 if (!UseWiFi)
                 {
@@ -54,8 +55,6 @@ namespace MeadowConnectedSample.Controller
                     BluetoothServer.Instance.SetLightCharacteristicValue(LightReading);
                     BluetoothServer.Instance.SetMotionCharacteristicValue(MotionReading);
                 }
-
-                Console.WriteLine("Done");
 
                 await Task.Delay(updateInterval);
             }

@@ -6,16 +6,22 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="image1.jpg" />
-    <EmbeddedResource Include="image2.jpg" />
-    <EmbeddedResource Include="image3.jpg" />
+    <EmbeddedResource Include="Resources\image1.jpg" />
+    <EmbeddedResource Include="Resources\image2.jpg" />
+    <EmbeddedResource Include="Resources\image3.jpg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Meadow.ProjectLab" Version="*" />
     <PackageReference Include="SimpleJpegDecoder" Version="0.*" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="app.config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="meadow.config.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="wifi.config.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

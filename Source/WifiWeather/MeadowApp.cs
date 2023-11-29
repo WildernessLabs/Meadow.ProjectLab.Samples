@@ -1,77 +1,33 @@
 ﻿using Meadow;
 using Meadow.Devices;
-using Meadow.Foundation;
-using Meadow.Foundation.Leds;
 using Meadow.Hardware;
-using System;
 using System.Threading.Tasks;
-using WifiWeather.Services;
-using WifiWeather.ViewModels;
-using WifiWeather.Views;
+using WifiWeather.Hardware;
 
 namespace WifiWeather
 {
-    // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        RgbPwmLed onboardLed;
-        WeatherView displayController;
-        IProjectLabHardware projectLab;
+        MainController mainController;
 
-        public override async Task Initialize()
+        public override Task Initialize()
         {
             Resolver.Log.Info("Initialize...");
 
-            projectLab = ProjectLab.Create();
-            Resolver.Log.Info($"Running on ProjectLab Hardware {projectLab.RevisionString}");
+            var hardware = new WifiWeatherHardware();
+            var network = Device.NetworkAdapters.Primary<INetworkAdapter>();
 
-            onboardLed = projectLab.RgbLed;
-            onboardLed.SetColor(Color.Red);
+            mainController = new MainController(hardware, network);
+            mainController.Initialize();
 
-            displayController = new WeatherView();
-            displayController.Initialize(projectLab.Display);
-
-            var wifi = Device.NetworkAdapters.Primary<IWiFiNetworkAdapter>();
-            await wifi.Connect(Secrets.WIFI_NAME, Secrets.WIFI_PASSWORD, TimeSpan.FromSeconds(45));
-
-            onboardLed.SetColor(Color.Green);
-        }
-
-        async Task GetTemperature()
-        {
-            onboardLed.StartPulse(Color.Magenta);
-
-            // Get indoor conditions
-            var conditions = await projectLab.EnvironmentalSensor.Read();
-
-            // Get outdoor conditions
-            var outdoorConditions = await WeatherService.GetWeatherForecast();
-
-            onboardLed.StartPulse(Color.Orange);
-
-            // Format indoor/outdoor conditions data
-            var model = new WeatherViewModel(outdoorConditions, conditions.Temperature);
-
-            // Send formatted data to display to render
-            displayController.UpdateDisplay(model);
-
-            onboardLed.StartPulse(Color.Green);
+            return Task.CompletedTask;
         }
 
         public override async Task Run()
         {
-            await GetTemperature();
+            Resolver.Log.Info("Run...");
 
-            while (true)
-            {
-                if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0)
-                {
-                    await GetTemperature();
-                }
-
-                displayController.UpdateDateTime();
-                await Task.Delay(TimeSpan.FromMinutes(1));
-            }
+            await mainController.Run();
         }
     }
 }
