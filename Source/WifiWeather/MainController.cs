@@ -29,11 +29,11 @@ namespace WifiWeather
             displayController = new DisplayController(hardware.Display);
             restClientController = new RestClientController();
 
-            hardware.TemperatureSensor.TemperatureUpdated += TemperatureUpdated;
+            hardware.TemperatureSensor.Updated += TemperatureSensorUpdated;
             hardware.TemperatureSensor.StartUpdating(TimeSpan.FromMinutes(10));
         }
 
-        void TemperatureUpdated(object sender, Meadow.IChangeResult<Meadow.Units.Temperature> e)
+        private void TemperatureSensorUpdated(object sender, IChangeResult<Meadow.Units.Temperature> e)
         {
             displayController.UpdateIndoorTemperature((int)e.New.Celsius);
         }
