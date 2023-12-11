@@ -6,6 +6,11 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Resources\img_meadow.bmp" />
+    <None Remove="Resources\img_refreshed.bmp" />
+    <None Remove="Resources\img_refreshing.bmp" />
+    <None Remove="Resources\img_wifi_connected.bmp" />
+    <None Remove="Resources\img_wifi_connecting.bmp" />
     <None Remove="w_clear.bmp" />
     <None Remove="w_cloudy.bmp" />
     <None Remove="w_drizzle.bmp" />
@@ -15,6 +20,11 @@
     <None Remove="w_storm.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\img_meadow.bmp" />
+    <EmbeddedResource Include="Resources\img_refreshing.bmp" />
+    <EmbeddedResource Include="Resources\img_refreshed.bmp" />
+    <EmbeddedResource Include="Resources\img_wifi_connected.bmp" />
+    <EmbeddedResource Include="Resources\img_wifi_connecting.bmp" />
     <EmbeddedResource Include="Resources\w_clear.bmp" />
     <EmbeddedResource Include="Resources\w_cloudy.bmp" />
     <EmbeddedResource Include="Resources\w_drizzle.bmp" />
