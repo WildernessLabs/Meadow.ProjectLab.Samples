@@ -1,6 +1,6 @@
 ﻿using AmbientRoomMonitor.Hardware;
 using AmbientRoomMonitor.Services;
-using Meadow.Foundation;
+using Meadow;
 using System;
 
 namespace AmbientRoomMonitor

@@ -2,7 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Light;
+using Meadow.Peripherals.Sensors.Light;
 using Meadow.Units;
 using MeadowConnectedSample.Connectivity;
 using System;
@@ -18,7 +18,7 @@ namespace MeadowConnectedSample.Controller
 
         private Bme688 environmentalSensor;
 
-        private Bh1750 lightSensor;
+        private ILightSensor lightSensor;
 
         private Bmi270 motionSensor;
 
