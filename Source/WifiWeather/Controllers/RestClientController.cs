@@ -51,6 +51,8 @@ namespace WifiWeather.Controllers
 
         string GetWeatherIcon(int weatherCode)
         {
+            Resolver.Log.Info($"WeatherIcon: {weatherCode}");
+
             string resourceName;
 
             switch (weatherCode)
@@ -66,6 +68,9 @@ namespace WifiWeather.Controllers
                     break;
                 case int n when (n >= WeatherCodeConstants.SNOW_LIGHT && n <= WeatherCodeConstants.SNOW_SHOWER_HEAVY):
                     resourceName = $"WifiWeather.Resources.w_snow.bmp";
+                    break;
+                case WeatherCodeConstants.MIST:
+                    resourceName = $"WifiWeather.Resources.w_mist.bmp";
                     break;
                 case WeatherCodeConstants.CLOUDS_CLEAR:
                     resourceName = $"WifiWeather.Resources.w_clear.bmp";

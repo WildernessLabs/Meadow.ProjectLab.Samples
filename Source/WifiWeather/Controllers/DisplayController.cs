@@ -7,9 +7,9 @@ namespace WifiWeather.Controllers
 {
     internal class DisplayController
     {
-        private Meadow.Foundation.Color backgroundColor = Meadow.Foundation.Color.FromHex("10485E");
-        private Meadow.Foundation.Color selectedColor = Meadow.Foundation.Color.FromHex("C9DB31");
-        private Meadow.Foundation.Color ForegroundColor = Meadow.Foundation.Color.FromHex("EEEEEE");
+        private Color backgroundColor = Color.FromHex("10485E");
+        private Color selectedColor = Color.FromHex("C9DB31");
+        private Color ForegroundColor = Color.FromHex("EEEEEE");
         private Font8x16 font8x16 = new Font8x16();
         private Font6x8 font6x8 = new Font6x8();
 
@@ -80,7 +80,7 @@ namespace WifiWeather.Controllers
             var image = Image.LoadFromResource("WifiWeather.Resources.img_meadow.bmp");
             var displayImage = new Picture(0, 0, DisplayScreen.Width, DisplayScreen.Height, image)
             {
-                BackColor = Meadow.Foundation.Color.FromHex("#14607F"),
+                BackColor = Color.FromHex("#14607F"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -103,7 +103,7 @@ namespace WifiWeather.Controllers
                 font8x16.Height)
             {
                 Text = $"Project Lab v3",
-                TextColor = Meadow.Foundation.Color.White,
+                TextColor = Color.White,
                 Font = font8x16,
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -138,10 +138,10 @@ namespace WifiWeather.Controllers
             DataLayout.Controls.Add(new Box(
                 5, 25, 310, 105)
             {
-                ForeColor = Meadow.Foundation.Color.FromHex("082936"),
+                ForeColor = Color.FromHex("082936"),
             });
 
-            var weatherImage = Image.LoadFromResource("WifiWeather.Resources.w_clear.bmp");
+            var weatherImage = Image.LoadFromResource("WifiWeather.Resources.w_misc.bmp");
             Weather = new Picture(
                 margin,
                 row1,
