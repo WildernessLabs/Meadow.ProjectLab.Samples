@@ -2,6 +2,7 @@ using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using System;
+using System.Collections.Generic;
 
 namespace WifiWeather.Controllers
 {
@@ -10,6 +11,7 @@ namespace WifiWeather.Controllers
         private Color backgroundColor = Color.FromHex("10485E");
         private Color selectedColor = Color.FromHex("C9DB31");
         private Color ForegroundColor = Color.FromHex("EEEEEE");
+        private Font8x12 font8x12 = new Font8x12();
         private Font8x16 font8x16 = new Font8x16();
         private Font6x8 font6x8 = new Font6x8();
 
@@ -135,11 +137,29 @@ namespace WifiWeather.Controllers
             };
             DataLayout.Controls.Add(SyncStatus);
 
-            DataLayout.Controls.Add(new Box(
-                5, 25, 310, 105)
+            LineChart = new LineChart(
+            5,
+            25,
+            310,
+            105)
             {
-                ForeColor = Color.FromHex("082936"),
-            });
+                BackgroundColor = Color.FromHex("082936"),
+                AxisColor = ForegroundColor,
+                ShowYAxisLabels = true,
+                Visible = false,
+                AlwaysShowYOrigin = false,
+            };
+            LineChartSeries = new LineChartSeries()
+            {
+                LineColor = ForegroundColor,
+                PointColor = ForegroundColor,
+                LineStroke = 1,
+                PointSize = 2,
+                ShowLines = true,
+                ShowPoints = true,
+            };
+            LineChart.Series.Add(LineChartSeries);
+            DataLayout.Controls.Add(LineChart);
 
             var weatherImage = Image.LoadFromResource("WifiWeather.Resources.w_misc.bmp");
             Weather = new Picture(
@@ -362,28 +382,34 @@ namespace WifiWeather.Controllers
             SyncStatus.Image = imageSync;
         }
 
-        public void UpdateWeatherIcon(string icon)
-        {
-            weatherIcon = Image.LoadFromResource(icon);
-            Weather.Image = weatherIcon;
-        }
-
         public void UpdateReadings(
+            string icon,
             double temperature,
-            double pressure,
             double humidity,
+            double pressure,
             double feelsLike,
             DateTime sunrise,
-            DateTime sunset)
+            DateTime sunset,
+            List<double> readings)
         {
             DisplayScreen.BeginUpdate();
 
-            TemperatureValue.Text = $"{temperature:N1}C";
-            PressureValue.Text = $"{pressure:N1}hPa";
-            HumidityValue.Text = $"{humidity:N0}%";
-            FeelsLike.Text = $"{feelsLike:N1}C";
+            weatherIcon = Image.LoadFromResource(icon);
+            Weather.Image = weatherIcon;
+
+            TemperatureValue.Text = $"{temperature:N1}'C";
+            HumidityValue.Text = $"{humidity:N1}%";
+            PressureValue.Text = $"{pressure:N2}atm";
+            FeelsLike.Text = $"{feelsLike:N1}'C";
             Sunrise.Text = $"{sunrise:hh:mm tt}";
             Sunset.Text = $"{sunset:hh:mm tt}";
+
+            LineChartSeries.Points.Clear();
+
+            for (var p = 0; p < readings.Count; p++)
+            {
+                LineChartSeries.Points.Add(p * 2, readings[p]);
+            }
 
             DisplayScreen.EndUpdate();
         }

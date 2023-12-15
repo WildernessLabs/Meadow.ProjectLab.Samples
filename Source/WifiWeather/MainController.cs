@@ -1,6 +1,7 @@
 ﻿using Meadow;
 using Meadow.Hardware;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WifiWeather.Controllers;
@@ -12,10 +13,14 @@ namespace WifiWeather
     {
         bool firstWeatherForecast = true;
 
-        IWifiWeatherHardware hardware;
-        INetworkAdapter network;
-        DisplayController displayController;
-        RestClientController restClientController;
+        private IWifiWeatherHardware hardware;
+        private INetworkAdapter network;
+        private DisplayController displayController;
+        private RestClientController restClientController;
+
+        private List<double> temperatureReadings = new List<double>();
+        private List<double> pressureReadings = new List<double>();
+        private List<double> humidityReadings = new List<double>();
 
         public MainController(IWifiWeatherHardware hardware, INetworkAdapter network)
         {
@@ -33,15 +38,7 @@ namespace WifiWeather
             displayController.ShowSplashScreen();
             Thread.Sleep(3000);
             displayController.ShowDataScreen();
-
-            //hardware.TemperatureSensor.Updated += TemperatureSensorUpdated;
-            //hardware.TemperatureSensor.StartUpdating(TimeSpan.FromMinutes(10));
         }
-
-        //private void TemperatureSensorUpdated(object sender, IChangeResult<Meadow.Units.Temperature> e)
-        //{
-        //    displayController.UpdateIndoorTemperature((int)e.New.Celsius);
-        //}
 
         async Task UpdateOutdoorValues()
         {
@@ -52,14 +49,29 @@ namespace WifiWeather
             if (outdoorConditions != null)
             {
                 firstWeatherForecast = false;
+
+
+
+                temperatureReadings.Add(outdoorConditions.Value.Item2);
+                pressureReadings.Add(outdoorConditions.Value.Item3);
+                humidityReadings.Add(outdoorConditions.Value.Item4);
+
+                if (temperatureReadings.Count > 10)
+                {
+                    temperatureReadings.RemoveAt(0);
+                    pressureReadings.RemoveAt(0);
+                    humidityReadings.RemoveAt(0);
+                }
+
                 displayController.UpdateReadings(
-                    outdoorConditions.Value.Item1,
-                    outdoorConditions.Value.Item2,
-                    outdoorConditions.Value.Item3,
-                    outdoorConditions.Value.Item4,
-                    outdoorConditions.Value.Item5,
-                    outdoorConditions.Value.Item6);
-                displayController.UpdateWeatherIcon(outdoorConditions.Value.Item7);
+                    icon: outdoorConditions.Value.Item1,
+                    temperature: outdoorConditions.Value.Item2,
+                    humidity: outdoorConditions.Value.Item3,
+                    pressure: outdoorConditions.Value.Item4,
+                    feelsLike: outdoorConditions.Value.Item5,
+                    sunrise: outdoorConditions.Value.Item6,
+                    sunset: outdoorConditions.Value.Item7,
+                    temperatureReadings);
             }
 
             displayController.UpdateSyncStatus(false);
@@ -73,19 +85,26 @@ namespace WifiWeather
 
                 if (network.IsConnected)
                 {
+                    int TimeZoneOffSet = -8; // PST
+                    var today = DateTime.Now.AddHours(TimeZoneOffSet);
+
                     Resolver.Log.Trace("Connected!");
 
-                    if (DateTime.Now.Minute == 0 && DateTime.Now.Second == 0 || firstWeatherForecast)
+                    if (today.Minute == 0 ||
+                        today.Minute == 10 ||
+                        today.Minute == 20 ||
+                        today.Minute == 30 ||
+                        today.Minute == 40 ||
+                        today.Minute == 50 ||
+                        firstWeatherForecast)
                     {
                         Resolver.Log.Trace("Getting forecast values...");
 
                         await UpdateOutdoorValues();
 
-                        Resolver.Log.Trace("Forecast acquired...");
+                        Resolver.Log.Trace("Forecast acquired!");
                     }
 
-                    int TimeZoneOffSet = -8; // PST
-                    var today = DateTime.Now.AddHours(TimeZoneOffSet);
                     displayController.UpdateStatus(today.ToString("hh:mm tt | dd/MM/yyyy"));
 
                     await Task.Delay(TimeSpan.FromMinutes(1));

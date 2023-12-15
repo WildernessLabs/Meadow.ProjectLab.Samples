@@ -12,7 +12,7 @@ namespace WifiWeather.Controllers
     {
         string climateDataUri = "http://api.openweathermap.org/data/2.5/weather";
 
-        public async Task<(double, double, double, double, DateTime, DateTime, string)?> GetWeatherForecast()
+        public async Task<(string, double, double, double, double, DateTime, DateTime)?> GetWeatherForecast()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -28,13 +28,13 @@ namespace WifiWeather.Controllers
 
                     double outdoorTemperature = values.main.temp - 273;
                     double outdoorHumidity = values.main.humidity;
-                    double outdoorPressure = values.main.pressure;
+                    double outdoorPressure = values.main.pressure * 0.000987;
                     double feelsLikeTemperature = values.main.feels_like - 273;
                     DateTime sunrise = DateTimeOffset.FromUnixTimeSeconds(values.sys.sunrise).DateTime.AddHours(-8);
                     DateTime sunset = DateTimeOffset.FromUnixTimeSeconds(values.sys.sunset).DateTime.AddHours(-8);
                     string weatherIconFile = GetWeatherIcon(values.weather[0].id);
 
-                    return (outdoorTemperature, outdoorHumidity, outdoorPressure, feelsLikeTemperature, sunrise, sunset, weatherIconFile);
+                    return (weatherIconFile, outdoorTemperature, outdoorHumidity, outdoorPressure, feelsLikeTemperature, sunrise, sunset);
                 }
                 catch (TaskCanceledException)
                 {
