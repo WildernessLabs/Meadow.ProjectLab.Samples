@@ -1,14 +1,19 @@
 ﻿using Meadow.Foundation.Graphics;
 using Meadow.Peripherals.Sensors;
+using Meadow.Peripherals.Sensors.Buttons;
 
 namespace WifiWeather.Hardware
 {
     internal interface IWifiWeatherHardware
     {
-        public IGraphicsDisplay Display { get; }
+        IButton UpButton { get; }
 
-        public ITemperatureSensor TemperatureSensor { get; }
+        IButton DownButton { get; }
 
-        public void Initialize();
+        IGraphicsDisplay Display { get; }
+
+        ITemperatureSensor TemperatureSensor { get; }
+
+        void Initialize();
     }
 }

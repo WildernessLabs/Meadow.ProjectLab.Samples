@@ -13,6 +13,8 @@ namespace WifiWeather
     {
         bool firstWeatherForecast = true;
 
+        private int currentGraphType = 0;
+
         private IWifiWeatherHardware hardware;
         private INetworkAdapter network;
         private DisplayController displayController;
@@ -32,12 +34,42 @@ namespace WifiWeather
         {
             hardware.Initialize();
 
+            hardware.UpButton.Clicked += (s, e) => 
+            {
+                currentGraphType = currentGraphType - 1 < 0 ? 2 : currentGraphType - 1;
+
+                UpdateGraph();
+            };
+
+            hardware.DownButton.Clicked += (s, e) =>
+            {
+                currentGraphType = currentGraphType + 1 > 2 ? 0 : currentGraphType + 1;
+
+                UpdateGraph();
+            };
+
             displayController = new DisplayController(hardware.Display);
             restClientController = new RestClientController();
 
             displayController.ShowSplashScreen();
             Thread.Sleep(3000);
             displayController.ShowDataScreen();
+        }
+
+        private void UpdateGraph()
+        {
+            switch (currentGraphType)
+            {
+                case 0:
+                    displayController.UpdateGraph(currentGraphType, temperatureReadings);
+                    break;
+                case 1:
+                    displayController.UpdateGraph(currentGraphType, pressureReadings);
+                    break;
+                case 2:
+                    displayController.UpdateGraph(currentGraphType, humidityReadings);
+                    break;
+            }
         }
 
         async Task UpdateOutdoorValues()
@@ -49,8 +81,6 @@ namespace WifiWeather
             if (outdoorConditions != null)
             {
                 firstWeatherForecast = false;
-
-
 
                 temperatureReadings.Add(outdoorConditions.Value.Item2);
                 pressureReadings.Add(outdoorConditions.Value.Item3);
@@ -64,6 +94,7 @@ namespace WifiWeather
                 }
 
                 displayController.UpdateReadings(
+                    readingType: currentGraphType,
                     icon: outdoorConditions.Value.Item1,
                     temperature: outdoorConditions.Value.Item2,
                     humidity: outdoorConditions.Value.Item3,

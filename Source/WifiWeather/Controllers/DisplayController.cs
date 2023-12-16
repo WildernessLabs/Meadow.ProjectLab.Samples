@@ -1,6 +1,7 @@
 using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
+using Meadow.Units;
 using System;
 using System.Collections.Generic;
 
@@ -9,9 +10,8 @@ namespace WifiWeather.Controllers
     internal class DisplayController
     {
         private Color backgroundColor = Color.FromHex("10485E");
-        private Color selectedColor = Color.FromHex("C9DB31");
+        private Color outdoorColor = Color.FromHex("C9DB31");
         private Color ForegroundColor = Color.FromHex("EEEEEE");
-        private Font8x12 font8x12 = new Font8x12();
         private Font8x16 font8x16 = new Font8x16();
         private Font6x8 font6x8 = new Font6x8();
 
@@ -28,9 +28,9 @@ namespace WifiWeather.Controllers
         readonly int row2 = 170;
         readonly int row3 = 205;
 
-        Image weatherIcon = Image.LoadFromResource("WifiWeather.Resources.w_misc.bmp");
+        Image weatherIcon = Image.LoadFromResource($"WifiWeather.Resources.w_misc.bmp");
 
-        public LineChartSeries LineChartSeries { get; set; }
+        public LineChartSeries OutdoorSeries { get; set; }
         protected DisplayScreen DisplayScreen { get; set; }
         protected AbsoluteLayout SplashLayout { get; set; }
         protected AbsoluteLayout DataLayout { get; set; }
@@ -101,7 +101,7 @@ namespace WifiWeather.Controllers
             Status = new Label(
                 margin,
                 margin + 2,
-                DisplayScreen.Width / 2,
+                152,
                 font8x16.Height)
             {
                 Text = $"Project Lab v3",
@@ -138,10 +138,10 @@ namespace WifiWeather.Controllers
             DataLayout.Controls.Add(SyncStatus);
 
             LineChart = new LineChart(
-            5,
+            margin,
             25,
-            310,
-            105)
+            DisplayScreen.Width - margin * 2,
+            graphHeight)
             {
                 BackgroundColor = Color.FromHex("082936"),
                 AxisColor = ForegroundColor,
@@ -149,16 +149,16 @@ namespace WifiWeather.Controllers
                 Visible = false,
                 AlwaysShowYOrigin = false,
             };
-            LineChartSeries = new LineChartSeries()
+            OutdoorSeries = new LineChartSeries()
             {
-                LineColor = ForegroundColor,
-                PointColor = ForegroundColor,
+                LineColor = outdoorColor,
+                PointColor = outdoorColor,
                 LineStroke = 1,
                 PointSize = 2,
                 ShowLines = true,
                 ShowPoints = true,
             };
-            LineChart.Series.Add(LineChartSeries);
+            LineChart.Series.Add(OutdoorSeries);
             DataLayout.Controls.Add(LineChart);
 
             var weatherImage = Image.LoadFromResource("WifiWeather.Resources.w_misc.bmp");
@@ -181,7 +181,7 @@ namespace WifiWeather.Controllers
                 columnWidth,
                 rowHeight)
             {
-                ForeColor = selectedColor
+                ForeColor = outdoorColor
             };
             DataLayout.Controls.Add(TemperatureBox);
             TemperatureLabel = new Label(
@@ -216,7 +216,7 @@ namespace WifiWeather.Controllers
                 columnWidth,
                 rowHeight)
             {
-                ForeColor = selectedColor
+                ForeColor = backgroundColor
             };
             DataLayout.Controls.Add(PressureBox);
             PressureLabel = new Label(
@@ -226,7 +226,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height)
             {
                 Text = $"PRESSURE",
-                TextColor = backgroundColor,
+                TextColor = ForegroundColor,
                 Font = font6x8
             };
             DataLayout.Controls.Add(PressureLabel);
@@ -237,7 +237,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height * 2)
             {
                 Text = $"-.-hPa",
-                TextColor = backgroundColor,
+                TextColor = ForegroundColor,
                 Font = font6x8,
                 ScaleFactor = ScaleFactor.X2
             };
@@ -251,7 +251,7 @@ namespace WifiWeather.Controllers
                 columnWidth,
                 rowHeight)
             {
-                ForeColor = selectedColor
+                ForeColor = backgroundColor
             };
             DataLayout.Controls.Add(HumidityBox);
             HumidityLabel = new Label(
@@ -261,7 +261,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height)
             {
                 Text = $"HUMIDITY",
-                TextColor = backgroundColor,
+                TextColor = ForegroundColor,
                 Font = font6x8
             };
             DataLayout.Controls.Add(HumidityLabel);
@@ -272,7 +272,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height * 2)
             {
                 Text = $"-.-%",
-                TextColor = backgroundColor,
+                TextColor = ForegroundColor,
                 Font = font6x8,
                 ScaleFactor = ScaleFactor.X2
             };
@@ -349,6 +349,32 @@ namespace WifiWeather.Controllers
             DataLayout.Controls.Add(Sunset);
         }
 
+        private void UpdateReadingType(int type)
+        {
+            TemperatureBox.ForeColor = PressureBox.ForeColor = HumidityBox.ForeColor = backgroundColor;
+            TemperatureLabel.TextColor = PressureLabel.TextColor = HumidityLabel.TextColor = ForegroundColor;
+            TemperatureValue.TextColor = PressureValue.TextColor = HumidityValue.TextColor = ForegroundColor;
+
+            switch (type)
+            {
+                case 0:
+                    TemperatureBox.ForeColor = outdoorColor;
+                    TemperatureLabel.TextColor = backgroundColor;
+                    TemperatureValue.TextColor = backgroundColor;
+                    break;
+                case 1:
+                    PressureBox.ForeColor = outdoorColor;
+                    PressureLabel.TextColor = backgroundColor;
+                    PressureValue.TextColor = backgroundColor;
+                    break;
+                case 2:
+                    HumidityBox.ForeColor = outdoorColor;
+                    HumidityLabel.TextColor = backgroundColor;
+                    HumidityValue.TextColor = backgroundColor;
+                    break;
+            }
+        }
+
         public void ShowSplashScreen()
         {
             DataLayout.Visible = false;
@@ -382,7 +408,24 @@ namespace WifiWeather.Controllers
             SyncStatus.Image = imageSync;
         }
 
+        public void UpdateGraph(int graphType, List<double> readings)
+        {
+            DisplayScreen.BeginUpdate();
+
+            UpdateReadingType(graphType);
+
+            OutdoorSeries.Points.Clear();
+
+            for (var p = 0; p < readings.Count; p++)
+            {
+                OutdoorSeries.Points.Add(p * 2, readings[p]);
+            }
+
+            DisplayScreen.EndUpdate();
+        }
+
         public void UpdateReadings(
+            int readingType,
             string icon,
             double temperature,
             double humidity,
@@ -390,9 +433,11 @@ namespace WifiWeather.Controllers
             double feelsLike,
             DateTime sunrise,
             DateTime sunset,
-            List<double> readings)
+            List<double> outdoorReadings)
         {
             DisplayScreen.BeginUpdate();
+
+            UpdateReadingType(readingType);
 
             weatherIcon = Image.LoadFromResource(icon);
             Weather.Image = weatherIcon;
@@ -404,11 +449,11 @@ namespace WifiWeather.Controllers
             Sunrise.Text = $"{sunrise:hh:mm tt}";
             Sunset.Text = $"{sunset:hh:mm tt}";
 
-            LineChartSeries.Points.Clear();
+            OutdoorSeries.Points.Clear();
 
-            for (var p = 0; p < readings.Count; p++)
+            for (var p = 0; p < outdoorReadings.Count; p++)
             {
-                LineChartSeries.Points.Add(p * 2, readings[p]);
+                OutdoorSeries.Points.Add(p * 2, outdoorReadings[p]);
             }
 
             DisplayScreen.EndUpdate();
