@@ -27,14 +27,14 @@ namespace WifiWeather.Controllers
                     var values = JsonSerializer.Deserialize<WeatherReadingDTO>(json);
 
                     double outdoorTemperature = values.main.temp - 273;
-                    double outdoorHumidity = values.main.humidity;
                     double outdoorPressure = values.main.pressure * 0.000987;
+                    double outdoorHumidity = values.main.humidity;
                     double feelsLikeTemperature = values.main.feels_like - 273;
                     DateTime sunrise = DateTimeOffset.FromUnixTimeSeconds(values.sys.sunrise).DateTime.AddHours(-8);
                     DateTime sunset = DateTimeOffset.FromUnixTimeSeconds(values.sys.sunset).DateTime.AddHours(-8);
                     string weatherIconFile = GetWeatherIcon(values.weather[0].id);
 
-                    return (weatherIconFile, outdoorTemperature, outdoorHumidity, outdoorPressure, feelsLikeTemperature, sunrise, sunset);
+                    return (weatherIconFile, outdoorTemperature, outdoorPressure, outdoorHumidity, feelsLikeTemperature, sunrise, sunset);
                 }
                 catch (TaskCanceledException)
                 {

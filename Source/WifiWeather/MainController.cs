@@ -34,7 +34,7 @@ namespace WifiWeather
         {
             hardware.Initialize();
 
-            hardware.UpButton.Clicked += (s, e) => 
+            hardware.UpButton.Clicked += (s, e) =>
             {
                 currentGraphType = currentGraphType - 1 < 0 ? 2 : currentGraphType - 1;
 
@@ -86,6 +86,7 @@ namespace WifiWeather
                 pressureReadings.Add(outdoorConditions.Value.Item3);
                 humidityReadings.Add(outdoorConditions.Value.Item4);
 
+
                 if (temperatureReadings.Count > 10)
                 {
                     temperatureReadings.RemoveAt(0);
@@ -97,8 +98,8 @@ namespace WifiWeather
                     readingType: currentGraphType,
                     icon: outdoorConditions.Value.Item1,
                     temperature: outdoorConditions.Value.Item2,
-                    humidity: outdoorConditions.Value.Item3,
-                    pressure: outdoorConditions.Value.Item4,
+                    pressure: outdoorConditions.Value.Item3,
+                    humidity: outdoorConditions.Value.Item4,
                     feelsLike: outdoorConditions.Value.Item5,
                     sunrise: outdoorConditions.Value.Item6,
                     sunset: outdoorConditions.Value.Item7,

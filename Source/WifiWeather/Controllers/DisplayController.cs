@@ -1,7 +1,6 @@
 using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
-using Meadow.Units;
 using System;
 using System.Collections.Generic;
 
@@ -428,8 +427,8 @@ namespace WifiWeather.Controllers
             int readingType,
             string icon,
             double temperature,
-            double humidity,
             double pressure,
+            double humidity,
             double feelsLike,
             DateTime sunrise,
             DateTime sunset,
@@ -442,10 +441,10 @@ namespace WifiWeather.Controllers
             weatherIcon = Image.LoadFromResource(icon);
             Weather.Image = weatherIcon;
 
-            TemperatureValue.Text = $"{temperature:N1}'C";
+            TemperatureValue.Text = $"{temperature:N1}C";
             HumidityValue.Text = $"{humidity:N1}%";
             PressureValue.Text = $"{pressure:N2}atm";
-            FeelsLike.Text = $"{feelsLike:N1}'C";
+            FeelsLike.Text = $"{feelsLike:N1}C";
             Sunrise.Text = $"{sunrise:hh:mm tt}";
             Sunset.Text = $"{sunset:hh:mm tt}";
 
