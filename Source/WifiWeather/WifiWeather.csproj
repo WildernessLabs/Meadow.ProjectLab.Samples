@@ -11,6 +11,7 @@
     <None Remove="Resources\img_refreshing.bmp" />
     <None Remove="Resources\img_wifi_connected.bmp" />
     <None Remove="Resources\img_wifi_connecting.bmp" />
+    <None Remove="Resources\w_clouds_scattered.bmp" />
     <None Remove="Resources\w_mist.bmp" />
     <None Remove="w_clear.bmp" />
     <None Remove="w_cloudy.bmp" />
@@ -27,6 +28,7 @@
     <EmbeddedResource Include="Resources\img_wifi_connected.bmp" />
     <EmbeddedResource Include="Resources\img_wifi_connecting.bmp" />
     <EmbeddedResource Include="Resources\w_clear.bmp" />
+    <EmbeddedResource Include="Resources\w_clouds_scattered.bmp" />
     <EmbeddedResource Include="Resources\w_cloudy.bmp" />
     <EmbeddedResource Include="Resources\w_drizzle.bmp" />
     <EmbeddedResource Include="Resources\w_misc.bmp" />

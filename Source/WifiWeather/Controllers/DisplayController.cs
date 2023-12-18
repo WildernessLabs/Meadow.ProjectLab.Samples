@@ -10,10 +10,11 @@ namespace WifiWeather.Controllers
     {
         private Color backgroundColor = Color.FromHex("10485E");
         private Color outdoorColor = Color.FromHex("C9DB31");
-        private Color ForegroundColor = Color.FromHex("EEEEEE");
+        private Color foregroundColor = Color.FromHex("EEEEEE");
         private Font8x16 font8x16 = new Font8x16();
         private Font6x8 font6x8 = new Font6x8();
 
+        private int counter = 0;
         private int margin = 5;
         readonly int smallMargin = 3;
         readonly int graphHeight = 105;
@@ -38,6 +39,7 @@ namespace WifiWeather.Controllers
         protected Picture SyncStatus { get; set; }
         protected Picture Weather { get; set; }
         protected Label Status { get; set; }
+        protected Label Counter { get; set; }
 
         protected Box TemperatureBox { get; set; }
         protected Label TemperatureLabel { get; set; }
@@ -110,6 +112,21 @@ namespace WifiWeather.Controllers
             };
             DataLayout.Controls.Add(Status);
 
+             Counter = new Label(
+                228,
+                margin + 2,
+                44,
+                14)
+            {
+                Text = $"00000",
+                TextColor = backgroundColor,
+                BackColor = Color.FromHex("EF7D3B"),
+                Font = font6x8,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            DataLayout.Controls.Add(Counter);
+
             var wifiImage = Image.LoadFromResource("WifiWeather.Resources.img_wifi_connecting.bmp");
             WifiStatus = new Picture(
                 DisplayScreen.Width - wifiImage.Width - margin,
@@ -137,13 +154,13 @@ namespace WifiWeather.Controllers
             DataLayout.Controls.Add(SyncStatus);
 
             LineChart = new LineChart(
-            margin,
-            25,
-            DisplayScreen.Width - margin * 2,
-            graphHeight)
+                margin,
+                25,
+                DisplayScreen.Width - margin * 2,
+                graphHeight)
             {
                 BackgroundColor = Color.FromHex("082936"),
-                AxisColor = ForegroundColor,
+                AxisColor = foregroundColor,
                 ShowYAxisLabels = true,
                 Visible = false,
                 AlwaysShowYOrigin = false,
@@ -225,7 +242,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height)
             {
                 Text = $"PRESSURE",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8
             };
             DataLayout.Controls.Add(PressureLabel);
@@ -236,7 +253,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height * 2)
             {
                 Text = $"-.-hPa",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8,
                 ScaleFactor = ScaleFactor.X2
             };
@@ -260,7 +277,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height)
             {
                 Text = $"HUMIDITY",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8
             };
             DataLayout.Controls.Add(HumidityLabel);
@@ -271,7 +288,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height * 2)
             {
                 Text = $"-.-%",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8,
                 ScaleFactor = ScaleFactor.X2
             };
@@ -285,7 +302,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height)
             {
                 Text = $"FEELS LIKE",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8
             });
             FeelsLike = new Label(
@@ -295,7 +312,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height * 2)
             {
                 Text = $"-.-C",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8,
                 ScaleFactor = ScaleFactor.X2
             };
@@ -308,7 +325,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height)
             {
                 Text = $"SUNRISE",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8
             });
             Sunrise = new Label(
@@ -318,7 +335,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height * 2)
             {
                 Text = $"--:-- --",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8,
                 ScaleFactor = ScaleFactor.X2
             };
@@ -331,7 +348,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height)
             {
                 Text = $"SUNSET",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8
             });
             Sunset = new Label(
@@ -341,7 +358,7 @@ namespace WifiWeather.Controllers
                 font6x8.Height * 2)
             {
                 Text = $"--:-- --",
-                TextColor = ForegroundColor,
+                TextColor = foregroundColor,
                 Font = font6x8,
                 ScaleFactor = ScaleFactor.X2
             };
@@ -351,8 +368,8 @@ namespace WifiWeather.Controllers
         private void UpdateReadingType(int type)
         {
             TemperatureBox.ForeColor = PressureBox.ForeColor = HumidityBox.ForeColor = backgroundColor;
-            TemperatureLabel.TextColor = PressureLabel.TextColor = HumidityLabel.TextColor = ForegroundColor;
-            TemperatureValue.TextColor = PressureValue.TextColor = HumidityValue.TextColor = ForegroundColor;
+            TemperatureLabel.TextColor = PressureLabel.TextColor = HumidityLabel.TextColor = foregroundColor;
+            TemperatureValue.TextColor = PressureValue.TextColor = HumidityValue.TextColor = foregroundColor;
 
             switch (type)
             {
@@ -435,6 +452,9 @@ namespace WifiWeather.Controllers
             List<double> outdoorReadings)
         {
             DisplayScreen.BeginUpdate();
+
+            counter++;
+            Counter.Text = $"{counter:D5}";
 
             UpdateReadingType(readingType);
 

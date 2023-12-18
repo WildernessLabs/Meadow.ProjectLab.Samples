@@ -75,7 +75,12 @@ namespace WifiWeather.Controllers
                 case WeatherCodeConstants.CLOUDS_CLEAR:
                     resourceName = $"WifiWeather.Resources.w_clear.bmp";
                     break;
-                case int n when (n >= WeatherCodeConstants.CLOUDS_FEW && n <= WeatherCodeConstants.CLOUDS_OVERCAST):
+                case WeatherCodeConstants.CLOUDS_FEW:
+                case WeatherCodeConstants.CLOUDS_SCATTERED:
+                    resourceName = $"WifiWeather.Resources.w_clouds_scattered.bmp";
+                    break;
+                case WeatherCodeConstants.CLOUDS_BROKEN:
+                case WeatherCodeConstants.CLOUDS_OVERCAST:
                     resourceName = $"WifiWeather.Resources.w_cloudy.bmp";
                     break;
                 default:
