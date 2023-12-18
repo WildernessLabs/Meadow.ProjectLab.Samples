@@ -112,15 +112,24 @@ namespace WifiWeather.Controllers
             };
             DataLayout.Controls.Add(Status);
 
-             Counter = new Label(
+            DataLayout.Controls.Add(new Box(
+                226,
+                margin + 2,
+                44,
+                14)
+            {
+                ForeColor = foregroundColor,
+                Filled = false
+            });
+
+            Counter = new Label(
                 228,
                 margin + 2,
                 44,
                 14)
             {
                 Text = $"00000",
-                TextColor = backgroundColor,
-                BackColor = Color.FromHex("EF7D3B"),
+                TextColor = foregroundColor,
                 Font = font6x8,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
