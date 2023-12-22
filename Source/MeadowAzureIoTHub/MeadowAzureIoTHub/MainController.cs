@@ -94,7 +94,7 @@ namespace MeadowAzureIoTHub
 
         public async Task Run()
         {
-            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromMinutes(10));
+            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(15));
 
             while (true)
             {

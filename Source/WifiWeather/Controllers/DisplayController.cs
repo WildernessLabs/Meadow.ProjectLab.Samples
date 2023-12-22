@@ -457,8 +457,7 @@ namespace WifiWeather.Controllers
             double humidity,
             double feelsLike,
             DateTime sunrise,
-            DateTime sunset,
-            List<double> outdoorReadings)
+            DateTime sunset)
         {
             DisplayScreen.BeginUpdate();
 
@@ -476,13 +475,6 @@ namespace WifiWeather.Controllers
             FeelsLike.Text = $"{feelsLike:N1}C";
             Sunrise.Text = $"{sunrise:hh:mm tt}";
             Sunset.Text = $"{sunset:hh:mm tt}";
-
-            OutdoorSeries.Points.Clear();
-
-            for (var p = 0; p < outdoorReadings.Count; p++)
-            {
-                OutdoorSeries.Points.Add(p * 2, outdoorReadings[p]);
-            }
 
             DisplayScreen.EndUpdate();
         }

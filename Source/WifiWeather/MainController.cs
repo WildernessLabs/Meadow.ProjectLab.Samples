@@ -102,8 +102,9 @@ namespace WifiWeather
                     humidity: outdoorConditions.Value.Item4,
                     feelsLike: outdoorConditions.Value.Item5,
                     sunrise: outdoorConditions.Value.Item6,
-                    sunset: outdoorConditions.Value.Item7,
-                    temperatureReadings);
+                    sunset: outdoorConditions.Value.Item7);
+
+                UpdateGraph();
             }
 
             displayController.UpdateSyncStatus(false);
