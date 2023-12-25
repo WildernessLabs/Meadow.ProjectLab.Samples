@@ -3,6 +3,7 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Buttons;
 using Meadow.Units;
 using System;
@@ -21,7 +22,7 @@ namespace Simon
         private bool isAnimating;
         private Frequency[] notes;
         private SimonGame game;
-        private RgbPwmLed onboardLed;
+        private IRgbPwmLed onboardLed;
         private MicroGraphics graphics;
         private IProjectLabHardware projectLab;
         private IButton[] buttons;

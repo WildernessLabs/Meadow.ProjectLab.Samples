@@ -2,6 +2,7 @@
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Light;
 
 namespace AmbientRoomMonitor.Hardware
@@ -12,7 +13,7 @@ namespace AmbientRoomMonitor.Hardware
 
         public IGraphicsDisplay Display { get; set; }
 
-        public RgbPwmLed RgbPwmLed { get; set; }
+        public IRgbPwmLed RgbPwmLed { get; set; }
 
         public ILightSensor LightSensor { get; set; }
 
