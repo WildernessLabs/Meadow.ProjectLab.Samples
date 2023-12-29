@@ -77,7 +77,7 @@ namespace WifiWeather.Controllers
         {
             SplashLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height)
             {
-                Visible = false
+                IsVisible = false
             };
 
             var image = Image.LoadFromResource("WifiWeather.Resources.img_meadow.bmp");
@@ -96,7 +96,7 @@ namespace WifiWeather.Controllers
             DataLayout = new AbsoluteLayout(DisplayScreen, 0, 0, DisplayScreen.Width, DisplayScreen.Height)
             {
                 BackgroundColor = backgroundColor,
-                Visible = false
+                IsVisible = false
             };
 
             Status = new Label(
@@ -119,7 +119,7 @@ namespace WifiWeather.Controllers
                 14)
             {
                 ForeColor = foregroundColor,
-                Filled = false
+                IsFilled = false
             });
 
             Counter = new Label(
@@ -171,7 +171,7 @@ namespace WifiWeather.Controllers
                 BackgroundColor = Color.FromHex("082936"),
                 AxisColor = foregroundColor,
                 ShowYAxisLabels = true,
-                Visible = false,
+                IsVisible = false,
                 AlwaysShowYOrigin = false,
             };
             OutdoorSeries = new LineChartSeries()
@@ -402,14 +402,14 @@ namespace WifiWeather.Controllers
 
         public void ShowSplashScreen()
         {
-            DataLayout.Visible = false;
-            SplashLayout.Visible = true;
+            DataLayout.IsVisible = false;
+            SplashLayout.IsVisible = true;
         }
 
         public void ShowDataScreen()
         {
-            SplashLayout.Visible = false;
-            DataLayout.Visible = true;
+            SplashLayout.IsVisible = false;
+            DataLayout.IsVisible = true;
         }
 
         public void UpdateStatus(string status)
