@@ -6,7 +6,7 @@
     <AssemblyName>App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Meadow.AmqpNetLite" Version="*" />
+    <ProjectReference Include="..\..\..\amqpnetlite\src\Amqp.csproj" />
     <ProjectReference Include="..\..\..\Meadow.Foundation.Grove\Source\Servo\Driver\Servo.csproj" />
     <ProjectReference Include="..\..\..\Meadow.ProjectLab\Source\Meadow.ProjectLab\Meadow.ProjectLab.csproj" />
   </ItemGroup>
