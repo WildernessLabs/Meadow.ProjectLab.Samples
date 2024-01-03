@@ -27,7 +27,7 @@ namespace MeadowAzureServo.Views
 
         private void Initialize()
         {
-            servo = new Servo(MeadowApp.Device.Pins.D12.CreatePwmPort(new Frequency(100)));
+            servo = new Servo(MeadowApp.Device.CreatePwmPort(MeadowApp.Device.Pins.D12, new Frequency(100)));
         }
 
         public void RotateTo(Angle angle)

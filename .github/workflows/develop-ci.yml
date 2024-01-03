@@ -107,6 +107,12 @@ jobs:
         dotnet-version: 
           6.x
 
+    - name: Install Java SDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v2
       with:

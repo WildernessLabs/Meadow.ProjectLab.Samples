@@ -1,4 +1,4 @@
-﻿using Meadow.Foundation;
+﻿using Meadow;
 using Meadow.Hardware;
 using Meadow.Units;
 using MeadowAzureIoTHub.Controllers;
