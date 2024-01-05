@@ -16,7 +16,7 @@ namespace MeadowAzureIoTHub
         IMeadowAzureIoTHubHardware hardware;
         IWiFiNetworkAdapter network;
         DisplayController displayController;
-        IoTHubController iotHubService;
+        IIoTHubController iotHubController;
 
         public MainController(IMeadowAzureIoTHubHardware hardware, IWiFiNetworkAdapter network)
         {
@@ -33,7 +33,8 @@ namespace MeadowAzureIoTHub
             Thread.Sleep(3000);
             displayController.ShowDataScreen();
 
-            iotHubService = new IoTHubController();
+            //iotHubController = new IoTHubAmqpController();
+            iotHubController = new IoTHubMqttController();
             await InitializeIoTHub();
 
             hardware.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;
@@ -41,11 +42,11 @@ namespace MeadowAzureIoTHub
 
         private async Task InitializeIoTHub()
         {
-            while (!network.IsConnected || !iotHubService.isAuthenticated)
+            while (!network.IsConnected || !iotHubController.isAuthenticated)
             {
                 displayController.UpdateStatus("Authenticating...");
 
-                bool authenticated = await iotHubService.Initialize();
+                bool authenticated = await iotHubController.Initialize();
 
                 if (authenticated)
                 {
@@ -62,12 +63,12 @@ namespace MeadowAzureIoTHub
 
         private async Task SendDataToIoTHub((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) data)
         {
-            if (network.IsConnected && iotHubService.isAuthenticated)
+            if (network.IsConnected && iotHubController.isAuthenticated)
             {
                 displayController.UpdateSyncStatus(true);
                 displayController.UpdateStatus("Sending data...");
 
-                await iotHubService.SendEnvironmentalReading(data);
+                await iotHubController.SendEnvironmentalReading(data);
 
                 displayController.UpdateSyncStatus(false);
                 displayController.UpdateStatus("Data sent!");
