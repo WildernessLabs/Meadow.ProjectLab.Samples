@@ -76,14 +76,15 @@ namespace MeadowAzureIoTHub.Controllers
                     $"\"pressure\":{reading.Pressure.Value.Millibar}" +
                     $"}}";
 
+                Resolver.Log.Info("Create message");
                 var mqttMessage = new MqttApplicationMessageBuilder()
                     .WithTopic($"devices/{IOT_HUB_DEVICE_ID}/messages/events/")
                     .WithPayload(messagePayload)
                     .Build();
 
                 await mqttClient.PublishAsync(mqttMessage, new System.Threading.CancellationToken());
-                await Task.Delay(1000);
-                Console.WriteLine($"Sent!!!");
+
+                Resolver.Log.Info($"*** MQTT - DATA SENT - Temperature - {reading.Temperature.Value.Celsius}, Humidity - {reading.Humidity.Value.Percent}, Pressure - {reading.Pressure.Value.Millibar} ***");
             }
             catch (Exception ex)
             {

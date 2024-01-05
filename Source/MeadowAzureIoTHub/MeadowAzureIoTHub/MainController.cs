@@ -34,7 +34,9 @@ namespace MeadowAzureIoTHub
             displayController.ShowDataScreen();
 
             //iotHubController = new IoTHubAmqpController();
+
             iotHubController = new IoTHubMqttController();
+
             await InitializeIoTHub();
 
             hardware.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;

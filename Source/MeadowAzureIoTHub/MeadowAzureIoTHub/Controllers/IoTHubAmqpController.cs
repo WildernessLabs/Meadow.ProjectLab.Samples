@@ -81,7 +81,7 @@ namespace MeadowAzureIoTHub.Controllers
 
                 sender.SendAsync(message);
 
-                Resolver.Log.Info($"*** DATA SENT - Temperature - {reading.Temperature.Value.Celsius}, Humidity - {reading.Humidity.Value.Percent}, Pressure - {reading.Pressure.Value.Millibar} ***");
+                Resolver.Log.Info($"*** AMQP - DATA SENT - Temperature - {reading.Temperature.Value.Celsius}, Humidity - {reading.Humidity.Value.Percent}, Pressure - {reading.Pressure.Value.Millibar} ***");
             }
             catch (Exception ex)
             {
