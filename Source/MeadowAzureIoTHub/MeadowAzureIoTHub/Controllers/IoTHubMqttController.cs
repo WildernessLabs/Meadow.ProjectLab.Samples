@@ -25,10 +25,17 @@ namespace MeadowAzureIoTHub.Controllers
         {
             try
             {
-                mqttClient = new MqttFactory().CreateMqttClient();
+                Resolver.Log.Info("Create connection factory...");
+                var factory = new MqttFactory();
+
+                Resolver.Log.Info("Create MQTT client...");
+                mqttClient = factory.CreateMqttClient();
 
                 var iotHubUri = $"{IOT_HUB_NAME}.azure-devices.net";
+
                 var username = $"{IOT_HUB_NAME}.azure-devices.net/{IOT_HUB_DEVICE_ID}/api-version=2021-04-12";
+
+                Resolver.Log.Info("Creating MQTT options ...");
                 var options = new MqttClientOptionsBuilder()
                     .WithClientId(IOT_HUB_DEVICE_ID)
                     .WithTcpServer(iotHubUri, 8883)
@@ -41,21 +48,9 @@ namespace MeadowAzureIoTHub.Controllers
                     })
                     .Build();
 
-                //while (!isAuthenticated)
-                //{
-                //    try
-                //    {
+
                 Resolver.Log.Info("Connecting...");
                 await mqttClient.ConnectAsync(options, new System.Threading.CancellationToken());
-                Resolver.Log.Info("Connected");
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Resolver.Log.Info("error:");
-                //        Resolver.Log.Info(ex.Message);
-                //        await Task.Delay(2000);
-                //    }
-                //}
 
                 isAuthenticated = true;
                 return true;
