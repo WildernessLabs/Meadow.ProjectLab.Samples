@@ -47,7 +47,10 @@ namespace MeadowConnectedSample.Controller
                 LightReading = await lightSensor.Read();
                 MotionReading = await motionSensor.Read();
 
-                Resolver.Log.Info($"Temperature: {EnvironmentalReading.Temperature.Value.Celsius} | Light: {LightReading.Value.Lux} | Motion: ({MotionReading.angularVelocity3D.Value.X},{MotionReading.angularVelocity3D.Value.Y},{MotionReading.angularVelocity3D.Value.Z}) ");
+                Resolver.Log.Info($"" +
+                    $"Temperature: {EnvironmentalReading.Temperature.Value.Celsius} | " +
+                    $"Light: {LightReading.Value.Lux} | " +
+                    $"Motion: ({MotionReading.angularVelocity3D.Value.X},{MotionReading.angularVelocity3D.Value.Y},{MotionReading.angularVelocity3D.Value.Z}) ");
 
                 if (!UseWiFi)
                 {

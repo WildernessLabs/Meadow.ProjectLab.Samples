@@ -4,8 +4,7 @@ using Meadow.Foundation.Web.Maple;
 using Meadow.Hardware;
 using MeadowConnectedSample.Connectivity;
 using MeadowConnectedSample.Controller;
-using MeadowConnectedSample.Models.Logical;
-using MeadowConnectedSample.Views;
+using MeadowConnectedSample.Controllers;
 using System;
 using System.Threading.Tasks;
 
@@ -31,10 +30,10 @@ namespace MeadowConnectedSample
             MainController.Instance.Initialize(projectLab);
             MainController.Instance.UseWiFi = useWifi;
 
-            DisplayView.Instance.Initialize(projectLab.Display);
-            DisplayView.Instance.ShowSplashScreen();
+            DisplayController.Instance.Initialize(projectLab.Display);
+            DisplayController.Instance.ShowSplashScreen();
 
-            _ = DisplayView.Instance.StartConnectingAnimation(useWifi);
+            _ = DisplayController.Instance.StartConnectingAnimation(useWifi);
 
             if (useWifi)
             {
@@ -52,14 +51,14 @@ namespace MeadowConnectedSample
 
         private void WifiNetworkConnected(INetworkAdapter sender, NetworkConnectionEventArgs args)
         {
-            DisplayView.Instance.StopConnectingAnimation();
+            DisplayController.Instance.StopConnectingAnimation();
 
             MainController.Instance.StartUpdating(TimeSpan.FromSeconds(15));
 
             var mapleServer = new MapleServer(sender.IpAddress, 5417, advertise: true, logger: Resolver.Log);
             mapleServer.Start();
 
-            DisplayView.Instance.ShowMapleReady(sender.IpAddress.ToString());
+            DisplayController.Instance.ShowMapleReady(sender.IpAddress.ToString());
 
             LedController.Instance.SetColor(Color.Green);
         }

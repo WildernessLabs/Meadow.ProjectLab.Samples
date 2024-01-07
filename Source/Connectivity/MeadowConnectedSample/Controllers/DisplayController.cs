@@ -4,13 +4,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MeadowConnectedSample.Views
+namespace MeadowConnectedSample.Controllers
 {
-    public class DisplayView
+    public class DisplayController
     {
-        private static readonly Lazy<DisplayView> instance =
-            new Lazy<DisplayView>(() => new DisplayView());
-        public static DisplayView Instance => instance.Value;
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
 
         static Color backgroundColor = Color.FromHex("#23ABE3");
 
@@ -19,7 +19,7 @@ namespace MeadowConnectedSample.Views
         protected Image imgConnecting, imgConnected;
         protected MicroGraphics graphics;
 
-        private DisplayView() { }
+        private DisplayController() { }
 
         public void Initialize(IGraphicsDisplay display)
         {

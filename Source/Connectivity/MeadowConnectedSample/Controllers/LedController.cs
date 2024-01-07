@@ -1,10 +1,9 @@
 ﻿using Meadow;
-using Meadow.Foundation.Leds;
 using Meadow.Peripherals.Leds;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowConnectedSample.Models.Logical
+namespace MeadowConnectedSample.Controllers
 {
     public class LedController
     {
