@@ -11,6 +11,8 @@ namespace MeadowAzureIoTHub
 {
     internal class MainController
     {
+        bool useMQTT = true;
+
         int TIMEZONE_OFFSET = -8; // UTC-8
 
         IMeadowAzureIoTHubHardware hardware;
@@ -33,9 +35,16 @@ namespace MeadowAzureIoTHub
             Thread.Sleep(3000);
             displayController.ShowDataScreen();
 
-            //iotHubController = new IoTHubAmqpController();
-
-            iotHubController = new IoTHubMqttController();
+            if (useMQTT)
+            {
+                displayController.UpdateType("MQTT");
+                iotHubController = new IoTHubMqttController();
+            }
+            else
+            {
+                displayController.UpdateType("AMQP");
+                iotHubController = new IoTHubAmqpController();
+            }
 
             await InitializeIoTHub();
 
@@ -85,21 +94,21 @@ namespace MeadowAzureIoTHub
 
                 displayController.UpdateSyncStatus(false);
                 displayController.UpdateStatus("Data sent!");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
                 displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
 
                 displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
             }
         }
 
-        private async void EnvironmentalSensorUpdated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
+        private async void EnvironmentalSensorUpdated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             hardware.RgbPwmLed.StartBlink(Color.Orange);
 
             displayController.UpdateAtmosphericConditions(
-                temperature: $"{e.New.Temperature.Value.Celsius:N0}",
-                pressure: $"{e.New.Pressure.Value.Millibar:N0}",
-                humidity: $"{e.New.Humidity.Value.Percent:N0}");
+                temperature: e.New.Temperature.Value.Celsius,
+                pressure: e.New.Pressure.Value.Millibar,
+                humidity: e.New.Humidity.Value.Percent);
 
             await SendDataToIoTHub(e.New);
 
