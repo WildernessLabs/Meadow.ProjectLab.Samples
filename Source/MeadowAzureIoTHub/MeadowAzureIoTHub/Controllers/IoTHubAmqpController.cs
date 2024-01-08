@@ -19,12 +19,10 @@ namespace MeadowAzureIoTHub.Controllers
         private const string SasToken = Secrets.SAS_TOKEN;
         private const string DeviceId = Secrets.DEVICE_ID;
 
-        public bool isAuthenticated { get; private set; }
-
         private Connection connection;
         private SenderLink sender;
 
-        private int messageId = 0;
+        public bool isAuthenticated { get; private set; }
 
         public IoTHubAmqpController() { }
 

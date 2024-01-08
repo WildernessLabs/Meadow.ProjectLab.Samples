@@ -44,22 +44,33 @@ namespace MeadowAzureIoTHub
 
         private async Task InitializeIoTHub()
         {
-            while (!network.IsConnected || !iotHubController.isAuthenticated)
+            while (!iotHubController.isAuthenticated)
             {
-                displayController.UpdateStatus("Authenticating...");
+                displayController.UpdateWiFiStatus(network.IsConnected);
 
-                bool authenticated = await iotHubController.Initialize();
-
-                if (authenticated)
+                if (network.IsConnected)
                 {
-                    displayController.UpdateStatus("Authenticated");
-                    await Task.Delay(2000);
-                    displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                    displayController.UpdateStatus("Authenticating...");
+
+                    bool authenticated = await iotHubController.Initialize();
+
+                    if (authenticated)
+                    {
+                        displayController.UpdateStatus("Authenticated");
+                        await Task.Delay(2000);
+                        displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                    }
+                    else
+                    {
+                        displayController.UpdateStatus("Not Authenticated");
+                    }
                 }
                 else
                 {
-                    displayController.UpdateStatus("Not Authenticated");
+                    displayController.UpdateStatus("Offline");
                 }
+
+                await Task.Delay(TimeSpan.FromSeconds(5));
             }
         }
 
