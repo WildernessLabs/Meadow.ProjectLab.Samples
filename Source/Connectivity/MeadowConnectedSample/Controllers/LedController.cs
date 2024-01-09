@@ -1,9 +1,9 @@
 ﻿using Meadow;
-using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using System;
 using System.Threading.Tasks;
 
-namespace MeadowConnectedSample.Models.Logical
+namespace MeadowConnectedSample.Controllers
 {
     public class LedController
     {
@@ -11,12 +11,12 @@ namespace MeadowConnectedSample.Models.Logical
             new Lazy<LedController>(() => new LedController());
         public static LedController Instance => instance.Value;
 
-        RgbPwmLed rgbPwmLed;
+        IRgbPwmLed rgbPwmLed;
         bool isAnimating;
 
         private LedController() { }
 
-        public void Initialize(RgbPwmLed rgbPwmLed)
+        public void Initialize(IRgbPwmLed rgbPwmLed)
         {
             this.rgbPwmLed = rgbPwmLed;
         }

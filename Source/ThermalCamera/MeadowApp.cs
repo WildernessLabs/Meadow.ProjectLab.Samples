@@ -4,6 +4,7 @@ using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Camera;
+using Meadow.Peripherals.Leds;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace ThermalCamera
     // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        RgbPwmLed onboardLed;
+        IRgbPwmLed onboardLed;
         IProjectLabHardware projectLab;
         Mlx90640 thermalCamera;
         MicroGraphics graphics;

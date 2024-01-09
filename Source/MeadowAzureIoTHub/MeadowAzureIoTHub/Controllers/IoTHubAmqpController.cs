@@ -13,20 +13,18 @@ namespace MeadowAzureIoTHub.Controllers
     /// Create a device within your IoT Hub
     /// And then generate a SAS token - this can be done via the Azure CLI 
     /// </summary>
-    public class IoTHubController
+    internal class IoTHubAmqpController : IIoTHubController
     {
         private const string HubName = Secrets.HUB_NAME;
         private const string SasToken = Secrets.SAS_TOKEN;
         private const string DeviceId = Secrets.DEVICE_ID;
 
-        public bool isAuthenticated { get; private set; }
-
         private Connection connection;
         private SenderLink sender;
 
-        private int messageId = 0;
+        public bool isAuthenticated { get; private set; }
 
-        public IoTHubController() { }
+        public IoTHubAmqpController() { }
 
         public async Task<bool> Initialize()
         {
@@ -81,7 +79,7 @@ namespace MeadowAzureIoTHub.Controllers
 
                 sender.SendAsync(message);
 
-                Resolver.Log.Info($"*** DATA SENT - Temperature - {reading.Temperature.Value.Celsius}, Humidity - {reading.Humidity.Value.Percent}, Pressure - {reading.Pressure.Value.Millibar} ***");
+                Resolver.Log.Info($"*** AMQP - DATA SENT - Temperature - {reading.Temperature.Value.Celsius}, Humidity - {reading.Humidity.Value.Percent}, Pressure - {reading.Pressure.Value.Millibar} ***");
             }
             catch (Exception ex)
             {

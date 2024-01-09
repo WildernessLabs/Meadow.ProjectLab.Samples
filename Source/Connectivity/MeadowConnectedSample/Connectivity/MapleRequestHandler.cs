@@ -3,7 +3,7 @@ using Connectivity.Common.Models;
 using Meadow.Foundation.Web.Maple;
 using Meadow.Foundation.Web.Maple.Routing;
 using MeadowConnectedSample.Controller;
-using MeadowConnectedSample.Models.Logical;
+using MeadowConnectedSample.Controllers;
 using System.Threading.Tasks;
 
 namespace MeadowConnectedSample.Connectivity

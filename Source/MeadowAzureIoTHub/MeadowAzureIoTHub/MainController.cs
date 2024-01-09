@@ -11,12 +11,14 @@ namespace MeadowAzureIoTHub
 {
     internal class MainController
     {
+        bool useMQTT = true;
+
         int TIMEZONE_OFFSET = -8; // UTC-8
 
         IMeadowAzureIoTHubHardware hardware;
         IWiFiNetworkAdapter network;
         DisplayController displayController;
-        IoTHubController iotHubService;
+        IIoTHubController iotHubController;
 
         public MainController(IMeadowAzureIoTHubHardware hardware, IWiFiNetworkAdapter network)
         {
@@ -33,7 +35,17 @@ namespace MeadowAzureIoTHub
             Thread.Sleep(3000);
             displayController.ShowDataScreen();
 
-            iotHubService = new IoTHubController();
+            if (useMQTT)
+            {
+                displayController.UpdateType("MQTT");
+                iotHubController = new IoTHubMqttController();
+            }
+            else
+            {
+                displayController.UpdateType("AMQP");
+                iotHubController = new IoTHubAmqpController();
+            }
+
             await InitializeIoTHub();
 
             hardware.EnvironmentalSensor.Updated += EnvironmentalSensorUpdated;
@@ -41,51 +53,62 @@ namespace MeadowAzureIoTHub
 
         private async Task InitializeIoTHub()
         {
-            while (!network.IsConnected || !iotHubService.isAuthenticated)
+            while (!iotHubController.isAuthenticated)
             {
-                displayController.UpdateStatus("Authenticating...");
+                displayController.UpdateWiFiStatus(network.IsConnected);
 
-                bool authenticated = await iotHubService.Initialize();
-
-                if (authenticated)
+                if (network.IsConnected)
                 {
-                    displayController.UpdateStatus("Authenticated");
-                    await Task.Delay(2000);
-                    displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                    displayController.UpdateStatus("Authenticating...");
+
+                    bool authenticated = await iotHubController.Initialize();
+
+                    if (authenticated)
+                    {
+                        displayController.UpdateStatus("Authenticated");
+                        await Task.Delay(2000);
+                        displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
+                    }
+                    else
+                    {
+                        displayController.UpdateStatus("Not Authenticated");
+                    }
                 }
                 else
                 {
-                    displayController.UpdateStatus("Not Authenticated");
+                    displayController.UpdateStatus("Offline");
                 }
+
+                await Task.Delay(TimeSpan.FromSeconds(5));
             }
         }
 
         private async Task SendDataToIoTHub((Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance) data)
         {
-            if (network.IsConnected && iotHubService.isAuthenticated)
+            if (network.IsConnected && iotHubController.isAuthenticated)
             {
                 displayController.UpdateSyncStatus(true);
                 displayController.UpdateStatus("Sending data...");
 
-                await iotHubService.SendEnvironmentalReading(data);
+                await iotHubController.SendEnvironmentalReading(data);
 
                 displayController.UpdateSyncStatus(false);
                 displayController.UpdateStatus("Data sent!");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
                 displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
 
                 displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
             }
         }
 
-        private async void EnvironmentalSensorUpdated(object sender, Meadow.IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
+        private async void EnvironmentalSensorUpdated(object sender, IChangeResult<(Temperature? Temperature, RelativeHumidity? Humidity, Pressure? Pressure, Resistance? GasResistance)> e)
         {
             hardware.RgbPwmLed.StartBlink(Color.Orange);
 
             displayController.UpdateAtmosphericConditions(
-                temperature: $"{e.New.Temperature.Value.Celsius:N0}",
-                pressure: $"{e.New.Pressure.Value.Millibar:N0}",
-                humidity: $"{e.New.Humidity.Value.Percent:N0}");
+                temperature: e.New.Temperature.Value.Celsius,
+                pressure: e.New.Pressure.Value.Millibar,
+                humidity: e.New.Humidity.Value.Percent);
 
             await SendDataToIoTHub(e.New);
 
@@ -94,7 +117,7 @@ namespace MeadowAzureIoTHub
 
         public async Task Run()
         {
-            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromMinutes(10));
+            hardware.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(15));
 
             while (true)
             {
