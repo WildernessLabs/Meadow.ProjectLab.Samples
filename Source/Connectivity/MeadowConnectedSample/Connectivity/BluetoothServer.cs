@@ -1,8 +1,8 @@
 ﻿using CommonContracts.Bluetooth;
+using Meadow;
 using Meadow.Gateways.Bluetooth;
 using Meadow.Units;
-using MeadowConnectedSample.Models.Logical;
-using MeadowConnectedSample.Views;
+using MeadowConnectedSample.Controllers;
 using System;
 
 namespace MeadowConnectedSample.Connectivity
@@ -44,11 +44,11 @@ namespace MeadowConnectedSample.Connectivity
         {
             if ((bool)data)
             {
-                DisplayView.Instance.ShowBluetoothPaired();
+                DisplayController.Instance.ShowBluetoothPaired();
             }
             else
             {
-                _ = DisplayView.Instance.StartConnectingAnimation(false);
+                _ = DisplayController.Instance.StartConnectingAnimation(false);
             }
         }
 
@@ -73,7 +73,7 @@ namespace MeadowConnectedSample.Connectivity
                 $"{(int)value.Temperature?.Celsius};" +
                 $"{(int)value.Humidity?.Percent};" +
                 $"{(int)value.Pressure?.Millibar}";
-            Console.WriteLine(stringValue);
+            Resolver.Log.Info(stringValue);
             environmentalDataCharacteristic.SetValue(stringValue);
         }
 

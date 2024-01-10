@@ -1,12 +1,17 @@
 ﻿using Meadow.Devices;
 using Meadow.Foundation.Graphics;
 using Meadow.Peripherals.Sensors;
+using Meadow.Peripherals.Sensors.Buttons;
 
 namespace WifiWeather.Hardware
 {
     internal class WifiWeatherHardware : IWifiWeatherHardware
     {
         protected IProjectLabHardware ProjLab { get; private set; }
+
+        public IButton UpButton { get; set; }
+
+        public IButton DownButton { get; set; }
 
         public IGraphicsDisplay Display { get; set; }
 
@@ -15,6 +20,10 @@ namespace WifiWeather.Hardware
         public void Initialize()
         {
             ProjLab = ProjectLab.Create();
+
+            UpButton = ProjLab.UpButton;
+
+            DownButton = ProjLab.DownButton;
 
             Display = ProjLab.Display;
 

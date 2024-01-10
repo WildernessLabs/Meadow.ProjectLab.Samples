@@ -2,6 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using MorseCodeTrainer.Controllers;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace MorseCodeTrainer
     {
         Dictionary<string, string> morseCode;
 
-        RgbPwmLed onboardLed;
+        IRgbPwmLed onboardLed;
 
         Stopwatch stopWatch;
         string answer;
@@ -126,7 +127,7 @@ namespace MorseCodeTrainer
 
         async void ButtonPressStarted(object sender, EventArgs e)
         {
-            await projectLab.Speaker.PlayTone(new Meadow.Units.Frequency(440));
+            await projectLab.Speaker.PlayTone(new Meadow.Units.Frequency(440), TimeSpan.MaxValue);
             stopWatch.Reset();
             stopWatch.Start();
         }

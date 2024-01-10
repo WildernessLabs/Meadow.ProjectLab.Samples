@@ -1,6 +1,7 @@
 ﻿using Meadow.Devices;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Buttons;
 
 namespace GalleryViewer.Hardware
@@ -15,7 +16,7 @@ namespace GalleryViewer.Hardware
 
         public IButton LeftButton { get; set; }
 
-        public RgbPwmLed RgbPwmLed { get; set; }
+        public IRgbPwmLed RgbPwmLed { get; set; }
 
         public void Initialize()
         {

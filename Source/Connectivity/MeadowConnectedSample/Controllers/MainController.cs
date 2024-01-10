@@ -2,7 +2,7 @@
 using Meadow.Devices;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Foundation.Sensors.Atmospheric;
-using Meadow.Foundation.Sensors.Light;
+using Meadow.Peripherals.Sensors.Light;
 using Meadow.Units;
 using MeadowConnectedSample.Connectivity;
 using System;
@@ -18,7 +18,7 @@ namespace MeadowConnectedSample.Controller
 
         private Bme688 environmentalSensor;
 
-        private Bh1750 lightSensor;
+        private ILightSensor lightSensor;
 
         private Bmi270 motionSensor;
 
@@ -47,7 +47,10 @@ namespace MeadowConnectedSample.Controller
                 LightReading = await lightSensor.Read();
                 MotionReading = await motionSensor.Read();
 
-                Resolver.Log.Info($"Temperature: {EnvironmentalReading.Temperature.Value.Celsius} | Light: {LightReading.Value.Lux} | Motion: ({MotionReading.angularVelocity3D.Value.X},{MotionReading.angularVelocity3D.Value.Y},{MotionReading.angularVelocity3D.Value.Z}) ");
+                Resolver.Log.Info($"" +
+                    $"Temperature: {EnvironmentalReading.Temperature.Value.Celsius} | " +
+                    $"Light: {LightReading.Value.Lux} | " +
+                    $"Motion: ({MotionReading.angularVelocity3D.Value.X},{MotionReading.angularVelocity3D.Value.Y},{MotionReading.angularVelocity3D.Value.Z}) ");
 
                 if (!UseWiFi)
                 {

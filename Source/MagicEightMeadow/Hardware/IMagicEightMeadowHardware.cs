@@ -1,6 +1,7 @@
 ﻿using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
+using Meadow.Peripherals.Leds;
 
 namespace MagicEightMeadow.Hardware
 {
@@ -8,7 +9,7 @@ namespace MagicEightMeadow.Hardware
     {
         public IGraphicsDisplay Display { get; }
 
-        public RgbPwmLed RgbPwmLed { get; }
+        public IRgbPwmLed RgbPwmLed { get; }
 
         public Bmi270 MotionSensor { get; }
 

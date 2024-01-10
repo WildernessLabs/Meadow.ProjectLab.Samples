@@ -4,6 +4,7 @@ using Meadow.Foundation;
 using Meadow.Foundation.Grove.Sensors.Moisture;
 using Meadow.Foundation.Leds;
 using Meadow.Hardware;
+using Meadow.Peripherals.Leds;
 using PlantMonitor.Controllers;
 using System;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace PlantMonitor
     // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        private RgbPwmLed onboardLed;
+        private IRgbPwmLed onboardLed;
         private IProjectLabHardware projectLab;
         private MoistureSensor moistureSensor;
         private DisplayController displayController;

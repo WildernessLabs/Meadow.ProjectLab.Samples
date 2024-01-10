@@ -3,6 +3,7 @@ using Meadow.Devices;
 using Meadow.Foundation;
 using Meadow.Foundation.Leds;
 using Meadow.Hardware;
+using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using MeadowAzureServo.Azure;
 using MeadowAzureServo.Models;
@@ -15,7 +16,7 @@ namespace MeadowAzureServo
     // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        RgbPwmLed onboardLed;
+        IRgbPwmLed onboardLed;
         IoTHubManager amqpController;
         IProjectLabHardware projectLab;
 

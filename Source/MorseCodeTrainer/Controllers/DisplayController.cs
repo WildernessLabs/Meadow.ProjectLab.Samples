@@ -1,4 +1,4 @@
-﻿using Meadow.Foundation;
+﻿using Meadow;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Graphics;
 using Meadow.Peripherals.Speakers;

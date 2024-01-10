@@ -1,6 +1,6 @@
 ﻿using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Peripherals.Leds;
 
 namespace MeadowAzureIoTHub.Hardware
 {
@@ -10,7 +10,7 @@ namespace MeadowAzureIoTHub.Hardware
 
         public Bme68x EnvironmentalSensor { get; }
 
-        public RgbPwmLed RgbPwmLed { get; }
+        public IRgbPwmLed RgbPwmLed { get; }
 
         public void Initialize();
     }

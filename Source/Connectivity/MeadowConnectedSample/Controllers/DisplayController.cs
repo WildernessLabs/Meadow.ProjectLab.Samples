@@ -1,29 +1,25 @@
-﻿using Meadow.Foundation;
+﻿using Meadow;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Graphics.Buffers;
-using SimpleJpegDecoder;
 using System;
-using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MeadowConnectedSample.Views
+namespace MeadowConnectedSample.Controllers
 {
-    public class DisplayView
+    public class DisplayController
     {
-        private static readonly Lazy<DisplayView> instance =
-            new Lazy<DisplayView>(() => new DisplayView());
-        public static DisplayView Instance => instance.Value;
+        private static readonly Lazy<DisplayController> instance =
+            new Lazy<DisplayController>(() => new DisplayController());
+        public static DisplayController Instance => instance.Value;
 
         static Color backgroundColor = Color.FromHex("#23ABE3");
 
         CancellationTokenSource token;
 
-        protected BufferRgb888 imgConnecting, imgConnected;
+        protected Image imgConnecting, imgConnected;
         protected MicroGraphics graphics;
 
-        private DisplayView() { }
+        private DisplayController() { }
 
         public void Initialize(IGraphicsDisplay display)
         {
@@ -36,24 +32,16 @@ namespace MeadowConnectedSample.Views
             graphics.Clear(true);
         }
 
-        BufferRgb888 LoadJpeg(string fileName)
-        {
-            var jpgData = LoadResource(fileName);
-            var decoder = new JpegDecoder();
-            decoder.DecodeJpeg(jpgData);
-            return new BufferRgb888(decoder.Width, decoder.Height, decoder.GetImageData());
-        }
-
         void DrawBackground()
         {
-            var logo = LoadJpeg("img_meadow.jpg");
+            var logo = Image.LoadFromResource("MeadowConnectedSample.Resources.img_meadow.bmp");
 
             graphics.Clear(backgroundColor);
 
-            graphics.DrawBuffer(
+            graphics.DrawImage(
                 x: graphics.Width / 2 - logo.Width / 2,
                 y: 34,
-                buffer: logo);
+                image: logo);
 
             graphics.DrawCircle(
                 centerX: graphics.Width / 2,
@@ -70,21 +58,14 @@ namespace MeadowConnectedSample.Views
             graphics.Show();
         }
 
-        protected byte[] LoadResource(string filename)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"MeadowConnectedSample.{filename}";
-
-            using Stream stream = assembly.GetManifestResourceStream(resourceName);
-            using var ms = new MemoryStream();
-            stream.CopyTo(ms);
-            return ms.ToArray();
-        }
-
         public async Task StartConnectingAnimation(bool isWiFi)
         {
-            imgConnected = LoadJpeg(isWiFi ? "img_wifi_connected.jpg" : "img_ble_paired.jpg");
-            imgConnecting = LoadJpeg(isWiFi ? "img_wifi_connecting.jpg" : "img_ble_pairing.jpg");
+            imgConnected = Image.LoadFromResource(isWiFi
+                ? "MeadowConnectedSample.Resources.img_wifi_connected.bmp"
+                : "MeadowConnectedSample.Resources.img_ble_paired.bmp");
+            imgConnecting = Image.LoadFromResource(isWiFi
+                ? "MeadowConnectedSample.Resources.img_wifi_connecting.bmp"
+                : "MeadowConnectedSample.Resources.img_ble_pairing.bmp");
 
             token = new CancellationTokenSource();
 
@@ -101,10 +82,10 @@ namespace MeadowConnectedSample.Views
             {
                 alternateImg = !alternateImg;
 
-                graphics.DrawBuffer(
+                graphics.DrawImage(
                     x: graphics.Width / 2 - imgConnecting.Width / 2,
                     y: 130,
-                    buffer: alternateImg ? imgConnecting : imgConnected);
+                    image: alternateImg ? imgConnecting : imgConnected);
                 graphics.Show();
 
                 await Task.Delay(500);

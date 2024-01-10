@@ -1,7 +1,8 @@
 ﻿using GalleryViewer.Controllers;
 using GalleryViewer.Hardware;
-using Meadow.Foundation;
+using Meadow;
 using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Leds;
 using System;
 using System.Threading.Tasks;
 
@@ -11,10 +12,10 @@ namespace GalleryViewer
     {
         IGalleryViewerHardware hardware;
         DisplayController displayController;
-        RgbPwmLed onboardLed;
+        IRgbPwmLed onboardLed;
         int selectedIndex = 0;
 
-        public MainController(IGalleryViewerHardware hardware) 
+        public MainController(IGalleryViewerHardware hardware)
         {
             this.hardware = hardware;
         }

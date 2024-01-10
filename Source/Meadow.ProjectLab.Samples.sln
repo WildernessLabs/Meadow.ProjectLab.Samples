@@ -54,6 +54,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeadowAzureFunction", "Mead
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meadow.Cloud", "Meadow.Cloud", "{D78E2994-3F1F-4008-A53F-85A08C13F578}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridEYE", "GridEYE\GridEYE.csproj", "{39B97115-A014-4DAB-8F01-0853F80013FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_v1_ProjLab|Any CPU = Debug_v1_ProjLab|Any CPU
@@ -424,6 +426,24 @@ Global
 		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
 		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6ABADF8-6D54-4ECA-8976-5E444E0A638C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug_v1_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug_v1_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug_v1_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug_v2_ProjLab|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug_v2_ProjLab|Any CPU.Build.0 = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug_v2_ProjLab|Any CPU.Deploy.0 = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release_v1_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release_v1_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release_v1_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release_v2_ProjLab|Any CPU.ActiveCfg = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release_v2_ProjLab|Any CPU.Build.0 = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release_v2_ProjLab|Any CPU.Deploy.0 = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B97115-A014-4DAB-8F01-0853F80013FC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Light;
 
 namespace AmbientRoomMonitor.Hardware
@@ -13,7 +14,7 @@ namespace AmbientRoomMonitor.Hardware
 
         public Bme68x EnvironmentalSensor { get; }
 
-        public RgbPwmLed RgbPwmLed { get; }
+        public IRgbPwmLed RgbPwmLed { get; }
 
         public void Initialize();
     }
