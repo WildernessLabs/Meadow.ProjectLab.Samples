@@ -27,7 +27,7 @@ namespace WifiWeather.Hardware
 
             Display = ProjLab.Display;
 
-            TemperatureSensor = ProjLab.EnvironmentalSensor;
+            TemperatureSensor = (ProjLab as ProjectLabHardwareBase).EnvironmentalSensor;
         }
     }
 }

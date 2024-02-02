@@ -32,8 +32,8 @@ public class MeadowApp : App<F7CoreComputeV2>
 
         BuildScreen();
 
-        projectLab.EnvironmentalSensor.Updated += OnEnvironmentalSensorUpdated;
-        projectLab.EnvironmentalSensor.StartUpdating();
+        (projectLab as ProjectLabHardwareBase).EnvironmentalSensor.Updated += OnEnvironmentalSensorUpdated;
+        (projectLab as ProjectLabHardwareBase).EnvironmentalSensor.StartUpdating();
 
         Device.NetworkConnected += OnNetworkConnected;
 

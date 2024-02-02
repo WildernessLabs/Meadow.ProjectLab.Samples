@@ -1,7 +1,6 @@
 ﻿using MagicEightMeadow.Controllers;
 using MagicEightMeadow.Hardware;
 using Meadow;
-using Meadow.Foundation;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Units;
 using System;
@@ -11,11 +10,9 @@ namespace MagicEightMeadow
 {
     internal class MainController
     {
-        bool isAnswering;
-
-        IMagicEightMeadowHardware hardware;
-
-        DisplayController displayController;
+        private bool isAnswering;
+        private IMagicEightMeadowHardware hardware;
+        private DisplayController displayController;
 
         public MainController(IMagicEightMeadowHardware hardware)
         {

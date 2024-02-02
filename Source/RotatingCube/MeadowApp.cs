@@ -1,8 +1,6 @@
 ﻿using Meadow;
 using Meadow.Devices;
-using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Peripherals.Leds;
 using Meadow.Units;
 using System;
@@ -13,16 +11,15 @@ namespace RotatingCube
     // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        IRgbPwmLed onboardLed;
-        IProjectLabHardware projectLab;
-        MicroGraphics graphics;
-        Cube3d cube;
-        Color cubeColor;
-
-        readonly Angle ButtonStep = new Angle(1);
-        readonly TimeSpan motionUpdateInterval = TimeSpan.FromMilliseconds(250);
-        readonly int cubeSize = 60;
-        readonly Color initialColor = Color.Cyan;
+        private IRgbPwmLed onboardLed;
+        private IProjectLabHardware projectLab;
+        private MicroGraphics graphics;
+        private Cube3d cube;
+        private Color cubeColor;
+        private readonly Angle ButtonStep = new Angle(1);
+        private readonly TimeSpan motionUpdateInterval = TimeSpan.FromMilliseconds(250);
+        private readonly int cubeSize = 60;
+        private readonly Color initialColor = Color.Cyan;
 
         public override Task Initialize()
         {
@@ -50,7 +47,7 @@ namespace RotatingCube
             projectLab.DownButton.LongClickedThreshold = TimeSpan.FromMilliseconds(500);
             projectLab.DownButton.LongClicked += DownButton_LongClicked;
 
-            projectLab.MotionSensor.Updated += MotionSensor_Updated;
+            (projectLab as ProjectLabHardwareBase).MotionSensor.Updated += MotionSensor_Updated;
 
             onboardLed.SetColor(Color.Green);
 
@@ -76,7 +73,7 @@ namespace RotatingCube
             });
         }
 
-        void DrawWireframe(Color color)
+        private void DrawWireframe(Color color)
         {
             graphics.DrawLine(cube.Wireframe[0, 0], cube.Wireframe[0, 1], cube.Wireframe[1, 0], cube.Wireframe[1, 1], color);
             graphics.DrawLine(cube.Wireframe[1, 0], cube.Wireframe[1, 1], cube.Wireframe[2, 0], cube.Wireframe[2, 1], color);
@@ -154,7 +151,7 @@ namespace RotatingCube
 
         public override Task Run()
         {
-            projectLab.MotionSensor.StartUpdating(motionUpdateInterval);
+            (projectLab as ProjectLabHardwareBase).MotionSensor.StartUpdating(motionUpdateInterval);
 
             cube = new Cube3d(graphics.Width / 2, graphics.Height / 2, cubeSize);
             cubeColor = initialColor;

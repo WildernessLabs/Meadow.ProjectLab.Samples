@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace WakeOnInterrupt;
 
-// Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
 public class MeadowApp : App<F7CoreComputeV2>
 {
     private IProjectLabHardware _projectLab;
@@ -79,9 +78,11 @@ public class MeadowApp : App<F7CoreComputeV2>
 
     private void OnPowerPortChanged(object sender, DigitalPortResult e)
     {
-        Resolver.Log.Info("Power port state change");
+        var powerState = _powerPort.State;
 
-        if (!_powerPort.State)
+        Resolver.Log.Info($"Power port state changed to {powerState}");
+
+        if (!powerState)
         {
             PowerOffPeripherals();
         }

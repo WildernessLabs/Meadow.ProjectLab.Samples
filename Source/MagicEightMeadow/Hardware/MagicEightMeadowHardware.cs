@@ -1,6 +1,5 @@
 ﻿using Meadow.Devices;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Accelerometers;
 using Meadow.Peripherals.Leds;
 
@@ -24,7 +23,7 @@ namespace MagicEightMeadow.Hardware
 
             RgbPwmLed = projectLab.RgbLed;
 
-            MotionSensor = projectLab.MotionSensor;
+            MotionSensor = (projectLab as ProjectLabHardwareBase).MotionSensor;
         }
     }
 }

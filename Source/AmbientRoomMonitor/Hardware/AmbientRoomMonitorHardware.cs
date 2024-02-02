@@ -1,6 +1,5 @@
 ﻿using Meadow.Devices;
 using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
 using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Light;
@@ -29,7 +28,7 @@ namespace AmbientRoomMonitor.Hardware
 
             LightSensor = ProjLab.LightSensor;
 
-            EnvironmentalSensor = ProjLab.EnvironmentalSensor;
+            EnvironmentalSensor = (ProjLab as ProjectLabHardwareBase).EnvironmentalSensor;
         }
     }
 }
