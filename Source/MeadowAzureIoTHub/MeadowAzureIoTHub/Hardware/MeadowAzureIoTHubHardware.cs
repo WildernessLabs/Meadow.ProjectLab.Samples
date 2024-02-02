@@ -23,7 +23,7 @@ namespace MeadowAzureIoTHub.Hardware
 
             RgbPwmLed = ProjLab.RgbLed;
 
-            EnvironmentalSensor = ProjLab.EnvironmentalSensor;
+            EnvironmentalSensor = (ProjLab as ProjectLabHardwareBase).EnvironmentalSensor;
         }
     }
 }

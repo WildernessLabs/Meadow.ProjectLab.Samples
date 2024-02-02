@@ -35,8 +35,8 @@ namespace MeadowConnectedSample.Controller
         public void Initialize(IProjectLabHardware hardware)
         {
             lightSensor = hardware.LightSensor;
-            motionSensor = hardware.MotionSensor;
-            environmentalSensor = hardware.EnvironmentalSensor;
+            motionSensor = (hardware as ProjectLabHardwareBase).MotionSensor;
+            environmentalSensor = (hardware as ProjectLabHardwareBase).EnvironmentalSensor;
         }
 
         public async Task StartUpdating(TimeSpan updateInterval)
