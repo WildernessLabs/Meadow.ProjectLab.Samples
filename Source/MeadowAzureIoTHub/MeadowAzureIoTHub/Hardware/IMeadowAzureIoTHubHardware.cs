@@ -1,12 +1,12 @@
-﻿using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Sensors.Atmospheric;
+﻿using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Leds;
 
 namespace MeadowAzureIoTHub.Hardware
 {
     internal interface IMeadowAzureIoTHubHardware
     {
-        public IGraphicsDisplay Display { get; }
+        public IPixelDisplay Display { get; }
 
         public Bme68x EnvironmentalSensor { get; }
 

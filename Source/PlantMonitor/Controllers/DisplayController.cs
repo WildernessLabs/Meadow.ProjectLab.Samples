@@ -1,6 +1,7 @@
 ﻿using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.Buffers;
+using Meadow.Peripherals.Displays;
 using Meadow.Units;
 using SimpleJpegDecoder;
 using System;
@@ -15,14 +16,14 @@ namespace PlantMonitor.Controllers
             new Lazy<DisplayController>(() => new DisplayController());
         public static DisplayController Instance => instance.Value;
 
-        int padding = 5;
+        readonly int padding = 5;
 
         MicroGraphics graphics;
         IPixelBuffer image;
 
         private DisplayController() { }
 
-        public void Initialize(IGraphicsDisplay display)
+        public void Initialize(IPixelDisplay display)
         {
             graphics = new MicroGraphics(display)
             {

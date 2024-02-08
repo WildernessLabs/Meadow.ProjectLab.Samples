@@ -1,23 +1,24 @@
 ﻿using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
+using Meadow.Peripherals.Displays;
 using System;
 
 namespace MagicEightMeadow.Controllers
 {
     internal class DisplayController
     {
-        private Random random;
+        private readonly Random random;
 
-        private Image simonQuestion;
+        private readonly Image simonQuestion;
 
-        private DisplayScreen displayScreen;
+        private readonly DisplayScreen displayScreen;
 
-        private Picture simonImage;
+        private readonly Picture simonImage;
 
         Color backgroundColor = Color.FromHex("#00000C");
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             random = new Random();
 

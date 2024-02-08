@@ -1,6 +1,7 @@
 ﻿using Meadow;
 using Meadow.Foundation.Audio;
 using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Speakers;
 using System;
 
@@ -14,11 +15,11 @@ namespace MorseCodeTrainer.Controllers
 
         MicroGraphics graphics;
         MicroAudio audio;
-        int padding = 12;
+        readonly int padding = 12;
 
         private DisplayController() { }
 
-        public void Initialize(IGraphicsDisplay display, IToneGenerator piezoSpeaker)
+        public void Initialize(IPixelDisplay display, IToneGenerator piezoSpeaker)
         {
             audio = new MicroAudio(piezoSpeaker);
 

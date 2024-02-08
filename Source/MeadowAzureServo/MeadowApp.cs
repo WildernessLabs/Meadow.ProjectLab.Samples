@@ -50,7 +50,7 @@ namespace MeadowAzureServo
             amqpController.StopSweeping += StopSweeping;
             amqpController.RotateTo += RotateTo;
 
-            (projectLab as ProjectLabHardwareBase).EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(15));
+            (projectLab as ProjectLabHardwareBase).AtmosphericSensor.StartUpdating(TimeSpan.FromSeconds(15));
 
             onboardLed.SetColor(Color.Green);
         }

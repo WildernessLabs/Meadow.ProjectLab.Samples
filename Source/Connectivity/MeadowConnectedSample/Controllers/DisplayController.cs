@@ -1,5 +1,6 @@
 ﻿using Meadow;
 using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Displays;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace MeadowConnectedSample.Controllers
 
         private DisplayController() { }
 
-        public void Initialize(IGraphicsDisplay display)
+        public void Initialize(IPixelDisplay display)
         {
             graphics = new MicroGraphics(display)
             {
