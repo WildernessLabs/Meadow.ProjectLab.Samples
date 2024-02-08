@@ -55,7 +55,7 @@ namespace Meadow.Cloud_Update
             }
 
             //---- BME688 Atmospheric sensor
-            if ((projLab as ProjectLabHardwareBase).EnvironmentalSensor is { } bme688)
+            if ((projLab as ProjectLabHardwareBase).AtmosphericSensor is { } bme688)
             {
                 bme688.Updated += Bme688Updated;
             }
@@ -143,7 +143,7 @@ namespace Meadow.Cloud_Update
             }
 
             //---- BME688 Atmospheric sensor
-            if ((projLab as ProjectLabHardwareBase).EnvironmentalSensor is { } bme688)
+            if ((projLab as ProjectLabHardwareBase).AtmosphericSensor is { } bme688)
             {
                 bme688.StartUpdating(TimeSpan.FromSeconds(5));
             }
