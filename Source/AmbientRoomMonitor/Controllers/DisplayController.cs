@@ -1,13 +1,14 @@
 ﻿using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
+using Meadow.Peripherals.Displays;
 
 namespace AmbientRoomMonitor.Services
 {
     internal class DisplayController
     {
-        int rowHeight = 60;
-        int rowMargin = 15;
+        readonly int rowHeight = 60;
+        readonly int rowMargin = 15;
 
         protected DisplayScreen DisplayScreen { get; set; }
 
@@ -22,9 +23,9 @@ namespace AmbientRoomMonitor.Services
         Color backgroundColor = Color.FromHex("#F3F7FA");
         Color foregroundColor = Color.Black;
 
-        Font12x20 font12X20 = new Font12x20();
+        readonly Font12x20 font12X20 = new Font12x20();
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {

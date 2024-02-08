@@ -1,4 +1,4 @@
-﻿using Meadow.Foundation.Graphics;
+﻿using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Sensors;
 using Meadow.Peripherals.Sensors.Buttons;
 
@@ -10,7 +10,7 @@ namespace WifiWeather.Hardware
 
         IButton DownButton { get; }
 
-        IGraphicsDisplay Display { get; }
+        IPixelDisplay Display { get; }
 
         ITemperatureSensor TemperatureSensor { get; }
 

@@ -1,5 +1,6 @@
 ﻿using Meadow;
 using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Displays;
 using System;
 
 namespace MoistureMeter.Controllers
@@ -11,11 +12,11 @@ namespace MoistureMeter.Controllers
         public static DisplayController Instance => instance.Value;
 
         MicroGraphics graphics;
-        int padding = 12;
+        readonly int padding = 12;
 
         private DisplayController() { }
 
-        public void Initialize(IGraphicsDisplay display)
+        public void Initialize(IPixelDisplay display)
         {
             graphics = new MicroGraphics(display)
             {

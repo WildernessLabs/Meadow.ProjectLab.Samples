@@ -1,6 +1,7 @@
 using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
+using Meadow.Peripherals.Displays;
 using System;
 using System.Collections.Generic;
 
@@ -11,11 +12,11 @@ namespace WifiWeather.Controllers
         private Color backgroundColor = Color.FromHex("10485E");
         private Color outdoorColor = Color.FromHex("C9DB31");
         private Color foregroundColor = Color.FromHex("EEEEEE");
-        private Font8x16 font8x16 = new Font8x16();
-        private Font6x8 font6x8 = new Font6x8();
+        private readonly Font8x16 font8x16 = new Font8x16();
+        private readonly Font6x8 font6x8 = new Font6x8();
 
         private int counter = 0;
-        private int margin = 5;
+        private readonly int margin = 5;
         readonly int smallMargin = 3;
         readonly int graphHeight = 105;
 
@@ -57,7 +58,7 @@ namespace WifiWeather.Controllers
         protected Label Sunrise { get; set; }
         protected Label Sunset { get; set; }
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {

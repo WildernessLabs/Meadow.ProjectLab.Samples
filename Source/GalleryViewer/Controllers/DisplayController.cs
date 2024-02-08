@@ -1,5 +1,6 @@
 ﻿using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.Buffers;
+using Meadow.Peripherals.Displays;
 using SimpleJpegDecoder;
 using System.IO;
 using System.Reflection;
@@ -8,15 +9,15 @@ namespace GalleryViewer.Controllers
 {
     internal class DisplayController
     {
-        MicroGraphics graphics;
-        string[] images = new string[3] 
-        { 
+        readonly MicroGraphics graphics;
+        readonly string[] images = new string[3]
+        {
             "GalleryViewer.Resources.image1.jpg",
             "GalleryViewer.Resources.image2.jpg",
             "GalleryViewer.Resources.image3.jpg"
         };
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             graphics = new MicroGraphics(display)
             {

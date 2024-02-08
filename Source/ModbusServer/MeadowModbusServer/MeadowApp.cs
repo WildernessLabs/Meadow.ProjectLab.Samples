@@ -4,6 +4,7 @@ using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
 using Meadow.Hardware;
 using Meadow.Modbus;
+using Meadow.Peripherals.Displays;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,8 @@ public class MeadowApp : App<F7CoreComputeV2>
 
         BuildScreen();
 
-        (projectLab as ProjectLabHardwareBase).EnvironmentalSensor.Updated += OnEnvironmentalSensorUpdated;
-        (projectLab as ProjectLabHardwareBase).EnvironmentalSensor.StartUpdating();
+        (projectLab as ProjectLabHardwareBase).AtmosphericSensor.Updated += OnEnvironmentalSensorUpdated;
+        (projectLab as ProjectLabHardwareBase).AtmosphericSensor.StartUpdating();
 
         Device.NetworkConnected += OnNetworkConnected;
 

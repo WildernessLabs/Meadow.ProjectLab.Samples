@@ -1,7 +1,7 @@
 ﻿using Meadow;
 using Meadow.Devices;
-using Meadow.Foundation;
 using Meadow.Foundation.Graphics.MicroLayout;
+using Meadow.Peripherals.Displays;
 using System;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace MathLineCharts
 
             var projectLab = ProjectLab.Create();
 
-            _screen = new DisplayScreen(projectLab.Display, Meadow.Foundation.Graphics.RotationType._270Degrees);
+            _screen = new DisplayScreen(projectLab.Display, RotationType._270Degrees);
 
             _screen.BackgroundColor = Color.AntiqueWhite;
 

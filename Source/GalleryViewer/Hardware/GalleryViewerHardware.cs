@@ -1,6 +1,5 @@
 ﻿using Meadow.Devices;
-using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Buttons;
 
@@ -10,7 +9,7 @@ namespace GalleryViewer.Hardware
     {
         protected IProjectLabHardware ProjLab { get; private set; }
 
-        public IGraphicsDisplay Display { get; set; }
+        public IPixelDisplay Display { get; set; }
 
         public IButton RightButton { get; set; }
 
