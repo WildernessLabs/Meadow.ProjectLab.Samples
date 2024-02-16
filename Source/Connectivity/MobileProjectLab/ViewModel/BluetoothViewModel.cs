@@ -5,6 +5,7 @@ using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
 using System.Windows.Input;
 
 namespace MobileProjectLab.ViewModel
@@ -307,7 +308,8 @@ namespace MobileProjectLab.ViewModel
 
         async Task GetEnvironmentalData()
         {
-            var value = System.Text.Encoding.Default.GetString(await environmentalDataCharacteristic.ReadAsync()).Split(';');
+            var eDC = await environmentalDataCharacteristic.ReadAsync();
+            var value = Encoding.Default.GetString(eDC.data).Split(';');
 
             Temperature = value[0];
             Humidity = value[1];
@@ -316,22 +318,26 @@ namespace MobileProjectLab.ViewModel
 
         async Task GetLightData()
         {
-            Illuminance = System.Text.Encoding.Default.GetString(await lightDataCharacteristic.ReadAsync()).Split(';')[0];
+            var lDC = await lightDataCharacteristic.ReadAsync();
+            Illuminance = Encoding.Default.GetString(lDC.data).Split(';')[0];
         }
 
         async Task GetMotionData()
         {
-            var accelerationValue = System.Text.Encoding.Default.GetString(await motionAccelerationDataCharacteristic.ReadAsync()).Split(';');
+            var mADC = await motionAccelerationDataCharacteristic.ReadAsync();
+            var accelerationValue = Encoding.Default.GetString(mADC.data).Split(';');
             Acceleration3dX = accelerationValue[0];
             Acceleration3dY = accelerationValue[1];
             Acceleration3dZ = accelerationValue[2];
 
-            var angularVelocityValue = System.Text.Encoding.Default.GetString(await motionAngularVelocityDataCharacteristic.ReadAsync()).Split(';');
+            var mAVDC = await motionAngularVelocityDataCharacteristic.ReadAsync();
+            var angularVelocityValue = Encoding.Default.GetString(mAVDC.data).Split(';');
             AngularVelocity3dX = angularVelocityValue[0];
             AngularVelocity3dY = angularVelocityValue[1];
             AngularVelocity3dZ = angularVelocityValue[2];
 
-            var temperatureValue = System.Text.Encoding.Default.GetString(await motionTemperatureDataCharacteristic.ReadAsync()).Split(';');
+            var mTDC = await motionTemperatureDataCharacteristic.ReadAsync();
+            var temperatureValue = Encoding.Default.GetString(mTDC.data).Split(';');
             MotionTemperature = temperatureValue[0];
         }
 
