@@ -193,7 +193,7 @@ namespace Meadow.Cloud_Update
         //==== UPDATE SERVICE
         private void UpdateService_OnUpdateAvailable(Update.IUpdateService updateService, Update.UpdateInfo info)
         {
-            Resolver.Log.Info($"An {info.UpdateType} update is available! Version: {info.Version} Size: {info.DownloadSize}");
+            Resolver.Log.Info($"An {info.UpdateType} update is available! Version: {info.Version} Size: {info.FileSize}");
 
             displayController.Notification = "Downloading update!";
             Resolver.Log.Info("Retrieving update...");
