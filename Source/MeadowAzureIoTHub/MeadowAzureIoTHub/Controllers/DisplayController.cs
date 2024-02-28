@@ -1,6 +1,7 @@
 ﻿using Meadow;
 using Meadow.Foundation.Graphics;
 using Meadow.Foundation.Graphics.MicroLayout;
+using Meadow.Peripherals.Displays;
 
 namespace MeadowAzureIoTHub.Controllers
 {
@@ -12,8 +13,8 @@ namespace MeadowAzureIoTHub.Controllers
         private Color backgroundColor = Color.FromHex("F3F7FA");
         private Color foregroundColor = Color.Black;
 
-        private Font12x20 font12X20 = new Font12x20();
-        private Font6x8 font6x8 = new Font6x8();
+        private readonly Font12x20 font12X20 = new Font12x20();
+        private readonly Font6x8 font6x8 = new Font6x8();
 
         protected DisplayScreen DisplayScreen { get; set; }
 
@@ -37,7 +38,7 @@ namespace MeadowAzureIoTHub.Controllers
 
         protected Label Humidity { get; set; }
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             DisplayScreen = new DisplayScreen(display, RotationType._270Degrees)
             {

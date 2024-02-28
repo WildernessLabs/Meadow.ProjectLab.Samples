@@ -1,7 +1,5 @@
 ﻿using Meadow;
 using Meadow.Devices;
-using Meadow.Foundation;
-using Meadow.Foundation.Leds;
 using Meadow.Hardware;
 using Meadow.Peripherals.Leds;
 using Meadow.Units;
@@ -16,9 +14,9 @@ namespace MeadowAzureServo
     // Change F7CoreComputeV2 to F7FeatherV2 for ProjectLab v2
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        IRgbPwmLed onboardLed;
-        IoTHubManager amqpController;
-        IProjectLabHardware projectLab;
+        private IRgbPwmLed onboardLed;
+        private IoTHubManager amqpController;
+        private IProjectLabHardware projectLab;
 
         public override Task Initialize()
         {
@@ -52,7 +50,7 @@ namespace MeadowAzureServo
             amqpController.StopSweeping += StopSweeping;
             amqpController.RotateTo += RotateTo;
 
-            projectLab.EnvironmentalSensor.StartUpdating(TimeSpan.FromSeconds(15));
+            (projectLab as ProjectLabHardwareBase).AtmosphericSensor.StartUpdating(TimeSpan.FromSeconds(15));
 
             onboardLed.SetColor(Color.Green);
         }

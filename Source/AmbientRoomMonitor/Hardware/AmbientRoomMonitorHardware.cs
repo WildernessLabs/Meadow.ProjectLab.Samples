@@ -1,7 +1,6 @@
 ﻿using Meadow.Devices;
-using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
 using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Light;
 
@@ -11,7 +10,7 @@ namespace AmbientRoomMonitor.Hardware
     {
         protected IProjectLabHardware ProjLab { get; private set; }
 
-        public IGraphicsDisplay Display { get; set; }
+        public IPixelDisplay Display { get; set; }
 
         public IRgbPwmLed RgbPwmLed { get; set; }
 
@@ -29,7 +28,7 @@ namespace AmbientRoomMonitor.Hardware
 
             LightSensor = ProjLab.LightSensor;
 
-            EnvironmentalSensor = ProjLab.EnvironmentalSensor;
+            EnvironmentalSensor = (ProjLab as ProjectLabHardwareBase).AtmosphericSensor;
         }
     }
 }

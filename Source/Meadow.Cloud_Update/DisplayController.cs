@@ -1,5 +1,6 @@
 ﻿using Meadow.Foundation;
 using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Displays;
 using Meadow.Units;
 
 namespace Meadow.Cloud_Update
@@ -49,7 +50,8 @@ namespace Meadow.Cloud_Update
                 notification = value;
                 Update();
             }
-        } string notification = string.Empty;
+        }
+        string notification = string.Empty;
 
         public bool UpButtonState
         {
@@ -98,7 +100,7 @@ namespace Meadow.Cloud_Update
         bool isUpdating = false;
         bool needsUpdate = false;
 
-        public DisplayController(IGraphicsDisplay display)
+        public DisplayController(IPixelDisplay display)
         {
             canvas = new MicroGraphics(display)
             {

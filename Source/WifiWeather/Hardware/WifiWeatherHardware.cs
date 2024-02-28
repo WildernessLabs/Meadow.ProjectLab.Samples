@@ -1,5 +1,5 @@
 ﻿using Meadow.Devices;
-using Meadow.Foundation.Graphics;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Sensors;
 using Meadow.Peripherals.Sensors.Buttons;
 
@@ -13,7 +13,7 @@ namespace WifiWeather.Hardware
 
         public IButton DownButton { get; set; }
 
-        public IGraphicsDisplay Display { get; set; }
+        public IPixelDisplay Display { get; set; }
 
         public ITemperatureSensor TemperatureSensor { get; set; }
 
@@ -27,7 +27,7 @@ namespace WifiWeather.Hardware
 
             Display = ProjLab.Display;
 
-            TemperatureSensor = ProjLab.EnvironmentalSensor;
+            TemperatureSensor = (ProjLab as ProjectLabHardwareBase).AtmosphericSensor;
         }
     }
 }

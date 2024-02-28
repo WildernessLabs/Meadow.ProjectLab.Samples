@@ -1,10 +1,7 @@
-﻿using Meadow;
-using Meadow.Devices;
-using Meadow.Foundation;
+﻿using Meadow.Devices;
 using Meadow.Foundation.Audio;
 using Meadow.Hardware;
 using Meadow.Units;
-using Meadow.Update;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -15,10 +12,10 @@ namespace Meadow.Cloud_Update
     // Change to F7CoreComputeV2 for Project Lab V3.x
     public class MeadowApp : App<F7CoreComputeV2>
     {
-        DisplayController displayController;
-        MicroAudio audio;
-        IProjectLabHardware projLab;
-        Stopwatch stopwatch;
+        private DisplayController displayController;
+        private MicroAudio audio;
+        private IProjectLabHardware projLab;
+        private Stopwatch stopwatch;
 
         private const string WIFI_NAME = "[SSID]";
         private const string WIFI_PASSWORD = "[Password]";
@@ -58,13 +55,13 @@ namespace Meadow.Cloud_Update
             }
 
             //---- BME688 Atmospheric sensor
-            if (projLab.EnvironmentalSensor is { } bme688)
+            if ((projLab as ProjectLabHardwareBase).AtmosphericSensor is { } bme688)
             {
                 bme688.Updated += Bme688Updated;
             }
 
             //---- BMI270 Accel/IMU
-            if (projLab.MotionSensor is { } bmi270)
+            if ((projLab as ProjectLabHardwareBase).MotionSensor is { } bmi270)
             {
                 bmi270.Updated += Bmi270Updated;
             }
@@ -146,13 +143,13 @@ namespace Meadow.Cloud_Update
             }
 
             //---- BME688 Atmospheric sensor
-            if (projLab.EnvironmentalSensor is { } bme688)
+            if ((projLab as ProjectLabHardwareBase).AtmosphericSensor is { } bme688)
             {
                 bme688.StartUpdating(TimeSpan.FromSeconds(5));
             }
 
             //---- BMI270 Accel/IMU
-            if (projLab.MotionSensor is { } bmi270)
+            if ((projLab as ProjectLabHardwareBase).MotionSensor is { } bmi270)
             {
                 bmi270.StartUpdating(TimeSpan.FromSeconds(5));
             }
@@ -186,7 +183,7 @@ namespace Meadow.Cloud_Update
 
         }
 
-        void WiFiAdapter_NetworkConnected(INetworkAdapter networkAdapter, NetworkConnectionEventArgs e)
+        private void WiFiAdapter_NetworkConnected(INetworkAdapter networkAdapter, NetworkConnectionEventArgs e)
         {
             Resolver.Log.Info("Connection request completed");
             displayController.Notification = "WiFi Connected!";
@@ -196,7 +193,7 @@ namespace Meadow.Cloud_Update
         //==== UPDATE SERVICE
         private void UpdateService_OnUpdateAvailable(Update.IUpdateService updateService, Update.UpdateInfo info)
         {
-            Resolver.Log.Info($"An {info.UpdateType} update is available! Version: {info.Version} Size: {info.DownloadSize}");
+            Resolver.Log.Info($"An {info.UpdateType} update is available! Version: {info.Version} Size: {info.FileSize}");
 
             displayController.Notification = "Downloading update!";
             Resolver.Log.Info("Retrieving update...");

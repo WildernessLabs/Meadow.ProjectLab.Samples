@@ -1,13 +1,12 @@
-﻿using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Accelerometers;
+﻿using Meadow.Foundation.Sensors.Accelerometers;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Leds;
 
 namespace MagicEightMeadow.Hardware
 {
     internal interface IMagicEightMeadowHardware
     {
-        public IGraphicsDisplay Display { get; }
+        public IPixelDisplay Display { get; }
 
         public IRgbPwmLed RgbPwmLed { get; }
 

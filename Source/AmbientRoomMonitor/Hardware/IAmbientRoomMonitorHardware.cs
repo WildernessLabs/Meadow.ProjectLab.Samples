@@ -1,6 +1,5 @@
-﻿using Meadow.Foundation.Graphics;
-using Meadow.Foundation.Leds;
-using Meadow.Foundation.Sensors.Atmospheric;
+﻿using Meadow.Foundation.Sensors.Atmospheric;
+using Meadow.Peripherals.Displays;
 using Meadow.Peripherals.Leds;
 using Meadow.Peripherals.Sensors.Light;
 
@@ -8,7 +7,7 @@ namespace AmbientRoomMonitor.Hardware
 {
     internal interface IAmbientRoomMonitorHardware
     {
-        public IGraphicsDisplay Display { get; }
+        public IPixelDisplay Display { get; }
 
         public ILightSensor LightSensor { get; }
 
