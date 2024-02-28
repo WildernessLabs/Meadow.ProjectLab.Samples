@@ -92,11 +92,12 @@ namespace MeadowAzureIoTHub
 
                 await iotHubController.SendEnvironmentalReading(data);
 
-                displayController.UpdateSyncStatus(false);
                 displayController.UpdateStatus("Data sent!");
                 Thread.Sleep(3000);
+
                 displayController.UpdateLastUpdated(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
 
+                displayController.UpdateSyncStatus(false);
                 displayController.UpdateStatus(DateTime.Now.AddHours(TIMEZONE_OFFSET).ToString("hh:mm tt dd/MM/yy"));
             }
         }
